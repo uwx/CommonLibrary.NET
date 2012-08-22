@@ -408,11 +408,15 @@ namespace ComLib.Lang
                 bool is2CharNewline = n == '\n';
                 IncrementLine(is2CharNewline);
             }
+            else
+            {
+                _lastToken = Tokens.Unknown;
+            }
             var t = new TokenData() { Token = _lastToken, Line = line, LineCharPos = cpos, Pos = pos };
             _lastTokenData = t;
 
             // Single char symbol - char advancement was not made.
-            if ((t.Token.Kind == TokenKind.Symbol || t.Token.Type == TokenTypes.WhiteSpace) && _pos.Pos == pos)
+            if ((t.Token.Kind == TokenKind.Symbol || t.Token.Type == TokenTypes.Unknown || t.Token.Type == TokenTypes.WhiteSpace) && _pos.Pos == pos)
                 ReadChar();
 
             // Before returning, set the next line char position.

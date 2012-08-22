@@ -27,6 +27,35 @@ namespace ComLib.Lang.Tests.Common
         }
 
 
+        protected void ExpectError(Tuple<string, string, string> scenario)
+        {
+            var scenarios = new List<Tuple<string, string, string>>();
+            scenarios.Add(scenario);
+            ExpectErrors(scenarios);
+        }
+
+
+        protected void ExpectErrors(List<Tuple<string, string, string>> scenarios)
+        {
+            var i = new Interpreter();
+            i.Context.Types.Register(typeof(Person), () => new Person());
+
+            for (int ndx = 0; ndx < scenarios.Count; ndx++)
+            {
+                var scenario = scenarios[ndx];
+                Console.WriteLine(scenario.Item3);
+                i.Execute(scenario.Item3);
+                Assert.IsFalse(i.Result.Success);
+                Assert.IsNotNull(i.Result.Ex);
+                Assert.IsTrue(i.Result.Message.StartsWith(scenario.Item1));
+                if (scenario.Item2 != null)
+                {
+                    Assert.IsTrue(i.Result.Message.Contains(scenario.Item2));
+                }
+            }
+        }
+
+
         /// <summary>
         /// Parses / executes a list of statements.
         /// </summary>

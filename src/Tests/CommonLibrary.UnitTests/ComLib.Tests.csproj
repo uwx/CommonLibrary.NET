@@ -84,6 +84,7 @@
     <Compile Include="Common\CultureInfoHelper.cs" />
     <Compile Include="AutomationTestsJs.cs" />
     <Compile Include="Lang\Common\CommonTests.cs" />
+    <Compile Include="Lang\Common\CommonSysTests.cs" />
     <Compile Include="Lang\Component\CombinatorTests.cs" />
     <Compile Include="Lang\Core\Klass.cs" />
     <Compile Include="Lang\Core\ScriptTestsBase.cs" />

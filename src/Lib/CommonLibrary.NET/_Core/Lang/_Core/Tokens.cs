@@ -163,6 +163,7 @@ namespace ComLib.Lang
         public const int EOF                = 400;
         public const int Empty              = 401;
         public const int Multi              = 402;
+        public const int Unknown            = 403;
     }
 
 
@@ -422,7 +423,7 @@ namespace ComLib.Lang
     {        
         public static readonly Token EndToken           = ToKeyword(TokenTypes.EOF              ,    "EOF"      );
         public static readonly Token Empty              = ToKeyword(TokenTypes.Empty            ,    "Empty"    );
-        
+        public static readonly Token Unknown            = ToKeyword(TokenTypes.Unknown          ,    "unknown"  );
         // Keyword tokens
         public static readonly Token Var                = ToKeyword(TokenTypes.Var              ,    "var"      );
         public static readonly Token If                 = ToKeyword(TokenTypes.If               ,    "if"       );

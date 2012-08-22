@@ -821,6 +821,7 @@ src/Tests/CommonLibrary.UnitTests/InformationServiceTests.cs -text
 src/Tests/CommonLibrary.UnitTests/IniTests.cs -text
 src/Tests/CommonLibrary.UnitTests/InterpreterTests.cs -text
 src/Tests/CommonLibrary.UnitTests/KeyValueParserTestsFile1.txt -text
+src/Tests/CommonLibrary.UnitTests/Lang/Common/CommonSysTests.cs -text
 src/Tests/CommonLibrary.UnitTests/Lang/Common/CommonTests.cs -text
 src/Tests/CommonLibrary.UnitTests/Lang/Component/CombinatorTests.cs -text
 src/Tests/CommonLibrary.UnitTests/Lang/Core/Klass.cs -text

@@ -519,6 +519,7 @@ namespace ComLib.Lang.Tests.Integration.System
     }
 
 
+
     [TestFixture]
     public class Script_Tests_Loops : ScriptTestsBase
     {
@@ -532,6 +533,14 @@ namespace ComLib.Lang.Tests.Integration.System
                 new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 4; while( result > 1 ){ result--; }")
             };
             Parse(statements);
+        }
+
+
+        [Test]
+        public void Can_Do_While_Statements_Syntax()
+        {
+            RunTests(CommonTestCases_System.While, TestType.Component);
+            RunTests(CommonTestCases_System.While, TestType.Integration);
         }
 
 
@@ -1098,45 +1107,9 @@ namespace ComLib.Lang.Tests.Integration.System
 
 
     [TestFixture]
-    public class Script_Tests_ErrorHandling : ScriptTestsBase
+    public class Script_Tests_Errors_Runtime : ScriptTestsBase
     {
-        
-        private void ExpectError(Tuple<string, string, string> scenario)
-        {
-            var scenarios = new List<Tuple<string, string, string>>();
-            scenarios.Add(scenario);
-            ExpectErrors(scenarios);
-        }
-
-
-        private void ExpectErrors(List<Tuple<string, string, string>> scenarios)
-        {
-            var i = new Interpreter();
-            i.Context.Types.Register(typeof(Person), () => new Person());
-
-            for (int ndx = 0; ndx < scenarios.Count; ndx++)
-            {
-                var scenario = scenarios[ndx];
-                Console.WriteLine(scenario.Item3);
-                i.Execute(scenario.Item3);
-                Assert.IsFalse(i.Result.Success);
-                Assert.IsNotNull(i.Result.Ex);
-                Assert.IsTrue(i.Result.Message.StartsWith(scenario.Item1));
-                if (scenario.Item2 != null)
-                {
-                    Assert.IsTrue(i.Result.Message.Contains(scenario.Item2));
-                }
-            }
-        }
-
-
-        [Test]
-        public void Can_Handle_Unterminated_String()
-        {
-            ExpectError(new Tuple<string, string, string>("Syntax Error", "Unterminated string", "var name = 'comlib \";"));
-        }
-
-
+                
         [Test]
         public void Can_Handle_Division_by_Zero()
         {
@@ -1172,7 +1145,7 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             ExpectError(new Tuple<string, string, string>("Runtime Error", "Property does not exist", "var user = { name: 'comlib' }; var result = user.firstname;"));
         }
-        
+
 
         [Test]
         public void Can_Handle_Index_Out_Of_Bounds()
@@ -1186,7 +1159,45 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             ExpectError(new Tuple<string, string, string>("Runtime Error", "Function does not exist", "var result = increment(1);"));
         }
+    }
 
+
+    [TestFixture]
+    public class Script_Tests_Errors_Syntax : ScriptTestsBase
+    {
+        [Test]
+        public void Can_Handle_Unexpected_Char_In_Math()
+        {
+            ExpectError(new Tuple<string, string, string>("Syntax Error", null, "var result = 1 ~ 2;"));
+        }
+
+
+        [Test]
+        public void Can_Handle_Unexpected_Char_In_Isolation()
+        {
+            ExpectError(new Tuple<string, string, string>("Syntax Error", null, "var result = 1 + 2; ~ 2;"));
+        }
+
+
+        [Test]
+        public void Can_Handle_Unexpected_Char_At_Start()
+        {
+            ExpectError(new Tuple<string, string, string>("Syntax Error", null, "~ var result = 1 + 2; ~ 2;"));
+        }
+
+
+        [Test]
+        public void Can_Handle_Unexpected_Repetitive_Char()
+        {
+            ExpectError(new Tuple<string, string, string>("Syntax Error", null, "var result = 1 + 2;; var name = 'test'"));
+        }
+
+
+        [Test]
+        public void Can_Handle_Unterminated_String()
+        {
+            ExpectError(new Tuple<string, string, string>("Syntax Error", "Unterminated string", "var name = 'comlib \";"));
+        }
 
         [Test]
         public void Can_Handle_Multiple_Useless_Parenthesis()
@@ -1338,17 +1349,6 @@ namespace ComLib.Lang.Tests.Integration.System
             var statements = new List<Tuple<string, Type, object, string>>()
             {
                 new Tuple<string,Type, object, string>("result", typeof(double), 1,  "var age=17;var result=0;if(age<18){result=1;}"),                
-            };
-            Parse(statements);
-        }
-
-
-        [Test]
-        public void Can_Exclude_Parenthesis_In_If()
-        {
-            var statements = new List<Tuple<string, Type, object, string>>()
-            {
-                new Tuple<string,Type, object, string>("a", typeof(bool), true, "var a = false; var b = 2; if b < 4 then a = true;")
             };
             Parse(statements);
         }

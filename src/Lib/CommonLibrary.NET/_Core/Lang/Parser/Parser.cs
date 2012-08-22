@@ -159,8 +159,8 @@ namespace ComLib.Lang
                 {
                     _tokenIt.Advance();
                 }
-                else if (nexttoken != Tokens.NewLine
-                        && nexttoken != Tokens.CommentMLine)
+                else if ( ( nexttoken != Tokens.NewLine && nexttoken != Tokens.CommentMLine )
+                          || nexttoken.Type == TokenTypes.Unknown )
                     throw _tokenIt.BuildSyntaxUnexpectedTokenException();
                 if (stmt != null)
                 {

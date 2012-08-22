@@ -28,7 +28,7 @@ namespace ComLib.Lang.Tests.Common
     }
 
 
-    public class CommonTestCases
+    public class CommonTestCases_Plugins
     {
         /// <summary>
         /// Test cases for the typeof plugin
@@ -368,6 +368,8 @@ namespace ComLib.Lang.Tests.Common
                 new Tuple<string, Type, object, string>("result", typeof(double), 22, "result = 0; repeat ndx = 12 to 22 by 2   { result = ndx; }"),
                 new Tuple<string, Type, object, string>("result", typeof(double), 24, "result = 0; repeat ndx = 14 to < 25      { result = ndx; }"),
                 new Tuple<string, Type, object, string>("result", typeof(double), 26, "result = 0; repeat ndx = 18 to < 30 by 4 { result = ndx; }"),
+
+                new Tuple<string, Type, object, string>("result", typeof(double), 26, "result = 0; var a = 18; var b = 30; var c = 4; repeat ndx = a to < b by c { result = ndx; }"),
             }
         };
 
@@ -504,26 +506,57 @@ namespace ComLib.Lang.Tests.Common
             {
                 new Tuple<string,Type, object, string>("i", typeof(bool),   true,  "var i = is_number( 123 );"),
                 new Tuple<string,Type, object, string>("i", typeof(bool),   false, "var i = is_number( '123' );"),
-                new Tuple<string,Type, object, string>("i", typeof(double), 123,   "var i = to_number( 123 );"),
-                new Tuple<string,Type, object, string>("i", typeof(double), 123,   "var i = to_number( '123' );"),
                 new Tuple<string,Type, object, string>("i", typeof(bool),   true,  "var i = is_number( 123.45 );"),
-                new Tuple<string,Type, object, string>("i", typeof(bool),   false, "var i = is_number( '123.45' );"),
-                new Tuple<string,Type, object, string>("i", typeof(double), 123.45,"var i = to_number( 123.45   );"),
-                new Tuple<string,Type, object, string>("i", typeof(double), 123.45,"var i = to_number( '123.45' );"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   false, "var i = is_number( '123.45' );"),                
+                
+                new Tuple<string,Type, object, string>("i", typeof(bool),   true,  "var i = is_number_like( 123   );"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   true,  "var i = is_number_like( '123' );"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   true,  "var i = is_number_like( 123.45);"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   true,  "var i = is_number_like( true  );"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   true,  "var i = is_number_like( false );"),
+                
+                new Tuple<string,Type, object, string>("i", typeof(double), 123,    "var i = to_number( 123   );"),
+                new Tuple<string,Type, object, string>("i", typeof(double), 123,    "var i = to_number( '123' );"),
+                new Tuple<string,Type, object, string>("i", typeof(double), 123.45, "var i = to_number( 123.45);"),
+                new Tuple<string,Type, object, string>("i", typeof(double), 1,      "var i = to_number( true  );"),
+                new Tuple<string,Type, object, string>("i", typeof(double), 0,      "var i = to_number( false );"),
 
                 new Tuple<string,Type, object, string>("i", typeof(bool),   true,  "var i = is_bool( true   );"),
                 new Tuple<string,Type, object, string>("i", typeof(bool),   false, "var i = is_bool( 'true' );"),
-                new Tuple<string,Type, object, string>("i", typeof(bool),   true,  "var i = to_bool( true   );"),
-                new Tuple<string,Type, object, string>("i", typeof(bool),   true,  "var i = to_bool( 'true' );"),
                 new Tuple<string,Type, object, string>("i", typeof(bool),   true,  "var i = is_bool( false  );"),
                 new Tuple<string,Type, object, string>("i", typeof(bool),   false, "var i = is_bool( 'false');"),
+
+                new Tuple<string,Type, object, string>("i", typeof(bool),   true,  "var i = is_bool_like( 123   );"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   true,  "var i = is_bool_like( '123' );"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   true,  "var i = is_bool_like( 123.45);"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   true,  "var i = is_bool_like( true  );"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   true,  "var i = is_bool_like( false );"),
+                
+                new Tuple<string,Type, object, string>("i", typeof(bool),   true,  "var i = to_bool( true   );"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   true,  "var i = to_bool( 'true' );"),
                 new Tuple<string,Type, object, string>("i", typeof(bool),   false, "var i = to_bool( false  );"),
                 new Tuple<string,Type, object, string>("i", typeof(bool),   false, "var i = to_bool( 'false');"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   true,  "var i = to_bool( 'yes');"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   true,  "var i = to_bool( 'on');"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   true,  "var i = to_bool( 'ok');"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   true,  "var i = to_bool( '1');"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   false, "var i = to_bool( 'no');"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   false, "var i = to_bool( 'off');"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   false, "var i = to_bool( 'not ok');"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   false, "var i = to_bool( '0');"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   false, "var i = to_bool( 0);"),
 
 
                 new Tuple<string,Type, object, string>("i", typeof(bool),       true,  "var i = is_date( new Date(2012, 9, 1)   );"),
                 new Tuple<string,Type, object, string>("i", typeof(bool),       false, "var i = is_date( '9/1/2012' );"),
                 new Tuple<string,Type, object, string>("i", typeof(bool),       false, "var i = is_date( '09/01/2012' );"),
+                
+                new Tuple<string,Type, object, string>("i", typeof(bool),   false,  "var i = is_date_like( 123   );"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   false,  "var i = is_date_like( '123' );"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   false,  "var i = is_date_like( 123.45);"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   false,  "var i = is_date_like( true  );"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   false,  "var i = is_date_like( false );"),
+                
                 new Tuple<string,Type, object, string>("i", typeof(DateTime),   new DateTime(2012, 9, 1),  "var i = to_date( new Date(2012, 9, 1)   );"),
                 new Tuple<string,Type, object, string>("i", typeof(DateTime),   new DateTime(2012, 9, 1),  "var i = to_date( '9/1/2012' );"),
                 new Tuple<string,Type, object, string>("i", typeof(DateTime),   new DateTime(2012, 9, 1),  "var i = to_date( '09/01/2012' );"),

@@ -85,154 +85,154 @@ namespace ComLib.Lang.Tests.Component
         [Test]
         public void Can_Use_Alias_In_Script_Plugin()
         {
-            RunTests(CommonTestCases.AliasInScript, _testType);
+            RunTests(CommonTestCases_Plugins.AliasInScript, _testType);
         }
 
 
         [Test]
         public void Can_Use_Aggregate_Plugin()
         {
-            RunTests(CommonTestCases.Aggregate, _testType);            
+            RunTests(CommonTestCases_Plugins.Aggregate, _testType);            
         }
 
 
         [Test]
         public void Can_Use_Bool_Plugin()
         {
-            RunTests(CommonTestCases.Bool, _testType);            
+            RunTests(CommonTestCases_Plugins.Bool, _testType);            
         }
 
 
         [Test]
         public void Can_Use_Compare_Plugin()
         {
-            RunTests(CommonTestCases.Compare, _testType);                
+            RunTests(CommonTestCases_Plugins.Compare, _testType);                
         }
 
 
         [Test]
         public void Can_Use_Date_Plugin()
         {
-            RunTests(CommonTestCases.Date, _testType);
+            RunTests(CommonTestCases_Plugins.Date, _testType);
         }
 
 
         [Test]
         public void Can_Use_DateNumber_Plugin()
         {
-            RunTests(CommonTestCases.DateNumber, _testType);
+            RunTests(CommonTestCases_Plugins.DateNumber, _testType);
         }
 
 
         [Test]
         public void Can_Use_Def_Plugin()
         {
-            RunTests(CommonTestCases.Def, _testType);
+            RunTests(CommonTestCases_Plugins.Def, _testType);
         }
 
 
         [Test]
         public void Can_Use_Email()
         {
-            RunTests(CommonTestCases.Email, _testType);            
+            RunTests(CommonTestCases_Plugins.Email, _testType);            
         } 
 
 
         [Test]
         public void Can_Use_HashComment_Plugin()
         {
-            RunTests(CommonTestCases.HashComment, _testType);             
+            RunTests(CommonTestCases_Plugins.HashComment, _testType);             
         }
 
 
         [Test]
         public void Can_Use_Holiday_Plugin()
         {
-            RunTests(CommonTestCases.Holiday, _testType); 
+            RunTests(CommonTestCases_Plugins.Holiday, _testType); 
         }
 
 
         [Test]
         public void Can_Use_MachineInfo_Plugin()
         {
-            RunTests(CommonTestCases.MachineInfo, _testType); 
+            RunTests(CommonTestCases_Plugins.MachineInfo, _testType); 
         }
 
 
         [Test]
         public void Can_Use_Money_Plugin()
         {
-            RunTests(CommonTestCases.Money, _testType);
+            RunTests(CommonTestCases_Plugins.Money, _testType);
         }
 
 
         [Test]
         public void Can_Use_Percent_Plugin()
         {
-            RunTests(CommonTestCases.Percent, _testType);
+            RunTests(CommonTestCases_Plugins.Percent, _testType);
         }
 
 
         [Test]
         public void Can_Use_Repeat_Plugin()
         {
-            RunTests(CommonTestCases.Repeat, _testType);
+            RunTests(CommonTestCases_Plugins.Repeat, _testType);
         }
 
 
         [Test]
         public void Can_Use_Round_Plugin()
         {
-            RunTests(CommonTestCases.Round, _testType);
+            RunTests(CommonTestCases_Plugins.Round, _testType);
         }
 
 
         [Test]
         public void Can_Use_Run_Plugin()
         {
-            RunTests(CommonTestCases.Run, _testType);
+            RunTests(CommonTestCases_Plugins.Run, _testType);
         }
         
 
         [Test]
         public void Can_Use_Set_Plugin()
         {
-            RunTests(CommonTestCases.Set, _testType);
+            RunTests(CommonTestCases_Plugins.Set, _testType);
         }
 
 
         [Test]
         public void Can_Use_Time_Plugin()
         {
-            RunTests(CommonTestCases.Time, _testType);
+            RunTests(CommonTestCases_Plugins.Time, _testType);
         }
 
 
         [Test]
         public void Can_Use_TypeOf_Plugin()
         {
-            RunTests(CommonTestCases.TypeOf, _testType);
+            RunTests(CommonTestCases_Plugins.TypeOf, _testType);
         }
 
 
         [Test]
         public void Can_Use_TypeOps_Plugin()
         {
-            RunTests(CommonTestCases.TypeOps, _testType);
+            RunTests(CommonTestCases_Plugins.TypeOps, _testType);
         }
 
 
         [Test]
         public void Can_Use_Uri_Plugin()
         {
-            RunTests(CommonTestCases.Uri, _testType);
+            RunTests(CommonTestCases_Plugins.Uri, _testType);
         }
 
 
         [Test]
         public void Can_Use_VariablePath_Plugin()
         {
-            RunTests(CommonTestCases.VarPath, _testType);            
+            RunTests(CommonTestCases_Plugins.VarPath, _testType);            
         }
 
 

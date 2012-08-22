@@ -64,7 +64,7 @@ namespace ComLib.Lang
         public static readonly IDictionary<Token, bool> ExpThenEnd = new Dictionary<Token, bool>()
         {
             { Tokens.Then, true },
-            { Tokens.RightBrace, true },
+            { Tokens.LeftBrace, true },
             { Tokens.NewLine, true },
         };
 

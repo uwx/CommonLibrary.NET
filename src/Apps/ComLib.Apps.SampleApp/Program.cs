@@ -44,11 +44,11 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            Combinator_Tests();
+            Lang_Script_Tests();
             System_Control_Flow();
+            Combinator_Tests();
             Lang_Type_Tests(); 
             UnitTests();
-            Lang_Script_Tests();
             FluentTests();            
         }
 
@@ -306,7 +306,6 @@ namespace ComLib.Samples
             var c2 = new Script_Tests_Comparisons();
             var sm = new Script_Tests_MemberAccess();
             var st = new Script_Tests_Types();
-            var se = new Script_Tests_ErrorHandling();
             var sf = new Script_Tests_Functions();
 
             sf.Can_Make_Calls_With_Extra_Parameters();
@@ -317,7 +316,6 @@ namespace ComLib.Samples
 
             ta.Can_Get_Array_Item_By_Index_Right_After_Declaration();
 
-            se.Can_Handle_Script_Syntax_Errors();
             ta.Can_Get_Array_Item_By_Nested_Indexes();
             sm.Can_Set_Class_Member_Property();
             td.Can_Create_Dates_With_Parameters();            
@@ -484,6 +482,7 @@ namespace ComLib.Samples
 
         static void System_Control_Flow()
         {
+
             var ti = new Script_Tests_If();
             ti.Can_Use_Without_Parenthesis_With_Braces(); 
             ti.Can_Use_Without_Parenthesis_Without_Braces();            
@@ -505,16 +504,38 @@ namespace ComLib.Samples
         }
 
 
-        
+        static void Lang_Script_Errors()
+        {
+            var ter = new Script_Tests_Errors_Runtime();
+            var tes = new Script_Tests_Errors_Syntax();
+
+            tes.Can_Handle_Unexpected_Char_At_Start();
+            tes.Can_Handle_Multiple_Useless_Parenthesis();
+            tes.Can_Handle_Double_Colon_On_Keys();
+            tes.Can_Handle_Unterminated_String();
+            tes.Can_Handle_Array_Syntax_Errors();
+            tes.Can_Handle_Script_Syntax_Errors();
+
+            ter.Can_Handle_Division_by_Zero();
+            ter.Can_Handle_Custom_Object_Non_Existant_Method();
+            ter.Can_Handle_Custom_Object_Non_Existant_Property();            
+            ter.Can_Handle_Non_Existant_Function();
+            ter.Can_Handle_Non_Existant_Map_Property();
+            ter.Can_Handle_Index_Out_Of_Bounds();
+            ter.Can_Handle_Division_by_Zero();
+
+        }
+
+
         static void Lang_Script_Tests()
-        {            
+        {
+            Lang_Script_Errors();
             var ta = new Script_Tests_Assignment();
             var tf = new Script_Tests_Functions();
             
             var tt = new Script_Tests_Types();
             var tm = new Script_Tests_MemberAccess();
             var tlm = new Script_Tests_Limits();
-            var te = new Script_Tests_ErrorHandling();
             var tc = new Script_Tests_Comparisons();
             var tco = new Script_Tests_CustomObject();
             var ts = new Script_Tests_Syntax();
@@ -554,8 +575,6 @@ namespace ComLib.Samples
             ta.Can_Do_Multiple_Assignment_Constant_Expressions_In_Same_Line();
             
 
-            te.Can_Handle_Array_Syntax_Errors();
-
             tmem.Can_Pop_Memory();
 
             
@@ -570,19 +589,6 @@ namespace ComLib.Samples
        
 
             tp.Can_Do_Complex_Conditions();
-
-            te.Can_Handle_Division_by_Zero();
-            te.Can_Handle_Multiple_Useless_Parenthesis();
-            te.Can_Handle_Custom_Object_Non_Existant_Method();
-            te.Can_Handle_Custom_Object_Non_Existant_Property();
-            te.Can_Handle_Double_Colon_On_Keys();
-            te.Can_Handle_Unterminated_String();
-            te.Can_Handle_Array_Syntax_Errors();
-            te.Can_Handle_Script_Syntax_Errors();
-            te.Can_Handle_Non_Existant_Function();
-            te.Can_Handle_Non_Existant_Map_Property();
-            te.Can_Handle_Index_Out_Of_Bounds();
-            te.Can_Handle_Division_by_Zero();
 
 
             ta.Can_Do_Unary_Expressions();
@@ -600,7 +606,6 @@ namespace ComLib.Samples
             ts.Can_Handle_New_Lines_As_End_of_Stmt();
             ts.Can_Handle_SingleChar_NewLines();
             ts.Can_Do_Lexical_Replace();
-            ts.Can_Exclude_Parenthesis_In_If();
 
             tcal.Can_Do_Statement_Callbacks();
 
