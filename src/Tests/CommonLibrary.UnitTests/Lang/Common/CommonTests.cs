@@ -473,27 +473,6 @@ namespace ComLib.Lang.Tests.Common
         /// <summary>
         /// Test cases for the typeof plugin
         /// </summary>
-        public static TestCases Uri = new TestCases()
-        {
-            Name = "Uri Plugin",
-            RequiredTypes = new[] { typeof(User) },
-            RequiredPlugins = new[] { typeof(UriPlugin) },
-            Positive = new List<Tuple<string, Type, object, string>>()
-            {
-                new Tuple<string,Type, object, string>("result", typeof(string), "c:\\user\\settings.xml",  "var result = c:\\user\\settings.xml;"),
-                new Tuple<string,Type, object, string>("result", typeof(string), "c:/user/settings.xml",  "var result = c:/user/settings.xml;"),
-                new Tuple<string,Type, object, string>("result", typeof(string), "www.yahoo.com",         "var result = www.yahoo.com;"),
-                new Tuple<string,Type, object, string>("result", typeof(string), "http://www.yahoo.com",  "var result = http://www.yahoo.com;"),
-                new Tuple<string,Type, object, string>("result", typeof(string), "https://www.yahoo.com",  "var result = https://www.yahoo.com;"),
-                new Tuple<string,Type, object, string>("result", typeof(string), "ftp://www.yahoo.com",  "var result = ftp://www.yahoo.com;"),
-                new Tuple<string,Type, object, string>("result", typeof(string), "http://www.yahoo.com?user=kishore%20&id=123",  "var result = http://www.yahoo.com?user=kishore%20&id=123 ;"),                
-            }
-        };
-
-
-        /// <summary>
-        /// Test cases for the typeof plugin
-        /// </summary>
         public static TestCases Time = new TestCases()
         {
             Name = "Time Plugin",
@@ -523,12 +502,31 @@ namespace ComLib.Lang.Tests.Common
             RequiredPlugins = new[] { typeof(TypeOperationsPlugin) },
             Positive = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("i", typeof(double), 1, "var i = is_number( 123 );"),
-                new Tuple<string,Type, object, string>("i", typeof(double), 1, "var i = is_number( '123' );"),
-                new Tuple<string,Type, object, string>("i", typeof(double), 1, "var i = is_number_type( 123 );"),
-                new Tuple<string,Type, object, string>("i", typeof(double), 1, "var i = is_number_type( '123' );"),
-                new Tuple<string,Type, object, string>("i", typeof(double), 1, "var i = to_number( 123 );"),
-                new Tuple<string,Type, object, string>("i", typeof(double), 1, "var i = to_number( '123' );"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   true,  "var i = is_number( 123 );"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   false, "var i = is_number( '123' );"),
+                new Tuple<string,Type, object, string>("i", typeof(double), 123,   "var i = to_number( 123 );"),
+                new Tuple<string,Type, object, string>("i", typeof(double), 123,   "var i = to_number( '123' );"),
+            }
+        };
+
+
+        /// <summary>
+        /// Test cases for the typeof plugin
+        /// </summary>
+        public static TestCases Uri = new TestCases()
+        {
+            Name = "Uri Plugin",
+            RequiredTypes = new[] { typeof(User) },
+            RequiredPlugins = new[] { typeof(UriPlugin) },
+            Positive = new List<Tuple<string, Type, object, string>>()
+            {
+                new Tuple<string,Type, object, string>("result", typeof(string), "c:\\user\\settings.xml",  "var result = c:\\user\\settings.xml;"),
+                new Tuple<string,Type, object, string>("result", typeof(string), "c:/user/settings.xml",  "var result = c:/user/settings.xml;"),
+                new Tuple<string,Type, object, string>("result", typeof(string), "www.yahoo.com",         "var result = www.yahoo.com;"),
+                new Tuple<string,Type, object, string>("result", typeof(string), "http://www.yahoo.com",  "var result = http://www.yahoo.com;"),
+                new Tuple<string,Type, object, string>("result", typeof(string), "https://www.yahoo.com",  "var result = https://www.yahoo.com;"),
+                new Tuple<string,Type, object, string>("result", typeof(string), "ftp://www.yahoo.com",  "var result = ftp://www.yahoo.com;"),
+                new Tuple<string,Type, object, string>("result", typeof(string), "http://www.yahoo.com?user=kishore%20&id=123",  "var result = http://www.yahoo.com?user=kishore%20&id=123 ;"),                
             }
         };
 

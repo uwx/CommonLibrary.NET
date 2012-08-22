@@ -106,6 +106,7 @@ namespace ComLib.Lang
             _extMap["Suffix"]      	   =  new SuffixPlugin();
             _extMap["Swap"]      	   =  new SwapPlugin();
             _extMap["Time"]      	   =  new TimePlugin();
+            _extMap["TypeOperations"]  =  new TypeOperationsPlugin();
             _extMap["Units"]      	   =  new UnitsPlugin();
             _extMap["Uri"]      	   =  new UriPlugin();
             _extMap["VariablePath"]    =  new VariablePathPlugin();

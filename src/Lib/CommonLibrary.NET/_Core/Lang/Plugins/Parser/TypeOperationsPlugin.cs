@@ -22,10 +22,10 @@ namespace ComLib.Lang.Extensions
     //  is_<type>_like   is_number_like( '123' )            true
     //  to_<type>        to_number( '123' )                 123
     
-    //  is_<type>        is_yesno( true )                   true
-    //  is_<type>        is_yesno( 'true' )                 false
-    //  is_<type>_like   is_yesno_like( 'true' )            true
-    //  to_<type>        to_yesno( 'true' )                 true
+    //  is_<type>        is_bool( true )                   true
+    //  is_<type>        is_bool( 'true' )                 false
+    //  is_<type>_like   is_bool_like( 'true' )            true
+    //  to_<type>        to_bool( 'true' )                 true
     
     //  is_<type>        is_date( new Date(2012, 9, 10 )    true
     //  is_<type>        is_date( '9/10/2012' )             false
@@ -51,7 +51,7 @@ namespace ComLib.Lang.Extensions
             _hasStatementSupport = false;
             _canHandleExpression = true;
             _functionToTypeMap = new Dictionary<string, string>();
-            var types = new string[] { "number", "yesno", "date", "time", "string" };
+            var types = new string[] { "number", "bool", "date", "time", "string" };
             var functionnames = new List<string>();
 
             // create all the supported functions: e.g. for "number" we have:
@@ -158,7 +158,7 @@ namespace ComLib.Lang.Extensions
         {
             if (_isConversion)
                 return ConvertValue();
-            return null;
+            return CheckExplicitType();
         }
 
 
@@ -173,13 +173,13 @@ namespace ComLib.Lang.Extensions
                 return LNull.Instance;
 
             var result = false;
-            if (_destinationType == "string" && val.GetType() == typeof(string)   ) result = true;
-            if (_destinationType == "number" && val.GetType() == typeof(double)   ) result = true;
-            if (_destinationType == "bool"   && val.GetType() == typeof(bool)     ) result = true;
-            if (_destinationType == "date"   && val.GetType() == typeof(DateTime) ) result = true;
-            if (_destinationType == "time"   && val.GetType() == typeof(TimeSpan) ) result = true;
-            if (_destinationType == "list"   && val.GetType() == typeof(LArray))    result = true;
-            if (_destinationType == "map"    && val.GetType() == typeof(LMap))      result = true;
+            if (_destinationType == "string"      ) result = val.GetType() == typeof(string)  ;
+            else if (_destinationType == "number" ) result = val.GetType() == typeof(double)  ;
+            else if (_destinationType == "bool"   ) result = val.GetType() == typeof(bool)    ;
+            else if (_destinationType == "date"   ) result = val.GetType() == typeof(DateTime);
+            else if (_destinationType == "time"   ) result = val.GetType() == typeof(TimeSpan);
+            else if (_destinationType == "list"   ) result = val.GetType() == typeof(LArray)  ;
+            else if (_destinationType == "map"    ) result = val.GetType() == typeof(LMap)    ;
             return result;
         }
 
@@ -202,10 +202,10 @@ namespace ComLib.Lang.Extensions
         {
             object result = null;
             if (destinationType == "string") result = Convert.ChangeType(val, typeof(string));
-            if (destinationType == "number") result = Convert.ChangeType(val, typeof(double));
-            if (destinationType == "bool")   result = Convert.ChangeType(val, typeof(bool));
-            if (destinationType == "date")   result = Convert.ChangeType(val, typeof(DateTime));
-            if (destinationType == "time")   result = Convert.ChangeType(val, typeof(TimeSpan));
+            else if (destinationType == "number") result = Convert.ChangeType(val, typeof(double));
+            else if (destinationType == "bool")   result = Convert.ChangeType(val, typeof(bool));
+            else if (destinationType == "date")   result = Convert.ChangeType(val, typeof(DateTime));
+            else if (destinationType == "time")   result = Convert.ChangeType(val, typeof(TimeSpan));
             return result;
         }
     }

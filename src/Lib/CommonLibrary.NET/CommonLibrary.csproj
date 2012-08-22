@@ -725,7 +725,7 @@
     <Compile Include="_Samples\Example_Cryptography.cs" />
     <Compile Include="_Samples\Example_Arguments.cs" />
     <Compile Include="_Samples\Example_ActiveRecord.cs" />
-    <Compile Include="_Core\Lang\grammer.cs" />
+    <None Include="_Core\Lang\grammer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BuildAutomation\backup.xml" />

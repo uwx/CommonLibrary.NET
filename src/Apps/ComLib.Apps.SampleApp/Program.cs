@@ -44,8 +44,8 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            System_Control_Flow();
             Combinator_Tests();
+            System_Control_Flow();
             Lang_Type_Tests(); 
             UnitTests();
             Lang_Script_Tests();
@@ -376,6 +376,7 @@ namespace ComLib.Samples
         {            
             var c = new Plugin_Component_Positives();
 
+            c.Can_Use_TypeOps_Plugin();
             c.Can_Use_Env_Plugin();
             c.Can_Use_DateNumber_Plugin();
             c.Can_Use_Uri_Plugin();

@@ -216,6 +216,13 @@ namespace ComLib.Lang.Tests.Component
 
 
         [Test]
+        public void Can_Use_TypeOps_Plugin()
+        {
+            RunTests(CommonTestCases.TypeOps, _testType);
+        }
+
+
+        [Test]
         public void Can_Use_Uri_Plugin()
         {
             RunTests(CommonTestCases.Uri, _testType);
