@@ -1,0 +1,10 @@
+﻿<div id="comp_${componentname}" class="comp">
+<div class="comp_name">${componentname}</div>
+<div class="comp_desc">${desc}</div>
+<pre class="brush: js">
+${examplecode}
+</pre>
+</div>
+
+
+<option id="comp_${componentname}" value="comp_${componentname}">${componentname}</option>

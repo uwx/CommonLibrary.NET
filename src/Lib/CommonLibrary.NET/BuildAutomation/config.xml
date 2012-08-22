@@ -1,0 +1,20 @@
+<project xmlns="http://nant.sf.net/release/0.85-rc3/nant.xsd" default="Env.Execute">
+	<!-- <loadtasks assembly="..\lib\External\NAntContrib\0.85\NAnt.Contrib.Tasks.dll" /> -->
+	
+	<include buildfile="${args.settings.file}" />
+		
+		
+	<!-- ****************************************************************************************
+		compiles the solution or project as :
+		MSBuild MyApp.sln /t:Rebuild /p:Configuration=Release
+	          MSBuild MyApp.csproj /t:Clean /p:Configuration=Debug
+	*******************************************************************************************-->
+	<target name="Env.Execute">
+		<!-- Copy the nunit project file from the source to the directory where the assemblies to test are. -->
+        <copy file="${app.base.dir}\lib\External\Spring.NET\1.1\Spring.Web.dll" tofile="${app.publish.dir}\bin\Spring.Web.dll" />
+        <copy file="${app.base.dir}\lib\External\Misc\Intelligencia.UrlRewriter.dll" tofile="${app.publish.dir}\bin\Intelligencia.UrlRewriter.dll" />
+        
+	</target>
+	
+</project>
+

@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<automation-script>
+    <include name="commonsettings.xml" />
+    <command name="HelloWorldAutoMap" user="${first}.${last}_${comlibversion}" isactive="true" age="${age}" birthdate="${birthdate}" />
+</automation-script>

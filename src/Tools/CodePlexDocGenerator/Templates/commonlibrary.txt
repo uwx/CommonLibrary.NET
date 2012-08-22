@@ -1,0 +1,12 @@
+﻿{anchor:${componentname}}
+! ${componentnumber}. ${componentname}
+*Description:* ${desc}
+*Date*: ${dategenerated}
+*Version*: ${comlibversion}
+*Core source:* ${coresource}
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/${changeset}#${sourcecontrolfileid}]
+*Example:* ${filepath}
+{code:c#}
+${examplecode}
+{code:c#}
+[#Back to top]

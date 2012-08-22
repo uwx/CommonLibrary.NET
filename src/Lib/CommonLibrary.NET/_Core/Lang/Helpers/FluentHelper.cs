@@ -1,0 +1,239 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ComLib.Lang.Helpers
+{
+    /// <summary>
+    /// Helper class for "fluent" operations
+    /// </summary>
+    public class FluentHelper
+    {
+        /// <summary>
+        /// Builds function names from multiple variables expressions.
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        public static List<string> BuildMultiWordFunctionNames(List<string> ids)
+        {
+            var names = new List<string>();
+            string name = ids[0];
+            names.Add(name);
+            for (int ndx = 1; ndx < ids.Count; ndx++)
+            {
+                var id = ids[ndx];
+                name = name + " " + id;
+                names.Add(name);
+            }
+            names.Reverse();
+            return names;
+        }
+
+
+        /// <summary>
+        /// Match a function wildcard.
+        /// </summary>
+        /// <param name="symbols">The symbol table</param>
+        /// <param name="ids">The consequtive identifiers</param>
+        /// <param name="funcs">The registered functions</param>
+        /// <returns></returns>
+        public static FunctionLookupResult MatchFunctionWildCard(Symbols symbols, RegisteredFunctions funcs, List<string> ids)
+        {
+            int tokenIndexFunctioName = 0;
+            bool found = false;            
+            string name = string.Empty;
+            for (int ndx = 0; ndx < ids.Count; ndx++ )
+            {
+                tokenIndexFunctioName = ndx;                
+
+                // "find user by"
+                name = ids[ndx];
+                if (symbols.IsFunc(name))
+                {
+                    var func = funcs.GetByName(name);
+                    if (func.Meta.HasWildCard)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            var result = new FunctionLookupResult();
+            result.Exists = found;
+            result.Name = name;
+            result.TokenCount = tokenIndexFunctioName;
+            result.FunctionMode = MemberMode.FunctionScript;
+            return result;
+        }
+
+
+        /// <summary>
+        /// Finds a matching script function name from the list of strings representing identifiers.
+        /// </summary>
+        /// <param name="symbols">Symbol Scope</param>
+        /// <param name="funcs">The list of external functions.</param>
+        /// <param name="ids">List of strings representing identifier tokens</param>
+        /// <returns></returns>
+        public static FunctionLookupResult MatchFunctionName(Symbols symbols, ExternalFunctions funcs, List<string> ids)
+        {
+            var names = ids;
+            var foundFuncName = string.Empty;
+            var found = false;
+            var tokenCount = 0;
+            var memberMode = MemberMode.FunctionScript;
+            for( int ndx = ids.Count - 1; ndx >=0; ndx-- )
+            {
+                // "refill inventory"
+                string funcName = ids[ndx];
+                string funcNameWithUnderScores = funcName.Replace(' ', '_');
+                // Case 1: "refill inventory" - exists with spaces
+                if (symbols.IsFunc(funcName))
+                {
+                    foundFuncName = funcName;
+                }
+                // Case 2: "refill_inventory" - replace space with underscore. 
+                else if (symbols.IsFunc(funcNameWithUnderScores))
+                {
+                    foundFuncName = funcNameWithUnderScores;
+                }
+                // Case 3: Check external functions
+                else if (funcs.Contains(funcName))
+                {
+                    memberMode = MemberMode.FunctionExternal;
+                    foundFuncName = funcName;
+                }
+
+                if (!string.IsNullOrEmpty(foundFuncName))
+                {
+                    found = true;
+                    tokenCount = ndx + 1;
+                    break;
+                }
+            }
+            // A single word function is not fluent
+            if (!found || (found && tokenCount == 1 ))
+                return FunctionLookupResult.False;
+
+            var result = new FunctionLookupResult()
+            {
+                Exists = found,
+                Name = foundFuncName,
+                FunctionMode = memberMode,
+                TokenCount = tokenCount
+            };
+            return result;
+        }
+
+
+        /// <summary>
+        /// Parses parameters.
+        /// </summary>
+        /// <param name="args">The list of arguments to store.</param>
+        /// <param name="tokenIt">The token iterator</param>
+        /// <param name="parser">The parser</param>
+        /// <param name="meta">The function meta for checking parameters</param>
+        /// <param name="expectParenthesis">Whether or not to expect parenthis to designate the start of the parameters.</param>
+        /// <param name="enableNewLineAsEnd">Whether or not to treat a newline as end</param>
+        public static void ParseFuncParameters(List<Expr> args, TokenIterator tokenIt, bool expectParenthesis, bool enableNewLineAsEnd, Parser parser, FunctionMetaData meta)
+        {
+            int totalParameters = 0;
+            if (tokenIt.NextToken.Token == Tokens.LeftParenthesis)
+                expectParenthesis = true;
+
+            // START with check for "("
+            if (expectParenthesis) tokenIt.Expect(Tokens.LeftParenthesis);
+
+            bool passNewLine = !enableNewLineAsEnd;
+            var endTokens = BuildEndTokens(enableNewLineAsEnd, meta);
+            
+            int totalNamedParams = 0;
+
+            while (true)
+            {
+                Expr exp = null;
+            
+                // Check for end of statment or invalid end of script.
+                if (parser.IsEndOfParameterList(Tokens.RightParenthesis, enableNewLineAsEnd))
+                    break;
+                
+                if (tokenIt.NextToken.Token == Tokens.Comma) 
+                    tokenIt.Advance();
+
+                var token = tokenIt.NextToken.Token;
+                var peek = tokenIt.Peek().Token;
+
+                // CASE 1: Named params for external c# object method calls                
+                // CASE 2: Named params for internal script functions ( where we have access to its param metadata )
+                if ( (meta == null && token.Kind == TokenKind.Ident && peek == Tokens.Colon ) ||
+                     (meta != null && token.Kind == TokenKind.Ident && meta.ArgumentsLookup.ContainsKey(token.Text) ) )
+                {         
+                    string paramName = token.Text;
+                    tokenIt.Advance();
+
+                    // Advance and check if ":"
+                    if (tokenIt.NextToken.Token == Tokens.Colon)
+                        tokenIt.Advance();
+
+                    exp = parser.ParseExpression(endTokens, true, false, true, passNewLine, true);
+
+                    // Store named param
+                    exp = new NamedParamExpr(paramName, exp);
+                    args.Add(exp);
+                    totalNamedParams++;
+                }
+                // CASE 2: Normal param
+                else
+                {
+                    // Can not have normal parameters after named parameters.
+                    if (totalNamedParams > 0)
+                        throw tokenIt.BuildSyntaxException("Un-named parameters must come before named parameters");
+
+                    exp = parser.ParseExpression(endTokens, true, false, true, passNewLine, true);
+                    args.Add(exp);
+                }                
+                totalParameters++;
+                parser.Context.Limits.CheckParserFunctionParams(exp, totalParameters);
+
+                // Check for end of statment or invalid end of script.
+                if (parser.IsEndOfParameterList(Tokens.RightParenthesis, enableNewLineAsEnd))
+                    break;
+
+                // Advance if not using fluent-parameters
+                if(meta == null)
+                    tokenIt.Expect(Tokens.Comma);
+            }
+
+            // END with check for ")"
+            if (expectParenthesis) tokenIt.Expect(Tokens.RightParenthesis);
+        }
+
+
+        private static IDictionary<Token, bool> BuildEndTokens(bool enableNewLineAsEnd, FunctionMetaData meta)
+        {
+            var endTokens = new Dictionary<Token, bool>();
+            var formalEndTokens = enableNewLineAsEnd ? Terminators.ExpFluentFuncExpParenEnd : Terminators.ExpFuncExpEnd;
+            foreach (var pair in formalEndTokens)
+                endTokens[pair.Key] = true;
+
+            if (meta == null) return endTokens;
+
+            // Go through all the arguments and use the 
+            if (meta.ArgumentsLookup != null && meta.ArgumentsLookup.Count > 0)
+            {
+                // Add all the parameter names and aliases to the map.
+                foreach (var pair in meta.ArgumentsLookup)
+                {
+                    var idToken = Tokens.ToIdentifier(pair.Value.Name);
+                    endTokens[idToken] = true;
+                    if (!string.IsNullOrEmpty(pair.Value.Alias))
+                    {
+                        idToken = Tokens.ToIdentifier(pair.Value.Alias);
+                        endTokens[idToken] = true;
+                    }
+                }
+            }
+            return endTokens;
+        }
+    }
+}

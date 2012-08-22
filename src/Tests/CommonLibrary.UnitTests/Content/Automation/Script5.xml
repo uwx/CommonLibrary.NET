@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<automation-script>
+    <var name="first" value="kishore" />
+    <var name="last" value="reddy" />
+
+  <command name="ExceptionTest" canFail="true" />
+  <command name="HelloWorld" hi="whats up?" refkey="k1"/>
+  
+</automation-script>

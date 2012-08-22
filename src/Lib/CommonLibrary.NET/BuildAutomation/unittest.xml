@@ -1,0 +1,76 @@
+<project xmlns="http://nant.sf.net/release/0.85-rc3/nant.xsd" name="Application.UnitTest" default="UnitTest.Execute">	
+	
+	<include buildfile="${args.settings.file}" />
+	
+	<!-- ****************************************************************************************
+		<summary>Runs the unit tests.</summary>
+	      **************************************************************************************** -->
+	<target name="UnitTest.Execute">
+		<call target="UnitTest.CheckArguments" />
+		<call target="UnitTest.ExecuteNUnitViaProject" />
+	</target>
+	
+	
+	<!-- ****************************************************************************************
+		<summary>Executes the nunit via unit test project.
+		nunit-console.exe nant.tests.nunit /config=Debug /xml=unitResults.xml /noshadow
+		</summary>
+	      **************************************************************************************** -->
+	<target name="UnitTest.ExecuteNUnitViaProject">
+		<!-- Copy the nunit project file from the source to the directory where the assemblies to test are. -->
+        <copy file="${unittests.projectFile.dir}\${unittests.projectFile}" tofile="${unittests.workingDir}\${unittests.projectFile}" />
+        
+		<property name="unittests.projectFileFullPath" value="${unittests.projectFile.dir}\${unittests.projectFile}"/>
+		
+		<property name="testrunner.args" value='"${unittests.projectFile}" /noshadow'/>
+		<property name="testrunner.args" value='${testrunner.args} /xml="${unittests.xmlResultsFile}"' />
+		<property name="testrunner.args" value='${testrunner.args} /config="${unittests.config}"' />
+		
+		<echo message="RUNNING COMMAND ${unittests.testrunner.path} IN ${unittests.workingDir} WITH ARGUMENTS ${testrunner.args}."/>
+		
+		<exec program="${unittests.testrunner.path}"
+				commandline='${testrunner.args}'
+				workingdir="${unittests.workingDir}" output="${unittests.logfile}" 
+				failonerror="false" resultproperty="unittests.result"/>
+		
+		<!-- Check the results and fail if necessary -->
+        <fail message="Failures reported in unit tests." unless="${int::parse(unittests.result)==0}" />    
+	</target>
+	
+	
+	<!-- ****************************************************************************************
+		<summary>Validates that the arguments are passed in correctly.</summary>
+	      **************************************************************************************** -->
+	<target name="UnitTest.CheckArguments">
+		<!-- Verify that the project file name was supplied -->
+		<if test="${property::exists('args.unittests.projectFile')}">				
+			<property name="unittests.projectFile" value="${args.unittests.projectFile}"/>			
+		</if>
+		
+		<!-- Verify that the project file directory location was supplied -->
+		<if test="${property::exists('args.unittests.projectFile.dir')}">				
+			<property name="unittests.projectFile.dir" value="${args.unittests.projectFile.dir}"/>	
+		</if>
+		
+		<!-- Verify that the project configuration was supplied -->
+		<if test="${property::exists('args.unittests.config')}">				
+			<property name="unittests.config" value="${args.unittests.config}"/>	
+		</if>
+				
+		<!-- Verify that the output xml results file path was supplied -->
+		<if test="${property::exists('args.unittests.xmlResultsFile')}">				
+			<property name="unittests.xmlResultsFile" value="${args.unittests.xmlResultsFile}"/>	
+		</if>
+				
+		<!-- Verify that the working direcotry of the unit test assembly's was supplied -->
+		<if test="${property::exists('args.unittests.workingDir')}">				
+			<property name="unittests.workingDir" value="${args.unittests.workingDir}"/>	
+		</if>
+				
+		<!-- Verify that the nunit-console.exe path was supplied -->
+		<if test="${property::exists('args.testrunner.path')}">				
+			<property name="unittests.testrunner.path" value="${args.testrunner.path}"/>
+		</if>
+		
+	</target>
+</project>

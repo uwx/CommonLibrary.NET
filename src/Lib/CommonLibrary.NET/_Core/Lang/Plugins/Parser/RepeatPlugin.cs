@@ -1,0 +1,243 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using ComLib.Lang;
+
+
+namespace ComLib.Lang.Extensions
+{
+
+    /* *************************************************************************
+    <doc:example>	
+    // Repeat plugin provides convenient ways to execute loops.        
+    
+    // Case 1: for(it = 1; it <= 10; it++ )
+    repeat to 10 
+	    print "hi"
+
+	
+    // Case 2: for(it = 2; it <= 10; it++ )		
+    repeat 2 to 10 
+	    print "hi"
+
+	
+    // Case 3: for(it = 2; it < 10; it++ )	
+    repeat 2 to < 10 
+	    print "hi"
+
+
+    // Case 4: for(it = 2; it < 10; it+= 2 )	
+    repeat 2 to < 10 by 2
+	    print "hi"
+	
+
+    // Case 5: for( ndx = 0; ndx <= 10; ndx++ )
+    repeat ndx to 10
+	    print "hi"
+	
+
+    // Case 6: for( ndx = 0; ndx < 10; ndx++ )
+    repeat ndx to < 10
+	    print "hi"
+    
+    
+    // Case 7: for( ndx = 1; ndx <= 10; ndx++ )
+    repeat ndx = 1 to 10
+	    print "hi"
+	
+	
+    // Case 8: for( ndx = 1; ndx < 10; ndx++ )
+    repeat ndx = 1 to < 10
+	    print "hi"
+	
+
+    // Case 9: for( ndx = 1; ndx < 10; ndx+= 2)
+    repeat ndx = 1 to < 10 by 2
+	    print "hi"
+    
+    </doc:example>
+    ***************************************************************************/
+
+    /// <summary>
+    /// Combinator for handling swapping of variable values. swap a and b.
+    /// </summary>
+    public class RepeatPlugin : StmtBlockPlugin
+    {
+        private static string[] _tokens = new string[] { "repeat" };
+
+
+        /// <summary>
+        /// Intialize.
+        /// </summary>
+        public RepeatPlugin()
+        {
+            _startTokens = _tokens;
+            _isContextFree = false;
+            _precedence = 50;
+        }
+
+
+        /// <summary>
+        /// The grammer for the function declaration
+        /// </summary>
+        public override string Grammer
+        {
+            get
+            {
+                return "repeat ( ( <ident> = <expression> ) | <literal>)? to [symbol]? <expression> [by <expression>]? ";
+            }
+        }
+
+
+        /// <summary>
+        /// Examples
+        /// </summary>
+        public override string[] Examples
+        {
+            get
+            {
+                return new string[]
+                {
+                    "repeat to 10 { print 'hi' }",	
+                    "repeat 2 to 10	{ print 'hi' }",
+                    "repeat 2 to < 10 { print 'hi' }",
+                    "repeat 2 to < 10 by 1 { print 'hi' }",
+                    "repeat ndx to 10 { print 'hi' }",
+                    "repeat ndx = 1 to 10 { print 'hi' }",
+                    "repeat ndx = 1 to < 10 { print 'hi' }",
+                    "repeat ndx = 1 to < 10 by 2 { print 'hi' }"
+                };
+            }
+        }
+
+
+        /// <summary>
+        /// run step 123.
+        /// </summary>
+        /// <returns></returns>
+        public override Stmt Parse()
+        {
+            var startToken = _tokenIt.NextToken;
+            _tokenIt.ExpectIdText("repeat");
+            Expr varname = null;
+            Expr startVal = null;
+            Expr endVal = null;
+            Expr incVal = null;
+            Operator op = Operator.LessThanEqual;
+            
+            // Case 1: repeat to 10
+            if (_tokenIt.NextToken.Token.Text == "to")
+            {
+                var result = ParseTo();
+                startVal = new ConstantExpr(1.0);
+                _parser.SetScriptPosition(startVal, startToken);
+                op = result.First;
+                endVal = result.Second;
+                incVal = result.Third;
+            }
+            // Case 2: repeat 1 to 10
+            else if (_tokenIt.NextToken.Token.Kind == TokenKind.LiteralNumber)
+            {
+                var num = _tokenIt.ExpectNumber();
+                var result = ParseTo();
+                startVal = new ConstantExpr(num);
+                _parser.SetScriptPosition(startVal, startToken);
+                op = result.First;
+                endVal = result.Second;
+                incVal = result.Third;
+            }
+            // Case 3: repeat ndx to 10
+            else if (_tokenIt.NextToken.Token.Kind == TokenKind.Ident)
+            {
+                var variableName = _tokenIt.ExpectId();
+                varname = new VariableExpr(variableName);
+                _parser.SetScriptPosition(varname, startToken);
+                if (_tokenIt.NextToken.Token.Type == TokenTypes.Assignment)
+                {
+                    _tokenIt.Advance();
+                    startVal = ParseExpr();
+                }
+                else
+                {
+                    startVal = new ConstantExpr(0);
+                    _parser.SetScriptPosition(startVal, startToken);
+                }
+                var result = ParseTo();
+                op = result.First;
+                endVal = result.Second;
+                incVal = result.Third;
+            }
+            // auto-create variable name.
+            if (varname == null)
+            {
+                varname = new VariableExpr("it");
+                _parser.SetScriptPosition(varname, startToken);                
+            }            
+
+            // Now setup the stmts
+            var ctx = _parser.Context;
+            var startStmt = new AssignStmt(true, varname, startVal);
+            _parser.SetScriptPositionFromNode(startStmt, varname);
+            startStmt.Ctx = ctx;
+
+            var condition = new CompareExpr(varname, op, endVal);
+            _parser.SetScriptPositionFromNode(condition, endVal);
+            varname.Ctx = ctx;
+            condition.Ctx = ctx;
+
+            var incExp = new UnaryExpr(varname.ToQualifiedName(), incVal, Operator.PlusEqual, _parser.Context);
+            _parser.SetScriptPositionFromNode(incExp, incVal);
+            var incStmt = new AssignStmt(false, new VariableExpr(varname.ToQualifiedName()), incExp);
+            _parser.SetScriptPositionFromNode(incStmt, incExp);
+            incStmt.Ctx = ctx;
+
+            var loopStmt = new ForStmt(startStmt, condition, incStmt);
+            ParseBlock(loopStmt);            
+            return loopStmt;
+        }
+
+
+        private Tuple3<Operator, Expr, Expr> ParseTo()
+        {
+            var op = Operator.LessThanEqual;
+            _tokenIt.Advance();
+
+            // Case 2: repeat to < 10
+            if (_tokenIt.NextToken.Token.Kind == TokenKind.Symbol)
+            {
+                var opText = _tokenIt.NextToken.Token.Text;
+                if (Operators.IsOp(opText))
+                {
+                    op = Operators.ToOp(opText);
+                    _tokenIt.Advance();
+                }
+            }
+
+            // Parse the end value (e.g. 10, total)
+            var currentToken = _tokenIt.NextToken;
+            var end = ParseExpr();   
+            Expr incVal = null;
+
+            // Check for increment value to 10 by 2
+            if (_tokenIt.NextToken.Token.Text == "by")
+            {
+                _tokenIt.Advance();
+                incVal = ParseExpr();
+            }
+            else
+            {
+                incVal = new ConstantExpr(1.0);
+                _parser.SetScriptPosition(incVal, currentToken);
+            }
+            return new Tuple3<Operator, Expr, Expr>(op, end, incVal);
+        }
+
+
+        private Expr ParseExpr()
+        {
+            var exp = _parser.ParseExpression(null, true, true, true, false);
+            return exp;
+        }
+    }
+}

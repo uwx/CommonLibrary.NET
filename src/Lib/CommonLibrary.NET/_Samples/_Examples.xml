@@ -1,0 +1,529 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<comlibdoc>
+    <instructions>
+        Case 1: If shortdesc is empty, use content from summary as content for shortdesc
+        Case 2: summary can have @shortdesc which indicates replacing @shortdesc with content from shortdesc element 
+            - Need check to prevent cyclic refs.
+        Case 3: fileref is used designate that the summary text should be applied to the summary element for the class in that file.
+        this is used to have a single location for component documentation at a high-level and auto-apply to components.
+        Case 4: example component is used for codeplex wiki purposes.
+            wikienabled= true | false : true = included for processing in codeplexdocgenerator tool
+                wikistyle= xml_markers | full_file | file_ref:
+                xml_markers: process the doc: tags in the file
+                full_file: include the full file for the wiki
+                not_available: use text that says "not available" please refer to example.
+    </instructions>
+    <components>    
+        <component name="Account">
+            <shortdesc>Account component for Users/Groups/Roles. (With easily pluggable repository)</shortdesc>
+            <summary>
+				@shortdesc
+				Supports the features available in the ASP.NET membership for creating Users with some flexibility in associating profiles with users.
+			</summary>
+            <fileref name="Account\User.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="698467">Example_Account.cs</example>
+        </component>
+
+        <component name="ActiveRecord">
+            <shortdesc>Light-weight ActiveRecord pattern supporting CRUD/Find methods. Single entity-table relationships only</shortdesc>
+            <summary>
+                Light-weight ActiveRecord pattern supporting CRUD(Create, Retrieve, Update, Delete) and Find methods on entities. 
+				Features include:
+                1. Single entity-table relationships only ( to help faciliate cloud storage )
+                2. Pluggable underlying repository (use any database/cloud-storage of your choice)
+                3. Provides both static and instance crud/find methods via generic EntityService class
+                4. Provides life-cycle callback methods such as OnBeforeSave, OnBeforeValidate etc.    
+                5. Find methods use a custom simple Query object with support for most of the sql clauses/conditions.
+				6. Easy configuration to specify how to load/use repository or custom "Service" class for extending CRUD / Find behaviour
+            </summary>
+            <fileref name="ActiveRecord\ActiveRecord.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="479891">Example_ActiveRecord.cs</example>
+        </component>
+
+        <component name="Application">
+            <shortdesc>A template base class for any application, providing environment selection(Dev,Qa,Prod), logging, error handling, configuration and exit codes support.</shortdesc>
+            <summary>
+                A template base class for any application. 
+				Out of the box features include:
+                1. Environment selection ( Dev, Qa, Uat, Prod )
+                2. Command line argument ( for overriding configuration )
+                3. Configuration file loading ( config file inheritance )
+                4. Logging	
+                5. Email notification on completion
+                6. Error handling
+                7. 0/1 Exit codes on completion
+            </summary>
+            <fileref name="Application\App.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="480461">Example_AppTemplate.cs</example>
+        </component>
+
+        <component name="Arguments">
+            <shortdesc>Command line arguments parser: supports named/positional args, and several other features</shortdesc>
+            <summary>
+				@shortdesc
+				Features include:
+                1. Named / Positional(index) lookup
+                2. Alias
+                3. Descriptions
+                4. Automatically shows sample usage
+                5. Easy configuration / fluent (configuration supported )
+                6. Auto-apply arguments to an object.
+            </summary>
+            <fileref name="Arguments\Args.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="479889">Example_Arguments.cs</example>
+        </component>
+
+        <component name="Authentication">
+            <shortdesc>An pluggable authentication API. Used for web/windows, wraps HttpContext.Current.User and/or Windows Prinicial.</shortdesc>
+            <summary>
+                @shortdesc
+                This component also provides ability to plugin your own authentication mechanism which also makes it very useful for testing.
+            </summary>
+            <fileref name="Authentication\Auth.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="479892">Example_Authentication.cs</example>
+        </component>
+
+        <component name="Automation">
+            <shortdesc>A light-weight automation runner using xml/command line for running tasks associated with c# classes.</shortdesc>
+            <summary>
+                @shortdesc
+                Features include:
+                1. Associate a class with an automation task via Attributes
+                2. The automation script can be either in the form of xml or commandline argument style
+                3. The framework can optionally automatically apply the arguments from xml or commandline to your class properties.
+                3. This provides an exstensible approach to automating functionality in your application for testing/QA(Quality Assurance).           
+            </summary>
+            <fileref name="Automation\AutomationRunner.cs" />
+            <example wikienabled="true" wikistyle="full_file" fileid="1197416">Example_Automation.cs</example>
+        </component>
+
+        <component name="BenchMark">
+            <shortdesc></shortdesc>
+            <summary>Light-weight class to provide benchmarking support to measure time used to run code.</summary>
+            <fileref name="BenchMark\BenchMark.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1037500">Example_BenchMark.cs</example>
+        </component>
+
+        <component name="BootStrapper">
+            <shortdesc>Runs tasks on startup and shutdown of an application.</shortdesc>
+            <summary>
+				@shortdesc
+				Features include:
+				1. Specify a name for the task and configure its priority.
+				2. Optionally associate the task into a group
+				3. Configure whether or not the task must succeed or can fail				
+				4. Supports a fluent configuration				
+			</summary>
+            <fileref name="BootStrapper\BootStrapper.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="902918">Example_BootStrapper.cs</example>
+        </component>
+
+        <component name="Cache">
+            <shortdesc>Cache w/ default implementation using HttpRuntime. Can prefix keys and inspect/describe elements in cache.</shortdesc>
+            <summary>
+                @shortdesc
+                Features include:
+				1. Get cache item and convert to a specific type
+				2. Provide default value if cache item is not present
+				3. Get information about all the items in the cache
+				4. Allows grouping of cache items
+            </summary>
+            <fileref name="Cache\Cache.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="479888">Example_Cache.cs</example>
+        </component>
+
+        <component name="CodeGenerator">
+            <shortdesc></shortdesc>
+            <summary>Fluent based entity generator for CommonLibrary entities</summary>
+            <fileref name="CodeGen\Builds\CodeBuilder.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="480391">Example_CodeGenerator.cs</example>
+        </component>
+
+        <component name="Config">
+            <shortdesc>Provides inheritance based configuration data from files or databases</shortdesc>
+            <summary>
+				@shortdesc
+				Features include:
+				1. Load configuration data from .ini files
+				2. Load configuration data from multiple .ini files using inheritance ( qa.ini inherits from dev.ini )
+				   This allows removing duplicate settings from configuration files and allow a "derived" file to over-write
+				   settigns from a base file.
+				3. Optionally store settings in a database
+				4. Optionally set settings from a database and apply them to an object
+			</summary>
+            <fileref name="Config\Config.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="480390">Example_Config.cs</example>
+        </component>
+
+        <component name="Cryptography">
+            <shortdesc>Cryptographic services for encrypting, decrypting, hashing</shortdesc>
+            <summary>@shortdesc</summary>
+            <fileref name="Cryptography\Cryptography.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="479887">Example_Cryptography.cs</example>
+        </component>
+
+        <component name="Csv">
+            <shortdesc>Csv parser to parse .csv ( delimited files ) and a light-weight Csv writer</shortdesc>
+            <summary>
+				@shortdesc
+				Features include:
+				1. Custom delimiter
+				2. Optional headers
+				3. Dictionary based access to records like DataTable
+				4. Methods to get only a sub-sections of csv data.
+				5. Csv writer to write out csv files given an array/list of objects.
+			</summary>
+            <fileref name="Csv\Csv.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="480402">Example_Csv.cs</example>
+        </component>
+
+        <component name="Database">
+            <shortdesc>Provides simplified access to multiple database related operations</shortdesc>
+            <summary>
+				@shortdesc
+				This is very similar to Microsoft Enterprise library Database application block
+				Features include:
+				1. Methods to execute sql or stored proc commands
+				2. Methods to get data readers using sql or stored proc commands
+				3. Methods to get data and map data to objects by suppying an IMapper
+			</summary>
+            <fileref name="Database\Database.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="785843">Example_Database.cs</example>
+        </component>
+
+        <component name="Diagnostics">
+            <shortdesc>Provides information on environment variables, processes, loaded modules etc </shortdesc>
+            <summary></summary>
+            <fileref name="Diagnostics\Diagnostics.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="479890">Example_Diagnostics.cs</example>
+        </component>
+
+        <component name="Entity">
+            <shortdesc>Domain-Driven-Design based entity classes used for persistance</shortdesc>
+            <summary>
+				@shortdesc
+				Features include:
+				1. Entity base class persistance, audit, validation support
+				2. IEntityAuditable : has audit fields ( CreatedBy, CreateDate, UpdatedBy, UpdateDate )
+				3. IEntityPersistant: has primary key ( Id ) 
+				4. IEntity: Combines persistance, audit fields with validation support
+			</summary>
+            <fileref name="Entity\Entity.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="480166">Example_Entity.cs</example>
+        </component>
+
+        <component name="Environments">
+            <shortdesc>Object representation of environments such as "DEV", "QA", "UAT", "PROD"</shortdesc>
+            <summary>
+				@shortdesc
+				Features include:
+				1. Default list of environments are "DEV", "QA", "UAT", "PROD"
+				2. Automatically or manually specify list of available environments
+				3. Support selecting and changing an environment with callback when environment is set.
+				4. Associate a config file with an environment such as "DEV:dev.config"
+				5. Specify that an environment inherits from another environment such as "QA inherits from DEV"
+				6. API to know which environment is currently being used.
+			</summary>
+            <fileref name="Environments\Environments.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="480720">Example_Environments.cs</example>
+        </component>
+
+        <component name="Errors">
+            <shortdesc>Collection class combining both list and key/value based string error messages.</shortdesc>
+            <summary>
+				@shortdesc
+				Features include:
+				1. Add error using only a string ( List collection )
+				2. Associate an error with a key ( Dictionary ) 
+				3. Get all the errors using a delimeter ( newline, html br etc )
+				4. Nicer api for checking for and errors.
+			</summary>
+            <fileref name="Errors\Errors.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="804483">Example_Errors.cs</example>
+        </component>
+
+        <component name="Exceptions">
+            <shortdesc></shortdesc>
+            <summary>Component to specify configure handling of exceptions</summary>
+            <fileref name="Exceptions\Exceptions.cs" />
+            <example wikienabled="false" wikistyle="xml_markers" fileid="479893">Example_Exceptions.cs</example>
+        </component>
+
+        <component name="Extensions">
+            <shortdesc>Provides plugin-type functionality to dynamically load specific classes/types from an assembly</shortdesc>
+            <summary>
+                @shortdesc
+				Features include:
+				1. Apply an "Extension" or custom attribute to a class to designate it as an extension.
+				2. Service can load all classes containing a specific "Extension" attribute
+				3. Indicate whether an extension can be reused or is instance based
+				4. Associated a name/id with each "Extension" / class.
+				5. Easily create an instance of the class using the service and supplying name of extension				
+            </summary>
+            <fileref name="Extensions\Extensions.cs" />
+            <example wikienabled="true" wikistyle="full_file" fileid="1190526">Example_Extensions.cs</example>
+        </component>
+
+        <component name="Extensions_Macros">
+            <shortdesc>Similar to wordpress shortcodes. Parses text for macros and replace the macro in text with value returned by macro</shortdesc>
+            <summary>
+                @shortdesc
+                Features include:
+                1. Associate either a lamda function or c# class as a macro
+                2. Accept arguments for the macro
+                3. Macro returns text
+                4. Macro can also have inner text between its start/end tags
+                5. Text can contain multiple macros
+            </summary>
+            <fileref name="Macros\MacroService.cs" />
+            <example wikienabled="true" wikistyle="full_file" fileid="1190527">Example_Extensions_Macros.cs</example>
+            <externalref url="http://codex.wordpress.org/Shortcode_API"/>
+        </component>
+
+        <component name="HolidayCalendar">
+            <shortdesc>Gets holidays or business days for different calendars ( U.S / England/ France )</shortdesc>
+            <summary>
+                @shortdesc
+                Features include:
+                1. Holidays can be supplied into the HolidayCalenderDao
+                2. Calendar codes can be supplied ( to associate holidays with U.S. or England or France ) etc.
+                3. Retrieve either business days or holidays
+                4. Supports for getting last / next business|holiday.
+            </summary>
+            <fileref name="HolidayCalendar\Calendar.cs" />
+            <example wikienabled="true" wikistyle="full_file" fileid="479894">Example_HolidayCalendar.cs</example>
+        </component>
+
+        <component name="ImportExport">
+            <shortdesc>Provides API for import/export operations on any abitrary datastore of objects</shortdesc>
+            <summary>
+                @shortdesc
+				Features include:
+				1. Import from text ( .ini, csv, xml )
+				2. Import from -> convert to objects -> save to datastore
+				2. Export from datastore in batches
+				3. Export from datastore all items
+				4. Configure your datastore
+				5. Configure your total items in the datastore
+            </summary>
+            <fileref name="ImportExport\ImportExport.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="904272">Example_ImportExport.cs</example>
+        </component>
+
+        <component name="Location">
+            <shortdesc>Provides City, State, Country search features. e.g. "Brooklyn, Ny" is parsed into a City/State/Country object</shortdesc>
+            <summary>
+                @shortdesc
+                Features include:
+                1. Find the city/state/country by providing any either text( "city,state" or "city,country" )
+                2. Find the state and country given a city
+                3. Find the country given a city
+                4. Supply your own cities, states, country used for the lookup
+                5. Easily configure your repositories for city/state/country.
+                6. Easily create the city, state, and/or country
+                7. For convenience, cities can be designated as "Popular", "Alias" e.g. Manhattan = "New York"
+            </summary>
+            <fileref name="Location\Location.cs" />
+            <example wikienabled="true" wikistyle="full_file" fileid="780027">Example_Location.cs</example>
+        </component>
+
+        <component name="Logging">
+            <shortdesc>Logger that's light-weight, extensible, and provides a clear/fluent API to logging.</shortdesc>
+            <summary>
+				@shortdesc
+				Features include:
+				1. Use default logger which logs to console.
+				2. Append a new logger to the default logger programmatically.
+				4. Log only to the named logger "kishores_logger".
+				5. Get a new instance of a logger( associated with default logger)
+				6. Add a new loggers programmatically 
+				7. Force a flush all loggers or a specific logger
+				8. Specify a log-level ( Debug, Info, Warn, Error, Fatal, Message )
+				9. Message level always logs
+				9. Change the log level on specific loggers programmatically 
+			</summary>
+            <fileref name="Logging\Logging.cs" />
+            <example wikienabled="true" wikistyle="full_file" fileid="480006">Example_Logging.cs</example>
+        </component>
+        <component name="Mapper">
+            <shortdesc>Maps objects from one datasource(xml,csv,ini,dictionary) to actual objects.</shortdesc>
+            <summary>
+                @shortdec
+                Features Include
+                1. Converting files, in formats such as xml, csv, ini, containing serialized data representing object to the actual objects.
+                2. Converting a dictionary of key/value pairs to objects with the key/values in the dictionary mapping to property/values in the object.
+            </summary>
+            <fileref name="Mapper\Mapper.cs" />
+            <example wikienabled="false" wikistyle="xml_markers">Example_Mapper.cs</example>
+        </component>
+        <component name="NamedQuery">
+            <shortdesc></shortdesc>
+            <summary>Component to create and run named queries </summary>
+            <fileref name="NamedQuery\NamedQuery.cs" />
+            <example wikienabled="false" wikistyle="xml_markers">Example_NamedQuery.cs</example>
+        </component>
+
+        <component name="Notifications">
+            <shortdesc>Generates templated messages for email</shortdesc>
+            <summary></summary>
+            <fileref name="Notifications\Notifications.cs" />
+            <example wikienabled="true" wikistyle="full_file">Example_Notifications.cs</example>
+        </component>
+
+        <component name="Paging">
+            <shortdesc>Independent and reusable pager for paging through data</shortdesc>
+            <summary>
+                @shortdesc
+                Features include:
+                1. Configure the page size
+                2. Auto-generate a pager for the web in either forms mode(postback) or url mode.
+                3. Pager has built in logic for cycling from one page to the next and/or one set of pages to the next set
+            </summary>
+            <fileref name="Paging\Paging.cs" />
+            <example wikienabled="true" wikistyle="full_file" fileid="962317">Example_Paging.cs</example>
+        </component>
+
+        <component name="QueueProcessor">
+            <shortdesc>A flexible queue to allow placing items into a queue for processing</shortdesc>
+            <summary>
+				@shortdesc
+				Features Include:
+				1. Create a named queue associated with certain types e.g. "stock_quotes"
+				2. Associate a datatype with a queue
+				3. Indicate how many items should be dequed at once
+				4. Specify an QueueProcesser subclass that should handle the items in queue
+				5. Specify a simple lamda as the callback for processing the items in queue
+			</summary>
+            <fileref name="QueueProcessor\QueueProcessor.cs" />
+            <example wikienabled="true" wikistyle="full_file" fileid="808480">Example_QueueProcessor.cs</example>
+        </component>
+
+        <component name="Repository">
+            <shortdesc>Repository implementation supporting CRUD/Find methods and sql-like aggregates(Min,Max,Count,Avg,Sum)</shortdesc>
+            <summary>
+                @shortdesc
+                Powerful yet light-weight implementation of repository using ComLib.IEntity
+                Features include:
+                1. All CRUD methods ( Create, Retrieve, Update, Delete )
+                2. Aggregate functions Min, Max, Sum, Avg, Count
+                3. Distinct, and GroupBy
+                4. Find methods using IQuery(T)
+                5. Uses interface IRepository(T) so you can use an In-Memory table for unit-testing
+                6. Support for versioning of your entities
+                7. Support for paging, eg. Get(page, pageSize)
+                8. Support for audit fields ( CreateUser, CreatedDate, UpdateDate etc ) via IEntity
+                9. Conditional saving of entities by checking for entities only if it isn't there already, by checking for field values.
+            </summary>
+            <fileref name="Repository1_Querable\Repository1_Querable.cs" />
+            <fileref name="Repository2_Entity\Repository2_Entity.cs" />
+            <fileref name="Repository3_Versioned\Repository3_Versioned.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="798528">Example_Repository1_Querable.cs</example>
+            <example wikienabled="true" wikistyle="xml_markers" fileid="798527">Example_Repository2_Entity.cs</example>        
+            <example wikienabled="true" wikistyle="xml_markers" fileid="798529">Example_Repository3_Versioned.cs</example>
+        </component>
+
+        <component name="Scheduler">
+            <shortdesc>Light-weight task scheduling service</shortdesc>
+            <summary>
+                @shortdesc
+                Features include:
+                1. Schedule a task to run on demand ( only when user specifically wants to run it )
+                2. Schedule a task to run on a periodic interval
+                3. Schedule a task to run maximum N number of times
+                4. Provide either a Task class or a simple lamda to run
+                5. Fluent API for setting the interval ( Trigger ) for the task
+                6. Easily get the status of each running task
+            </summary>
+            <fileref name="Scheduler\Scheduler.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="808479">Example_Scheduler.cs</example>
+        </component>
+		
+		<component name="Scripting">
+            <shortdesc>A dynamic interpreted scripting language, similar to javascript that is built into this library.</shortdesc>
+            <summary>
+                @shortdesc
+                Features include:
+                1. Optionally enforce limits ( # of loops, prevent recursion )
+				2. Alias keywords/reserved words to make your language more configurable
+				3. Fluent like syntax to make code more readable and resemble english ( will be available in 0.9.8 beta )
+				4. Configurable interpreter
+				5. Similar to JavaScript
+				6. Hook into C# code to use existing types/custom classes
+            </summary>
+            <fileref name="_Core\Lang\Interpreter.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1225564">Example_Scripting.cs</example>
+        </component>
+		
+        <component name="Scripts">
+            <shortdesc>Used to register css/javascript files into "placeholders" such as head or footer section.</shortdesc>
+            <summary>
+                @shortdesc
+                Features include:
+                1. Register a css/javascript file by name and location
+                2. Register a file into different locations such as header / footer
+                3. Register a file without worrying about whether or not it is already including
+                4. Register a file using a simple static API ( which underneath uses the HttpContext.Current to store the registered data ).
+                5. Automatically convert all the registered files into either css link tags or javascript script tags.
+            </summary>
+            <fileref name="Core\Lang\Interpreter.cs" />
+            <example wikienabled="true" wikistyle="full_file" fileid="1190525">Example_Scripts.cs</example>
+        </component>
+
+        <component name="StatusUpdater">
+            <shortdesc>Service to provide and update the status of a task or batch process.</shortdesc>
+            <summary>
+                @shortdesc
+                The service is useful for reporting the current state of batch processes.
+                Examples include
+                string taskName, string status, string comment, DateTime started, DateTime ended
+                StatusUpdate.Update("Order review", "started",   "Check for orders", DateTime.Now, DateTime.Now);
+                StatusUpdate.Update("Order review", "running",   DateTime.Now);
+                StatusUpdate.Update("Order review", "completed", DateTime.Now);
+            </summary>
+            <fileref name="StatusUpdate\StatusUpdate.cs" />
+            <example wikienabled="false" wikistyle="xml_markers">Example_StatusUpdate.cs</example>
+        </component>
+
+        <component name="ToDo">
+            <shortdesc>Typed marker (like visual studio "TODO" ) to mark code</shortdesc>
+            <summary>
+                @shortdesc
+                Supports methods like
+                1. ToDo.Refactor
+                2. ToDo.Implement
+                3. ToDo.BugFix
+                4. ToDo.CodeReview
+                
+                Also supports properties like
+                1. Priority
+                2. User
+                3. Description
+            </summary>
+            <fileref name="ToDo\ToDo.cs" />
+            <example wikienabled="true" wikistyle="full_file" fileid="903265">Example_ToDo.cs</example>
+        </component>
+
+        <component name="Validation">
+            <shortdesc>Provides several validation methods for email, phone, string length etc.</shortdesc>
+            <summary>
+                @shortdesc  
+                Features include:
+				
+				Simple Validation Helpers ( Static Methods )
+				1. Validation methods returning only true/false indicating successful validation.
+				2. Validation methods returning true/false and also storing error messages into a list you provide
+				3. Also provides additional overloaded methods for collection errors from validation checks.
+				
+				Validator Class:
+				1. Provide flexible validation approaches
+				2. Validate by passing in object
+				3. Validate by passing in object and list to collect errors
+				4. Validate by passing in object via constructor/property and call Validate()
+				5. Base class stores list of errors
+            </summary>
+            <fileref name="Validation\Validation.cs" />
+            <example wikienabled="true" wikistyle="full_file" fileid="480007">Example_Validation.cs</example>
+        </component>
+    </components>
+</comlibdoc>    

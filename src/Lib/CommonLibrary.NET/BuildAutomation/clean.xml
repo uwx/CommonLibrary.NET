@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<project name="clean.xml" default="clean">
+
+    <target name="clean" description="remove all temp files">
+	   
+	   <property name="workingpath" value="F:\Dev\Workshops\backups\CommonLibrary.NET\2009_04_26\KnowledgeDrink" />
+       <delete>
+		    <fileset defaultexcludes="false">
+                <include name="${workingpath}/**/*.pdb" />                
+				<include name="${workingpath}/**/bin/**/*" />				                
+				<include name="${workingpath}/**/.svn/**/*" />
+                <include name="${workingpath}/**/obj/**/*" />
+            </fileset>
+		</delete>
+
+    </target>
+</project>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<automation-script>
+    <var name="start" value="4" />
+    <var name="max" value="4" />
+    <var name="increment" value="1" />
+        
+    <for loop="var ndx = 0; ndx less_than_equal max; ndx += increment">
+        <command name="CountTest" index="${ndx}" />
+    </for>
+</automation-script>

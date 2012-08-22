@@ -1,0 +1,8 @@
+In order to build the help file the following is assumed to be installed 
+on default paths (or other places added to the system path).
+
+1. Visual studio 2010.
+2. HTML help workshop.
+3. Sandcastle (http://sandcastle.codeplex.com/).
+4. Sandcastle help file builder (http://shfb.codeplex.com/). Note that this requires
+   a reboot to set an environment variable, even if one is not asked for.

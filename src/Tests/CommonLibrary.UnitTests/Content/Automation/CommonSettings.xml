@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<automation-script>
+    <var name="first" value="kishore" />
+    <var name="last" value="reddy" />
+    <var name="age" value="101" />
+    <var name="birthdate" value="2/2/1979" />
+    <var name="active" value="true" />
+    <var name="major" value="0" />
+    <var name="minor" value="9" />
+    <var name="revision" value="7" />
+    <var name="comlibversion" value="${major}.${minor}.${revision}" />
+</automation-script>

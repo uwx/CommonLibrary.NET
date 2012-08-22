@@ -1,0 +1,77 @@
+
+
+1. sp_executesql
+2. replace -- and '
+3. remove sp_executesql
+
+asp.net
+- htmlencode attributeencode all output
+	- @, <%, HtmlEncode(), HtmlAttributeEncode() Warning: <:# (databinding) 
+	- no dynamic attributes <div onclick={dynamic text}>
+- avoid validateRequest = false
+- WYSIWYG editor for html:
+	- encode output before post
+	- mvc3: [AllowHtml] on Model property - No[ValidateInput(false)]
+	
+Preventing XSS - Additional
+Should you store your data encoded?
+	- Not encoded, but sanitized
+	Encoding & storing can lead to double encoding:
+		< -> &lt; -> &amp;lt; -> &amp;amp;let
+	- Test controls
+	- Audit all locations data is dynamically displayed <%, <%#
+	
+	
+CSRF: CROSS-SITE REQUREST FORGERY
+Attacker crafts a request the user executes http://mycms.com/admin/post/delete/123 via a get
+
+- Image can be embeeded in email:
+	<img src"http://host/createuser?janedoe">
+	
+- Attacked via XSS
+	<script scr="http://host/createuser?JaneDoe">
+	<iframe src="http://host/createuser?JaneDoe">
+	
+- Invisible actions via the Image object
+   var foo = new Image(); foo.src = "http://host/createuser?janedoe";
+
+- All "actions" through POST only
+- Get requests only return data
+- Use hidden form token
+- Token required for POST
+- Html.AntiForgeryToken
+- HttpPost]
+- ValidateAntiForgeryToken]   
+
+
+PREVENTING TAMPERING
+Validate data on server
+Hash key field for comparison
+	- secure-coding.com's [ValidateAntiModelInjectionFor()]
+
+	
+ENCRYPTION
+Encrypt sensitive config settings
+Hash or Encrypt all passwords
+Encrypt all sensitive private information
+Encrypt after deployment to avoid machine key issues
+
+
+PROTECTING CREDENTIALS
+- All pages uses SSL
+- Credential / token usually sent on every request
+- httpOnly cookies prevent client script access - use always
+- Forms authentication requires SSL
+- No session info in the URI
+- Session hijacking only takes "one cookie value"!
+
+
+INFORMATION LEAKAGE
+- Implement <customErrors>
+- Test various types of errors ( 404, 500, etc )
+- Ensure all tracing is disabled
+	- Disable all page level tracing
+	- Search for tracing in web.config
+	- Try accessing trace.axd
+
+ 

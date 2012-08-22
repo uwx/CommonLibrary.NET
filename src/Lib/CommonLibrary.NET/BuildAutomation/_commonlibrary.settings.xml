@@ -1,0 +1,61 @@
+<project xmlns="http://nant.sf.net/release/0.85-rc3/nant.xsd" default="">
+
+	<!-- APPLICATION   level -->
+	<property name="app.base.dir" value="C:\Install\CommonLibrary.NET\CommonLibrary.NET_0.9.5"/>
+	<property name="app.source.dir" value="Src"/>
+	<property name="app.publish.dir" value="${app.base.dir}\dist"/>
+	<property name="app.test.dir" value="Src\Tests"/>
+	<property name="app.name" value="commonlibrary.net" />
+    <property name="tools.dir" value="C:\dev\tools" />
+	
+	<!-- VERSION  AND   LABEL/BUILD  roperties -->
+	<property name="versioning.workDir" value="Src"/>
+	<property name="versioning.isValidCruiseControlLabel" value="false" />
+	<property name="build.label.prefix" value="${app.name}_"/>
+	<property name="build.version.major" value="0"/>
+	<property name="build.version.minor" value="9"/>
+	<property name="build.version.revision" value="5"/>
+	<property name="build.version.build" value="2"/>
+	<property name="build.version" value="${build.version.major}.${build.version.minor}.${build.version.revision}.${build.version.build}"/>
+	<property name="build.label" value="${build.label.prefix}${build.version}" />
+	
+	<!-- COMPILATION  properties -->
+	<property name="compile.configuration" value="Debug"/>
+	<property name="compile.target" value="Rebuild"/>
+	<property name="compile.compiler" value="C:\WINNT\Microsoft.NET\Framework\v3.5\msbuild.exe"/>
+	<property name="compile.solutionOrProject" value="${app.base.dir}\ide\CommonLibrary.SampleApp.sln" />
+	<property name="compile.workingDir" value="${app.base.dir}" />
+	
+	<!-- UNIT  TEST  properties. -->
+	<property name="unittests.testrunner.path" value="C:\Dev\Tools\NUnit\2.4\net2.0\bin\nunit-console.exe" />
+	<property name="unittests.projectFile.dir" value="${app.base.dir}\Build" />
+	<property name="unittests.projectFile" value="_${app.name}.nunit" />
+	<property name="unittests.config" value="Default" />
+	<property name="unittests.xmlResultsFile" value="${app.base.dir}\Build\Output\unittest.Results.xml" />
+	<property name="unittests.workingDir" value="${app.publish.dir}\${compile.configuration}" />	
+	<property name="unittests.logfile" value="unittestlogfile.txt" />
+	
+	<!-- FX COP   related properties. -->
+	<property name="fxcop.path" value="C:\Dev\Tools\FxCop\1.35\fxcopcmd.exe" />
+	<property name="fxcop.projectFile.dir" value="C:\kishore\TestApp\Build" />
+	<property name="fxcop.projectFile" value="_${app.name}.fxcop" />
+	<property name="fxcop.xmlResultsFile" value="unittest.Results.xml" />
+	<property name="fxcop.workingDir" value="C:\kishore\TestApp\bin\Debug" />	
+	<property name="fxCop.logfile" value="fxcoplogfile.txt" />
+	
+	<!--  DEPLOY related properties -->
+	<property name="deploy.source.dir" value="${app.publish.dir}\${compile.configuration}" />
+	<property name="deploy.destination.dir" value="${app.publish.dir}\${app.name}_${build.version}" />
+	
+	<!-- CODE  COVERAGE -->
+	<property name="coverage.tool.path" value="C:\Program Files\TestDriven.NET 2.0\NCover\1.5.8\NCover.Console.exe" />
+	<property name="coverage.command" value="C:\Program Files\TestDriven.NET 2.0\NUnit\2.4\nunit-console.exe" />
+	<property name="coverage.commandargs" value="application.nunit /config=Debug /noshadow" />
+	<property name="coverage.assemblies" value="CommonLibrary;CommonLibrary.UnitTests" />
+	<property name="coverage.xmlResultsFile" value="ncover.results.xml" />
+	<property name="coverage.workingDir" value="${app.publish.dir}\${compile.configuration}" />
+	<property name="coverage.outputDir" value="${app.base.dir}\Build\Output" />	
+	<property name="coverage.path.ncoverexplorer.console" value="C:\Program Files\TestDriven.NET 2.0\NCoverExplorer\NCoverExplorer.Console.exe" />
+	<property name="coverage.logfile" value="coveragelogfile.txt" />
+</project>
+

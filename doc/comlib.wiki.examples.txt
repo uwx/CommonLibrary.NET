@@ -1,0 +1,2366 @@
+{anchor:Back to top}
+!! Examples for components
+*Note:* The examples on this page may represent only a part of the full example file available in the directory:
+*{"<ROOT>\src\lib\CommonLibrary.NET\_Examples\"}*
+
+|	[#Account]	|	[#Authentication]	|	[#Cache]	|	[#Csv]	|	[#Environments]	|	[#HolidayCalendar]	|	[#Notifications]	|	[#Scheduler]	|
+|	[#ActiveRecord]	|	[#Automation]	|	[#CodeGenerator]	|	[#Database]	|	[#Errors]	|	[#ImportExport]	|	[#Paging]	|	[#Scripts]	|
+|	[#Application]	|	[#BenchMark]	|	[#Config]	|	[#Diagnostics]	|	[#Extensions]	|	[#Location]	|	[#QueueProcessor]	|	[#ToDo]	|
+|	[#Arguments]	|	[#BootStrapper]	|	[#Cryptography]	|	[#Entity]	|	[#Extensions_Macros]	|	[#Logging]	|	[#Repository] | [#Validation]	|
+
+
+{anchor:Account}
+! Account
+*Description:* Account component for Users/Groups/Roles. (With easily pluggable repository)
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* Account\User.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#698467]
+*Example:* {"<Samples_Dir>"}\Example_Account.cs
+{code:c#}
+using ComLib;
+using ComLib.Entities;
+using ComLib.Account;
+
+
+ // 1. Create.
+ User account = new User("kishore", "password", "kishore@abc.com", true);
+ User.Create(account);
+
+ // 2. ChangePassword.
+ User.ChangePassword("kishore", "password", "password2");
+
+ // 3. Approve the user.
+ User.Approve("kishore");
+
+ // 4. Verify username and password.
+ User.VerifyUser("kishore", "password2");
+
+ // 5. Logon the user. Only updates the "LastLoginDate" in his account.
+ User.LogOn("kishore", "password2", false);
+
+ // 6. Lock out the user.
+ User.LockOut("kishore", "spamming users");
+
+ // 7. Undo the lockout.
+ User.UndoLockOut("kishore", "false alarm");
+ 
+{code:c#}
+[#Back to top]
+
+{anchor:ActiveRecord}
+! ActiveRecord
+*Description:* Light-weight ActiveRecord pattern supporting CRUD/Find methods. Single entity-table relationships only
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* ActiveRecord\ActiveRecord.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#479891]
+*Example:* {"<Samples_Dir>"}\Example_ActiveRecord.cs
+{code:c#}
+using ComLib;
+using ComLib.Entities;
+using ComLib.Extensions;
+
+
+/// <summary>
+/// ActiveRecord type 2:
+/// Combined entity and active record functionality.
+/// </summary>
+private class Person : ActiveRecordBaseEntity<Person>
+{
+    public string Name { get; set; }
+    public string About { get; set; }
+    public int Age { get; set; }
+    public bool IsManager { get; set; }
+    public DateTime StartDate { get; set; }
+    public string Email { get; set; }
+    public string Phone { get; set; }
+    public string Url { get; set; }
+}
+
+
+/// <summary>
+/// Run the application.
+/// </summary>
+public override BoolMessageItem Execute()
+{
+    int lastId = 0;
+    int sampleCount = 10;
+    
+    // 1. Create.
+    sampleCount.Times( ndx =>
+    {
+        var newPerson = new Person()
+        {
+            Name = "John", Age = ndx, Email = "john" + ndx + "@y.com",
+            IsManager = ndx % 2 == 0, StartDate = DateTime.Today.AddDays(-1 * ndx),
+            Phone = "111-111-111" + ndx, Url = "http://john" + ndx + ".com"
+        };
+        newPerson.Create();
+        lastId = newPerson.Id;
+    });
+
+    // 2. Retrieve.
+    Person person = Person.Get(lastId);
+    Console.WriteLine("Retrieved {0}", person.Name);
+
+    // 3. Update
+    person.UpdateComment = "testing update";
+    person.Update();
+    Person afterUpdate = Person.Get(person.Id);
+    Console.WriteLine(afterUpdate.UpdateComment);
+                
+    // 4. Delete
+    person.Delete();
+    if (Person.Get(person.Id) == null)
+        Console.WriteLine("deleted");
+
+    // 6. Get All
+    IList<Person> all = Person.GetAll();
+
+    // 7. Get 1st Page
+    PagedList<Person> page1 = Person.Get(1, 3);
+
+    return BoolMessageItem.True;
+}
+{code:c#}
+[#Back to top]
+
+{anchor:Application}
+! Application
+*Description:* A template base class for any application, providing environment selection(Dev,Qa,Prod), logging, error handling, configuration and exit codes support.
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* Application\App.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#480461]
+*Example:* {"<Samples_Dir>"}\Example_AppTemplate.cs
+{code:c#}
+using ComLib;
+using ComLib.Application;
+
+
+/// <summary>
+/// Validate arguments passed, if they are valid, accept them.
+/// </summary>
+/// <remarks>This is the first method called in the workflow,
+/// because the arguments supplied can determine how to initialize
+/// the application.</remarks>
+/// <param name="args">Command line arguments supplied.</param>
+/// <returns>True if args are valid, false otherwise.</returns>
+public override bool Accept(string[] args)
+{
+    Logger.Info("\r\n\r\n==================================");
+    Logger.Info("Example_AppTemplate Accept(args) called.");
+    Logger.Info("Validating & Accepting arguments passed");
+    bool accepted = base.Accept(args);
+    if (accepted)
+    {
+        StartupArgs startupArgs = Settings.ArgsReciever as StartupArgs;
+        Logger.Info("Using Arguments ===========================");
+        Logger.Info("Environment         : " + startupArgs.Envrionment);
+        Logger.Info("BusinessDate        : " + startupArgs.BusinessDate);
+        Logger.Info("Config              : " + startupArgs.Config);
+        Logger.Info("Log                 : " + startupArgs.LogFile);
+        Logger.Info("ReadonlyMode        : " + startupArgs.ReadonlyMode); 
+        Logger.Info("CategoriesToDisplay : " + startupArgs.CategoriesToDisplay);
+        Logger.Info("DefaultSettingsId   : " + startupArgs.DefaultSettingsId);                
+    }
+    return accepted;
+}
+
+
+/// <summary>
+/// Initialize
+/// </summary>
+public override void Init()
+{
+    Logger.Info("\r\n\r\n==================================");
+    Logger.Info("Example_AppTemplate Init() called.");
+    Logger.Info("Initializing application from command line args.");
+    
+    StartupArgs args = Settings.ArgsReciever as StartupArgs;
+
+    // 1. Configure logging : Append a new file logger to default logger.
+    Logger.Default.Append(new LogFile("Example_AppTemplate_LogFile", args.LogFile));
+
+    // 2. Configure configuration data.
+    Config.Init(new IniDocument(args.Config, GetSampleContents("dev"), false));
+}
+
+
+/// <summary>
+/// Run the application.
+/// </summary>
+public override BoolMessageItem Execute()
+{
+    Logger.Info("\r\n\r\n==================================");            
+    Logger.Info("Example_AppTemplate Execute() called.");
+    Logger.Info("Executing business logic here...");
+    return BoolMessageItem.True;
+}
+
+
+/// <summary>
+/// Shutdown various services.
+/// </summary>
+public override void ShutDown()
+{
+    Logger.Info("\r\n\r\n==================================");            
+    Logger.Info("Example_AppTemplate ShutDown() called.");
+    Logger.Info("Shutting down application and dependent services.");
+    Logger.ShutDown();            
+}
+{code:c#}
+[#Back to top]
+
+{anchor:Arguments}
+! Arguments
+*Description:* Command line arguments parser: supports named/positional args, and several other features
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* Arguments\Args.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#479889]
+*Example:* {"<Samples_Dir>"}\Example_Arguments.cs
+{code:c#}
+using ComLib;
+    Args.InitServices((textargs) => ComLib.LexArgs.ParseList(textargs), (arg) => ComLib.Subs.Substitutor.Substitute(arg));
+
+    // Sample raw command line args.
+    string[] rawArgs = new string[] { "-config:prod.xml", "-date:${t-1}", "-readonly:true", "myApplicationId" };
+
+    // Option 1. Statically parse using -, : as prefix/separator.
+    Args args = Args.Parse(rawArgs, "-", ":").Item;
+    Console.WriteLine("Config : {0},  BusinessDate : {1}, [0] : {2}", args.Named["config"], args.Named["date"], args.Positional[0]);
+
+    // Option 2. Statically parse args and apply them on an object.
+    StartupArgs reciever = new StartupArgs();
+    bool accepted = Args.Accept(rawArgs, "-", ":", reciever);
+    Console.WriteLine(string.Format("Accepted config : {0}, date : {1}, readonly : {2}, settingsId: {3}",
+                      reciever.Config, reciever.BusinessDate, reciever.ReadonlyMode, reciever.DefaultSettingsId));
+
+    // Option 3: Instance based parsing with Fluent-like Schema population.
+    Args args2 = new Args("-", ":").Schema.AddNamed<string>("config").Required.DefaultsTo("dev.xml").Describe("Configuration file")
+                                          .AddNamed<bool>("readonly").Required.DefaultsTo(false).Describe("Run app in readonly mode")
+                                          .AddNamed<DateTime>("date").Required.DefaultsTo(DateTime.Today).Interpret.Describe("Business date").Examples("${t-1}", "${today} | ${t-1}")
+                                          .AddPositional<int>(0).Optional.Describe("Application Id").Args;
+    args2.DoParse(rawArgs);
+
+    // Check for -help, -version -info
+    rawArgs = new string[] { "-help" };
+    Args args3 = new Args(rawArgs, "-", ":");
+    if (args3.IsHelp)
+    {
+        // Usage Option 1. Show usage of the arguments.
+        Console.WriteLine(args2.GetUsage("My Sample Application"));
+
+        // Usage Option 2. Display usage using reciever. 
+        // ( NOTE: -help is automatically interpreted to display args usage).
+        ArgsUsage.ShowUsingReciever(Settings.ArgsReciever, Settings.ArgsPrefix, Settings.ArgsSeparator);
+    }
+{code:c#}
+[#Back to top]
+
+{anchor:Authentication}
+! Authentication
+*Description:* An pluggable authentication API. Used for web/windows, wraps HttpContext.Current.User and/or Windows Prinicial.
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* Authentication\Auth.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#479892]
+*Example:* {"<Samples_Dir>"}\Example_Authentication.cs
+{code:c#}
+    // 1. Using default authentication ( WINDOWS )
+    // NOTE: Known bug, need to figure out how to determine if admin on windows.
+    Console.WriteLine("====================================================");
+    Console.WriteLine("AUTHENTICATION ");
+    Console.WriteLine("Is authenticated : " + Auth.IsAuthenticated());
+    Console.WriteLine("Is guest         : " + Auth.IsGuest());
+    Console.WriteLine("Is admin         : " + Auth.IsAdmin());
+    Console.WriteLine("UserName         : " + Auth.UserName);
+    Console.WriteLine("UserNameShort    : " + Auth.UserShortName);
+    Console.WriteLine(Environment.NewLine);
+
+    // 2. Use a FAKE authentication ( useful for UNIT-TESTING )
+    UserPrincipal userForUnitTest = new UserPrincipal(2, "kdog", "admin", new UserIdentity(2, "kdog", "custom", false));
+    Auth.Init(new AuthWin("admin", userForUnitTest));
+    Console.WriteLine("Is authenticated : " + Auth.IsAuthenticated());
+    Console.WriteLine("Is guest         : " + Auth.IsGuest());
+    Console.WriteLine("Is admin         : " + Auth.IsAdmin()); 
+    Console.WriteLine("UserName         : " + Auth.UserName);
+    Console.WriteLine("UserNameShort    : " + Auth.UserShortName);
+    
+    // 3. Using ASP.NET authentication ( via HttpContext.Current.User ).
+    // The lambda is used for getting an IPrincipal given a username
+    // who may not be the HttpContext.Current.User
+    Auth.Init(new AuthWeb("admin", (username) => GetUser(username)));
+    // Can not use this obviously.
+
+    // Reset to windows.
+    Auth.Init(new AuthWin());
+    
+{code:c#}
+[#Back to top]
+
+{anchor:Automation}
+! Automation
+*Description:* A light-weight automation runner using xml/command line for running tasks associated with c# classes.
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* Automation\AutomationRunner.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#1197416]
+*Example:* {"<Samples_Dir>"}\Example_Automation.cs
+{code:c#}
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Data;
+using System.Data.Common;
+using System.Security.Cryptography;
+using System.Security.Principal;
+
+using ComLib;
+using ComLib.Automation;
+using ComLib.Application;
+
+
+namespace ComLib.Samples
+{
+    /// <summary>
+    /// Example for the automation component.
+    /// </summary>
+    public class Example_Automation : App
+    {
+        /// <summary>
+        /// Execute the sample
+        /// </summary>
+        /// <returns></returns>
+        public override BoolMessageItem Execute()
+        {
+            string sampleScript =
+@"<automation>	
+	<!-- Variables -->
+	<var name=""first""   value=""kishore"" />
+	<var name=""last""    value=""reddy"" />
+    <var name=""version"" value=""0.9.7"" />
+	
+	<!-- commands -->
+	<command name=""helloworld"" email=""${first}.${last}@mysite.com"" subject=""CommonLibrary.NET ${version} is out"" />
+</automation>";
+
+
+            // create script runner and tell it to run xml scripts, and to load
+            // the commands from the CommonLibrary.dll which
+            // only has one command ( bottom of this file "CommandHelloWorld" ).
+            var runner = new AutomationRunner("xml", "Commonlibrary");
+            
+            // 1. Xml automation script
+            var results = runner.RunText(sampleScript);
+            runner.WriteResultsToFile("c:/temp/automation.xml");
+
+            // 2. Command Line style automation script
+            runner.Init("cmd", "CommonLibrary");
+            runner.RunText(@"helloword email=""kishore@c.com"" subject=""comlib automation component""");
+            return new BoolMessageItem(null, true, string.Empty);
+        }
+    }
+
+
+    
+    /// <summary>
+    /// Sample command for showing the automation component.
+    /// </summary>
+    [Command(Name="HelloWorld")]    
+    public class CommandHelloWorld : Command
+    {
+        /// <summary>
+        /// Execute the command.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        protected override BoolMessageItem DoExecute(CommandContext context)
+        {
+            var name = Get<string>("name");
+            var version = Get<string>("subject");
+            Console.WriteLine("HelloWorld command running with args: " + name + ", " + version);
+            return new BoolMessageItem("helloworld command can return a value", true, string.Empty);
+        }
+    }
+}
+{code:c#}
+[#Back to top]
+
+{anchor:BenchMark}
+! BenchMark
+*Description:* Light-weight class to provide benchmarking support to measure time used to run code.
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* BenchMark\BenchMark.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#1037500]
+*Example:* {"<Samples_Dir>"}\Example_BenchMark.cs
+{code:c#}
+    // Example 1: Get a benchmark by running an action.
+    BenchmarkResult result = Benchmark.Run(() => Console.WriteLine("Get benchmark using run method."));
+
+    // Example 2: Get a benchmark by running a named action with a message.
+    var result2 = Benchmark.Run("Example 2", "Running named benchmark", () => Console.WriteLine("Running example 2"));
+
+    // Example 3: Run an action and report the benchmark data.
+    Benchmark.Report("Example 3",  "Reporting benchmark", (res) => Console.WriteLine(res.ToString()), () => Console.WriteLine("Running example 3"));
+    Benchmark.Report("Example 3b", "Reporting benchmark", null, () => Console.WriteLine("Running example 3b"));
+
+    // Example 4: Get instance of Benchmark service and run multiple reports on it.
+    Benchmark.Get("Example 4", "testing", null, (bm) =>
+    {
+        bm.Run("4a", "testing", () => Console.WriteLine("Running 4a"));
+        bm.Run("4b", "testing", () => Console.WriteLine("Running 4b"));
+        bm.Run("4c", "testing", () => Console.WriteLine("Running 4c"));
+    });
+    
+    // Example 5: Get instace of benchmark service manually.
+    var bm2 = new BenchmarkService("Example 5", "manually instance of bm service", null);
+    bm2.Run(() => Console.WriteLine("Running example 5"));
+{code:c#}
+[#Back to top]
+
+{anchor:BootStrapper}
+! BootStrapper
+*Description:* Runs tasks on startup and shutdown of an application.
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* BootStrapper\BootStrapper.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#902918]
+*Example:* {"<Samples_Dir>"}\Example_BootStrapper.cs
+{code:c#}
+    var bootup = new BootStrapper();
+    // Example 1:  Non-Fluent API to configure Bootup services on startup.
+    //
+    // 1. Put into group called "core", parameter "core"
+    // 2. With Importance as High. parameter "Importance.High"
+    // 3. They must succeed without exception or the entire bootup fails. parameter "false"
+    bootup.OnStart("Authentication", "core", BootTask.Importance.High, false, (ctx) => Auth.Init(new AuthWin()));
+    bootup.OnStart("Environment",    "core", BootTask.Importance.High, false, (ctx) => Env.Change("qa"));
+    bootup.OnStart("Logging Support", "core", BootTask.Importance.High, false, (ctx) => Console.WriteLine("Logging setup in call base.Init(context);"));
+    
+
+    // Example 2: Fluent API to configure bootup services on startup.
+    //
+    // 1. put into group called "myapp".
+    // 2. Various levels of importance.            
+    bootup.OnStart(BootTask.Named("Themes").InGroup("app").PriorityHigh.MustSucceed().ActionIs((ctx)     => Console.WriteLine("Themes setup")));
+    bootup.OnStart(BootTask.Named("Widgets").InGroup("app").PriorityHigh.MustSucceed().ActionIs((ctx)    => Console.WriteLine("Widgets setup")));
+    bootup.OnStart(BootTask.Named("Profiles").InGroup("app").PriorityNormal.CanFail().ActionIs((ctx)     => Console.WriteLine("Profiles setup")));
+    bootup.OnStart(BootTask.Named("MVC Areas").InGroup("mvc").PriorityHigh.MustSucceed().ActionIs((ctx)  => Console.WriteLine("MVC Areas setup")));
+    bootup.OnStart(BootTask.Named("MVC Routes").InGroup("mvc").PriorityHigh.MustSucceed().ActionIs((ctx) => Console.WriteLine("MVC Routes setup")));
+    
+    // Example 3: Run all Startup services.
+    bootup.StartUp(new AppContext());
+   
+    // Example 4: Run only selected startup services.
+    bootup.StartUp(new AppContext(), new string[] { "Environment", "Logging Support" });
+
+    // Example 5: Get status info for all the tasks and write to console.
+    bootup.GetStartupStatus().ForEach(task =>
+                Console.WriteLine(string.Format("Task Name: {0}, Group: {1}, Passed: {2}, Importance: {3}, Time: {4}",
+                                                  task.Name, task.Group, task.Success, task.Priority.ToString(), task.ExecutedOn.ToShortTimeString())));
+{code:c#}
+[#Back to top]
+
+{anchor:Cache}
+! Cache
+*Description:* Cache w/ default implementation using HttpRuntime. Can prefix keys and inspect/describe elements in cache.
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* Cache\Cache.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#479888]
+*Example:* {"<Samples_Dir>"}\Example_Cache.cs
+{code:c#}
+using ComLib;
+using ComLib.Caching;
+
+
+    Cacher.Insert("my_site", "http://www.ufc.com");
+    Cacher.Insert("my_show", "ufc: ultimate fighting");
+    Cacher.Insert("my_place", "bahamas", 360, true);
+    Cacher.Get<string>("my_framework", 30, () => "commonlibrary.net");
+
+    Console.WriteLine("====================================================");
+    Console.WriteLine("CACHE ");
+    Console.WriteLine("Obtained from cache : '" + Cacher.Get<string>("my_site") + "'");
+    Console.WriteLine("Contains cache for 'my_show' : " + Cacher.Contains("my_show"));
+    Console.WriteLine(Environment.NewLine);
+    
+{code:c#}
+[#Back to top]
+
+{anchor:CodeGenerator}
+! CodeGenerator
+*Description:* Fluent based entity generator for CommonLibrary entities
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* CodeGen\Builds\CodeBuilder.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#480391]
+*Example:* {"<Samples_Dir>"}\Example_CodeGenerator.cs
+{code:c#}
+ModelContainer models = new ModelContainer()
+{
+    Settings = settings,
+    ExtendedSettings = new Dictionary<string, object>() { },
+    
+    // Model definition.
+    AllModels = new List<Model>()
+    {
+        new Model("ModelBase")
+                .AddProperty<int>( "Id").Required.Key
+                .AddProperty<DateTime>( "CreateDate").Required
+                .AddProperty<DateTime>( "UpdateDate").Required
+                .AddProperty<string>( "CreateUser").Required.MaxLength("20")
+                .AddProperty<string>( "UpdateUser").Required.MaxLength("20")
+                .AddProperty<string>( "UpdateComment").Required.MaxLength("150")
+                .AddProperty<bool>( "IsActive").Required.DefaultTo(1).Mod,
+
+        new Model("Address")
+                .AddProperty<string>("Street").Range("-1", "40")
+                .AddProperty<string>("City").Range("-1", "30")
+                .AddProperty<string>("State").Range("-1", "20")
+                .AddProperty<string>("Country").Range("-1", "20")
+                .AddProperty<string>("Zip").Range("-1", "10")
+                .AddProperty<int>("CityId")
+                .AddProperty<int>("StateId")
+                .AddProperty<int>("CountryId")
+                .AddProperty<bool>("IsOnline").Mod,                    
+
+        new Model("User")
+                .BuildCode().BuildTable("Users").BuildInstallSqlFile()
+                .BuildActiveRecordEntity().NameSpaceIs("ComLib.WebModules.Account")
+                .InheritsFrom("ModelBase")
+                .AddProperty<string>("UserName").Required.Range("3", "20")
+                .AddProperty<string>("UserNameLowered").Required.Range("3", "20")
+                .AddProperty<string>("Email").Required.Range("7", "30")
+                .AddProperty<string>("EmailLowered").Required.Range("7", "30")
+                .AddProperty<string>("Password").Required.Range("5", "100")
+                .AddProperty<string>("Roles").Range("-1", "50")
+                .AddProperty<string>("MobilePhone").Range("10", "20")
+                .AddProperty<string>("SecurityQuestion").Range("-1", "150")
+                .AddProperty<string>("SecurityAnswer").Range("-1", "150")
+                .AddProperty<string>("Comment").Range("-1", "50")
+                .AddProperty<bool>("IsApproved")
+                .AddProperty<bool>("IsLockedOut")
+                .AddProperty<string>("LockOutReason").Range("-1", "50")
+                .AddProperty<DateTime>("LastLoginDate").Required
+                .AddProperty<DateTime>("LastPasswordChangedDate").Required
+                .AddProperty<DateTime>("LastPasswordResetDate").Required
+                .AddProperty<DateTime>("LastLockOutDate").Required.Mod,
+
+        new Model("Comment")
+                .BuildCode().BuildTable("Comments").BuildInstallSqlFile()
+                .BuildActiveRecordEntity().NameSpaceIs("ComLib.WebModules.Comments")
+                .InheritsFrom("ModelBase")
+                .AddProperty<int>("RefId")
+                .AddProperty<string>("Title").Required.Range("1", "100")
+                .AddProperty<string>("Content").Required.Range("3", "250")
+                .AddProperty<int>("Rating").Mod,
+        
+        new Model("Event")
+                .BuildCode().BuildTable("Events").BuildInstallSqlFile()
+                .BuildActiveRecordEntity().NameSpaceIs("ComLib.WebModules.Events")
+                .InheritsFrom("ModelBase")
+                .HasOne("User").OnKey("UserId")
+                .HasMany("Comment").OnForeignKey("RefId")
+                .HasComposition("Address")
+                .AddProperty<int>("UserId")
+                .AddProperty<string>("Title").Required.Range("2", "150")
+                .AddProperty<string>("Summary").Required.Range("-1", "200")
+                .AddProperty<StringClob>("Description").Required.Range("2", "-1")
+                .AddProperty<DateTime>("StartDate").Required
+                .AddProperty<DateTime>("EndDate").Required
+                .AddProperty<int>("StartTime")
+                .AddProperty<int>("EndTime")
+                .AddProperty<string>("Email").Range("-1", "30").RegEx("RegexPatterns.Email")
+                .AddProperty<string>("Phone").Range("-1", "10").RegEx("RegexPatterns.PhoneUS")
+                .AddProperty<string>("Url").Range("-1", "150").RegEx("RegexPatterns.Url")
+                .AddProperty<string>("Keywords").Range("-1", "150").RegEx("RegexPatterns.Url")
+                .AddProperty<int>( "AverageRating")
+                .AddProperty<int>( "TotalLiked")
+                .AddProperty<int>( "TotalDisLiked")
+                .AddProperty<int>( "TotalBookMarked")
+                .AddProperty<int>( "TotalAbuseReports").Mod,
+    }            
+};
+{code:c#}
+[#Back to top]
+
+{anchor:Config}
+! Config
+*Description:* Provides inheritance based configuration data from files or databases
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* Config\Config.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#480390]
+*Example:* {"<Samples_Dir>"}\Example_Config.cs
+{code:c#}
+using ComLib;
+using ComLib.Configuration;
+
+
+/// <summary>
+/// Using a single file for configuration.
+/// </summary>
+public void SingleFile()
+{           
+    // Initialize the static configuration with the provider.
+    Config.Init(new IniDocument("dev.config", GetSampleContents("blogdev"), false));
+
+    Console.WriteLine("Config Name           :  " + Config.Name);
+    Console.WriteLine("Config Source         :  " + Config.SourcePath);
+    Console.WriteLine("Global.Category       :  " + Config.Get<string>("Global", "Category"));
+    Console.WriteLine("Global.Days           :  " + Config.Get<int>("Global", "Days"));
+    Console.WriteLine("Class.Title           :  " + Config.Get<string>("Class", "Title"));
+    Console.WriteLine("Class.Date            :  " + Config.Get<DateTime>("Class", "Date"));
+    Console.WriteLine("Class.IsOnline        :  " + Config.Get<bool>("Class", "LastFtpDate"));
+    Console.WriteLine("Class.Cost            :  " + Config.Current["Class", "Cost"]);
+    Console.WriteLine(Environment.NewLine);
+}
+
+
+/// <summary>
+/// This example shows how the prod.config configsource can be merged
+/// with the dev.config to "inherit" all it's settings.
+/// </summary>
+public void Inheritance()
+{            
+    // List of files.
+    // prod.config inherits from dev.config.
+    var configs = new List<IConfigSource>()
+    {
+        new IniDocument("prod.config", GetSampleContents("prod"), false),
+        new IniDocument("dev.config", GetSampleContents("dev"), false)
+    };
+
+    // Intialize w/ the provider.
+    Config.Init(new ConfigSourceMulti(configs));
+
+    // NOTE: 
+    // 1. Global.AppName inherited from dev.config.
+    // 2. DB.desc comes from prod.config.
+    // 3. DB.server from prod.config overriden with same value from dev.config.
+    Console.WriteLine("Config Name           :  " + Config.Name);
+    Console.WriteLine("Config Source         :  " + Config.SourcePath);
+    Console.WriteLine("Global.AppName        :  " + Config.Get<string>("Global", "AppName"));
+    Console.WriteLine("Global.Env            :  " + Config.Get<string>("Global", "Env"));
+    Console.WriteLine("DB.server             :  " + Config.Get<string>("DB", "server"));
+    Console.WriteLine("DB.user               :  " + Config.Get<string>("DB", "user"));
+    Console.WriteLine("DB.password           :  " + Config.Get<string>("DB", "password"));
+    Console.WriteLine("DB.port               :  " + Config.Current["DB", "port"]);
+    Console.WriteLine("DB.desc               :  " + Config.Current["DB", "desc"]);
+}
+{code:c#}
+[#Back to top]
+
+{anchor:Cryptography}
+! Cryptography
+*Description:* Cryptographic services for encrypting, decrypting, hashing
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* Cryptography\Cryptography.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#479887]
+*Example:* {"<Samples_Dir>"}\Example_Cryptography.cs
+{code:c#}
+using ComLib;
+using ComLib.Cryptography;
+using ComLib.Cryptography.DES;
+
+
+// 1. Encrypt using default provider. ( Symmetric TripleDes )
+string plainText = "www.knowledgedrink.com";
+string encrypted = Crypto.Encrypt(plainText);
+string decrypted = Crypto.Decrypt(encrypted);
+
+Console.WriteLine("====================================================");
+Console.WriteLine("CRYPTOGRAPHY ");
+Console.WriteLine("Encrypted : " + plainText + " to " + encrypted);
+Console.WriteLine("Decrypted : " + encrypted + " to " + decrypted);
+Console.WriteLine(Environment.NewLine);
+
+// 2. Use non-static encryption provider.
+ICrypto crypto = new CryptoHash("commonlib.net", new MD5CryptoServiceProvider());
+string hashed = crypto.Encrypt("my baby - 2002 honda accord ex coupe");
+Console.WriteLine(hashed);
+
+// 3. Change the crypto provider on the static helper.
+ICrypto crypto2 = new CryptoSym("new key", new TripleDESCryptoServiceProvider());
+Crypto.Init(crypto2);
+string encryptedWithNewKey = Crypto.Encrypt("www.knowledgedrink.com");
+Console.WriteLine(string.Format("Encrypted text : using old key - {0}, using new key - {1}", encrypted, encryptedWithNewKey));
+
+// 4. Generate the check value of a 3DES key by encrypting 16 hexadecimal zeroes.
+DESKey randomKey = new DESKey(DesKeyType.TripleLength);
+string keyCheckValue = ComLib.Cryptography.DES.TripleDES.Encrypt(randomKey, "0000000000000000");
+Console.WriteLine(string.Format("3DES key: {0} with check value {1}", randomKey.ToString(), keyCheckValue));
+{code:c#}
+[#Back to top]
+
+{anchor:Csv}
+! Csv
+*Description:* Csv parser to parse .csv ( delimited files ) and a light-weight Csv writer
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* Csv\Csv.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#480402]
+*Example:* {"<Samples_Dir>"}\Example_Csv.cs
+{code:c#}
+// See CommonLibrary.UnitTests Source code for actual csv files.
+string text = GetSampleCsv();
+CsvDoc csv = Csv.LoadText(text, true);
+
+// 1. Get cell at row 0, column 1
+string cell0 = csv.Get<string>(0, 1);
+
+// 2. Get cell at row 0, column called "FilePath"
+string cell2 = csv.Get<string>(0, "FilePath");
+
+// 3. Number of columns
+var colCount = csv.Columns.Count;
+
+// 4. Number of rows
+var rowCount = csv.Data.Count;
+
+// 5. Column name at index 2
+var col2 = csv.Columns[1];
+
+// 6. Get int id at row 2
+var id = csv.Get<int>(2, 0);
+
+// 7. Iterate over all the cells in column named "Date" starting at row 0.
+csv.ForEach<DateTime>("Date", 0, (row, col, val) => 
+{
+    Console.WriteLine(string.Format("Row[{0}]Col[{1}] : {2}", row, col, val.ToString())); 
+});
+
+// 8. Get the csv data as a datatable.
+DataTable table = csv.ToDataTable("My_Sample_Data");
+
+// 9. Iterate over rows / columns
+for(int row = 0; row < csv.Data.Count; row++)
+{
+    for (int col = 0; col < csv.Columns.Count; col++)
+    {
+        string cellVal = csv.Data[row][col] as string;
+    }
+}
+{code:c#}
+[#Back to top]
+
+{anchor:Database}
+! Database
+*Description:* Provides simplified access to multiple database related operations
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* Database\Database.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#785843]
+*Example:* {"<Samples_Dir>"}\Example_Database.cs
+{code:c#}
+var db = new Database("Server=kishore_pc1;Database=testdb;User=testuser1;Password=password;", "System.Data.SqlClient");
+
+// 1. Get Datatable using sql text.
+var table = db.ExecuteDataTableText("select * from users", null);
+
+// 2. Get scalar value using sql text
+var scalar1 = db.ExecuteScalarText("select count(*) from users", null);
+
+// 3. Get dataset using sql text
+var dataset1 = db.ExecuteDataSetText("select * from users");
+
+// 4. Non-Query using sql
+db.ExecuteNonQueryText("update users set IsActive = 1");
+            
+// 5. Get data reader.
+db.ExecuteReaderText("select * from users", reader => Console.WriteLine("process reader"));
+
+// 6. Get a connection
+var con1 = db.GetConnection();
+
+// 7. Get a command
+var cmd1 = db.GetCommand(db.GetConnection(), "GetUser", CommandType.StoredProcedure);
+
+// 8. Run execute method with lamda
+var scalar2 = db.Execute<object>("select max(id) from users", CommandType.Text, null, false, cmd => cmd.ExecuteScalar());
+
+// 9. Query and Map users using RowMapper.
+var userList = db.QueryNoParams<User>("select * from users", CommandType.Text, new UserRowMapper());
+
+// 10. Run in transaction
+
+// 11. Get table using proc and parameters.
+List<DbParameter> args = new List<DbParameter>();
+args.Add(db.BuildInParam("IsActive", DbType.Boolean, 1));
+args.Add(db.BuildInParam("Role", DbType.StringFixedLength, "Moderator"));            
+var table2 = db.ExecuteDataTableProc("GetUsersInRole", args.ToArray());
+{code:c#}
+[#Back to top]
+
+{anchor:Diagnostics}
+! Diagnostics
+*Description:* Provides information on environment variables, processes, loaded modules etc 
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* Diagnostics\Diagnostics.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#479890]
+*Example:* {"<Samples_Dir>"}\Example_Diagnostics.cs
+{code:c#}
+using ComLib;
+// 1. Write out the machine information and loaded dlls.
+Diagnostics.Diagnostics.WriteInfo("MachineInfo,AppDomain", "Diagnostics_MachineInfo_DllsLoaded.txt");
+
+// 2. Write out the environment variables.
+Diagnostics.Diagnostics.WriteInfo("Env_System,Env_User", "Diagnostics_EnvironmentVars.txt");
+{code:c#}
+[#Back to top]
+
+{anchor:Entity}
+! Entity
+*Description:* Domain-Driven-Design based entity classes used for persistance
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* Entity\Entity.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#480166]
+*Example:* {"<Samples_Dir>"}\Example_Entity.cs
+{code:c#}
+using ComLib;
+using ComLib.Entities;
+using ComLib.ValidationSupport;
+using ComLib.Application;
+
+
+/// <summary>
+/// Run the application.
+/// </summary>
+public override BoolMessageItem Execute()
+{
+    Console.WriteLine("====================================================");
+    Console.WriteLine("Entity ");
+
+    // Example 1 : Using Entity base class.
+    IEntity entity = new Person() { Name = "kishore" };
+    Console.WriteLine("Id, Persistant and Audit fields.");
+    Console.WriteLine("These fields are set by EntityService if using CommonLibrary Entity-Model Services.");
+    Console.WriteLine("Id            ", entity.Id);
+    Console.WriteLine("IsPersistant  ", entity.IsPersistant());            
+    Console.WriteLine("CreateDate    ", entity.CreateDate);
+    Console.WriteLine("CreateUser    ", entity.CreateUser);
+    Console.WriteLine("UpdateDate    ", entity.UpdateDate);
+    Console.WriteLine("UpdateUser    ", entity.UpdateUser);
+    Console.WriteLine("UpdateComment ", entity.UpdateComment);
+    
+    // Example 2 : Using Entity<T> generic base class to get the parameterless CRUD methods.
+    // 1st initialize the repositories.
+    EntityRegistration.Register<Person2>(new RepositoryInMemory<Person2>("Id"), false);
+    var p2 = new Person2() { Name = "kishore" };
+    p2.Create();
+    p2.Name = "updated";
+    p2.Update();
+    p2.GetAll();
+    p2.Save();
+    p2.Delete();
+    
+    // Example 3 : Implement IEntityVersionable to get versioning on the entities.
+    // Wrap the real repository w/ the RepositoryVersionable decorator to get versioning behaviour.
+    EntityRegistration.Register<Person3>(new RepositoryVersioned<Person3>(new RepositoryInMemory<Person3>("Id,Version,VersionRefId")), false);
+    var p3 = new Person3();
+    p3.Create();
+    p3.Name = "updated";
+    p3.Update();
+    p3.GetAll();
+
+    var p4 = new Person4();
+    p4.Name = "kishore";
+    p4.Phone = "111-111-1111";
+    p4.RegisterDate = DateTime.Today;
+    p4.About = "artist";
+    p4.Age = 30;
+    p4.Email = "kishore@ny.com";
+    bool isValid = p4.IsValid;
+    return BoolMessageItem.True;
+}
+
+
+/// <summary>
+/// This class just show how to subclass the Entity base class
+/// to get various built-in properties like Id, CreateDate etc.
+/// </summary>
+private class Person : Entity
+{
+    public string Name { get; set; }
+}
+
+
+
+/// <summary>
+/// This class shows how to subclass the generics based Entity(T)
+/// base class to get parameterless CRUD ( Create, Get, Update, Delete, All ) methods.
+/// </summary>
+private class Person2 : Entity<Person2>
+{
+    public string Name { get; set; }
+}
+
+
+
+/// <summary>
+/// This class shows how to implement the IEntityVersioned interface to get
+/// the entities to be versioned in your repository.
+/// </summary>
+private class Person3 : Entity<Person3>, IEntityVersioned
+{
+    public string Name { get; set; }
+
+    /// <summary>
+    /// Current version
+    /// </summary>
+    public int Version { get; set; }
+
+
+    /// <summary>
+    /// Reference to the Id ( primary key ) of the latest version.
+    /// This is > 0 for older/historic versions of the entity.
+    /// The latest version will always have this set to -1.
+    /// </summary>
+    public int VersionRefId { get; set; }
+
+
+    /// <summary>
+    /// Is this the latest version?
+    /// </summary>
+    /// <returns></returns>
+    public bool IsLatestVersion() { return VersionRefId == -1; }
+}
+
+
+
+private class Person4 : Entity<Person4>
+{
+    public string Name { get; set; }
+    public string About { get; set; }
+    public int Age { get; set; }
+    public bool IsLegalAge { get { return Age >= 21; } }
+    public DateTime RegisterDate { get; set; }
+    public string Email { get; set; }
+    public string Phone { get; set; }
+    public string Url { get; set; }
+
+
+    protected override IValidator GetValidator()
+    {
+        var val = new Validator((valEvent) =>
+        {
+            var errors = valEvent.Results;
+            var validator = new ValidatorFluent(this.GetType(), true, errors);
+            validator.Check(() => Name).IsNotNull().IsBetween(1, 50)
+                     .Check(() => Age).Min(18).Max(65)
+                     .Check(() => About).If(!string.IsNullOrEmpty(About)).IsBetween(1, 20)
+                     .Check(() => IsLegalAge).IsTrue()
+                     .Check(() => RegisterDate).IsAfterToday()
+                     .Check(() => Email).IsValidEmail()
+                     .Check(() => Phone).IsValidPhoneUS()
+                     .Check(() => Url).IsValidUrl();
+
+            return validator.HasErrors;
+        });
+        val.Validate();
+        return null;
+    }
+}
+{code:c#}
+[#Back to top]
+
+{anchor:Environments}
+! Environments
+*Description:* Object representation of environments such as "DEV", "QA", "UAT", "PROD"
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* Environments\Environments.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#480720]
+*Example:* {"<Samples_Dir>"}\Example_Environments.cs
+{code:c#}
+using ComLib;
+using ComLib.Environments;
+
+
+/// <summary>
+/// Run the application.
+/// </summary>
+public override BoolMessageItem Execute()
+{
+    //// Setup notification on Environment changed.
+    Env.OnChange += (sender, args) => Console.Write("New Env: " + Env.Name);
+
+    // Use 1: Set to "prod"(PRODUCTION) with default available envs as "prod,uat,qa,dev".
+    Envs.Set("prod");
+    PrintEnvironment();
+
+    // Use 2: Set to "qa"(QA) with default available envs as "prod,qa,dev".
+    Envs.Set("qa", "prod,qa,dev");
+    PrintEnvironment();
+
+    // Use 3: Set to "dev"(DEVELOPMENT) with default available envs as "prod,uat,qa,dev".
+    //        Also set the "dev" env RefPath to "dev.config".
+    Envs.Set("dev", "prod,uat,qa,dev", "dev.config");
+    PrintEnvironment();
+
+    // Use 4: Env Set up & Configuration File Setup WITH-OUT Inheritance
+    //        - Set env to "ny.prod"(PRODUCTION) with default available envs as "ny.prod,london.prod,qa,dev".
+    //        - The "ny.prod" environment name is set to environment type of "prod" via format "<envName>:<envType>" e.g. "myprod:prod"
+    //        - Also set the "ny.prod" env RefPath to use 3 config files "ny.prod.config,london.prod.config,dev.config. ( For config file inheritance ).
+    Envs.Set("ny.prod", "ny.prod:prod,london.prod:prod,qa,dev", "ny.prod.config,london.prod.config,qa.config,dev.config");
+    PrintEnvironment();
+
+    // Use 5: Env Set up & Configuration File Setup WITH-OUT Inheritance but WITH config file distribution.
+    //        - Also set the "ny.prod" env RefPath to use 1 config files "ny.prod.config,london.prod.config,dev.config.
+    Envs.Set("ny.prod", "ny.prod:prod,london.prod:prod,qa,dev", "ny.prod.config,london.prod.config,qa.config,dev.config", true, false);
+    PrintEnvironment();
+
+    // Use 5: Env Set up & Configuration File Setup WITH Inheritance
+    //        - Also set the "ny.prod" env RefPath to use 1 config files "ny.prod.config,london.prod.config,dev.config.
+    Envs.Set("ny.prod", "ny.prod:prod,london.prod:prod,qa,dev", "ny.prod.config,london.prod.config,qa.config,dev.config", true, true);
+    PrintEnvironment();
+
+    // Use 5: Set up the environment using Built objects. 
+    Envs.Set("Dev2", GetSampleEvironments());
+    PrintEnvironment();
+
+
+    // Use 6: Change the environment from the last one ("Dev2").
+    Env.Change("Qa");
+    PrintEnvironment();
+    return BoolMessageItem.True;
+}        
+
+
+/// <summary>
+/// This builds a datastructure of all the environments supported
+/// and the links to the config files for each environment 
+/// and how they are inherited.
+/// 
+/// THIS CAN BE LOADED FROM AN XML, JSON, YAML, INI file or whatever.
+/// </summary>
+/// <returns></returns>
+public static List<EnvItem> GetSampleEvironments()
+{
+    List<EnvItem> envs = new List<EnvItem>()
+    {
+        new EnvItem(){ Name = "Dev",    RefPath ="dev.config",    InheritsDeeply = true,  EnvType = EnvType.Dev,       Inherits = "" },
+        new EnvItem(){ Name = "Dev2",   RefPath ="dev2.config",   InheritsDeeply = true,  EnvType = EnvType.Dev,       Inherits = "" },
+        new EnvItem(){ Name = "Qa",     RefPath ="qa.config",     InheritsDeeply = true,  EnvType = EnvType.Qa,        Inherits = "Dev" },
+        new EnvItem(){ Name = "Prod",   RefPath ="prod.config",   InheritsDeeply = true,  EnvType = EnvType.Prod,      Inherits = "Qa" },
+        new EnvItem(){ Name = "Custom", RefPath ="custom.config", InheritsDeeply = true,  EnvType = EnvType.MixedProd, Inherits = "Prod,Dev2" }
+    };
+    return envs;
+}
+
+
+private void PrintEnvironment()
+{
+    Logger.Info("====================================================");
+    Logger.Info("ENVIRONMENTS ");
+    Logger.Info("Environment name: " + Env.Name);
+    Logger.Info("Environment type: " + Env.EnvType);
+    Logger.Info("Environments #  : " + Env.Count);
+    Logger.Info("Environment inherits: " + Env.Inherits);
+    Logger.Info("Environment file: " + Env.RefPath);
+    Logger.Info("Environment IsProd: " + Env.IsProd);
+    Logger.Info("Environment IsQa: " + Env.IsQa);
+    Logger.Info("Environment IsDev: " + Env.IsDev);
+    Logger.Info(Environment.NewLine);
+}
+{code:c#}
+[#Back to top]
+
+{anchor:Errors}
+! Errors
+*Description:* Collection class combining both list and key/value based string error messages.
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* Errors\Errors.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#804483]
+*Example:* {"<Samples_Dir>"}\Example_Errors.cs
+{code:c#}
+IErrors errors = new Errors();
+
+// 1. Add error message without a key.
+errors.Add("Required data file is not available");
+errors.Add("Web Service has timed out");
+
+// 2. Add errors associated w/ a specific key.
+errors.Add("Url", "Is Invalid");
+errors.Add("Stock", "Symbol is not valid for processing");
+
+// 3. Error count
+Console.WriteLine(errors.Count);
+
+// 4. Build an single error message that combines both the non-key and key based errors.
+Console.WriteLine(errors.Message());
+
+// 5. Indicates if there are any errors.
+Console.WriteLine(errors.HasAny);
+
+// 6. Iterate through all the key/value based errors.
+errors.Each((key, error) => Console.WriteLine("{0} : {1}", key, error));
+
+// 7. Iterate through all the key/value and non-key based errors.
+errors.EachFull(error => Console.WriteLine(error));
+
+// 8. Get the error on a specific key
+Console.WriteLine(errors.On("Url"));
+
+// 9. Copy errors over into another IError collection.
+var errors2 = new Errors();
+errors.CopyTo(errors2);
+
+// NOTE: Exposing the internal list/map is done for error collecting.
+// Though not currently implemented, this may return an IList that is Addable only
+// and an IDictionary<string, string> that is also addable only.
+// Because exposing the internal list isn't generally good.
+// 10. Get reference to internal error list.
+Console.WriteLine(errors.MessageList);
+
+// 11. Get reference to internal error map.
+Console.WriteLine(errors.MessageMap);
+
+// 12. Build the error message using <br/> instead of default Environment.NewLine
+Console.WriteLine(errors.Message("<br/>"));
+{code:c#}
+[#Back to top]
+
+{anchor:Extensions}
+! Extensions
+*Description:* Provides plugin-type functionality to dynamically load specific classes/types from an assembly
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* Extensions\Extensions.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#1190526]
+*Example:* {"<Samples_Dir>"}\Example_Extensions.cs
+{code:c#}
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Data;
+using System.Data.Common;
+using System.Security.Cryptography;
+using System.Security.Principal;
+
+using ComLib;
+using ComLib.Application;
+
+
+namespace ComLib.Samples
+{
+    /// <summary>
+    /// Example of Extensions component to load classes using attributes
+    /// and create instances automatically.
+    /// </summary>
+    public class Example_Extensions : App
+    {   
+        //<doc:execute>
+        /// <summary>
+        /// Run the application.
+        /// </summary>
+        public override BoolMessageItem Execute()
+        {
+            // 1. ExtensionService loads classes with "Extension" attribute w/ interface IBlogWidget
+            var exts = new ExtensionService<ExtensionAttribute, IBlogWidget>();
+
+            // 2. Load extensions/plugins from "CommonLibrary"            
+            exts.Load("CommonLibrary");
+
+            // 3. Get instance of extension with name "BlogWidget_1".
+            IBlogWidget widget = exts.Create("BlogWidget_1");
+            var content = widget.Render();
+
+            return BoolMessageItem.True;
+        }
+        //</doc:execute>
+    }
+
+
+
+    //<doc:exampleref>
+    /// <summary>
+    /// interface for the custom widgets
+    /// </summary>
+    interface IBlogWidget
+    {
+        string Render();
+    }
+
+
+
+    [Extension(Name = "BlogWidget_1", DisplayName = "Blog widget 1", Description = "Blog widget 1")]
+    class SimpleBlogWidget : IBlogWidget
+    {
+        /// <summary>
+        /// Render the widget
+        /// </summary>
+        /// <returns></returns>
+        public string Render()
+        {
+            return "This is blog widget 1";
+        }
+    }
+}
+{code:c#}
+[#Back to top]
+
+{anchor:Extensions_Macros}
+! Extensions_Macros
+*Description:* Similar to wordpress shortcodes. Parses text for macros and replace the macro in text with value returned by macro
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* Macros\MacroService.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#1190527]
+*Example:* {"<Samples_Dir>"}\Example_Extensions_Macros.cs
+{code:c#}
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Data;
+using System.Data.Common;
+using System.Security.Cryptography;
+using System.Security.Principal;
+
+using ComLib;
+using ComLib.Macros;
+using ComLib.Application;
+using ComLib.Extensions;
+
+
+namespace ComLib.Samples
+{
+    /// <summary>
+    /// Example of Macro component to interpret macros or command in text, much like wordpress shortcodes.
+    /// </summary>
+    public class Example_Extensions_Macros : App
+    {
+        private string _macroSampleText1 = @"Local news for $[today format=""MM//dd//yyyy""/] with NY Times.";
+        private string _macroSampleText2 = @"Saying $[helloworld language=""en""]Some more greeting here.[/helloworld]";
+
+        /// <summary>
+        /// Run the application.
+        /// </summary>
+        public override BoolMessageItem Execute()
+        {
+            // 1. Macro service loads classes with attribute "MacroAttribute" and of type IMacro.
+            var macros = new MacroService();
+
+            // 2. Register Option 1: Load macro extensions from dll "CommonLibrary"            
+            macros.Load("CommonLibrary");
+
+            // 3. Register Option 2: Programmactically with macro attributes.       
+            macros.Register(new MacroAttribute(){ Name = "helloworld" },
+                            new MacroParameterAttribute[] { new MacroParameterAttribute() { Name = "language" } },
+                           (tag) => "hello world using tag: " + tag.Name + ", " + tag.InnerContent );
+
+            // 3. Register Option 3: Programmactically with simple api.
+            macros.Register("helloworld2", "", "Simple hello world macro", (tag) => "hello world 2 : "); 
+            
+            
+            // 4. Now build the content by processing the macros
+            var content = macros.BuildContent(_macroSampleText1);
+
+            // 5. Render content that has a lamda based macro in it.
+            // NOTE: Render content that has multiple macros involves the same method call.
+            var content2 = macros.BuildContent(_macroSampleText2);
+            
+            
+            return BoolMessageItem.True;
+        }
+    }
+
+
+
+    [Macro(Name = "today", DisplayName = "Simple Date Macro 1", Description = "Simple Date Macro 1")]
+    [MacroParameter(Name = "format", DataType = typeof(string), Description = "How to format the date")]
+    class SimpleDateMacro : IMacro
+    {
+        /// <summary>
+        /// Render the widget
+        /// </summary>
+        /// <returns></returns>
+        public string Process(Tag tag)
+        {
+            string format = tag.Attributes.GetOrDefault<string>("format", "mm/dd/yyyy");
+            return DateTime.Today.ToString(format);
+        }
+    }
+}
+{code:c#}
+[#Back to top]
+
+{anchor:HolidayCalendar}
+! HolidayCalendar
+*Description:* Gets holidays or business days for different calendars ( U.S / England/ France )
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* HolidayCalendar\Calendar.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#479894]
+*Example:* {"<Samples_Dir>"}\Example_HolidayCalendar.cs
+{code:c#}
+using System;
+using System.Collections.Generic;
+
+using ComLib;
+using ComLib.Calendars;
+using ComLib.Entities;
+using ComLib.Account;
+using ComLib.Application;
+
+
+namespace ComLib.Samples
+{
+    /// <summary>
+    /// Example for the Calendars namespace.
+    /// </summary>
+    public class Example_HolidayCalendar : App
+    {
+
+        /// <summary>
+        /// Run the application.
+        /// </summary>
+        public override BoolMessageItem Execute()
+        {
+            // 1. Use the default holiday calendar loaded with U.S. holidays.
+            // What is next business date after 1/1/<current_year>
+            DateTime nextBusDay = Calendar.NextBusinessDate(new DateTime(DateTime.Today.Year, 1, 1));
+            DateTime previousBusinessDay = Calendar.PreviousBusinessDate(new DateTime(DateTime.Today.Year, 1, 1));
+            
+            // 2. Use other holiday calendar.
+            // NOTE:( Current implementation only uses hard dates ( no-relative dates 3rd thursday of november )
+            // can be supplied. This limitation will be fixed.
+            CalanderDao calDao = new CalanderDao("kishore's_holiday_calendar", GetSampleHolidays());
+            ICalendar cal = new CalendarService("kishore's_holiday_calendar", calDao, 5);
+
+            nextBusDay = cal.NextBusinessDate(DateTime.Today);
+            Console.WriteLine("Next business date using \"kishore's_holiday_calendar\" : " + nextBusDay.ToString());
+            return BoolMessageItem.True;
+        }
+
+
+
+        /// <summary>
+        /// Get sample united states holidays.
+        /// 
+        /// This can be loaded from an XML file.
+        /// </summary>
+        /// <returns></returns>
+        private static List<Holiday> GetSampleHolidays()
+        {
+            // For testing, New Years, July 4th, Christmas.
+            // This can be loaded from the database.
+            var holidays = new List<Holiday>()
+            {
+                new Holiday(1, 1, true, DayOfWeek.Monday, -1,   "Start the year fresh day"),
+                new Holiday(1, 19, true, DayOfWeek.Monday, -1,  "King Midas"),
+                new Holiday(2, 14, true, DayOfWeek.Monday, -1,  "Get it on with your girlfriend day"),
+                new Holiday(5, 25, true, DayOfWeek.Monday, -1,  "World War 1 Day"),
+                new Holiday(7, 4, true, DayOfWeek.Monday, -1,   "Free at last day"),
+                new Holiday(9, 7, true, DayOfWeek.Monday, -1,   "Get your ass to work Day"),
+                new Holiday(10, 12, true, DayOfWeek.Monday, -1, "I found a piece of land day."),
+                new Holiday(11, 11, true, DayOfWeek.Monday, -1, "War - What is it good for day."),
+                new Holiday(11, 26, true, DayOfWeek.Monday, -1, "Thank you god for everything i have day."),
+                new Holiday(12, 25, true, DayOfWeek.Monday, -1, "I want my xbox 360 gift day.")
+            };
+            return holidays;
+        }
+    }
+}
+{code:c#}
+[#Back to top]
+
+{anchor:ImportExport}
+! ImportExport
+*Description:* Provides API for import/export operations on any abitrary datastore of objects
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* ImportExport\ImportExport.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#904272]
+*Example:* {"<Samples_Dir>"}\Example_ImportExport.cs
+{code:c#}
+using ComLib;
+using ComLib.ImportExport;
+
+
+
+var io = ImportExports.Instance;
+
+// =======================================================================
+// REGISTRATION :
+// =======================================================================
+// Example 1.
+//  - Register Person as importable using default service, mappers, and formats as "csv,xml,ini"
+//  - Set the actions for the various import/export behaviour
+io.Register<Person>();
+io.For<Person>().SetImport((allPersons) => Console.WriteLine("Importing : " + allPersons.Count + " people."));
+io.For<Person>().SetExportPage( (page, pageSize) => GetPersons() );
+io.For<Person>().SetExportAll( () => GetPersons() );
+io.For<Person>().SetTotal(() => GetPersons().Count);
+
+// Example 2. 
+//  - Set the actions for the various import/export behaviour, ExportByPage lamda not supplied, exportbypage will call export all
+//  - Explicitly enable validation after mapping(using validator supplied), supported formats, and whether service is ReUsable ( e.g. singleton ).
+//  - .
+io.Register<Meeting>(new MeetingValidator(), new string[]{"csv", "ini", "xml"}, true );
+io.For<Meeting>().SetImport((allMeetings) => Console.WriteLine("Importing : " + allMeetings.Count + " meetings."));
+io.For<Meeting>().SetExportAll( () => GetMeetings() );
+io.For<Meeting>().SetTotal(() => GetMeetings().Count);
+
+// Example 3. 
+//  - Set the actions for the various import/export behaviour in a single call. import, exportbypage, exportall, gettotals.
+//  - Explicitly enable validation after mapping(using validator supplied), whether service is ReUsable ( e.g. singleton ), and mappers("ini","csv") to use.
+io.Register<BlogPost>(new MeetingValidator(), true, new MapperIni<BlogPost>(), new MapperCsv<BlogPost>());
+io.For<BlogPost>().SetHandlers((allPosts) => Console.WriteLine("Importing : " + allPosts.Count + " posts."),
+                                (page, pageSize) => GetBlogPosts(),
+                                () => GetBlogPosts(),
+                                () => GetBlogPosts().Count);
+
+// Example 4.
+//  - Use the Entity based importexport service to use EntityRepositories. No handlers need to be supplied.
+io.Register<BlogPost>(new ImportExportServiceEntityBased<BlogPost>());
+
+// IMPORT EXAMPLES
+// 1. Import by text.
+// 2. Import by File
+// 3. Import by supplying objects.
+var result1 = io.For<Person>().ImportText("", "ini");
+var result2 = io.For<Person>().ImportFile("../persons.ini");
+var result3 = io.For<Person>().Import(GetPersons());
+
+// TOTAL EXAMPLE
+// 1. How many are available for export ?
+var available = io.For<Meeting>().TotalExportable();
+
+// EXPORT EXAMPLES
+// 1. Export to a file
+// 2. Export as text.
+var export1 = io.For<Meeting>().ExportToFile("../meetings.csv", "csv");
+var export2 = io.For<Meeting>().ExportToText("csv", 1, 3);
+var export3 = io.For<Meeting>().Export(1, 3);
+{code:c#}
+[#Back to top]
+
+{anchor:Location}
+! Location
+*Description:* Provides City, State, Country search features. e.g. "Brooklyn, Ny" is parsed into a City/State/Country object
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* Location\Location.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#780027]
+*Example:* {"<Samples_Dir>"}\Example_Location.cs
+{code:c#}
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Data;
+using System.Data.Common;
+using System.Security.Cryptography;
+
+
+using ComLib;
+using ComLib.Application;
+using ComLib.Entities;
+using ComLib.Extensions;
+using ComLib.LocationSupport;
+
+
+namespace ComLib.Samples
+{
+    /// <summary>
+    /// Example for the LocationSupport namespace.
+    /// </summary>
+    public class Example_Location : App
+    {
+
+        /// <summary>
+        /// Run the application.
+        /// </summary>
+        public override BoolMessageItem Execute()
+        {
+            // Example 1:
+            // This actually parses the location names and looks it up the various repositories.
+            // This is typically what's entered into the location text box for sites like 
+            // yelp, eventful, upcoming.org.
+
+            Print(Location.Parse("brooklyn"));
+            Print(Location.Parse("miami,Florida"));
+            Print(Location.Parse("new jersey"));
+            Print(Location.Parse("bronx"));
+            Print(Location.Parse("bronx,new york"));
+            Print(Location.Parse("bronx,connecticut"));
+            Print(Location.Parse("venice,italy"));
+            Print(Location.Parse("venice,united states"));
+
+            // Example 2:
+            // Get all the countries
+            IList<Country> countries = Location.Countries.GetAll();
+            
+            // Example 3:
+            // Get all the states for a specific country.
+            IList<State> unitedStates = Location.StatesFor("USA").Item;
+
+            // Example 4:
+            // Get all the cities for a specific state, country combination.
+            IList<City> citiesInNewYork = Location.CitiesFor("USA", "New York").Item;
+
+            // Example 5:
+            // Get a country lookup which can be lookup countries by both Id and Name.
+            CountryLookUp countriesLookup = Location.CountriesLookup;
+
+            return BoolMessageItem.True;
+        }
+
+
+        /// <summary>
+        /// Initialize with data.
+        /// </summary>
+        public override void Init()
+        {
+            base.Init();
+
+            // Using the In-Memory repository for testing purposes.
+            IRepository<City> cityRepo = new RepositoryInMemory<City>("Id,Name,StateId,CountryId");
+            IRepository<State> stateRepo = new RepositoryInMemory<State>("Id,Name,StateId,CountryId");
+            IRepository<Country> countryRepo = new RepositoryInMemory<Country>("Id,Name,StateId,CountryId");
+            ILocationService locationService = new LocationService(() => countryRepo, () => stateRepo, () => cityRepo);
+            Location.Init(locationService);
+
+
+            Location.CreateCountry("Italy");
+            Location.CreateCountry("United States");
+            Location.CreateCountry("Spain");
+            Location.CreateCountry("India");
+            Location.CreateCountry("United States", "USA", true);
+            Location.CreateCountry("United States", "America", true);
+            Location.CreateCountry("United States", "U.S.A", true);
+            IList<Country> countries = Location.Countries.GetAll();
+
+            Location.CreateState("New York", "NY", "USA");
+            Location.CreateState("New Jersey", "NJ", "USA");
+            Location.CreateState("Connecticut", "CT", "USA");
+            Location.CreateState("ItalianState1", "IT1", "Italy");
+            Location.CreateState("Florida", "FL", "USA");
+            Location.CreateState("California", "CA", "USA");
+            IList<State> states = Location.States.GetAll();
+
+            Location.CreateCity("New York", "New York", "USA");
+            Location.CreateCity("Brooklyn", "New York", "USA");
+            Location.CreateCity("Bronx", "Connecticut", "USA");
+            Location.CreateCity("Bronx", "New York", "USA");
+            Location.CreateCity("San Francisco", "California", "USA");
+            Location.CreateCity("Trenton", "New Jersey", "USA");
+            Location.CreateCity("Miami", "Florida", "USA");
+            Location.CreateCity("Venice", "ItalianState1", "Italy");
+        }
+
+
+        private void Print(LocationLookUpResult result)
+        {
+            string format1 = "City/State/Country = '{0}', '{1}', '{2}'";
+            string format2 = "LookupBy : {0} , IsValid = {1}";
+            string line1 = string.Format(format2, result.LookUpType.ToString(), result.IsValid);
+            string line2 = string.Format(format1, result.City, result.State, result.Country);
+            Log.Info(line1 + "    " + line2);
+        }
+    }
+}
+{code:c#}
+[#Back to top]
+
+{anchor:Logging}
+! Logging
+*Description:* Logger that's light-weight, extensible, and provides a clear/fluent API to logging.
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* Logging\Logging.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#480006]
+*Example:* {"<Samples_Dir>"}\Example_Logging.cs
+{code:c#}
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Data;
+using System.Data.Common;
+using System.Security.Cryptography;
+
+using ComLib;
+using ComLib.Application;
+using ComLib.Logging;
+
+
+namespace ComLib.Samples
+{
+    /// <summary>
+    /// Example for the Logging namespace.
+    /// </summary>
+    public class Example_Logging : App
+    {
+
+        /// <summary>
+        /// Run the application.
+        /// </summary>
+        public override BoolMessageItem Execute()
+        {
+            Console.WriteLine("====================================================");
+            Console.WriteLine("LOGGING ");
+
+            // 1. Use default logger which logs to console.
+            Logger.Info("The default logger log to the console.");
+
+            // 2. Another way to access the default logger.
+            Logger.Default.Info("Accessing default logger using Logger.Default", null, null);
+
+            // 3. Append a new logger to the default logger and log.
+            Logger.Default.Append(new LogFile("kishores_log", "kishore.txt"));
+            Logger.Info("After appending to default logger. Logs both to console and file.");
+
+            // 4. Log only to the named logger "kishores_log" in the default logger.
+            Logger.Default["kishores_log"].Info("Logging only to logger named 'kishores_log' in the default logger.", null, null);
+            
+            // 5. Get a new instance of a logger( associated with default logger)
+            //    that is specific to this type. 
+            //    - This logger only exists in the current scope and is not appended to any other logger.
+            ILog mylog = Logger.GetNew<Example_Logging>();
+            mylog.Info("Logger.GetNew<Example_Logging>() is equivalent to log4net.getlogger(typeof(abc));", null, null);
+            
+            // 6. Add a new logger 
+            // ( This is a completely separate logger from "default" logger.
+            Logger.Add(new LogMulti("admin_logger", new LogFile("logger1", "admin.txt")));
+            Logger.Get("admin_logger").Info("logging to admin_logger, this is NOT the default logger.", null, null);
+
+            // 7. Force a flush only on the "admin_logger"
+            Logger.Get("admin_logger").Flush();
+
+            // 8. Always logs the message regardless of log-level.
+            Logger.Message("Logger.Message calls always get logged.");
+
+            // 9. Change the log level to error only on the Default loggers named logger "kishores_log".
+            Logger.Default["kishores_log"].Level = LogLevel.Error;
+            Logger.Default["kishores_log"].Info("this should not get logged.", null, null);
+
+            return BoolMessageItem.True;
+        }
+
+
+        /// <summary>
+        /// Shutdown dependent services.
+        /// </summary>
+        public override void ShutDown()
+        {
+            Logger.Flush();
+            Logger.ShutDown();
+        }
+    }
+}
+{code:c#}
+[#Back to top]
+
+{anchor:Notifications}
+! Notifications
+*Description:* Generates templated messages for email
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* Notifications\Notifications.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#]
+*Example:* {"<Samples_Dir>"}\Example_Notifications.cs
+{code:c#}
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Data;
+using System.Data.Common;
+using System.Security.Cryptography;
+using ComLib;
+using ComLib.Logging;
+using ComLib.Application;
+using ComLib.EmailSupport;
+using ComLib.Notifications;
+
+
+namespace ComLib.Samples
+{
+    /// <summary>
+    /// Example for the Notifications namespace.
+    /// </summary>
+    public class Example_Notifications : App
+    {
+        /// <summary>
+        /// Run the application.
+        /// </summary>
+        public override BoolMessageItem Execute()
+        {
+            // Configure the notification service.
+            // Since emailing is disabled, the EmailServiceSettings are not configured.
+            // The emails are not sent as "EnableNotifications" = false above.
+            // Debugging is turned on so you can see the emails in the folder "Notifications.Tests".
+            Notifier.Init(new EmailService(new EmailServiceSettings()), new NotificationSettings());
+            Notifier.Settings["website.name"] = "KnowledgeDrink.com";
+            Notifier.Settings["website.url"] = "http://www.KnowledgeDrink.com";
+            Notifier.Settings["website.urls.contactus"] = "http://www.KnowledgeDrink.com/contactus.aspx";
+            Notifier.Settings.EnableNotifications = false;
+            Notifier.Settings.DebugOutputMessageToFile = true;
+            Notifier.Settings.DebugOutputMessageFolderPath = @"Notifications.Tests";
+
+            Logger.Info("====================================================");
+            Logger.Info("NOTIFICATION EMAILS ");
+            Logger.Info("Emails are generated to folder : " + Notifier.Settings.DebugOutputMessageFolderPath);
+            Notifier.WelcomeNewUser("user1@mydomain.com", "Welcome to www.knowledgedrink.com", "batman", "user1", "password");
+            Notifier.RemindUserPassword("user1@mydomain.com", "Welcome to www.knowledgedrink.com", "batman", "user1", "password");
+            Notifier.SendToFriend("batman@mydomain.com", "Check out www.knowledgedrink.com", "superman", "bruce", "Learn to fight.");
+            Notifier.SendToFriendPost("superman@mydomain.com", "Check out class at www.knowledgedrink.com", "batman", "clark", "Punk, learn to fly.",
+                "Learn to fly", "http://www.knowledgedrink.com/classes/learn-to-fly.aspx");
+            Notifier.Process();
+            return BoolMessageItem.True;
+        }
+    }
+}
+{code:c#}
+[#Back to top]
+
+{anchor:Paging}
+! Paging
+*Description:* Independent and reusable pager for paging through data
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* Paging\Paging.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#962317]
+*Example:* {"<Samples_Dir>"}\Example_Paging.cs
+{code:c#}
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Data;
+using System.Data.Common;
+using System.Security.Cryptography;
+using ComLib;
+using ComLib.Application;
+using ComLib.Paging;
+
+
+namespace ComLib.Samples
+{
+    /// <summary>
+    /// Example for the Paging namespace.
+    /// </summary>
+    public class Example_Paging : App
+    {
+        /// <summary>
+        /// Run the application.
+        /// </summary>
+        public override BoolMessageItem Execute()
+        {
+            // ************************************************************************************
+            // NON - AJAX PAGER - URL BASED
+            //
+            // 1. The non-ajax pager examples are 1 to 3 below and use URL's for each page.
+            // 2. The non-ajax pager generate url's for each page.
+            // 3. The non-ajax pager requires a lamda that you supply
+            //    to build the url for the pager number.
+            // 4. The non-ajax pager must be reloaded with the page from the url
+            //    that it is linking to. This means that the current page must be 
+            //    loaded from the url
+            //
+            //
+            // NON - AJAX PAGER - FORMS BASED
+            //
+            // 1. There is a AJAX - based pager available.            
+            //    This is part of the CommonLibrary.NET CMS in the /scripts/app/PagerAjax.js file
+            // *************************************************************************************
+
+            // Example 1:
+            // Non-Ajax based pager using "ToHtml" method
+            // This example supplies, the current page, total pages, and the settings for css for current, and non-current page links.
+            Pager pager = new Pager(1,  15, new PagerSettings(5, "pageCurrent", "page"));
+            string html = pager.ToHtml( pageNum => "/blogpost/index/" + pageNum );
+
+            // Example 2:
+            // You can build the same html using the underlying pager builder.
+            Pager pager2 = new Pager(1, 15, new PagerSettings(5, "pageCurrent", "page"));
+            string html2 = PagerBuilderWeb.Instance.Build(pager2, pager2.Settings, pageNum => "/blogpost/index/" + pageNum);
+
+            // Example 3:
+            // You can also build the html using underlying builder and only specifying the pagenumber and total pages.
+            string html3 = PagerBuilderWeb.Instance.Build(1, 15, PagerSettings.Default, pageNum => "/blogpost/index/" + pageNum);
+
+            // Example 4:
+            // There is a AJAX - BASED PAGER.
+            // This is actually part of the CommonLibrary.NET CMS project.
+            // Here is an example of the javascript useage of it.
+            // Constructor: function PagerAjax(pageNumber, pagesInMiddle, totalPages, pagerDivId, onPageSelectedCallback, cssPage, cssCurrentPage)
+            // Example:
+            // 
+            // pager = new PagerAjax(1, 7, 1, "pagerview", "Comments_OnPageSelected", "", "current");
+            //
+            // NOTE: You can see this being used in the Comments.ascx control in the project, located at "/views/shared/controls/comments.ascx"
+
+            return BoolMessageItem.True;
+        }
+    }
+}
+{code:c#}
+[#Back to top]
+
+{anchor:QueueProcessor}
+! QueueProcessor
+*Description:* A flexible queue to allow placing items into a queue for processing
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* QueueProcessor\QueueProcessor.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#808480]
+*Example:* {"<Samples_Dir>"}\Example_QueueProcessor.cs
+{code:c#}
+using System;
+using System.Collections.Generic;
+
+using ComLib;
+using ComLib.Queue;
+using ComLib.Application;
+
+
+namespace ComLib.Samples
+{
+    /// <summary>
+    /// Example for the Queue namespace.
+    /// </summary>
+    public class Example_QueueProcessor : App
+    {
+		
+        class Quote
+        {
+            public Quote(string symbol, int price) 
+            {
+                Symbol = symbol;
+                Price = price;
+            }
+
+            public string Symbol;
+            public int Price;
+        }
+
+
+
+        /// <summary>
+        /// Run the application.
+        /// </summary>
+        public override BoolMessageItem Execute()
+        {
+            // NOTE:
+            // 1. Just showing the API for queue processing using lamdas as delegates.
+            // 2. Typically the Queues.Process method will be called by a scheduler to process something periodically.
+    
+            // 1. Add queue processing handler for strings WITH OUT specifying a name.
+            //    By default, the items in teh queues are processed 5 at a time on each call to Process.            
+            Queues.AddProcessorFor<string>(items => items.ForEach(item => Console.WriteLine(item)));
+            Queues.Enqueue<string>(new List<string>() { "a", "b", "c", "d", "e", "1", "2", "3", "4", "5" });
+
+            // 1st call only prints a-e
+            // 2nd call prints the remainder 1-5
+            Queues.Process<string>();
+            Queues.Process<string>();
+            Console.WriteLine();
+            
+            // 2. Add queue processing by specifying the handler name.
+            //    This is ideal if you have 2 handlers for the same type.            
+            Queues.AddProcessorFor<int>("my_handler", items => items.ForEach(i => Console.WriteLine(i)));
+            Queues.Enqueue<int>("my_handler", new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
+            Queues.Process("my_handler");
+            Console.WriteLine();
+
+            // 3. Add queue processing custom type.
+            Queues.AddProcessorFor<Quote>(items => PrintQuotes(items));
+            Queues.Enqueue<Quote>(new List<Quote>() { new Quote("MSFT", 20), new Quote("GOOG", 300), new Quote("CITI", 0),
+                                                      new Quote("AIG",  -1), new Quote("HONDA", 80), new Quote("BankOfAmerica", 30),
+                                                      new Quote("TOYO", 20), new Quote("CS", 32), new Quote("GS", -1)});
+            Queues.Process<Quote>();
+
+            // 4. Add queue processing by specifying the queue processor, custom name("my_quote_queue"), custom type(Quote), custom dequeue size(2).
+            Queues.AddProcessor("my_quote_queue", new QueueProcessor<Quote>(2, items => PrintQuotes(items)));
+            Queues.Enqueue<Quote>("my_quote_queue", new List<Quote>() { new Quote("MSFT", 20), new Quote("GOOG", 300), new Quote("CITI", 0),
+                                                                        new Quote("AIG",  -1), new Quote("HONDA", 80), new Quote("BankOfAmerica", 30),
+                                                                        new Quote("TOYO", 20), new Quote("CS", 32), new Quote("GS", -1)});
+            Queues.Process("my_quote_queue");
+            return BoolMessageItem.True;
+        }
+
+
+        void PrintQuotes(IList<Quote> quotes)
+        {
+            quotes.ForEach(quote => Console.WriteLine(quote.Symbol + " : " + quote.Price));
+        }
+    }
+}
+{code:c#}
+[#Back to top]
+
+{anchor:Repository}
+! Repository
+*Description:* Repository implementation supporting CRUD/Find methods and sql-like aggregates(Min,Max,Count,Avg,Sum)
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* Repository3_Versioned\Repository3_Versioned.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#798529]
+*Example:* {"<Samples_Dir>"}\Example_Repository3_Versioned.cs
+{code:c#}
+
+{code:c#}
+[#Back to top]
+
+{anchor:Scheduler}
+! Scheduler
+*Description:* Light-weight task scheduling service
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* Scheduler\Scheduler.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#808479]
+*Example:* {"<Samples_Dir>"}\Example_Scheduler.cs
+{code:c#}
+// 1. Run every 2 seconds, with maximum of 3 runs.
+Scheduler.Schedule("task1", new Trigger().Every(((int)2).Seconds()).MaxRuns(3), 
+                            () => Console.WriteLine("Repeating task"), 
+                            task => OnComplete(task));
+
+// 2. Run every 2 seconds, end in 30 seconds.
+Scheduler.Schedule("task2", new Trigger().Every(((int)3).Seconds()).StopAt(DateTime.Now.AddSeconds(30)), 
+                            () => Console.WriteLine("Repeat with limit"), 
+                            task => OnComplete(task));
+
+// 3. Combine w/ the Queue processing.
+Queues.AddProcessorFor<string>(items => items.ForEach(item => Console.WriteLine(item)));
+Queues.Enqueue<string>(new List<string>() { "a", "b", "c", "d", "e", "f" });
+Scheduler.Schedule("task3", new Trigger().Every(((int)4).Seconds()).MaxRuns(2), 
+                            () => Queues.Process<string>(),
+                            task => OnComplete(task));
+
+_resetevent.WaitOne();  
+{code:c#}
+[#Back to top]
+
+{anchor:Scripting}
+! Scripting
+*Description:* A dynamic interpreted scripting language, similar to javascript that is built into this library.
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* _Core\Lang\Interpreter.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#1225564]
+*Example:* {"<Samples_Dir>"}\Example_Scripting.cs
+{code:c#}
+using ComLib;
+using ComLib.Lang;
+
+
+var i = new Interpreter();
+
+// 1. Execute script and get variable.
+i.Execute(" var fullname = 'kishore' + ' reddy';");
+string name = i.Scope.Get<string>("fullname");
+
+// 2. Execute script with functions
+i.Execute(" function min(a, b) { if(a < b) return a; return b; } var minval = min(2,3);");
+double minval = i.Scope.Get<double>("minval");
+
+// 3. Register custom type and execute script.
+i.Context.Types.Register(typeof(User), null);
+i.Execute("var user = new User('kishore', 'reddy'); var fullname = user.FullName();");
+string fullname = i.Scope.Get<string>("fullname");
+
+// 4. Get the result of the script execution.
+i.Execute("var list1 = [1,2,3,4,5]; var total = list1[1] + list1[2];");
+var total = i.Scope.Get<double>("total");
+var result = i.Result;
+Console.WriteLine(string.Format("Success: {0}, StartTime: {1}, EndTime: {2}", result.Success, result.StartTime.ToShortTimeString(), result.EndTime.ToShortTimeString()));
+
+// 5. Set limits on the interpreter.
+// This set the total number of loops that can be run to 5. ( just as an example ).
+// An LimitException occurrs in the interpreter.
+i.Context.Settings.MaxLoopLimit = 5;
+i.Execute("var count = 0; for(var ndx = 1; ndx <= 6; ndx++) { count = ndx; }");
+var count = i.Scope.Get<double>("count");
+Console.WriteLine(string.Format("Success: {0}, Message: {1}", i.Result.Success, i.Result.Message));
+
+//i.Context
+{code:c#}
+[#Back to top]
+
+{anchor:Scripts}
+! Scripts
+*Description:* Used to register css/javascript files into "placeholders" such as head or footer section.
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* Core\Lang\Interpreter.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#1190525]
+*Example:* {"<Samples_Dir>"}\Example_Scripts.cs
+{code:c#}
+using System;
+
+using ComLib;
+using ComLib.Application;
+using ComLib.Web.ScriptsSupport;
+
+
+namespace ComLib.Samples
+{
+    /// <summary>
+    /// Example for the ScriptsSupport namespace.
+    /// </summary>
+    public class Example_Scripts : App
+    {
+
+        /// <summary>
+        /// Run the application.
+        /// </summary>
+        public override BoolMessageItem Execute()
+        {
+            bool useRealHttpContext = false;
+            // Add 2 groups ("locations") to the scripts.
+            Scripts.AddLocation("header", useRealHttpContext);
+            Scripts.AddLocation("footer", useRealHttpContext);
+            
+            // 1. Register a css style sheet.
+            Scripts.AddCss("default_theme", "/themes/default/theme.css");
+
+            // 2. Register a javascript file
+            Scripts.AddJavascript("comlib.js", "/scripts/core/comlib.js");
+
+            // 3. Register a javascript file in a specific location group "header"
+            Scripts.AddJavascript("comlib.js", "/scripts/core/comlib.js", "header");
+
+            // 4. Get access to a location.
+            ScriptsHolder header = Scripts.For("header");
+            
+            // 5. Generate html for the default group "footer".
+            Scripts.ToHtml();
+
+            // 6. Generate html for the registered styles/scripts in a specific group.
+            var html = Scripts.ToHtml("header");
+
+            return BoolMessageItem.True;
+        }
+    }
+}
+{code:c#}
+[#Back to top]
+
+{anchor:ToDo}
+! ToDo
+*Description:* Typed marker (like visual studio "TODO" ) to mark code
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* ToDo\ToDo.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#903265]
+*Example:* {"<Samples_Dir>"}\Example_ToDo.cs
+{code:c#}
+using System;
+
+using ComLib;
+using ComLib.Application;
+
+
+namespace ComLib.Samples
+{
+    /// <summary>
+    /// Example for the ToDo utility class.
+    /// </summary>
+    public class Example_ToDo : App
+    {
+
+        /// <summary>
+        /// Run the application.
+        /// </summary>
+        public override BoolMessageItem Execute()
+        {   
+            // The ToDo logs all the information
+            // 1. priority
+            // 2. author
+            // 3. description
+            // 4. STACK TRACE to the log.
+            // 
+            // NOTE: This is very useful alternative to using comments in the code.
+            //       Plus this logs the stack trace(Class and Methodname) where the ToDo.MethodXXX was called from 
+            //       so you know from the logs exactly where some work needs done.
+
+            // Example 1: Log code review.
+            ToDo.CodeReview(ToDo.Priority.Normal, "Kishore", "Get john to review this code", ()=>
+            {
+                Console.WriteLine("My code needs review");
+            });
+
+            // Example 2: Log some thing that needs to be implemented.
+            ToDo.Implement(ToDo.Priority.High, "Kishore", "Have to finish up the Repository.Find to use dynamic objects.", () =>
+            {
+                Console.WriteLine("DynamicObject find code is incomplete.");
+            });
+
+            // Example 3: Log refactoring needed
+            ToDo.Refactor(ToDo.Priority.Low, "Kishore", "What a mess in the Reflection utils.", () =>
+            {
+                Console.WriteLine("This code is a mess, needs some refactoring.");
+            });
+
+            // Example 4: Log optimzation needed.
+            ToDo.Optimize(ToDo.Priority.Critical, "Kishore", "Multi-tenant code needs to queried from database only once.", () =>
+            {
+                Console.WriteLine("Too many queries here. Get all data in one call.");
+            });
+
+            // Example 5: Log bug found in code.
+            ToDo.BugFix(ToDo.Priority.High, "Kishore", "This is a bug related to configuration data. ", () =>
+            {
+                Console.WriteLine("Fix this code");
+            });
+
+            return BoolMessageItem.True;
+        }
+    }
+}
+{code:c#}
+[#Back to top]
+
+{anchor:Validation}
+! Validation
+*Description:* Provides several validation methods for email, phone, string length etc.
+*Date*: 11/27/2011
+*Version*: 0.9.8.1
+*Core source:* Validation\Validation.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/71149#480007]
+*Example:* {"<Samples_Dir>"}\Example_Validation.cs
+{code:c#}
+using System;
+using System.Collections.Generic;
+
+using ComLib;
+using ComLib.Account;
+using ComLib.Entities;
+using ComLib.Application;
+using ComLib.ValidationSupport;
+
+
+namespace ComLib.Samples
+{
+    /// <summary>
+    /// Example for the ValidationSupport namespace.
+    /// </summary>
+    public class Example_Validation : App
+    {
+        /// <summary>
+        /// Initialize.
+        /// </summary>
+        public Example_Validation()
+        {
+        }
+
+
+        /// <summary>
+        /// Run the application.
+        /// </summary>
+        public override BoolMessageItem Execute()
+        {
+            Console.WriteLine("====================================================");
+            Console.WriteLine("VALIDATION ");
+
+            Example1_Static();
+            Example2_StaticAndCollectErrors();
+            Example3_Lamda();
+            Example4_RulesList();
+            Example5_Fluent();
+            Example6_Custom();
+            Example7_Chain();
+            return BoolMessageItem.True;
+        }
+
+
+        private void Example1_Static()
+        {
+            // 1. EXAMPLE : Use static Valdiator class for simple validation.            
+            Print("IsAlpha('123abc')          ", Validation.IsAlpha("123abc", false));
+            Print("IsAlphaNum('123abc')       ", Validation.IsAlphaNumeric("123abc", false));
+            Print("IsDate('08-29-2009')       ", Validation.IsDate("08-29-2009"));
+            Print("IsNumeric('asdklf')        ", Validation.IsNumeric("asdklf"));
+            Print("IsNumeric('-234.23')       ", Validation.IsNumeric("-234.23"));
+            Print("IsPhoneUS('800-456-7890')  ", Validation.IsPhoneUS("800-456-7890", false));
+            Print("IsSSN('123-45-7890')       ", Validation.IsSsn("123-45-7890", false));
+            Print("IsTimeOfDay('7:45 am')     ", Validation.IsTimeOfDay("7:45 am"));
+            Print("IsStringLengthMatch        ", Validation.IsStringLengthMatch("user01", false, true, true, 2, 12));
+        }
+
+
+        private void Example2_StaticAndCollectErrors()
+        {
+            // 2. EXAMPLE : Use Static Validator class and collect the errors.
+            var errors = new Errors();
+            Print("IsAlpha('123abc')          ", Validation.IsAlpha("123abc", false, errors, ""));
+            Print("IsAlphaNum('123abc')       ", Validation.IsAlphaNumeric("123abc", false, errors, ""));
+            Print("IsDate('08-29-2009')       ", Validation.IsDate("08-29-2009", errors, ""));
+            Print("IsNumeric('asdklf')        ", Validation.IsNumeric("asdklf", false, errors, ""));
+            Print("IsNumeric('-234.23')       ", Validation.IsNumeric("-234.23", false, errors, ""));
+            Print("IsPhoneUS('800-456-7890')  ", Validation.IsPhoneUS("800-456-7890", false, errors, ""));
+            Print("IsSSN('123-45-7890')       ", Validation.IsSsn("123-45-7890", false, errors, ""));
+            Print("IsTimeOfDay('7:45am')      ", Validation.IsTimeOfDay("7:45am", errors, ""));
+            Print("IsStringLengthMatch        ", Validation.IsStringLengthMatch("user01", false, true, true, 2, 12, errors, ""));
+            PrintErrors(errors);
+        }
+
+
+        private void Example3_Lamda()
+        {
+            // 3. EXAMPLE : Use validator with lamda
+            var val = new Validator(valEvent =>
+            {
+                int errCount = valEvent.Results.Count;
+                Validation.IsEmail("kishore@", false, valEvent.Results, string.Empty);
+                Validation.IsUrl("http://www", false, valEvent.Results, string.Empty);
+                Validation.IsPhoneUS("111-111-111", false, valEvent.Results, string.Empty);
+
+                return errCount == valEvent.Results.Count;
+            });
+            PrintErrors(val.Validate());
+        }
+
+
+        private void Example4_RulesList()
+        {
+            // 4. EXAMPLE: Validation w/ list of rules
+            var val = new ValidatorWithRules();
+            val.Add(e => Validation.IsEmail("kishore@", false, e.Results, string.Empty));
+            val.Add(e => Validation.IsUrl("http://www", false, e.Results, string.Empty));
+            val.Add(e => Validation.IsPhoneUS("111-111-111", false, e.Results, string.Empty));
+            PrintErrors(val.Validate());            
+        }
+
+
+        private void Example5_Fluent()
+        {
+            // 5. EXAMPLE : Fluent validation.
+            var val = new ValidatorFluent(typeof(User));
+            var user = new User();
+            val.Check(() => user.UserName).IsNotNull().IsBetween(1, 50)
+               .Check(() => user.CreateDate).IsAfterToday()
+               .Check(() => user.Email).IsValidEmail()
+               .Check(() => user.MobilePhone).IsValidPhoneUS();
+
+            PrintErrors(val.Errors);
+        }
+
+
+        private void Example6_Custom()
+        {
+            // 6. EXAMPLE : Use a custom validator.
+            IValidator validator = new MyCustomUserIdValidator("admin");
+            IValidationResults errors = new ValidationResults();
+
+            // WAYS TO USE A VALIDATOR.
+            // 1. Validate using the stored object(Target) with value("admin") and collect errors.
+            // 2. Validate and collect errors into different error collection.
+            // 3. Validate new target and collect errors.
+            // 4. Validate new target and existing error collection.
+            PrintErrors(validator.Validate());
+            PrintErrors(validator.Validate(errors));
+            PrintErrors(validator.ValidateTarget("powerUser01"));
+            Print("Both", validator.Validate("powerUser01", errors));
+        }
+
+
+        private void Example7_Chain()
+        {
+            // 7. EXAMPLE : Chain multiple validators and validate all at once
+            //              and store all the errors in a single error collection.
+            var validators = new List<IValidator>()
+            {
+                new MyCustomUserIdValidator("admin"),
+                new MyCustomUserIdValidator("batman")
+            };
+
+            // Run all the validators and collect the errors.
+            ValidationResults errors = new ValidationResults();
+            ValidationUtils.Validate(validators, errors);
+        }
+
+
+        /// <summary>
+        /// Print the check that was done and it's result.
+        /// </summary>
+        /// <param name="checkName"></param>
+        /// <param name="isValid"></param>
+        private void Print(string checkName, bool isValid)
+        {
+            Console.WriteLine(checkName + " : " + isValid);
+        }
+
+
+        /// <summary>
+        /// Print the errors.
+        /// </summary>
+        /// <param name="errors"></param>
+        private void PrintErrors(IErrors errors)
+        {
+            string combinedErrors = errors.Message();
+            Console.WriteLine("ERRORS: " + Environment.NewLine + combinedErrors);
+        }
+        
+
+        /// <summary>
+        /// Example of a custom validator.
+        /// </summary>
+        private class MyCustomUserIdValidator : Validator
+        {
+            /// <summary>
+            /// Initialize the object to validate.
+            /// </summary>
+            /// <param name="userName"></param>
+            public MyCustomUserIdValidator(string userName)
+            {
+                Target = userName;
+            }
+
+
+            /// <summary>
+            /// Do some custom validation on a user name(string).
+            /// </summary>
+            /// <param name="validationEvent"></param>
+            /// <returns></returns>
+            protected override bool ValidateInternal(ValidationEvent validationEvent)
+            {
+                string id = (string)validationEvent.Target;
+                if (string.IsNullOrEmpty(id))
+                {
+                    validationEvent.Results.Add("Must supply a userid.");
+                    return false;
+                }
+
+                id = id.ToLower();
+                if (id == "admin" || id == "administrator")
+                {
+                    validationEvent.Results.Add("Admin user name is reserved, you can not use it.");
+                    return false;
+                }
+
+                if (id.Length < 2 || id.Length > 15)
+                {
+                    validationEvent.Results.Add("Must be between 2 >= username <= 15.");
+                    return false;
+                }
+                return true;
+            }
+        }
+    }
+}
+{code:c#}
+[#Back to top]

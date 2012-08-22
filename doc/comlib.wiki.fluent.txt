@@ -1,0 +1,512 @@
+{anchor:Aggregate}
+! 1. Aggregate
+*Description:* Provides sum, min, max, avg, count aggregate functions for lists.
+*Date*: 2/10/2012
+*Version*: 0.9.8.2
+*Core source:* _Core\Lang\Plugins\Parser\AggregatePlugin.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/72286#1289916]
+*Example:* {"<Samples_Dir>"}\AggregatePlugin.cs
+{code:c#}
+// Aggregate plugin allows sum, min, max, avg, count aggregate functions to 
+// be applied to lists of objects.
+
+var numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+var result = 0;
+
+// Example 1: Using format sum of <expression>
+result = sum of numbers;
+result = avg of numbers;
+result = min of numbers;
+result = max of numbers;
+result = count of numbers;
+
+// Example 2: Using format sum(<expression>)
+result = sum( numbers );
+result = avg( numbers );
+result = min( numbers );
+result = max( numbers );
+result = count( numbers );    
+{code:c#}
+[#Back to top]
+{anchor:Bool}
+! 2. Bool
+*Description:* Provides synonyms yes/no, on/off for bool values true/false.
+*Date*: 2/10/2012
+*Version*: 0.9.8.2
+*Core source:* _Core\Lang\Plugins\Parser\BoolPlugin.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/72286#1290454]
+*Example:* {"<Samples_Dir>"}\BoolPlugin.cs
+{code:c#}
+// Bool plugin allows aliases for true/false
+
+var result = on;
+var result = off;
+var result = yes;
+var result = no;
+{code:c#}
+[#Back to top]
+{anchor:Compare}
+! 3. Compare
+*Description:* Provides synonyms for comparison operators
+*Date*: 2/10/2012
+*Version*: 0.9.8.2
+*Core source:* _Core\Lang\Plugins\Parser\ComparePlugin.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/72286#1290453]
+*Example:* {"<Samples_Dir>"}\ComparePlugin.cs
+{code:c#}
+    
+// Compare plugin allows word aliases for the comparison operators. See list below
+// 
+// ALIAS:                FOR:
+// "less than",          "<" 
+// "before",             "<" 
+// "below",              "<" 
+// "is below",           "<" 
+// "is before",          "<"
+// "more than",          ">" 
+// "after",              ">" 
+// "above",              ">" 
+// "is after",           ">" 
+// "is above",           ">" 
+// "less than equal",    "<="
+// "less than equal to", "<="
+// "more than equal",    ">="
+// "more than equal to", ">="
+// "is",                 "=="
+// "is equal",           "=="
+// "is equal to",        "=="
+// "equals",             "=="
+// "equal to",           "=="
+// "not",                "!="
+// "not equal",          "!="
+// "not equal to",       "!="
+// "is not",             "!="
+// "is not equal to",    "!=" 
+
+// Example 1: Using <
+if a less than b then
+if a before b    then 
+if a below  b    then
+if a is before b then
+if a is below b  then
+
+// Example 2: Using <=
+if less than equal then
+if less than equal to then
+
+// Example 2: Using >
+if a more than b then
+if a after b     then 
+if a above b     then
+if a is after b  then
+if a is above b  then    
+{code:c#}
+[#Back to top]
+{anchor:Date}
+! 4. Date
+*Description:* Provides word based representation for dates e.g December 21st 2011
+*Date*: 2/10/2012
+*Version*: 0.9.8.2
+*Core source:* _Core\Lang\Plugins\Parser\DatePlugin.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/72286#1289913]
+*Example:* {"<Samples_Dir>"}\DatePlugin.cs
+{code:c#}
+// Date plugin allows date expressions in a friendly format like January 1 2001;
+// Following formats are supported.
+
+var date = January 1st 2012;
+var date = Jan
+date = jan 10
+date = Jan 10 2012
+date = Jan 10, 2012
+date = Jan 10th
+date = Jan 10th 2012
+date = Jan 10th, 2012
+date = January 10
+date = January 10, 2012
+date = January 10th
+date = January 10th, 2012
+date = January 10th 2012 at 9:20 am; 
+
+if today is before December 25th 2011 then
+    print Still have time to buy gifts
+{code:c#}
+[#Back to top]
+{anchor:DateNumber}
+! 5. DateNumber
+*Description:* Provides representation of dates in the form of numbers e.g. 1/27/2012
+*Date*: 2/10/2012
+*Version*: 0.9.8.2
+*Core source:* _Core\Lang\Plugins\Parser\DateNumberPlugin.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/72286#1289913]
+*Example:* {"<Samples_Dir>"}\DateNumberPlugin.cs
+{code:c#}
+// Date number plugin allow you to specify dates in the form of numbers as 
+// samples below.
+// The separator between months/days/years can be "/", "-", "\"
+
+var date1 = 1/27/1978 ;
+var date2 = 4-20-1979 ;
+var date3 = 6\10\2012 ;
+{code:c#}
+[#Back to top]
+{anchor:Day}
+! 6. Day
+*Description:* Provides alias and word based representation for days e.g Tuesday, Saturday, today, tommorrow 
+*Date*: 2/10/2012
+*Version*: 0.9.8.2
+*Core source:* _Core\Lang\Plugins\Parser\DayPlugin.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/72286#1289914]
+*Example:* {"<Samples_Dir>"}\DayPlugin.cs
+{code:c#}
+// Day plugin allows days of the week to be used as words. 
+// lowercase and uppercase days are supported:
+// 1. Monday - Sunday
+// 2. monday - sunday
+
+var day = Monday;
+day = monday;
+
+if tommorrow is Saturday then
+    print Thank god it's Friday
+{code:c#}
+[#Back to top]
+{anchor:Env}
+! 7. Env
+*Description:* Provides access to environment variables
+*Date*: 2/10/2012
+*Version*: 0.9.8.2
+*Core source:* _Core\Lang\Plugins\Parser\EnvPlugin.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/72286#1289918]
+*Example:* {"<Samples_Dir>"}\EnvPlugin.cs
+{code:c#}
+// Env plugin allows direct access to environment variables via the "env" object.
+
+// Example 1: Access to user variables only via the ".user" property of env.
+result = env.user.path;
+
+// Example 2: Access to system variables via the ".sys" property of env.
+result = env.sys.path;
+
+// Example 3: Access to environment variable without specifying sys or user.
+result = env.path;
+result = env.SystemRoot;
+{code:c#}
+[#Back to top]
+{anchor:Fluent}
+! 8. Fluent
+*Description:* Provides ability to call methods in a fluent way with method before class name. e.g. activate user 'kreddy'
+*Date*: 2/10/2012
+*Version*: 0.9.8.2
+*Core source:* _Core\Lang\Plugins\Parser\FluentPlugin.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/72286#1289919]
+*Example:* {"<Samples_Dir>"}\FluentPlugin.cs
+{code:c#}
+ 
+ // Fluent plugin allows methods to be called in different ways instead of the 
+ // typicall <class>.<method>( <arg1> ,<arg2 etc )
+
+ // Supported ways of calling methods:
+ // 1. <method> <class> .
+ // 2. <method> <class> <arg1> <arg2> .
+ // 3. <class>  <arg1>  <method> .
+ // 4. <method> <class> <arg1_name> : <arg1_value>, <arg2_name> : <arg2_value> .
+ // 5. <method> <class> <arg1>, 
+ 
+ // Examples
+ activate user         
+ delete file "c:\temp.txt".
+ file "c:\temp.txt" exists.
+ run program "msbuild.exe", solution: 'comlib.sln', mode: "debug", style: "rebuild all".
+ 
+ // The above calls translate to:
+ // 1. user.activate();
+ // 2. File.Delete("c:\temp.txt");
+ // 3. File.Exists("c:\temp.txt")
+ // 4. Program.Run("msbuild.exe", solution: "comlib.sln', mode: "debug", style: "rebuild all");
+{code:c#}
+[#Back to top]
+{anchor:Holiday}
+! 9. Holiday
+*Description:* Provides holiday names e.g. Christmas, Independence Day, Christmas Eve, New Years
+*Date*: 2/10/2012
+*Version*: 0.9.8.2
+*Core source:* _Core\Lang\Plugins\Parser\HolidayPlugin.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/72286#1289952]
+*Example:* {"<Samples_Dir>"}\HolidayPlugin.cs
+{code:c#}
+// Holiday plugin allows references to dates using Holiday names such as:
+// Christmas
+// Independence day
+// Valentines day
+// New Years
+
+if today is New Years 2012 then 
+    print happy new year!
+{code:c#}
+[#Back to top]
+{anchor:Linq}
+! 10. Linq
+*Description:* Provides partial support for linq-like queries on lists.
+*Date*: 2/10/2012
+*Version*: 0.9.8.2
+*Core source:* _Core\Lang\Plugins\Parser\LinqPlugin.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/72286#1290456]
+*Example:* {"<Samples_Dir>"}\LinqPlugin.cs
+{code:c#}
+// Linq plugin is a Light-weight and partial version of Linq style queries and comprehensions
+// NOTE: This has limited functionality as of this release.
+var books = [ 
+                { name: 'book 1', pages: 200, author: 'homey' },
+                { name: 'book 2', pages: 120, author: 'kdog' },
+                { name: 'book 3', pages: 140, author: 'homeslice' }
+            ];
+ 
+// Case 1: start with source <books> and system auto creates variable <book>
+var favorites = books where book.pages < 150 and book.author == 'kdog';
+
+// Case 2: using from <variable> in <source>
+var favorities = from book in books where book.pages < 150 and book.author == 'kdog';
+{code:c#}
+[#Back to top]
+{anchor:Marker}
+! 11. Marker
+*Description:* Provides markers/comments that are checked for syntax
+*Date*: 2/10/2012
+*Version*: 0.9.8.2
+*Core source:* _Core\Lang\Plugins\Parser\MarkerPlugin.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/72286#1293552]
+*Example:* {"<Samples_Dir>"}\MarkerPlugin.cs
+{code:c#}
+// Marker plugin allows you to mark code like comments but in the form of statements
+// so that syntax is checked. This allows for structured comments.
+
+// Case1 : Todo
+@todo: i need to add extra comments here
+
+// Case2 : Todo quoted
+@todo: "I need to add extra checks here and
+also do additional cleanup of code"
+
+// Case 3 : bug
+@bug: 'this bug related to parsing'
+@bug: this bug related to johns code!
+{code:c#}
+[#Back to top]
+{anchor:Money}
+! 12. Money
+*Description:* Provides dollar sign $ support for numbers.
+*Date*: 2/10/2012
+*Version*: 0.9.8.2
+*Core source:* _Core\Lang\Plugins\Parser\MoneyPlugin.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/72286#1289917]
+*Example:* {"<Samples_Dir>"}\MoneyPlugin.cs
+{code:c#}
+// Money plugin simply allows the $ to be prefixed to numbers.
+
+var salary = $225.50;
+if salary is more than $160 then
+    print I worked overtime.
+{code:c#}
+[#Back to top]
+{anchor:Print}
+! 13. Print
+*Description:* Provides functionality to print to console a line of text without wrapping around quotes.
+*Date*: 2/10/2012
+*Version*: 0.9.8.2
+*Core source:* _Core\Lang\Plugins\Parser\PrintPlugin.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/72286#1290455]
+*Example:* {"<Samples_Dir>"}\PrintPlugin.cs
+{code:c#}
+// Print plugin derives from the "TakeoverPlugin"
+// Takeovers are keywords that consume the entire line of text in the script
+// after the keyword. 
+// In this case of the Print plugin, it consume the rest of the line and you
+// don't need to wrap text around quotes.
+
+var language = 'fluentscript';
+print No need for quotes in #{language} if text to print is on one line    
+{code:c#}
+[#Back to top]
+{anchor:Records}
+! 14. Records
+*Description:* Supports representing data in a table/csv like format.
+*Date*: 2/10/2012
+*Version*: 0.9.8.2
+*Core source:* _Core\Lang\Plugins\Parser\RecordsPlugin.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/72286#1296274]
+*Example:* {"<Samples_Dir>"}\RecordsPlugin.cs
+{code:c#}
+   
+   // Supports representing data in a table/csv like format
+   // 1. The top most row must the the header names without spaces
+   // 2. The header names must be separated by "|"
+   // 3. The columns in the data rows must be separated by either "|" or ","
+   
+   set books1 = [  
+                    name          |     pages   |  artist
+                    'batman'     |     110     |  'john'
+                    'xmen'       |     120     |  'lee'
+                    'daredevil'  |     140     |  'maleev'
+                ];
+    
+    
+    set books2 = [  
+                    name          |     pages   |  artist
+                    'batman'     ,     110     ,  'john'
+                    'xmen'       ,     120     ,  'lee'
+                    'daredevil'  ,     140     ,  'maleev'
+                 ];
+{code:c#}
+[#Back to top]
+{anchor:Round}
+! 15. Round
+*Description:* Provides rounding of numbers using round, round up, round down.
+*Date*: 2/10/2012
+*Version*: 0.9.8.2
+*Core source:* _Core\Lang\Plugins\Parser\RoundPlugin.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/72286#1292482]
+*Example:* {"<Samples_Dir>"}\RoundPlugin.cs
+{code:c#}
+// Round plugin provides functions to round, round up or round down numbers.
+
+var a = 2.3;
+
+// Rounds the number using standing round technique of .4
+var b = round 2.3;
+
+// Gets rounded up to 3
+var c = round up 2.3; 
+
+// Gets rounded down to 2
+var d = round down 2.3;
+{code:c#}
+[#Back to top]
+{anchor:Run}
+! 16. Run
+*Description:* Provides alternative ways of calling a function.
+*Date*: 2/10/2012
+*Version*: 0.9.8.2
+*Core source:* _Core\Lang\Plugins\Parser\RunPlugin.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/72286#1289922]
+*Example:* {"<Samples_Dir>"}\RunPlugin.cs
+{code:c#}
+// Run plugin provides alternate way to call a function for fluid syntax.
+// Notes: 
+// 1. The keyword "function" can be aliased with the word "step"
+// 2. The name of a function can be in quotes with spaces.
+
+// This is a function with 0 parameters so parentheses are not required
+step Cleanup
+{
+    // do something here.
+}
+ 
+
+// This is a function with string for name and 0 parameters so parentheses are not required
+step 'Clean up'
+{
+    // do something here.
+}
+
+// Example 1: Call function normally
+Cleanup();
+
+// Example 2: Call function using Run keyword
+run Cleanup();
+
+// Example 3: Call function using run without parenthesis for function name.
+run Cleanup;
+
+// Example 4: Call function with spaces in name using run with quotes for function name.    
+run 'Clean up';
+
+// Example 5: Call function with spaces using run and keyword.
+run step 'Clean up';
+{code:c#}
+[#Back to top]
+{anchor:Sort}
+! 17. Sort
+*Description:* Provides ability to sort of list of either basic types of objects with properties.
+*Date*: 2/10/2012
+*Version*: 0.9.8.2
+*Core source:* _Core\Lang\Plugins\Parser\SortPlugin.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/72286#1293513]
+*Example:* {"<Samples_Dir>"}\SortPlugin.cs
+{code:c#}
+// Sort plugin allows you to sort a list
+
+// Case 1: sort list of basic types
+var numbers = [4, 3, 1, 7, 5, 2, 6];
+sort numbers asc
+sort numbers desc
+
+// Case 2: start with source <books> and system auto creates variable <book>
+var books = [ 
+                { name: 'book 1', pages: 200, author: 'homey' },
+                { name: 'book 2', pages: 120, author: 'kdog' },
+                { name: 'book 3', pages: 140, author: 'homeslice' }
+            ];     
+sort books by book.pages asc
+sort books by book.pages desc
+sort i in books by i.pages desc
+ 
+{code:c#}
+[#Back to top]
+{anchor:Swap}
+! 18. Swap
+*Description:* Provides ability to swap values of 2 variables in 1 statement e.g swap a with b;
+*Date*: 2/10/2012
+*Version*: 0.9.8.2
+*Core source:* _Core\Lang\Plugins\Parser\SwapPlugin.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/72286#1289912]
+*Example:* {"<Samples_Dir>"}\SwapPlugin.cs
+{code:c#}
+// Swap plugin provides 1 line statement to swap variables.
+
+var a = 1, b = 2;
+
+// Swap values in 1 statement.
+// Instead of needing a third variable.
+swap a with b;
+{code:c#}
+[#Back to top]
+{anchor:Time}
+! 19. Time
+*Description:* Provides time representation in format 12:30 pm
+*Date*: 2/10/2012
+*Version*: 0.9.8.2
+*Core source:* _Core\Lang\Plugins\Parser\TimePlugin.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/72286#1289920]
+*Example:* {"<Samples_Dir>"}\TimePlugin.cs
+{code:c#}
+// Time plugin provides a convenient way to represent time in fluent syntax.
+
+var t = 12:30 pm;
+
+if t is 12:30 pm then
+    print it's time to go to lunch!
+{code:c#}
+[#Back to top]
+{anchor:Uri}
+! 20. Uri
+*Description:* Provides url and folder representations as strings without quotes.
+*Date*: 2/10/2012
+*Version*: 0.9.8.2
+*Core source:* _Core\Lang\Plugins\Parser\UriPlugin.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/72286#1293481]
+*Example:* {"<Samples_Dir>"}\UriPlugin.cs
+{code:c#}
+// Uri plugin allows you urls and file paths without surrounding them in 
+// quotes as long as there are no spaces. These are interpreted as strings.
+
+var url1 = www.yahoo.com;
+var url2 = http://www.google.com;
+var url3 = http://www.yahoo.com?user=kishore%20&id=123;
+var file1 = c:\users\kishore\settings.ini;
+var file2 = c:/data/blogposts.xml;
+
+// Since this file has a space in it... you have to surround in quotes.
+var file3 = 'c:/data/blog posts.xml';
+{code:c#}
+[#Back to top]

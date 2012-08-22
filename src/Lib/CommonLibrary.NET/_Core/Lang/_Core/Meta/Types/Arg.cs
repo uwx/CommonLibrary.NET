@@ -1,0 +1,57 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ComLib.Lang
+{
+    /// <summary>
+    /// Information about parameters to a function.
+    /// </summary>
+    public class Arg
+    {
+        /// <summary>
+        /// Initialize.
+        /// </summary>
+        public Arg()
+        {
+            Examples = new List<string>();
+        }
+
+
+        /// <summary>
+        /// The name of the argument
+        /// </summary>
+        public string Name { get; set; }
+
+
+        /// <summary>
+        /// Description of the Parameter
+        /// </summary>
+        public string Desc { get; set; }
+
+
+        /// <summary>
+        /// Datatype of the parameter
+        /// </summary>
+        public string Type { get; set; }
+
+
+        /// <summary>
+        /// Another alias for the parameter
+        /// </summary>
+        public string Alias { get; set; }
+
+
+        /// <summary>
+        /// The 0 based index position of this argument in the parameter list.
+        /// </summary>
+        public int Index { get; set; }
+
+
+        /// <summary>
+        /// List of example values for the paramter.
+        /// </summary>
+        public List<string> Examples { get; set; }
+    }
+}

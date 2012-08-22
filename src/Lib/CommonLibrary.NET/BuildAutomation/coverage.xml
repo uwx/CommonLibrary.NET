@@ -1,0 +1,143 @@
+<project xmlns="http://nant.sf.net/release/0.85-rc3/nant.xsd" name="Application.CodeCoverage" default="CodeCoverage.Execute">	
+	
+	<loadtasks assembly="..\lib\External\NCoverExplorer.Extras\1.3.6\NCoverExplorer.NAntTasks.dll" />
+	
+	<include buildfile="${args.settings.file}" />
+	
+	<!-- ****************************************************************************************
+		<summary>Runs the coverage tests.</summary>
+	      **************************************************************************************** -->
+	<target name="CodeCoverage.Execute">
+		<call target="CodeCoverage.CheckArguments" />
+		<call target="CodeCoverage.ExecuteCoverage" />
+		<call target="CodeCoverage.ExecuteNCoverexplorerReportGeneration" />
+	</target>
+	
+	
+	<!-- ****************************************************************************************
+		ncover task is located in  lib\External\NCoverExplorer.Extras\1.3.6 
+                 **************************************************************************************** -->
+	<target name="CodeCoverage.ExecuteCoverage">
+		
+		<ncover program="${coverage.tool.path}"
+            commandLineExe="${coverage.command}"
+            commandLineArgs="${coverage.commandargs}"
+            workingDirectory="${coverage.workingDir}"
+            assemblyList="${coverage.assemblies}"
+            coverageFile="${coverage.outputDir}\${coverage.xmlResultsFile}"
+            logLevel="Normal"
+		/>
+	</target>
+	
+	
+	<!-- ****************************************************************************************
+		<summary>Executes the coverage via unit test project.
+		ncover.console.exe 
+			nunit-console.exe application.nunit /config=Debug 
+			//w "C:\kishore\bus\Cab\Neekho\tests\Neekho.Apps.Tests\Neekho.WinApp\bin\Debug" 
+			//a Neekho.BusinessLogic;Neekho.BusinessLayer.Tests
+			//x ncover.results.xml
+		</summary>
+	      **************************************************************************************** -->
+	<target name="CodeCoverage.ExecuteCoverageViaExec">
+		
+		<property name="coverage.tool.commandargs" value="${coverage.command} ${coverage.commandargs}" />
+		<property name="coverage.tool.commandargs" value="${coverage.tool.commandargs} //w &quot;${coverage.workingDir}&quot;" />
+		<property name="coverage.tool.commandargs" value="${coverage.tool.commandargs} //a &quot;${coverage.assemblies}&quot;" />
+		<property name="coverage.tool.commandargs" value="${coverage.tool.commandargs} //x &quot;${coverage.xmlResultsFile}&quot;" />
+		
+		<echo message="RUNNING COVERAGE IN ${coverage.workingDir} WITH ARGUMENTS...${coverage.tool.commandargs}"/>
+		
+		<exec program="${coverage.tool.path}"
+				workingdir="${coverage.workingDir}" 
+				failonerror="false" resultproperty="coverage.result"
+				commandline='${coverage.tool.commandargs}' />
+		
+		<!-- Check the results and fail if necessary -->
+		<echo message="coverage result code : ${coverage.result}"/>
+        <!-- <fail message="Failures reported in coverage tests." unless="${int::parse(coverage.result)==0}" /> -->
+		
+	</target>
+	
+	
+	<target name="CodeCoverage.ExecuteNCoverexplorerReportGeneration">
+		<echo message="Starting NCoverExplorer report generation..."/>
+		
+		<!-- Other attributes that can be used on ncoverexplorer element:               -->
+		<!--   failMinimum="True" would fail the build if minimum coverage not met.     -->
+		<!-- Remove the xmlReportName and/or htmlReportName attributes to not generate. -->
+		<!-- Report types are 1=Module, 2=Namespace, 3=Namespace/Module, 4=Module/Class, 5=Function.-->
+		<!-- Valid exclusion 'type' attributes are 'Assembly', 'Namespace' and 'Class'. -->
+		<!-- See command line for which attributes are optional to alter behaviour.		-->
+		<ncoverexplorer program="${coverage.path.ncoverexplorer.console}"
+						projectName="${app.name}"
+						reportType="5"
+						outputDir="${coverage.outputDir}" 
+						xmlReportName="CoverageReport.xml"
+						htmlReportName="CoverageReport.html"
+						mergeFileName="CoverageMerge.xml"
+						showExcluded="True"
+						satisfactoryCoverage="80" >
+			<fileset>
+				<include name="${coverage.outputDir}\${coverage.xmlResultsFile}"/>
+			</fileset>
+			<exclusions>
+				<exclusion type="Assembly" pattern="*.Tests" />
+				<!--<exclusion type="Namespace" pattern="*.Presentation*" />
+				<exclusion type="Namespace" pattern="MyApp\.(\w*\.)?" isRegex="true" />-->
+			</exclusions>
+			<!--
+			<moduleThresholds>
+				<moduleThreshold moduleName="MyAssembly.dll" satisfactoryCoverage="30" />
+			</moduleThresholds>
+			-->
+		</ncoverexplorer>
+	</target>
+	
+	
+	<!-- ****************************************************************************************
+		<summary>Validates that the arguments are passed in correctly.</summary>
+	      **************************************************************************************** -->
+	<target name="CodeCoverage.CheckArguments">
+		
+		<if test="${property::exists('args.app.name')}">				
+			<property name="app.name" value="${args.app.name}"/>	
+		</if>		
+		
+		<!-- Verify that the project file name was supplied -->
+		<if test="${property::exists('args.coverage.command')}">				
+			<property name="coverage.command" value="${args.coverage.command}"/>	
+		</if>
+				
+		<!-- Verify that the project file directory location was supplied -->
+		<if test="${property::exists('args.coverage.commandargs')}">				
+			<property name="coverage.commandargs" value="${args.coverage.commandargs}"/>	
+		</if>
+				
+		<!-- Verify that the project configuration was supplied -->
+		<if test="${property::exists('args.coverage.assemblies')}">				
+			<property name="coverage.assemblies" value="${args.coverage.assemblies}"/>	
+		</if>		
+		
+		<!-- Verify that the output xml results file path was supplied -->
+		<if test="${property::exists('args.coverage.outputDir')}">				
+			<property name="coverage.outputDir" value="${args.coverage.outputDir}"/>
+		</if>
+				
+		<!-- Verify that the output xml results file path was supplied -->
+		<if test="${property::exists('args.coverage.xmlResultsFile')}">				
+			<property name="coverage.xmlResultsFile" value="${args.coverage.xmlResultsFile}"/>
+		</if>		
+		
+		<!-- Verify that the working direcotry of the unit test assembly's was supplied -->
+		<if test="${property::exists('args.coverage.workingDir')}">				
+			<property name="coverage.workingDir" value="${args.coverage.workingDir}"/>
+		</if>
+				
+		<!-- Verify that coverage tool path was supplied -->
+		<if test="${property::exists('args.coverage.tool.path')}">				
+			<property name="coverage.tool.path" value="${args.coverage.tool.path}"/>
+		</if>		
+		
+	</target>
+</project>

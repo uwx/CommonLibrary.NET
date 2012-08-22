@@ -1,0 +1,300 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<comlibdoc>
+    <instructions>
+    Case 1: If shortdesc is empty, use content from summary as content for shortdesc
+    Case 2: summary can have @shortdesc which indicates replacing @shortdesc with content from shortdesc element
+    - Need check to prevent cyclic refs.
+    Case 3: fileref is used designate that the summary text should be applied to the summary element for the class in that file.
+    this is used to have a single location for component documentation at a high-level and auto-apply to components.
+    Case 4: example component is used for codeplex wiki purposes.
+    wikienabled= true | false : true = included for processing in codeplexdocgenerator tool
+    wikistyle= xml_markers | full_file | file_ref:
+    xml_markers: process the doc: tags in the file
+    full_file: include the full file for the wiki
+    not_available: use text that says "not available" please refer to example.
+    </instructions>
+    <components>
+          
+        <component name="Aggregate">
+            <shortdesc>Provides sum, min, max, avg, count aggregate functions for lists.</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\AggregatePlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1289916">AggregatePlugin.cs</example>
+        </component>
+        <component name="Alias">
+            <shortdesc>Provides using an alias for a keyword such as set for var inside a script.</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\AliasPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1349987">AliasPlugin.cs</example>
+        </component>
+        <component name="AndOr">
+            <shortdesc>Provides words "and" "or" to be used in place of &amp;&amp; and ||</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\AndOrPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1343614">AndOrPlugin.cs</example>
+        </component>
+        <component name="Bool">
+            <shortdesc>Provides synonyms yes/no, on/off for bool values true/false.</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\BoolPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1290454">BoolPlugin.cs</example>
+        </component>
+        <component name="Compare">
+            <shortdesc>Provides synonyms for comparison operators</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\ComparePlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1290453">ComparePlugin.cs</example>
+        </component>
+        <component name="ConstCaps">
+            <shortdesc>Allows defining constants with UPPERCASE letters.</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\ConstCapsPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1345095">ConstCapsPlugin.cs</example>
+        </component>
+        <component name="Date">
+            <shortdesc>Provides word based representation for dates e.g December 21st 2011</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\DatePlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1289913">DatePlugin.cs</example>
+        </component>
+        <component name="DateNumber">
+            <shortdesc>Provides representation of dates in the form of numbers e.g. 1/27/2012</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\DateNumberPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1289913">DateNumberPlugin.cs</example>
+        </component>
+        <component name="Day">
+            <shortdesc>Provides alias and word based representation for days e.g Tuesday, Saturday, today, tommorrow </shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\DayPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1289914">DayPlugin.cs</example>
+        </component>
+        <component name="Def">
+            <shortdesc>Allows the word "def" to be used instead of "function" when declaring functions. </shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\DefPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1333227">DefPlugin.cs</example>
+        </component>
+        <component name="Email">
+            <shortdesc>Provides using emails without quotes such as john.doe@company.com</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\EmailPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1332189">EmailPlugin.cs</example>
+        </component>
+        <component name="Env">
+            <shortdesc>Provides access to environment variables</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\EnvPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1289918">EnvPlugin.cs</example>
+        </component>
+        <component name="Fluent Functions">
+            <shortdesc>Provides ability to call functions with spaces in name. e.g. refill inventory</shortdesc>
+            <summary>@shortdesc. If a function is defined with name "refill_inventory", it can be called using
+            "refill inventory". The plugin will attemp to find a matching function name by first replacing the
+            spaces with underscores "_". There can be at most 4 consequtive words between spaces representing
+            the function name. Parenthesis are also optional, however if the parenthesis are not present, 
+            the function call must end on a single line e.g. via ; or newline.</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\FluentFuncPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1334088">FluentFuncPlugin.cs</example>
+        </component>
+        <component name="Fluent Members">
+            <shortdesc>Provides ability to access properties and methods on a custom c# object without the 
+            "."( dot operator ).</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\FluentFuncPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1338334">FluentMemberPlugin.cs</example>
+        </component>
+        <component name="Function Wildcard">
+            <shortdesc>Provides a 'wildcard' like ability to functions so that 2 functions that have different names are
+            associated with the same function.
+            </shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\FuncWildCardPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1346790">FuncWildCardPlugin.cs</example>
+        </component>
+        <component name="HashComment">
+            <shortdesc>Provides single line comment using # instead of //</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\HashCommentPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1344512">HashCommentPlugin.cs</example>
+        </component>
+        <component name="Holiday">
+            <shortdesc>Provides holiday names e.g. Christmas, Independence Day, Christmas Eve, New Years</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\HolidayPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1289952">HolidayPlugin.cs</example>
+        </component>
+        <component name="Linq">
+            <shortdesc>Provides partial support for linq-like queries on lists.</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\LinqPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1290456">LinqPlugin.cs</example>
+        </component>
+        <component name="Log">
+            <shortdesc>Provides logging ability to either the console or a log file</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\LogPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1349989">LogPlugin.cs</example>
+        </component>
+        <component name="MachineInfo">
+            <shortdesc>Provides markers/comments that are checked for syntax</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\MachineInfoPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1349266">MachineInfoPlugin.cs</example>
+        </component>
+        <component name="Marker">
+            <shortdesc>Provides markers/comments that are checked for syntax</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\MarkerPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1293552">MarkerPlugin.cs</example>
+        </component>
+        <component name="Money">
+            <shortdesc>Provides dollar sign $ support for numbers.</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\MoneyPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1289917">MoneyPlugin.cs</example>
+        </component>
+        <component name="Percent">
+            <shortdesc>Provides using a percent sign % after a number to indicate percentage</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\PercentPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1357973">PercentPlugin.cs</example>
+        </component>
+        <component name="Print">
+            <shortdesc>Provides functionality to print to console a line of text without wrapping around quotes.</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\PrintPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1290455">PrintPlugin.cs</example>
+        </component>
+        <component name="Records">
+            <shortdesc>Supports representing data in a table/csv like format.</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\RecordsPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1296274">RecordsPlugin.cs</example>
+        </component>
+        <component name="Repeat">
+            <shortdesc>Repeat plugin provides convenient ways to execute loops.</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\RepeatPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1383748">RepeatPlugin.cs</example>
+        </component>
+        <component name="Round">
+            <shortdesc>Provides rounding of numbers using round, round up, round down.</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\RoundPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1292482">RoundPlugin.cs</example>
+        </component>      
+        <component name="Run">
+            <shortdesc>Provides alternative ways of calling a function.</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\RunPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1289922">RunPlugin.cs</example>
+        </component>
+        <component name="Set">
+            <shortdesc>Allows the word "set" to be used instead of "var" when declaring variables</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\SetPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1333226">SetPlugin.cs</example>
+        </component>
+        <component name="Sort">
+            <shortdesc>Provides ability to sort of list of either basic types of objects with properties.</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\SortPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1293513">SortPlugin.cs</example>
+        </component>
+        <component name="Step">
+            <shortdesc>Allows the word "step" to be used instead of "function" when declaring functions. </shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\StepPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1343616">StepPlugin.cs</example>
+        </component>
+        <component name="Suffix">
+            <shortdesc>Provides enables the use of functions as postfix operators on constants</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\SuffixPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1331001">SuffixPlugin.cs</example>
+        </component>
+        <component name="Swap">
+            <shortdesc>Provides ability to swap values of 2 variables in 1 statement e.g swap a with b;</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\SwapPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1289912">SwapPlugin.cs</example>
+        </component>
+        <component name="Time">
+            <shortdesc>Provides time representation in format 12:30 pm</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\TimePlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1289920">TimePlugin.cs</example>
+        </component>
+        <component name="TypeOf">
+            <shortdesc>Provides checking of data types</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\TypeOfPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1289920">TypeOfPlugin.cs</example>
+        </component>
+        <component name="Units">
+            <shortdesc>Provides usage of units of measure such as length, weight</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\UnitsPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1331000">UnitsPlugin.cs</example>
+        </component>
+        <component name="Uri">
+            <shortdesc>Provides url and folder representations as strings without quotes.</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\UriPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1293481">UriPlugin.cs</example>
+        </component>
+        <component name="VariablePath">
+            <shortdesc>Provides representation of file paths in more convenient ways.</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\VariablePathPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1358170">VariablePathPlugin.cs</example>
+        </component>
+        <component name="Words">
+            <shortdesc>Provides ability to use multi-word strings. e.g fluent script = 'fluent script'</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\WordsPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1311195">WordsPlugin.cs</example>
+        </component>
+  </components>
+</comlibdoc>

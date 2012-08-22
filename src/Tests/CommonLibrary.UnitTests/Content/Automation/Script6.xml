@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<automation-script>
+    <var name="first" value="${date.month}" />
+
+  <command name="CreateEvent" hi="whats up?">
+    <event>
+      <title>.NET meetup at microsoft office</title>
+      <summary>Disucss .NET in startups</summary>
+      <date>05/17/2011</date>
+      <adress>
+        <city>New York</city>
+        <state>New York</state>
+        <zip>11001</zip>
+      </adress>
+    </event>
+  </command>
+  
+</automation-script>

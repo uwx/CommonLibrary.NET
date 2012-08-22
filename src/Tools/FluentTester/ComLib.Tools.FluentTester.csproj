@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4B5108BA-22A1-488C-9304-CEE5D4D25136}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CodePlexDocGenerator</RootNamespace>
+    <AssemblyName>CodePlexDocGenerator</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="entities\ExceptedValue.cs" />
+    <Compile Include="entities\ScriptResult.cs" />
+    <Compile Include="entities\Script.cs" />
+    <Compile Include="entities\ScriptResultData.cs" />
+    <Compile Include="helper\FluentHelper.cs" />
+    <Compile Include="helper\LogHelper.cs" />
+    <Compile Include="helper\XmlHelper.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Samples\Person.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="config\scripts.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="data\Combinators\Comb_Bool.js" />
+    <Content Include="data\Combinators\Comb_Date.js" />
+    <Content Include="data\Combinators\Comb_Records.js" />
+    <Content Include="data\Combinators\Comb_Time.js" />
+    <Content Include="data\Combinators\Comb_Day.js" />
+    <Content Include="data\Combinators\Comb_Compare.js" />
+    <Content Include="data\Combinators\Comb_Run.js" />
+    <Content Include="data\Combinators\Comb_DateNumber.js" />
+    <Content Include="data\Combinators\Comb_Uri.js" />
+    <Content Include="data\Combinators\Comb_Money.js" />
+    <Content Include="data\Combinators\Comb_Linq.js" />
+    <Content Include="data\Combinators\Comb_Sort.js" />
+    <Content Include="data\Combinators\Comb_Fluent.js" />
+    <Content Include="data\Combinators\Comb_Words.js" />
+    <Content Include="data\Combinators\Comb_Units.js" />
+    <Content Include="data\Combinators\Comb_Email.js" />
+    <Content Include="data\Combinators\Comb_Set.js" />
+    <Content Include="data\Combinators\Comb_Def.js" />
+    <Content Include="data\Combinators\Comb_FluentFunc.js" />
+    <Content Include="data\System\Expressions\Sys_TypeOf.js" />
+    <Content Include="data\System\Types\Sys_Null.js" />
+    <Content Include="data\System\Types\Sys_Function_NoParen.js" />
+    <Content Include="data\System\Types\Sys_DocTags.js" />
+    <Content Include="data\System\Types\Sys_Array.js" />
+    <Content Include="data\System\Types\Sys_CSharpObj.js" />
+    <Content Include="data\System\Types\Sys_Date.js" />
+    <Content Include="data\System\Types\Sys_Function.js" />
+    <Content Include="data\System\Types\Sys_Map.js" />
+    <Content Include="data\System\Types\Sys_String.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <Content Include="data\Combinators\Comb_Aggregate_Sum.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Lib\CommonLibrary.NET\CommonLibrary.csproj">
+      <Project>{788226CD-0C48-473F-A939-32490358B8B9}</Project>
+      <Name>CommonLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

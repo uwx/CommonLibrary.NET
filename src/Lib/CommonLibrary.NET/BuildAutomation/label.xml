@@ -1,0 +1,73 @@
+<project xmlns="http://nant.sf.net/release/0.85-rc3/nant.xsd" name="Application.TagSources" default="Label.Execute">	
+	
+	<property name="cvs.path" value="" />
+	<property name="cvs.repository" value="" />
+	<property name="cvs.workingdir" value="" />
+	<property name="build.label" value="build_1.0.0.2" />
+	
+	
+	<!-- ****************************************************************************************
+		<summary>Validates arguments, formats the label( tag ) and then applies the tag.</summary>
+	      **************************************************************************************** -->
+	<target name="Label.Execute">
+		<call target="Label.CheckArguments" />
+		<call target="Label.FormatBuildLabel" />
+		<call target="Label.TagSource" />
+	</target>
+	
+	
+	<!-- ****************************************************************************************
+		<summary>Labels cvs using the cvs.exe executable passing in command line args.
+		"cvs.exe tag build_1.2.0.1212"
+		THe cvs.exe is executed "C:\program files\CVSNT\cvs.exe" from the working directory being
+		"c:\cvs_views2\<applicationName>"
+		</summary>
+	      **************************************************************************************** -->
+	<target name="Label.TagSource">
+		<echo message="RUNNING COMMAND ${cvs.path} IN ${cvs.workingdir} WITH ARGUMENTS tag ${build.label}."/>
+		<exec program="${cvs.path}" workingdir="${cvs.workingdir}" commandline="tag ${build.label}"/>		
+	</target>
+	
+	
+	<!-- ****************************************************************************************
+		<summary>Validates that the arguments are passed in correctly.</summary>
+	      **************************************************************************************** -->
+	<target name="Label.CheckArguments">
+		<!-- Verify that the config environment file was passed in. -->
+		<ifnot test="${property::exists('args.cvs.path')}">				
+			<fail message="argument : 'args.cvs.path' not supplied. " />
+		</ifnot>
+		<property name="cvs.path" value="${args.cvs.path}"/>	
+		
+		<!-- Verify that the  file was passed in. -->
+		<ifnot test="${property::exists('args.cvs.repository')}">				
+			<fail message="argument : 'args.cvs.repository' not supplied." />
+		</ifnot>
+		<property name="cvs.repository" value="${args.cvs.repository}"/>
+		
+		<!-- Verify that the  file was passed in. -->
+		<ifnot test="${property::exists('args.cvs.workingdir')}">				
+			<fail message="argument : 'args.cvs.workingdir' not supplied." />
+		</ifnot>
+		<property name="cvs.workingdir" value="${args.cvs.workingdir}"/>
+		
+		<!-- Verify that the  file was passed in. -->
+		<ifnot test="${property::exists('CCNetLabel')}">				
+			<fail message="argument : 'CCNetLabel' not supplied." />
+		</ifnot>
+		<property name="build.label" value="${CCNetLabel}"/>
+	</target>
+	
+	
+	<!-- ****************************************************************************************
+		<summary>Formats the build label by removing any periods and replacing them with underscores
+		"_". E.g. build_1.2.0.222 becomes build_1_2_0_222 </summary>
+	      **************************************************************************************** -->
+	<target name="Label.FormatBuildLabel">		
+		<echo message="Current build label : ${build.label}" />
+		<property name="build.label" value="${string::replace(build.label,'.','_')}"/>
+		<echo message="Current build label : ${build.label}" />		
+	</target>
+	
+	
+</project>

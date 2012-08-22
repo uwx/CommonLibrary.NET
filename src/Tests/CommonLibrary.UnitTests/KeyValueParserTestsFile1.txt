@@ -1,0 +1,27 @@
+allsettings:
+{
+	address : street = 439 calhoun ave
+	address : city = New York, zip = 10465, state = NY
+	address : country = USA
+	venue : wholesome foods
+	url: http://www.testing.com
+	cost: varies
+}
+
+class:
+{
+	Title: Class 1 for painting
+	Dates: 6/25/2009 to 8/25/2009
+	Time: evening 
+	Location: Stamford, CT 06901
+}
+
+class:
+{
+	Title: Class 2 for other things
+	Dates: 6/25/2009 to 8/25/2009
+	Time: evening 
+	Location: Bronx, NY 10465
+	urls: [ 1, 2, 3, 4, 5 ]
+	maps: { name=kishore, ssn=2324 }
+}

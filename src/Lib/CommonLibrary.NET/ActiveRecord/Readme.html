@@ -1,0 +1,105 @@
+﻿
+<body>
+<h2>ActiveRecord Options</h2>
+
+<li><b>ActiveRecordBase</b>- Useful if you want ActiveRecord support in a separate class from your entity.</li> 
+<li><b>ActiveRecordBaseEntity</b> - Useful if want 1 class to have both Entity and ActiveRecord support.</li>
+<br /><br />
+
+<bold>** NOTE:</bold>
+<pre>
+This is really your personal preference and therefore 2 different ActiveRecord classes are supplied.
+There is a 3rd way to get ActiveRecord functionality using Extension classes to provide CRUD
+Create, Update, Delete, Retrieve methods as extension methods on the entity.
+
+</pre>
+
+
+<h2>ActiveRecordBase</h2>
+This will give you only ActiveRecord functionality without extending from Entity.
+This basically means you will have 2 classes:
+ 1 Class to represent the Entity as in "User".
+ 1 Class to represent the ActiveRecord features as in "Users".
+
+ActiveRecord Support
+<ul>
+    <li> Create   </li>
+    <li> Retrieve </li>
+    <li> Update   </li>
+    <li> Delete   </li>
+    <li> Get      </li>
+    <li> GetAll   </li>
+    <li> FindXXX  </li>
+</ul>
+
+
+<h3>Example:</h3>
+<pre>
+public class User : Entity
+{
+    ...
+}
+
+public class Users : ActiveRecordBase
+{
+    ...
+}
+
+...
+User user = new User("kishore");
+Users.Save(user);
+
+</pre>
+
+
+
+
+<h2>ActiveRecordBaseEntity</h2>
+<pre>
+This derives from Entity so you get both the Entity functionality and the ActiveRecord functionality
+This will allow you to have both ActiveRecord features and entity features in one class.
+</pre>
+
+ActiveRecord Support
+<ul>
+    <li> Create   </li>
+    <li> Retrieve </li>
+    <li> Update   </li>
+    <li> Delete   </li>
+    <li> Get      </li>
+    <li> GetAll   </li>
+    <li> FindXXX  </li>
+</ul>
+
+
+
+Entity Support: <br />
+
+1. Persistance Fields:
+    <ul>
+    <li> Id         </li>
+    <li> CreateDate </li>
+    <li> UpdateDate </li>
+    <li> CreateUser </li>
+    <li> UpdateUser </li>
+    </ul>
+    
+2. Validation Support:  <br />
+    <ul>
+    <li> IsValid   </li>
+    <li> Validate()</li>
+    <li> Errors    </li>
+    </ul>
+    
+<h3>Example:</h3>
+<pre>
+public class User : ActiveRecordBaseEntity
+{
+    ...
+}
+
+
+User user = new User("kishore");
+User.Save(user);
+</pre>
+</body>

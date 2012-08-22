@@ -1,0 +1,12 @@
+﻿{anchor:${componentname}}
+! ${componentnumber}. ${componentname}
+*Description:* ${desc}
+*Date*: ${dategenerated}
+*Version*: ${comlibversion}
+*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.${componentname}Plugin
+*Core source:* src\Lib\CommonLibrary.NET\${coresource}
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/${changeset}#${sourcecontrolfileid}]
+{code:c#}
+${examplecode}
+{code:c#}
+[#Back to top]

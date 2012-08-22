@@ -1,0 +1,169 @@
+
+<project xmlns="http://nant.sf.net/release/0.85-rc3/nant.xsd" name="Application.Versioning" default="Version.Execute">
+	<!--If you want to change the working directory of this task set the base.dir variable-->
+	<!--If you want the version to be other than CCNetLabel validated set the versioning.label; the version has to be 
+	of the following format x.y.z.n where x, y, z and n are numbers.  
+	base.dir
+	-->
+	
+	<include buildfile="${args.settings.file}" />
+	
+	<!-- ****************************************************************************************
+		This does the following : 
+		1.  Obtains all the AssemblyVersion.cs files in the working directory and it's sub-directories.
+		2. Autogenerates 
+	      **************************************************************************************** -->
+	<target name="Version.Execute">
+		<call target="Version.CheckArguments"/>
+		<call target="Version.PrintVersionInfo" />
+		<call target="Version.ObtainVersionFromBuildLabel" />
+		<call target="Version.WriteAssemblyVersion" />
+	</target>
+	
+	
+	<!-- ****************************************************************************************
+		This obtains the base directory for the application from the arguments and sets the working directory.
+		args passed in:
+			1. base.dir
+			2. CCNetNumericLabel
+	      **************************************************************************************** -->
+	<target name="Version.CheckArguments">
+		
+		<!-- Check if the base directory was passed in. -->		
+		<if test="${property::exists('args.base.dir')}">				
+			<property name="app.base.dir" value="${args.base.dir}"/>
+		</if>		
+		
+		<!-- Check if the source directory to build was passed in. -->
+		<if test="${property::exists('args.source.dir')}">				
+			<property name="app.source.dir" value="${args.source.dir}"/>		
+		</if>		
+		
+		<!-- Check if the source directory to build was passed in. -->
+		<if test="${property::exists('args.label.prefix')}">				
+			<property name="build.label.prefix" value="${args.label.prefix}"/>		
+		</if>
+		
+		<!-- Check if the build label was passed in. -->
+		<if test="${property::exists('CCNetLabel')}">
+			<call target="Version.ValidateBuildLabel"/>
+		
+			<ifnot test="${Version.isValidCruiseControlLabel}">
+				<fail message="argument : 'CCNetLabel' is not in a valid format APP.major.minor.revision.build" />
+			</ifnot>
+			
+			<if test="${Version.isValidCruiseControlLabel}">
+				<property name="build.label" value="${CCNetLabel}"/>
+			</if>
+		</if>		
+			
+		<property name="Version.workDir" value="${app.base.dir}\${app.source.dir}"/>	
+			
+	</target>
+	
+	
+	<target name="Version.PrintVersionInfo">	
+		<echo message="build label prefix : ${build.label.prefix}" />
+		<echo message="build version : ${build.version}" />
+		<echo message="build label : ${build.label}" />
+		<echo message="working dir : ${Version.workDir}" />
+		<echo message="app base dir : ${app.base.dir}" />
+		<echo message="app source dir : ${app.source.dir}" />
+	</target>
+		
+	
+	<target name="Version.ObtainVersionFromBuildLabel">	
+		<property name="build.version" value="${string::replace(build.label,build.label.prefix,'')}"/>
+		<echo message="build version : ${build.version}" />	
+
+		<call target="Version.ObtainIndividualVersionNumbers" />
+		<echo message="individual version numbers: ${build.version.major}.${build.version.minor}.${build.version.revision}.${build.version.build}" />	
+	</target>
+	
+	
+	 <!-- ****************************************************************************************
+		This script may be called from cruise control.
+		Initializes the version from the cruise control label supplied as an arugment called
+		CCNetLabel in the format "APPNAME_1.2.0.51"		
+		
+		Version format used :     <major> <minor> <revision> <build>
+		System.Version format:  <major> <minor> <build> <revision>
+		
+		NOTICE that system.version switches the build w/ the revision.
+	 **************************************************************************************** -->
+    <target name="Version.ObtainIndividualVersionNumbers" depends="" description="">
+    	<echo message="Obtaining version numbers by parsing version : '${build.version}'"/>
+		<script language="C#">
+			<code><![CDATA[
+				public static void ScriptMain(Project project)
+				{
+					string buildVersion = project.Properties["build.version"];
+					
+					System.Version version = new Version( buildVersion );
+					project.Properties["build.version.major"] = version.Major.ToString();
+					project.Properties["build.version.minor"] = version.Minor.ToString();
+					project.Properties["build.version.revision"] = version.Build.ToString();
+					project.Properties["build.version.build"] = version.Revision.ToString();
+				}
+				]]>
+			</code>
+		</script> 
+    </target>
+	
+	
+	<!-- ****************************************************************************************
+		This validates the CCNetLabel format.
+		1. If continuous build : CCNetLabel = "123" - ( this is just the build number ). In this case
+			this is not a valid build label.
+		2. If production build : CCNetLabel = "APPNAME_1.0.0.132" - ( this is a valid label ).			
+	      **************************************************************************************** -->
+	<target name="Version.ValidateBuildLabel" depends="" description="">
+    	<echo message="Validating : '${CCNetLabel}'"/>
+		<script language="C#">
+			<code><![CDATA[
+				public static void ScriptMain(Project project)
+				{
+					string cruiseControlLabel = project.Properties["CCNetLabel"];
+					string isValidCruiseControlLabel = "false";
+					
+					if(cruiseControlLabel != null && cruiseControlLabel.Length > 0 )
+					{
+						if(cruiseControlLabel.IndexOf(".") > 0 )
+							isValidCruiseControlLabel = "true";
+					}
+					project.Properties["Version.isValidCruiseControlLabel"] = isValidCruiseControlLabel;
+				}
+				]]>
+			</code>
+		</script> 
+    </target>
+		
+	
+	<!-- ****************************************************************************************
+	     This writes out the version information into all the files named "AssemblyVersion.cs" in the directory.
+	      **************************************************************************************** -->	
+	<target name="Version.WriteAssemblyVersion">
+		<foreach item="File" property="assemblyVersionFilePath">
+			<in>
+				<items>
+					<include name="${Version.workDir}**\AssemblyVersion.cs" />
+				</items>
+			</in>
+			<do>
+				<echo message="AssemblyInfo file name : ${assemblyVersionFilePath}" />	
+				<attrib file="${assemblyVersionFilePath}" readonly="false" />
+				
+				<!-- This generates the  -->
+				<asminfo output="${assemblyVersionFilePath}" language="CSharp">
+					<imports>
+						<import namespace="System.Reflection" />
+					</imports>
+					<attributes>
+						<attribute type="AssemblyVersionAttribute" value="${build.version}" />
+					</attributes>
+				</asminfo>
+			</do>
+		</foreach>		
+	</target>	
+</project>
+

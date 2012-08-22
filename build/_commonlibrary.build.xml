@@ -1,0 +1,197 @@
+
+<project xmlns="http://nant.sf.net/release/0.85-rc3/nant.xsd" default="Execute">
+	<!-- <loadtasks assembly="..\lib\External\NAntContrib\0.85\NAnt.Contrib.Tasks.dll" /> -->
+	
+	<include buildfile="${args.settings.file}" />
+	<property name="build.dir.public" value="" />
+	<property name="dist.dir.root" value="dist" />
+	<property name="dist.dir" value="${dist.dir.root}\${app.name}_${build.version}"/>
+		
+	<!-- ****************************************************************************************
+		Remove the temp/current directory 
+	*******************************************************************************************-->
+	<target name="Clean">
+		<delete file="${dist.dir.root}\${app.name}_${build.version}.zip" />
+		<delete dir="${dist.dir}" />
+		<delete dir="${dist.dir}\src\Apps\ComLib.Apps.CodeGeneration\bin\debug" />
+		<delete dir="${dist.dir}\src\Apps\ComLib.Apps.CodeGeneration\obj" />
+		<delete dir="${app.base.dir}\src\Apps\ComLib.Apps.SampleApp\bin\debug" />
+		<delete dir="${app.base.dir}\src\Apps\ComLib.Apps.SampleApp\obj" />
+		<delete dir="${app.base.dir}\src\Apps\ComLib.Apps.StockMarketApp\bin\debug" />
+		<delete dir="${app.base.dir}\src\Apps\ComLib.Apps.StockMarketApp\obj" />
+		<delete dir="${app.base.dir}\src\Lib\CommonLibrary.NET\bin\debug" />
+		<delete dir="${app.base.dir}\src\Lib\CommonLibrary.NET\obj" />
+		<delete dir="${app.base.dir}\src\Tests\CommonLibrary.UnitTests\bin\debug" />
+		<delete dir="${app.base.dir}\src\Tests\CommonLibrary.UnitTests\obj" />		
+	</target>
+			
+	
+	<target name="Secure">		
+	</target>
+	
+	
+	<!-- ****************************************************************************************
+	     This writes out the version information into all the files named "AssemblyVersion.cs" in the directory.
+	      **************************************************************************************** -->	
+	<target name="Version">
+		<foreach item="File" property="assemblyVersionFilePath">
+			<in>
+				<items>
+					<include name="${app.base.dir}\src\**\AssemblyVersion.cs" />
+				</items>
+			</in>
+			<do>
+				<echo message="AssemblyInfo file name : ${assemblyVersionFilePath}" />	
+				<attrib file="${assemblyVersionFilePath}" readonly="false" />
+				
+				<!-- This generates the  -->
+				<asminfo output="${assemblyVersionFilePath}" language="CSharp">
+					<imports>
+						<import namespace="System.Reflection" />
+					</imports>
+					<attributes>
+						<attribute type="AssemblyVersionAttribute" value="${build.version}" />
+					</attributes>
+				</asminfo>
+			</do>
+		</foreach>				
+	</target>	
+	
+	
+	<!-- ****************************************************************************************
+		Compile the project.
+	*******************************************************************************************-->
+	<target name="Compile">
+		<echo message="Compiling : ${compile.compiler} ${compile.solutionOrProject} /t:${compile.target} /p:Configuration=${compile.configuration}" />		
+		<exec program="${compile.compiler}" workingdir="${compile.workingDir}" failonerror="false">
+			<arg value="${compile.solutionOrProject}" />
+			<arg value="/t:${compile.target}" />
+			<arg value="/p:Configuration=${compile.configuration}" />
+		</exec>
+	</target>
+	
+	
+	
+	<!-- ****************************************************************************************
+		Compile the project.
+	*******************************************************************************************-->
+	<target name="PackageExamples">
+		<echo message="${app.source.dir}" />
+		<mkdir dir="${dist.dir}\src\Examples" />
+		<mkdir dir="${dist.dir}\src\Examples\ComLib.Apps.SampleApp" />
+		<mkdir dir="${dist.dir}\src\Examples\ComLib.Apps.StockMarketApp" />
+		
+		
+		<copy todir="${dist.dir}\src\examples">
+		    <fileset basedir="${dist.dir}\src\Lib\CommonLibrary.NET\_Samples">
+		        <include name="**/*" />
+		    </fileset>
+		</copy>
+		<copy todir="${dist.dir}\src\examples\ComLib.Apps.SampleApp">
+			<fileset basedir="${dist.dir}\src\Apps\ComLib.Apps.SampleApp">
+		        <include name="**/*" />
+		    </fileset>
+		</copy>
+		<copy todir="${dist.dir}\src\examples\ComLib.Apps.StockMarketApp">
+			<fileset basedir="${dist.dir}\src\Apps\ComLib.Apps.StockMarketApp">
+		        <include name="**/*" />
+		    </fileset>
+		</copy>
+		
+		<zip zipfile="${dist.dir.root}\${app.name}_${build.version}_Examples.zip">
+		    <!--<fileset basedir="${dist.dir}\Src\Lib\CommonLibrary.NET\_Samples">
+		        <include name="**/*" />
+		    </fileset>-->
+			<fileset basedir="${dist.dir}\Src\Examples">
+		        <include name="**/*" />
+		    </fileset>
+		</zip>
+	</target>
+	
+	
+	<!-- ****************************************************************************************
+		Packages the binaries
+	*******************************************************************************************-->
+	<target name="PackageBinaries">
+		<echo message="${app.source.dir}" />
+		<zip zipfile="${dist.dir.root}\${app.name}_${build.version}_Binaries.zip">
+		    <fileset basedir="${app.source.dir}\Lib\CommonLibrary.NET\bin\${compile.configuration}">
+		        <include name="**/*dll" />
+		    </fileset>
+		</zip>
+	</target>
+	
+	
+	<!-- ****************************************************************************************
+		Packages the documentation (.chm) file(s).
+	*******************************************************************************************-->
+	<target name="PackageDocumentation">
+		<echo message="${app.source.dir}" />
+		<zip zipfile="${dist.dir.root}\${app.name}_${build.version}_Documentation.zip">
+		    <fileset basedir="${app.base.dir}\Doc">
+		        <include name="**/*.chm" />
+		    </fileset>
+		</zip>
+	</target>
+	
+	
+	<!-- ****************************************************************************************
+		Packages the sources.
+	*******************************************************************************************-->
+	<target name="Package">			
+		<mkdir dir="${dist.dir}" />
+		<copy todir="${dist.dir}">
+		    <fileset basedir="${app.base.dir}">
+		        <include name="**/*" />
+		    </fileset>
+		</copy>
+
+		<delete>
+		    <fileset>
+				<include name="${dist.dir}\doc\*.chm" />		        				
+				<include name="${dist.dir}\src\Apps\ComLib.Apps.CodeGeneration\bin\debug\*.pdb" />
+		        <include name="${dist.dir}\src\Apps\ComLib.Apps.SampleApp\bin\debug\*.pdb" />
+				<include name="${dist.dir}\src\Apps\ComLib.Apps.SampleApp\bin\debug\*.xml" />
+				<include name="${dist.dir}\src\Apps\ComLib.Apps.StockMarketApp\bin\debug\*.pdb" />
+				<include name="${dist.dir}\src\Apps\ComLib.Apps.StockMarketApp\bin\debug\*.xml" />
+				<include name="${dist.dir}\src\Lib\CommonLibrary.NET\bin\debug\*.pdb" />
+				<include name="${dist.dir}\src\Lib\CommonLibrary.NET\bin\debug\*.xml" />
+				<include name="${dist.dir}\src\Tests\CommonLibrary.UnitTests\bin\debug\*.pdb" />
+				<include name="${dist.dir}\src\Tests\CommonLibrary.UnitTests\bin\debug\*.xml" />
+				<include name="${dist.dir}\dist\*.zip" />
+		    </fileset>
+		</delete>
+		<delete dir="${dist.dir}\build\dist" />
+		<delete dir="${dist.dir}\src\Apps\ComLib.Apps.SampleApp\obj" />
+		<delete dir="${dist.dir}\src\Apps\ComLib.Apps.SampleApp\bin" />
+		<delete dir="${dist.dir}\src\Apps\ComLib.Apps.CodeGeneration\obj" />
+		<delete dir="${dist.dir}\src\Apps\ComLib.Apps.CodeGeneration\bin" />
+		<delete dir="${dist.dir}\src\Apps\ComLib.Apps.StockMarketApp\obj" />
+		<delete dir="${dist.dir}\src\Apps\ComLib.Apps.StockMarketApp\bin" />
+		<delete dir="${dist.dir}\src\Lib\CommonLibrary.NET\obj" />
+		<delete dir="${dist.dir}\src\Lib\CommonLibrary.NET\bin" />
+		<delete dir="${dist.dir}\src\Tests\CommonLibrary.UnitTests\bin" />		
+		<delete dir="${dist.dir}\src\Tests\CommonLibrary.UnitTests\obj" />
+		
+		<zip zipfile="${dist.dir.root}\${app.name}_${build.version}_Sources.zip">
+		    <fileset basedir="${dist.dir}">
+		        <include name="**/*" />
+		    </fileset>
+		</zip>
+	</target>
+	
+		
+	<!-- ****************************************************************************************
+		Execute the build
+	*******************************************************************************************-->
+	<target name="Execute">
+		<call target="Clean" />	
+		<call target="Version" />
+		<call target="Secure" />
+		<call target="Compile" />
+		<call target="Package" />
+		<call target="PackageBinaries" />
+		<call target="PackageExamples" />
+	</target>
+	
+</project>

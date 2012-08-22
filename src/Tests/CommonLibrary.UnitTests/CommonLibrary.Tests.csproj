@@ -1,0 +1,248 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D9E4CFE7-C29E-4D13-894D-6C07F948F6C5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CommonLibrary.Tests</RootNamespace>
+    <AssemblyName>CommonLibrary.Tests</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <PublishUrl>http://localhost/CommonLibrary.Tests/</PublishUrl>
+    <Install>false</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>0</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>false</MapFileExtensions>
+    <CreateWebPageOnPublish>false</CreateWebPageOnPublish>
+    <WebPage>&lt;&gt;</WebPage>
+    <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <BootstrapperEnabled>false</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="nunit.framework, Version=2.4.1.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\External\NUnit\2.5.5\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccountTests.cs" />
+    <Compile Include="AutomationTests.cs" />
+    <Compile Include="CategoryTests.cs" />
+    <Compile Include="CollectionsTest.cs" />
+    <Compile Include="CacheManagerTests.cs" />
+    <Compile Include="ArgsParserTests.cs" />
+    <Compile Include="AuthServiceTests.cs" />
+    <Compile Include="Common\ContentLoader.cs" />
+    <Compile Include="Common\Product\Product.cs" />
+    <Compile Include="Common\Product\ProductExtensions.cs" />
+    <Compile Include="Common\Product\ProductRepositorySql.cs" />
+    <Compile Include="Common\SampleClasses\SampleClasses.cs" />
+    <Compile Include="ConfigTests.cs" />
+    <Compile Include="Common\CultureInfoHelper.cs" />
+    <Compile Include="AutomationTestsJs.cs" />
+    <Compile Include="Lang\TemplatingTests.cs" />
+    <Compile Include="Lang\DataTypesTests.cs" />
+    <Compile Include="Lang\LangTestsHelper.cs" />
+    <Compile Include="Lang\ScopeTests.cs" />
+    <Compile Include="Lang\ScriptTests.cs" />
+    <Compile Include="Lang\ExpressionTests.cs" />
+    <Compile Include="ScannerTests.cs" />
+    <Compile Include="InterpreterTests.cs" />
+    <Compile Include="ExtensionServiceTests.cs" />
+    <Compile Include="InformationServiceTests.cs" />
+    <Compile Include="MacroServiceTests.cs" />
+    <Compile Include="MarkupServiceTests.cs" />
+    <Compile Include="ScriptsServiceTests.cs" />
+    <Compile Include="UpgradeTests.cs" />
+    <Compile Include="EntityTests.cs" />
+    <Compile Include="EnumerableExtensionsTest.cs" />
+    <Compile Include="ExtensionsTests.cs" />
+    <Compile Include="ImportExportTests.cs" />
+    <Compile Include="ModelTests.cs" />
+    <Compile Include="QueueProcessorTests.cs" />
+    <Compile Include="ErrorTests.cs" />
+    <Compile Include="CriteriaTests.cs" />
+    <Compile Include="RepositoryTests.cs" />
+    <Compile Include="HolidayCalendarTests.cs" />
+    <Compile Include="SubstitutionsTests.cs" />
+    <Compile Include="EnvironmentTests.cs" />
+    <Compile Include="CsvTests.cs" />
+    <Compile Include="LexParserTests.cs" />
+    <Compile Include="Cryptography.cs" />
+    <Compile Include="IniTests.cs" />
+    <Compile Include="DbHelperTests.cs" />
+    <Compile Include="IndexedLookUpTests.cs" />
+    <Compile Include="LocationTests.cs" />
+    <Compile Include="NotificationTests.cs" />
+    <Compile Include="PatternsTests.cs" />
+    <Compile Include="ReflectionTests.cs" />
+    <Compile Include="TextApplicationTests.cs" />
+    <Compile Include="TimeParserTests.cs" />
+    <Compile Include="PagerTests.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\AssemblyVersion.cs" />
+    <Compile Include="StringTests.cs" />
+    <Compile Include="UrlTests.cs" />
+    <Compile Include="ValidationTests.cs" />
+    <Compile Include="LatinWordExtensionsTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="KeyValueParserTestsFile1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Lib\CommonLibrary.NET\CommonLibrary.csproj">
+      <Project>{788226CD-0C48-473F-A939-32490358B8B9}</Project>
+      <Name>CommonLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Csv\Csv_NoQuotes.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Csv\Csv_Quotes.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Csv\Csv_QuotesRandom.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Csv\Csv_Spaces.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Csv\Csv_MultiLine.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Csv\Csv_Delimeter.csv" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Csv\Csv_NoHeader.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Csv\Csv_TabDelimeter.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Automation\Script1.xml" />
+    <EmbeddedResource Include="Content\Automation\Script2.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Automation\Script4.cmd" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Automation\Script3.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Automation\Script_error2_invalid_xml.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Automation\Script_error1_unknown_command.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Automation\Script_error3_exception.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Automation\Script4.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Automation\Script5.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Automation\Script6.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Automation\Script7.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Automation\CommonSettings.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Automation\Script8.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Automation\Script9.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Automation\Script10.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Automation\Script11.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Lang\script1.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Lang\script2.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Lang\script3.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Lang\script4.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Csv\Csv_DoubleQuotes.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Csv\Csv_EscapedDoubleQuotes.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Lang\Js\functions.js" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

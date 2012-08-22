@@ -1,0 +1,20 @@
+<project xmlns="http://nant.sf.net/release/0.85-rc3/nant.xsd" default="Deploy.Execute">
+	<!-- <loadtasks assembly="..\lib\External\NAntContrib\0.85\NAnt.Contrib.Tasks.dll" /> -->
+	
+	<include buildfile="${args.settings.file}" />
+	
+	
+	<!-- ****************************************************************************************
+		compiles the solution or project as :
+		MSBuild MyApp.sln /t:Rebuild /p:Configuration=Release
+	          MSBuild MyApp.csproj /t:Clean /p:Configuration=Debug
+	*******************************************************************************************-->
+	<target name="Deploy.Execute">
+		<!-- Copy all the application binaries to the deployment directory. -->
+        <copy todir="${deploy.destination.dir}">
+		    <fileset basedir="${deploy.source.dir}">
+		        <include name="**/*" />
+		    </fileset>
+		</copy>
+	</target>	
+</project>

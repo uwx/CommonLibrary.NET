@@ -1,0 +1,90 @@
+<project xmlns="http://nant.sf.net/release/0.85-rc3/nant.xsd" name="Application.FxCop" default="FxCop.Execute">	
+	
+	<include buildfile="${args.settings.file}" />
+	<loadtasks assembly="..\lib\External\NAntContrib\0.85\NAnt.Contrib.Tasks.dll" />
+
+	
+	
+	<!-- ****************************************************************************************
+		<summary>Runs the unit tests.</summary>
+	      **************************************************************************************** -->
+	<target name="FxCop.Execute">
+		<call target="FxCop.CheckArguments" />
+		<call target="FxCop.SetVariables" />
+		<call target="FxCop.ExecuteFXCopTask" />
+	</target>
+	
+	
+	<target name="FxCop.SetVariables">
+		<!-- Set the  project file . -->
+        <property name="fxcop.projectFileFullPath" value="${fxcop.projectFile.dir}\${fxcop.projectFile}"/>		
+	</target>
+	
+	
+	<!-- ****************************************************************************************
+		<summary>Executes the FXcop rule checking.
+			The assemblies to check are referenced in the project file.
+		</summary>
+	      **************************************************************************************** -->
+	<target name="FxCop.ExecuteFXCopTask">
+		<fxcop projectFile="${fxcop.projectFileFullPath}" 
+			   failonerror="false" applyOutXsl="false" 
+			   analysisReportFilename="${fxcop.xmlResultsFile}" />   
+	</target>
+	
+	
+	<!-- ****************************************************************************************
+		<summary>Executes the FXcop rule checking.
+		fxcopcmd.exe 
+			/p:application.fxcop 
+			/o:fxcopResults.xml 
+			/f:"C:\kishore\bus\Cab\Neekho\Tests\Neekho.Apps.Tests\Neekho.WinApp\bin\Debug\Neekho.Core.dll" 
+			/f:"C:\kishore\bus\Cab\Neekho\Tests\Src\Neekho.Apps.Tests\Neekho.WinApp\bin\Debug\Neekho.BusinessEntities.dll" 
+		</summary>
+	      **************************************************************************************** -->
+	<target name="FxCop.ExecuteFXCop">
+		<property name="fxcop.args" value='/p:"${fxcop.projectFileFullPath}"'/>
+		<property name="fxcop.args" value='${fxcop.args} /o:"${fxcop.xmlResultsFile}"' />
+		
+		<echo message="RUNNING COMMAND ${fxcop.path} IN ${fxcop.workingDir} WITH ARGUMENTS ${fxcop.args}."/>
+		
+		<exec program="${fxcop.path}"
+				commandline='${fxcop.args}'
+				workingdir="${fxcop.workingDir}" output="${fxCop.logfile}" 
+				failonerror="false" resultproperty="fxcop.result"/>
+		
+		<!-- Check the results and fail if necessary -->
+        <fail message="Failures reported in FX-COP rule checks." unless="${int::parse(fxcop.result)==0}" />    
+	</target>
+	
+	
+	<!-- ****************************************************************************************
+		<summary>Validates that the arguments are passed in correctly.</summary>
+	      **************************************************************************************** -->
+	<target name="FxCop.CheckArguments">
+		<!-- Check if project file name was supplied -->
+		<if test="${property::exists('args.fxcop.projectFile')}">				
+			<property name="fxcop.projectFile" value="${args.fxcop.projectFile}"/>	
+		</if>		
+		
+		<!-- Check if project file directory location was supplied -->
+		<if test="${property::exists('args.fxcop.projectFile.dir')}">				
+			<property name="fxcop.projectFile.dir" value="${args.fxcop.projectFile.dir}"/>	
+		</if>		
+		
+		<!-- CHeck if output xml results file path was supplied -->
+		<if test="${property::exists('args.fxcop.xmlResultsFile')}">				
+			<property name="fxcop.xmlResultsFile" value="${args.fxcop.xmlResultsFile}"/>	
+		</if>		
+		
+		<!-- Verify that the working direcotry of the unit test assembly's was supplied -->
+		<if test="${property::exists('args.fxcop.workingDir')}">				
+			<property name="fxcop.workingDir" value="${args.fxcop.workingDir}"/>
+		</if>		
+		
+		<!-- Verify that the nunit-console.exe path was supplied -->
+		<if test="${property::exists('args.fxcop.path')}">				
+			<property name="fxcop.path" value="${args.fxcop.path}"/>
+		</if>		
+	</target>
+</project>

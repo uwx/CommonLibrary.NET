@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<project name="Application.Backup" default="Backup.Execute">
+	<!-- Include the global properties file containing all the settings. -->
+	<include buildfile="_globalProperties.xml" />
+		
+	<!-- Initialize the folder names -->
+	<target name="Backup.Init">
+		<property name="backup.year" value="${datetime::get-backup.year(backup.currentDate)}"/>
+		<property name="backup.month" value="${datetime::get-backup.month(backup.currentDate)}"/>
+		<property name="backup.day" value="${datetime::get-backup.day(backup.currentDate)}"/>
+		<property name="backup.folderName" value="kd_${backup.year}_${backup.month}_${backup.day}"/>	
+		<echo message="${backup.folderName}"/>		
+	</target>
+    
+	
+	<!-- Backup the files. store to folder with folder name. -->
+	<target name="Backup.Execute" depends="Backup.Init">
+		<property name="backup.destination" value="${backup.destination}\${backup.folderName}"/>
+		<echo message="${backup.destination}"/>
+		<copy todir="${backup.destination}" overwrite="true" includeemptydirs="true">
+		    <fileset basedir="${backup.sourceDir}">
+		        <include name="**" />
+		    </fileset>
+		</copy>
+    </target>
+</project>

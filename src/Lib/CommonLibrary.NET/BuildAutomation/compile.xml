@@ -1,0 +1,73 @@
+<project xmlns="http://nant.sf.net/release/0.85-rc3/nant.xsd" name="Application.Compile" default="Compile.Execute">
+	<!-- <loadtasks assembly="..\lib\External\NAntContrib\0.85\NAnt.Contrib.Tasks.dll" /> -->
+	
+	<include buildfile="${args.settings.file}" />
+	
+	
+	<!-- ****************************************************************************************
+		This obtains the base directory for the application from the arguments and sets the working directory.
+		args passed in:
+			1. base.dir
+			2. CCNetNumericLabel
+	      **************************************************************************************** -->
+	<target name="Compile.CheckArguments">
+		
+		<!-- Check if solution or project file path was passed in. -->		
+		<if test="${property::exists('args.solutionOrProject')}">				
+			<property name="compile.solutionOrProject" value="${args.solutionOrProject}"/>
+		</if>		
+		
+		<!-- Check if the target was passed in. -->
+		<if test="${property::exists('args.target')}">				
+			<property name="compile.target" value="${args.target}"/>		
+		</if>		
+		
+		<!-- Check if the configuration was passed in. -->
+		<if test="${property::exists('args.configuration')}">				
+			<property name="compile.configuration" value="${args.configuration}"/>
+		</if>		
+				
+		<!-- Check if the configuration was passed in. -->
+		<if test="${property::exists('args.workingDir')}">				
+			<property name="compile.workingDir" value="${args.workingDir}"/>
+		</if>		
+		
+	</target>
+
+	
+	<!-- ****************************************************************************************
+		compiles the solution or project as :
+		MSBuild MyApp.sln /t:Rebuild /p:Configuration=Release
+	          MSBuild MyApp.csproj /t:Clean /p:Configuration=Debug
+	*******************************************************************************************-->
+	<target name="Compile.RunCompilation">
+		<!--
+		<echo message="Compiling with msbuild task" />
+		<msbuild project="${solutionOrProject}" target="${target}">			
+			<property name="Configuration" value="${configuration}"/>
+		</msbuild>
+		-->		
+		<echo message="Compiling : ${compile.compiler} ${compile.solutionOrProject} /t:${compile.target} /p:Configuration=${compile.configuration}" />
+		
+		<exec program="${compile.compiler}" workingdir="${compile.workingDir}" 
+				failonerror="false">
+			<arg value="${compile.solutionOrProject}" />
+			<arg value="/t:${compile.target}" />
+			<arg value="/p:Configuration=${compile.configuration}" />
+		</exec>
+	
+	</target>
+	
+	
+	<!-- ****************************************************************************************
+		This does the following : 
+		1.  Obtains all the AssemblyVersion.cs files in the working directory and it's sub-directories.
+		2. Autogenerates 
+	      **************************************************************************************** -->
+	<target name="Compile.Execute">
+		<call target="Compile.CheckArguments"/>
+		<call target="Compile.RunCompilation" />
+	</target>
+	
+</project>
+
