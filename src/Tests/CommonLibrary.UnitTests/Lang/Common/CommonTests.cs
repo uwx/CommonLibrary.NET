@@ -506,6 +506,32 @@ namespace ComLib.Lang.Tests.Common
                 new Tuple<string,Type, object, string>("i", typeof(bool),   false, "var i = is_number( '123' );"),
                 new Tuple<string,Type, object, string>("i", typeof(double), 123,   "var i = to_number( 123 );"),
                 new Tuple<string,Type, object, string>("i", typeof(double), 123,   "var i = to_number( '123' );"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   true,  "var i = is_number( 123.45 );"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   false, "var i = is_number( '123.45' );"),
+                new Tuple<string,Type, object, string>("i", typeof(double), 123.45,"var i = to_number( 123.45   );"),
+                new Tuple<string,Type, object, string>("i", typeof(double), 123.45,"var i = to_number( '123.45' );"),
+
+                new Tuple<string,Type, object, string>("i", typeof(bool),   true,  "var i = is_bool( true   );"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   false, "var i = is_bool( 'true' );"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   true,  "var i = to_bool( true   );"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   true,  "var i = to_bool( 'true' );"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   true,  "var i = is_bool( false  );"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   false, "var i = is_bool( 'false');"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   false, "var i = to_bool( false  );"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),   false, "var i = to_bool( 'false');"),
+
+
+                new Tuple<string,Type, object, string>("i", typeof(bool),       true,  "var i = is_date( new Date(2012, 9, 1)   );"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),       false, "var i = is_date( '9/1/2012' );"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),       false, "var i = is_date( '09/01/2012' );"),
+                new Tuple<string,Type, object, string>("i", typeof(DateTime),   new DateTime(2012, 9, 1),  "var i = to_date( new Date(2012, 9, 1)   );"),
+                new Tuple<string,Type, object, string>("i", typeof(DateTime),   new DateTime(2012, 9, 1),  "var i = to_date( '9/1/2012' );"),
+                new Tuple<string,Type, object, string>("i", typeof(DateTime),   new DateTime(2012, 9, 1),  "var i = to_date( '09/01/2012' );"),
+
+                new Tuple<string,Type, object, string>("i", typeof(bool),       true,  "var i = is_time( new Time(8, 30, 0)   );"),
+                new Tuple<string,Type, object, string>("i", typeof(bool),       false, "var i = is_time( '8:30' );"),
+                new Tuple<string,Type, object, string>("i", typeof(TimeSpan),   new TimeSpan(8, 30, 0),  "var i = to_time( new Time(8, 30, 0)   );"),
+                new Tuple<string,Type, object, string>("i", typeof(TimeSpan),   new TimeSpan(8, 30, 0),  "var i = to_time( '8:30' );"),
             }
         };
 

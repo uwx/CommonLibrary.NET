@@ -186,8 +186,8 @@ namespace ComLib.Lang
 
 
         /// <summary>
-        /// Parses the following type of expressions:
-        /// 
+        /// Parses expressions that are either built-in or possibly combinators/plugins.
+        /// Examples include:
         /// 1. constant : 21, true, false, 'user01', null, 34.56
         /// 2. id       : currentUser
         /// 3. array    : [
@@ -195,6 +195,10 @@ namespace ComLib.Lang
         /// 5. oper     : + - * / > >= == != ! etc.
         /// 6. new      : new 
         /// </summary>
+        /// <remarks>
+        /// This is one of the most important and relatively complex methods of the parser.
+        /// This also needs to be fairly efficient and so the method is rather lengthy.
+        /// </remarks>
         /// <param name="endTokens"></param>
         /// <param name="handleMathOperator">Whether or not to handle the mathematical expressions.</param>
         /// <param name="handleSingleExpression">Whether or not to handle only 1 expression.</param>
@@ -269,17 +273,20 @@ namespace ComLib.Lang
                     exp = combinator.Parse();
                     _state.ExpressionCount++;
                 }
-                // Exp 3a. [index] access on an array or linq expression.
+                // CASE: array access on an indexable expression
+                // description: this involves an index access on an expression that was initially not an identifier
+                // examples: "abcd".length, [0, 1, 3].<method>
                 else if (token == Tokens.LeftBracket && exp != null && (exp is IndexableExpr))
                 {
                     _state.ExpressionCount++;
-                    //_tokenIt.Rewind1();
                     exp = ParseIdExpression(null, exp, true);
                 }
+                // CASE: dot access on a non-identifer based expression.
+                // description: this involves member access on an expression that was initially not an identifier
+                // examples: "abcd".length, [0, 1, 3].<method>
                 else if (token == Tokens.Dot && exp != null)
                 {
                     _state.ExpressionCount++;
-                    //_tokenIt.Rewind1();
                     exp = ParseIdExpression(null, exp, true);
                 }
                 // Error Check: Prevent consequtive expressions 
@@ -290,7 +297,9 @@ namespace ComLib.Lang
                 {
                     throw _tokenIt.BuildSyntaxUnexpectedTokenException();
                 }
-                // Exp 1. true / false / "name" / 123 / null;
+                // CASE: Literal
+                // description: Get any literal which is really a basic datatype
+                // examples: 123, true, false, "john", null, new Date(2012, 9, 1), new Time(8, 30, 0)
                 else if (token.IsLiteralAny())
                 {
                     exp = token == Tokens.Null
@@ -305,19 +314,25 @@ namespace ComLib.Lang
                     else
                         exp = expPosix;
                 }
-                // Exp 2. name / age / isActive
+                // CASE: Identifier 
+                // description: This will get any identifier based expression
+                // examples: name, user.isactive, user.activate(), getuser()
                 else if (token.Kind == TokenKind.Ident)
                 {
                     exp = ParseIdExpression();
                     _state.ExpressionCount++;                    
                 }
-                // Exp 3b. [ Array
+                // CASE: List 
+                // description: This gets an array/list
+                // examples: [ 1, 2, age, gettotal() ]
                 else if (token == Tokens.LeftBracket)
                 {
                     _state.ExpressionCount++;
                     exp = ParseArray();
                 }
-                // Exp 4. { Map
+                // CASE: Map 
+                // description: This gets an array/list
+                // examples: [ 1, 2, age, gettotal() ]
                 else if (token == Tokens.LeftBrace)
                 {
                     _state.ExpressionCount++;
