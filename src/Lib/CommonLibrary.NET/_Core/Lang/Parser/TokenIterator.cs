@@ -276,6 +276,7 @@ namespace ComLib.Lang
         }
 
 
+        /*
         /// <summary>
         /// Stores the position of the current token so any advances can be rewinded back to last position stored in this mark call.
         /// </summary>
@@ -322,6 +323,7 @@ namespace ComLib.Lang
                 _resetPosExecutor(lastToken.Pos - 1);
             }
         }
+        */
 
 
         /// <summary>
@@ -348,6 +350,24 @@ namespace ComLib.Lang
 
             T token = NextToken.Token as T;
             return token;
+        }
+
+
+        /// <summary>
+        /// Advances past newlines.
+        /// </summary>
+        public void AdvancePastNewLines()
+        {
+            if (NextToken.Token == Tokens.EndToken)
+                return;
+
+            if (NextToken.Token != Tokens.NewLine)
+                return;
+
+            while(NextToken.Token == Tokens.NewLine)
+            {
+                Advance();    
+            }
         }
         #endregion
 

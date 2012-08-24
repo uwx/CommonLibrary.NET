@@ -40,12 +40,13 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("fullname", typeof(string), "3 plus reddy",       "var first = 'kishore'; var last = 'reddy'; var fullname = '#{1 + 2} plus #{last}';"),
-                new Tuple<string,Type, object, string>("fullname", typeof(string), "kishore plus reddy", "var first = 'kishore'; var last = 'reddy'; var fullname = '#{first} plus #{last}';"),
-                new Tuple<string,Type, object, string>("fullname", typeof(string), "before kishore plus reddy after", "var first = 'kishore'; var last = 'reddy'; var fullname = 'before #{first} plus #{last} after';"),
-                new Tuple<string,Type, object, string>("fullname", typeof(string), "kishore plus reddy", "var first = 'kishore'; var last = 'reddy'; var fullname = '#{first} plus #{last}';"),
-                new Tuple<string,Type, object, string>("fullname", typeof(string), "kishore mid:kdog reddy", "var user = { name: 'kishore', middle: 'kdog' }; var last = 'reddy'; var fullname = '#{user.name} mid:#{user.middle} #{last}';"),
-            };
+                new Tuple<string,Type, object, string>("fullname", typeof(string), "3 plus reddy",       "var first = 'kishore'; var last = 'reddy'; var fullname = \"#{1 + 2} plus #{last}\";"),
+                new Tuple<string,Type, object, string>("fullname", typeof(string), "kishore plus reddy", "var first = 'kishore'; var last = 'reddy'; var fullname = \"#{first} plus #{last}\";"),
+                new Tuple<string,Type, object, string>("fullname", typeof(string), "before kishore plus reddy after", "var first = 'kishore'; var last = 'reddy'; var fullname = \"before #{first} plus #{last} after\";"),
+                new Tuple<string,Type, object, string>("fullname", typeof(string), "kishore plus reddy", "var first = 'kishore'; var last = 'reddy'; var fullname = \"#{first} plus #{last}\";"),
+                new Tuple<string,Type, object, string>("fullname", typeof(string), "kishore mid:kdog reddy", "var user = { name: 'kishore', middle: 'kdog' }; var last = 'reddy'; var fullname = \"#{user.name} mid:#{user.middle} #{last}\";"),                
+                new Tuple<string,Type, object, string>("result", typeof(string), "exp 7, func 3", "function add( a, b ) return a + b; var num = 2; var result = \"exp #{5 + num}, func #{add( num, 1)}\""),                
+            };            
             Parse(statements);
         }
 
@@ -55,11 +56,11 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("fullname", typeof(string), "3 plus reddy",       "var first = 'kishore'; var last = 'reddy'; var fullname = '${1 + 2} plus ${last}';"),
-                new Tuple<string,Type, object, string>("fullname", typeof(string), "kishore plus reddy", "var first = 'kishore'; var last = 'reddy'; var fullname = '${first} plus ${last}';"),
-                new Tuple<string,Type, object, string>("fullname", typeof(string), "before kishore plus reddy after", "var first = 'kishore'; var last = 'reddy'; var fullname = 'before ${first} plus ${last} after';"),
-                new Tuple<string,Type, object, string>("fullname", typeof(string), "kishore plus reddy", "var first = 'kishore'; var last = 'reddy'; var fullname = '${first} plus ${last}';"),
-                new Tuple<string,Type, object, string>("fullname", typeof(string), "kishore mid:kdog reddy", "var user = { name: 'kishore', middle: 'kdog' }; var last = 'reddy'; var fullname = '${user.name} mid:${user.middle} ${last}';"),
+                new Tuple<string,Type, object, string>("fullname", typeof(string), "3 plus reddy",       "var first = 'kishore'; var last = 'reddy'; var fullname = \"${1 + 2} plus ${last}\";"),
+                new Tuple<string,Type, object, string>("fullname", typeof(string), "kishore plus reddy", "var first = 'kishore'; var last = 'reddy'; var fullname = \"${first} plus ${last}\";"),
+                new Tuple<string,Type, object, string>("fullname", typeof(string), "before kishore plus reddy after", "var first = 'kishore'; var last = 'reddy'; var fullname = \"before ${first} plus ${last} after\";"),
+                new Tuple<string,Type, object, string>("fullname", typeof(string), "kishore plus reddy", "var first = 'kishore'; var last = 'reddy'; var fullname = \"${first} plus ${last}\";"),
+                new Tuple<string,Type, object, string>("fullname", typeof(string), "kishore mid:kdog reddy", "var user = { name: 'kishore', middle: 'kdog' }; var last = 'reddy'; var fullname = \"${user.name} mid:${user.middle} ${last}\";"),
             };
             Parse(statements, true, i => i.Context.Settings.InterpolatedStartChar = '$');
         }

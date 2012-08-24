@@ -174,6 +174,13 @@ namespace ComLib.Lang.Tests.Component
 
 
         [Test]
+        public void Can_Use_Records2_Plugin()
+        {
+            RunTests(CommonTestCases_Plugins.Records, _testType);
+        }
+
+
+        [Test]
         public void Can_Use_Repeat_Plugin()
         {
             RunTests(CommonTestCases_Plugins.Repeat, _testType);

@@ -246,6 +246,9 @@ namespace ComLib.Lang
                 if (IsEndOfStatementOrEndOfScript(Tokens.RightParenthesis))
                     break;
 
+                // Skip new lines.
+                _tokenIt.AdvancePastNewLines();
+
                 // Case 2: name and auto-advance to next token
                 var name = _tokenIt.ExpectId(true);
                 names.Add(name);
@@ -253,6 +256,9 @@ namespace ComLib.Lang
                 // Case 3: only 1 argument. 
                 if (IsEndOfStatementOrEndOfScript(Tokens.RightParenthesis))
                     break;
+
+                // Skip new lines.
+                _tokenIt.AdvancePastNewLines();
 
                 // Case 4: comma, more names to come
                 if (_tokenIt.NextToken.Token == Tokens.Comma) _tokenIt.Advance();

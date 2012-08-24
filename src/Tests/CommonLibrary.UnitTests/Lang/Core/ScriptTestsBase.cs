@@ -16,6 +16,12 @@ namespace ComLib.Lang.Tests.Common
 {
     public class ScriptTestsBase
     {
+        protected static new Tuple<string, Type, object, string> TestCase(string resultVarName, Type resultType, object resultValue, string script)
+        {
+            return new Tuple<string, Type, object, string>
+                (resultVarName, resultType, resultValue, script);
+        }
+
         protected void ExpectError(ILangPlugin plugin, string script, string messageErrorPart)
         {
             // Check errors.
@@ -165,7 +171,7 @@ namespace ComLib.Lang.Tests.Common
                 Interpreter i = new Interpreter();
                 if (initializer != null)
                     initializer(i);
-
+                
                 if (execute)
                 {
                     Console.WriteLine();

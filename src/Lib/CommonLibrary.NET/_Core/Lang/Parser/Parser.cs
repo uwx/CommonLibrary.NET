@@ -122,6 +122,7 @@ namespace ComLib.Lang
             _context.Limits.CheckParserStatementNested(_tokenIt.NextToken, _state.StatementNested);
             bool hasTokenReplacePlugins = _context.Plugins.HasTokenBasedPlugins;
 
+            TokenData last = stmtToken;
             // The loop is here for new lines and comments.
             while (stmt == null && !_tokenIt.IsEnded)
             {
@@ -159,8 +160,7 @@ namespace ComLib.Lang
                 {
                     _tokenIt.Advance();
                 }
-                else if ( ( nexttoken != Tokens.NewLine && nexttoken != Tokens.CommentMLine )
-                          || nexttoken.Type == TokenTypes.Unknown )
+                else if ( nexttoken != Tokens.CommentMLine || nexttoken.Type == TokenTypes.Unknown )
                     throw _tokenIt.BuildSyntaxUnexpectedTokenException();
                 if (stmt != null)
                 {
@@ -180,6 +180,10 @@ namespace ComLib.Lang
                 }
                 stmtToken = _tokenIt.NextToken;
                 nexttoken = _tokenIt.NextToken.Token;
+
+                // Debuging: did not move past token.
+                if (last == stmtToken)
+                    throw _tokenIt.BuildSyntaxUnexpectedTokenException();
             }
             return stmt;
         }
@@ -357,7 +361,7 @@ namespace ComLib.Lang
                          && token != Tokens.RightParenthesis && Terminators.ExpMathShuntingYard.ContainsKey(token))
                 {
                     if (exp != null) SetScriptPosition(exp, tokenData);
-                    var result = ParseExpressionsWithPrecedence(endTokens, exp);
+                    var result = ParseExpressionsWithPrecedence(endTokens, exp, true, identEndTokens, enableIdentTokenTextAsEndToken);
                     exp = result.Second;
                     expEndsInParenthesis = result.First;
                 }
@@ -731,7 +735,8 @@ namespace ComLib.Lang
         /// <param name="initial"></param>
         /// <param name="enableTokenPlugins"></param>
         /// <returns></returns>
-        private Tuple2<bool, Expr> ParseExpressionsWithPrecedence(IDictionary<Token, bool> endTokens, Expr initial, bool enableTokenPlugins = true)
+        private Tuple2<bool, Expr> ParseExpressionsWithPrecedence(IDictionary<Token, bool> endTokens, Expr initial, 
+            bool enableTokenPlugins = true, IDictionary<string, bool> identTokens = null, bool enableIdentTokensAsEndTokens = false)
         {
             _state.PrecedenceParseStackCount++;
 
@@ -854,6 +859,10 @@ namespace ComLib.Lang
                 // We did not move the token forward but only add the operator token to the stack/ops.
                 if (current == _tokenIt.NextToken.Token)
                     _tokenIt.Advance();
+
+                // Ok to skip newlines?
+                if( endTokens != null && !endTokens.ContainsKey(Tokens.NewLine))
+                    _tokenIt.AdvancePastNewLines();
 
                 current = _tokenIt.NextToken.Token;
                 

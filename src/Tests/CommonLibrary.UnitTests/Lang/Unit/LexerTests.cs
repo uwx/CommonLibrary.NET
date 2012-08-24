@@ -32,6 +32,13 @@ namespace ComLib.Lang.Tests.Unit
 
 
         [Test]
+        public void Can_Read_String_Without_Interpolation()
+        {
+            CheckRead("var name = 'fluent #{d}';", 7, "fluent #{d}", 11, 1, 12, 24);
+        }
+
+
+        [Test]
         public void Can_Read_Single_Line_Comment()
         {
             CheckRead("var id; // comment to new line\r\n", 6, " comment to new line", 8, 1, 9, 30);
@@ -55,7 +62,7 @@ namespace ComLib.Lang.Tests.Unit
         [Test]
         public void Can_Read_Interpolated_Tokens()
         {
-            CheckRead("var a = true; var age = 32; var text = '#{a} - #{age} + 1';", 25, "#{a} - #{age} + 1", 39, 1, 40, 58);
+            CheckRead("var a = true; var age = 32; var text = \"#{a} - #{age} + 1\";", 25, "#{a} - #{age} + 1", 39, 1, 40, 58);
         }
 
 
@@ -164,8 +171,8 @@ namespace ComLib.Lang.Tests.Unit
         [Test]
         public void Can_Tokenize_Var_On_Multi_Line_With_Interpolated_Tokens()
         {
-            var lex = new Lexer("var age = 20;  name =  'before #{age} after';\r\n  isActive   = true;");
-            Console.WriteLine(  "var age = 20;  name =  'before #{age} after';\r\n  isActive   = true;");
+            var lex = new Lexer("var age = 20;  name =  \"before #{age} after\";\r\n  isActive   = true;");
+            Console.WriteLine(  "var age = 20;  name =  \"before #{age} after\";\r\n  isActive   = true;");
             var tokens = lex.Tokenize();
 
             CheckToken(tokens, 0, 0, Tokens.Var,            TokenKind.Keyword,   "var", 1, 1, 0);

@@ -65,7 +65,8 @@ namespace ComLib.Lang.Extensions
     public class RepeatPlugin : StmtBlockPlugin
     {
         private static string[] _tokens = new string[] { "repeat" };
-
+        private static Dictionary<Token, bool> _terminatorForTo;
+        private static Dictionary<Token, bool> _terminatorForBy;
 
         /// <summary>
         /// Intialize.
@@ -75,6 +76,18 @@ namespace ComLib.Lang.Extensions
             _startTokens = _tokens;
             _isContextFree = false;
             _precedence = 50;
+
+            _terminatorForTo = new Dictionary<Token, bool>();
+            _terminatorForTo[Tokens.ToIdentifier("to")] = true;
+            _terminatorForTo[Tokens.Semicolon] = true;
+            _terminatorForTo[Tokens.NewLine] = true;
+            _terminatorForTo[Tokens.LeftBrace] = true;
+
+            _terminatorForTo = new Dictionary<Token, bool>();
+            _terminatorForTo[Tokens.ToIdentifier("by")] = true;
+            _terminatorForTo[Tokens.Semicolon] = true;
+            _terminatorForTo[Tokens.NewLine] = true;
+            _terminatorForTo[Tokens.LeftBrace] = true;
         }
 
 
@@ -156,7 +169,9 @@ namespace ComLib.Lang.Extensions
                 if (_tokenIt.NextToken.Token.Type == TokenTypes.Assignment)
                 {
                     _tokenIt.Advance();
-                    startVal = ParseExpr();
+
+                    // Upto "to"
+                    startVal = ParseExpr(_terminatorForTo);
                 }
                 else
                 {
@@ -214,16 +229,19 @@ namespace ComLib.Lang.Extensions
                 }
             }
 
-            // Parse the end value (e.g. 10, total)
+            // Parse the end value (e.g. 10, total) 
+            // EndTokens: "by", newline, ";", eos
             var currentToken = _tokenIt.NextToken;
-            var end = ParseExpr();   
+            var end = ParseExpr(_terminatorForBy);   
             Expr incVal = null;
 
             // Check for increment value to 10 by 2
             if (_tokenIt.NextToken.Token.Text == "by")
             {
                 _tokenIt.Advance();
-                incVal = ParseExpr();
+
+                // EndTokens: newline, ";", eos
+                incVal = ParseExpr(Terminators.ExpStatementEnd);
             }
             else
             {
@@ -234,9 +252,9 @@ namespace ComLib.Lang.Extensions
         }
 
 
-        private Expr ParseExpr()
+        private Expr ParseExpr(IDictionary<Token, bool> terminators)
         {
-            var exp = _parser.ParseExpression(null, true, true, true, false);
+            var exp = _parser.ParseExpression(terminators, true, true, true, false, true);
             return exp;
         }
     }

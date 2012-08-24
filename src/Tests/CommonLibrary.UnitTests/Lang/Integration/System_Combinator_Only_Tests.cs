@@ -252,12 +252,12 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(bool), true, "var result = 4 >  2;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true, "var result = 4 >= 2;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true, "var result = 4 <  6;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true, "var result = 4 <= 6;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true, "var result = 4 != 2;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true, "var result = 4 == 4;"),
+                TestCase("result", typeof(bool), true, "var result = 4 >  2;"),
+                TestCase("result", typeof(bool), true, "var result = 4 >= 2;"),
+                TestCase("result", typeof(bool), true, "var result = 4 <  6;"),
+                TestCase("result", typeof(bool), true, "var result = 4 <= 6;"),
+                TestCase("result", typeof(bool), true, "var result = 4 != 2;"),
+                TestCase("result", typeof(bool), true, "var result = 4 == 4;"),
             };
             Parse(statements);
         }
@@ -268,20 +268,20 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(bool), true, "var result = 'a' == 'a';"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), false,"var result = 'a' == 'b';"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), false,"var result = 'a' != 'a';"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true, "var result = 'a' != 'b';"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true, "var result = 'a' <  'c';"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), false,"var result = 'b' <  'a';"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), false,"var result = 'a' >  'c';"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true, "var result = 'b' >  'a';"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true, "var result = 'b' <= 'b';"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true, "var result = 'b' <= 'c';"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), false,"var result = 'b' <= 'a';"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true, "var result = 'b' >= 'b';"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true, "var result = 'b' >= 'a';"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), false,"var result = 'b' >= 'c';"),
+                TestCase("result", typeof(bool), true, "var result = 'a' == 'a';"),
+                TestCase("result", typeof(bool), false,"var result = 'a' == 'b';"),
+                TestCase("result", typeof(bool), false,"var result = 'a' != 'a';"),
+                TestCase("result", typeof(bool), true, "var result = 'a' != 'b';"),
+                TestCase("result", typeof(bool), true, "var result = 'a' <  'c';"),
+                TestCase("result", typeof(bool), false,"var result = 'b' <  'a';"),
+                TestCase("result", typeof(bool), false,"var result = 'a' >  'c';"),
+                TestCase("result", typeof(bool), true, "var result = 'b' >  'a';"),
+                TestCase("result", typeof(bool), true, "var result = 'b' <= 'b';"),
+                TestCase("result", typeof(bool), true, "var result = 'b' <= 'c';"),
+                TestCase("result", typeof(bool), false,"var result = 'b' <= 'a';"),
+                TestCase("result", typeof(bool), true, "var result = 'b' >= 'b';"),
+                TestCase("result", typeof(bool), true, "var result = 'b' >= 'a';"),
+                TestCase("result", typeof(bool), false,"var result = 'b' >= 'c';"),
             };
             Parse(statements);
         }
@@ -292,18 +292,18 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(bool), true, "var result = true == true;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), false,"var result = true == false;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), false,"var result = true != true;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true, "var result = true != false;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), false,"var result = true <  true;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), false,"var result = true <  false;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), false,"var result = true >  true;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true, "var result = true >  false;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true, "var result = true <= true;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), false,"var result = true <= false;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true, "var result = true >= true;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true, "var result = true >= false;")
+                TestCase("result", typeof(bool), true, "var result = true == true;"),
+                TestCase("result", typeof(bool), false,"var result = true == false;"),
+                TestCase("result", typeof(bool), false,"var result = true != true;"),
+                TestCase("result", typeof(bool), true, "var result = true != false;"),
+                TestCase("result", typeof(bool), false,"var result = true <  true;"),
+                TestCase("result", typeof(bool), false,"var result = true <  false;"),
+                TestCase("result", typeof(bool), false,"var result = true >  true;"),
+                TestCase("result", typeof(bool), true, "var result = true >  false;"),
+                TestCase("result", typeof(bool), true, "var result = true <= true;"),
+                TestCase("result", typeof(bool), false,"var result = true <= false;"),
+                TestCase("result", typeof(bool), true, "var result = true >= true;"),
+                TestCase("result", typeof(bool), true, "var result = true >= false;")
             };
             Parse(statements);
         }
@@ -314,12 +314,12 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; function add(a) { return null; }  if( add(1) == null) result = 1;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; function add(a) { return 1; }     if( add(1) != null) result = 1;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; var users = ['a', null, 'b'];               if(users[1] == null)   result = 1;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; var users = ['a', null, 'b'];               if(users[0] != null)   result = 1;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; var user = { name: 'kishore', age : null }; if(user.age == null )  result = 1;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; var user = { name: 'kishore', age : 32 };   if(user.age != null )  result = 1;"),                
+                TestCase("result", typeof(double), 1, "var result = 0; function add(a) { return null; }  if( add(1) == null) result = 1;"),
+                TestCase("result", typeof(double), 1, "var result = 0; function add(a) { return 1; }     if( add(1) != null) result = 1;"),
+                TestCase("result", typeof(double), 1, "var result = 0; var users = ['a', null, 'b'];               if(users[1] == null)   result = 1;"),
+                TestCase("result", typeof(double), 1, "var result = 0; var users = ['a', null, 'b'];               if(users[0] != null)   result = 1;"),
+                TestCase("result", typeof(double), 1, "var result = 0; var user = { name: 'kishore', age : null }; if(user.age == null )  result = 1;"),
+                TestCase("result", typeof(double), 1, "var result = 0; var user = { name: 'kishore', age : 32 };   if(user.age != null )  result = 1;"),                
             };
             Parse(statements);
         }
@@ -330,16 +330,16 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result ;    if(result == null) result = 1;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if(result != null) result = 1;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result;     if(null == result) result = 1;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if(null != result) result = 1;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if(null == null)   result = 1;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 1; if(null != null)   result = 0;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if('abc' != null)  result = 1;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if(true != null)   result = 1;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if(false != null)  result = 1;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if(35 != null)     result = 1;")
+                TestCase("result", typeof(double), 1, "var result ;    if(result == null) result = 1;"),
+                TestCase("result", typeof(double), 1, "var result = 0; if(result != null) result = 1;"),
+                TestCase("result", typeof(double), 1, "var result;     if(null == result) result = 1;"),
+                TestCase("result", typeof(double), 1, "var result = 0; if(null != result) result = 1;"),
+                TestCase("result", typeof(double), 1, "var result = 0; if(null == null)   result = 1;"),
+                TestCase("result", typeof(double), 1, "var result = 1; if(null != null)   result = 0;"),
+                TestCase("result", typeof(double), 1, "var result = 0; if('abc' != null)  result = 1;"),
+                TestCase("result", typeof(double), 1, "var result = 0; if(true != null)   result = 1;"),
+                TestCase("result", typeof(double), 1, "var result = 0; if(false != null)  result = 1;"),
+                TestCase("result", typeof(double), 1, "var result = 0; if(35 != null)     result = 1;")
             };
             Parse(statements);
         }
@@ -355,12 +355,12 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 1; if( 2 < 3 && 4 > 3 ){ result = 1; }"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 2, "var result = 1; if( 2 < 3 && 4 > 3 ){ result = 2; }"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 3, "var result = 1; if( 2 < 3 && 4 > 3 ){ result = 3; }"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 4, "var result = 1; if( 2 < 3 && 4 > 3 ){ result = 4; }"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 5, "var result = 1; if( 2 < 3 && 4 > 3 ){ result = 5; }"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 6, "var result = 1; if( 2 < 3 && 4 > 3 ){ result = 6; }")
+                TestCase("result", typeof(double), 1, "var result = 1; if( 2 < 3 && 4 > 3 ){ result = 1; }"),
+                TestCase("result", typeof(double), 2, "var result = 1; if( 2 < 3 && 4 > 3 ){ result = 2; }"),
+                TestCase("result", typeof(double), 3, "var result = 1; if( 2 < 3 && 4 > 3 ){ result = 3; }"),
+                TestCase("result", typeof(double), 4, "var result = 1; if( 2 < 3 && 4 > 3 ){ result = 4; }"),
+                TestCase("result", typeof(double), 5, "var result = 1; if( 2 < 3 && 4 > 3 ){ result = 5; }"),
+                TestCase("result", typeof(double), 6, "var result = 1; if( 2 < 3 && 4 > 3 ){ result = 6; }")
             };
             Parse(statements);
         }
@@ -371,14 +371,14 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) result = 1"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) result = 1;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) result = 1\r\n"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) result = 1;\r\n"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) \r\n result = 1"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) \r\n result = 1;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) \r\n result = 1\r\n"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) \r\n result = 1;\r\n")
+                TestCase("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) result = 1"),
+                TestCase("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) result = 1;"),
+                TestCase("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) result = 1\r\n"),
+                TestCase("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) result = 1;\r\n"),
+                TestCase("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) \r\n result = 1"),
+                TestCase("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) \r\n result = 1;"),
+                TestCase("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) \r\n result = 1\r\n"),
+                TestCase("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) \r\n result = 1;\r\n")
             };
             Parse(statements);
         }
@@ -389,14 +389,14 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) { result = 1  }"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) { result = 1; }"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) { result = 1\r\n }"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) { result = 1;\r\n }"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) \r\n{ \r\n result = 1 }"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) \r\n{ \r\n result = 1; }"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) \r\n{ \r\n result = 1\r\n }"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) \r\n{ \r\n result = 1;\r\n }\r\n")
+                TestCase("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) { result = 1  }"),
+                TestCase("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) { result = 1; }"),
+                TestCase("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) { result = 1\r\n }"),
+                TestCase("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) { result = 1;\r\n }"),
+                TestCase("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) \r\n{ \r\n result = 1 }"),
+                TestCase("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) \r\n{ \r\n result = 1; }"),
+                TestCase("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) \r\n{ \r\n result = 1\r\n }"),
+                TestCase("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) \r\n{ \r\n result = 1;\r\n }\r\n")
             };
             Parse(statements);
         }
@@ -407,14 +407,14 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if 2 < 3 then result = 1"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if 2 < 3 then result = 1;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if 2 < 3 then result = 1\r\n"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if 2 < 3 then result = 1;\r\n"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if 2 < 3 \r\n result = 1"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if 2 < 3 \r\n result = 1;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if 2 < 3 \r\n result = 1\r\n"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if 2 < 3 \r\n result = 1;\r\n")
+                TestCase("result", typeof(double), 1, "var result = 0; if 2 < 3 then result = 1"),
+                TestCase("result", typeof(double), 1, "var result = 0; if 2 < 3 then result = 1;"),
+                TestCase("result", typeof(double), 1, "var result = 0; if 2 < 3 then result = 1\r\n"),
+                TestCase("result", typeof(double), 1, "var result = 0; if 2 < 3 then result = 1;\r\n"),
+                TestCase("result", typeof(double), 1, "var result = 0; if 2 < 3 \r\n result = 1"),
+                TestCase("result", typeof(double), 1, "var result = 0; if 2 < 3 \r\n result = 1;"),
+                TestCase("result", typeof(double), 1, "var result = 0; if 2 < 3 \r\n result = 1\r\n"),
+                TestCase("result", typeof(double), 1, "var result = 0; if 2 < 3 \r\n result = 1;\r\n")
             };
             Parse(statements);
         }
@@ -425,14 +425,14 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if 2 < 3 { result = 1  }"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if 2 < 3 { result = 1; }"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if 2 < 3 { result = 1\r\n }"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if 2 < 3 { result = 1;\r\n }"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if 2 < 3 \r\n{ \r\n result = 1 }"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if 2 < 3 \r\n{ \r\n result = 1; }"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if 2 < 3 \r\n{ \r\n result = 1\r\n }"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if 2 < 3 \r\n{ \r\n result = 1;\r\n }\r\n")
+                TestCase("result", typeof(double), 1, "var result = 0; if 2 < 3 { result = 1  }"),
+                TestCase("result", typeof(double), 1, "var result = 0; if 2 < 3 { result = 1; }"),
+                TestCase("result", typeof(double), 1, "var result = 0; if 2 < 3 { result = 1\r\n }"),
+                TestCase("result", typeof(double), 1, "var result = 0; if 2 < 3 { result = 1;\r\n }"),
+                TestCase("result", typeof(double), 1, "var result = 0; if 2 < 3 \r\n{ \r\n result = 1 }"),
+                TestCase("result", typeof(double), 1, "var result = 0; if 2 < 3 \r\n{ \r\n result = 1; }"),
+                TestCase("result", typeof(double), 1, "var result = 0; if 2 < 3 \r\n{ \r\n result = 1\r\n }"),
+                TestCase("result", typeof(double), 1, "var result = 0; if 2 < 3 \r\n{ \r\n result = 1;\r\n }\r\n")
             };
             Parse(statements);
         }
@@ -443,12 +443,12 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 1; if( 2 < 3 && 4 > 3 ) result = 1;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 2, "var result = 1; if( 2 < 3 && 4 > 3 ) result = 2;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 3, "var result = 1; if( 2 < 3 && 4 > 3 ) result = 3;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 4, "var result = 1; if( 2 < 3 && 4 > 3 ) result = 4;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 5, "var result = 1; if( 2 < 3 && 4 > 3 ) result = 5;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 6, "var result = 1; if( 2 < 3 && 4 > 3 ) result = 6;"),
+                TestCase("result", typeof(double), 1, "var result = 1; if( 2 < 3 && 4 > 3 ) result = 1;"),
+                TestCase("result", typeof(double), 2, "var result = 1; if( 2 < 3 && 4 > 3 ) result = 2;"),
+                TestCase("result", typeof(double), 3, "var result = 1; if( 2 < 3 && 4 > 3 ) result = 3;"),
+                TestCase("result", typeof(double), 4, "var result = 1; if( 2 < 3 && 4 > 3 ) result = 4;"),
+                TestCase("result", typeof(double), 5, "var result = 1; if( 2 < 3 && 4 > 3 ) result = 5;"),
+                TestCase("result", typeof(double), 6, "var result = 1; if( 2 < 3 && 4 > 3 ) result = 6;"),
             };
             Parse(statements);
         }
@@ -459,12 +459,12 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 2; if( 2 < 3 && 4 > 3 ) result = 1; else result = 0;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 2; if( 2 < 3 && 4 > 3 ) result = 1; else result = 0;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 2; if( 2 < 3 && 4 > 3 ) result = 1; else result = 0;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 0, "var result = 2; if( 2 < 3 && 4 > 5 ) result = 1; else result = 0;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 0, "var result = 2; if( 2 < 3 && 4 > 5 ) result = 1; else result = 0;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 0, "var result = 2; if( 2 < 3 && 4 > 5 ) result = 1; else result = 0;"),
+                TestCase("result", typeof(double), 1, "var result = 2; if( 2 < 3 && 4 > 3 ) result = 1; else result = 0;"),
+                TestCase("result", typeof(double), 1, "var result = 2; if( 2 < 3 && 4 > 3 ) result = 1; else result = 0;"),
+                TestCase("result", typeof(double), 1, "var result = 2; if( 2 < 3 && 4 > 3 ) result = 1; else result = 0;"),
+                TestCase("result", typeof(double), 0, "var result = 2; if( 2 < 3 && 4 > 5 ) result = 1; else result = 0;"),
+                TestCase("result", typeof(double), 0, "var result = 2; if( 2 < 3 && 4 > 5 ) result = 1; else result = 0;"),
+                TestCase("result", typeof(double), 0, "var result = 2; if( 2 < 3 && 4 > 5 ) result = 1; else result = 0;"),
             };
             Parse(statements);
         }
@@ -475,12 +475,12 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) result = 1; else if ( 3 < 4 ) result = 2; else result = 3;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) result = 1; else if ( 3 < 4 ) result = 2; else result = 3;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 2, "var result = 0; if( 3 < 3 ) result = 1; else if ( 3 < 4 ) result = 2; else result = 3;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 2, "var result = 0; if( 3 < 3 ) result = 1; else if ( 3 < 4 ) result = 2; else result = 3;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 3, "var result = 0; if( 3 < 3 ) result = 1; else if ( 4 < 4 ) result = 2; else result = 3;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 3, "var result = 0; if( 3 < 3 ) result = 1; else if ( 4 < 4 ) result = 2; else result = 3;")
+                TestCase("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) result = 1; else if ( 3 < 4 ) result = 2; else result = 3;"),
+                TestCase("result", typeof(double), 1, "var result = 0; if( 2 < 3 ) result = 1; else if ( 3 < 4 ) result = 2; else result = 3;"),
+                TestCase("result", typeof(double), 2, "var result = 0; if( 3 < 3 ) result = 1; else if ( 3 < 4 ) result = 2; else result = 3;"),
+                TestCase("result", typeof(double), 2, "var result = 0; if( 3 < 3 ) result = 1; else if ( 3 < 4 ) result = 2; else result = 3;"),
+                TestCase("result", typeof(double), 3, "var result = 0; if( 3 < 3 ) result = 1; else if ( 4 < 4 ) result = 2; else result = 3;"),
+                TestCase("result", typeof(double), 3, "var result = 0; if( 3 < 3 ) result = 1; else if ( 4 < 4 ) result = 2; else result = 3;")
             };
             Parse(statements);
         }
@@ -492,13 +492,40 @@ namespace ComLib.Lang.Tests.Integration.System
     [TestFixture]
     public class Script_Tests_Parenthesis : ScriptTestsBase
     {
-
         [Test]
         public void Can_Do_Complex_Conditions()
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 2, month = 3, day = 4; if ( month < 0 || ( month == 3 && day < 5 ) ) { result--; }")
+                TestCase("result", typeof(double), 1, "var result = 2, month = 3; day = 4; function add(a, b) return a + b; if ( month < 0      || ( month == 3 && day < 5 ) )   { result--; }"),
+                TestCase("result", typeof(double), 1, "var result = 2, month = 3; day = 4; function add(a, b) return a + b; if ( add(1, 2) < 4  || ( month == 1  && day < 5 ) )  { result--; }"),
+                TestCase("result", typeof(double), 1, "var result = 2, month = 3; day = 4; var nums = [0, 1, 2];            if ( month > 0      && ( nums[1] == 1 && day < 5 ) ) { result--; }")
+            };
+            Parse(statements);
+        }
+
+
+        [Test]
+        public void Can_Do_MultiLine_Conditions()
+        {
+            var statements = new List<Tuple<string, Type, object, string>>()
+            {
+                TestCase("result", typeof(double), 1, "var result = 2, month = 3; day = 4; if ( month < 0  || ( month == 3 && day < 5 ) )        { result--; }"),
+                TestCase("result", typeof(double), 1, "var result = 2, month = 3; day = 4; if ( month \r\n < 0  || ( month == 3 && day < 5 ) )   { result--; }"),
+                TestCase("result", typeof(double), 1, "var result = 2, month = 3; day = 4; if ( month < \r\n 0  || ( month == 3 && day < 5 ) )   { result--; }"),
+                TestCase("result", typeof(double), 1, "var result = 2, month = 3; day = 4; if ( month < 0 \r\n  || ( month == 3 && day < 5 ) )   { result--; }"),
+                TestCase("result", typeof(double), 1, "var result = 2, month = 3; day = 4; if ( month < 0  || \r\n ( month == 3 && day < 5 ) )   { result--; }"),
+                TestCase("result", typeof(double), 1, "var result = 2, month = 3; day = 4; if ( month < 0  || ( \r\n month == 3 && day < 5 ) )   { result--; }"),
+                TestCase("result", typeof(double), 1, "var result = 2, month = 3; day = 4; if ( month < 0  || ( month \r\n == 3 && day < 5 ) )   { result--; }"),
+                TestCase("result", typeof(double), 1, "var result = 2, month = 3; day = 4; if ( month < 0  || ( month == \r\n 3 && day < 5 ) )   { result--; }"),
+                TestCase("result", typeof(double), 1, "var result = 2, month = 3; day = 4; if ( month < 0  || ( month == 3 \r\n && day < 5 ) )   { result--; }"),
+                TestCase("result", typeof(double), 1, "var result = 2, month = 3; day = 4; if ( month < 0  || ( month == 3 && \r\n day < 5 ) )   { result--; }"),
+                TestCase("result", typeof(double), 1, "var result = 2, month = 3; day = 4; if ( month < 0  || ( month == 3 && \r\n day < 5 ) )   { result--; }"),
+                TestCase("result", typeof(double), 1, "var result = 2, month = 3; day = 4; if ( month < 0  || ( month == 3 && day \r\n < 5 ) )   { result--; }"),
+                TestCase("result", typeof(double), 1, "var result = 2, month = 3; day = 4; if ( month < 0  || ( month == 3 && day < \r\n 5 ) )   { result--; }"),
+                TestCase("result", typeof(double), 1, "var result = 2, month = 3; day = 4; if ( month < 0  || ( month == 3 && day < 5 \r\n ) )   { result--; }"),
+                TestCase("result", typeof(double), 1, "var result = 2, month = 3; day = 4; if ( month < 0  || ( month == 3 && day < 5 ) \r\n )   { result--; }"),
+                TestCase("result", typeof(double), 1, "var result = 2, month = 3; day = 4; if ( month < 0  || ( month == 3 && day < 5 ) ) \r\n   { result--; }"),
             };
             Parse(statements);
         }
@@ -509,10 +536,10 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(bool), true, "var result = false, a = 1; result = ( a == 0 || a < 2);" ),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true, "var result = false, a = 2; result = ( a == 0 || ( a >= 1 && a < 4 ) );" ),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true, "var result = false, a = 3; result = ( a > 0 && a < 4 );" ),
-                new Tuple<string,Type, object, string>("result", typeof(double), 3,  "var result = false, a = 1; result = ( a + 4 - 2);" ),
+                TestCase("result", typeof(bool), true, "var result = false, a = 1; result = ( a == 0 || a < 2);" ),
+                TestCase("result", typeof(bool), true, "var result = false, a = 2; result = ( a == 0 || ( a >= 1 && a < 4 ) );" ),
+                TestCase("result", typeof(bool), true, "var result = false, a = 3; result = ( a > 0 && a < 4 );" ),
+                TestCase("result", typeof(double), 3,  "var result = false, a = 1; result = ( a + 4 - 2);" ),
             };
             Parse(statements);
         }
@@ -607,127 +634,172 @@ namespace ComLib.Lang.Tests.Integration.System
     public class Script_Tests_Functions : ScriptTestsBase
     {
         [Test]
+        public void Can_Define_Without_Braces()
+        {
+            var testcases = new List<Tuple<string, Type, object, string>>()
+            {
+                TestCase("result", typeof(double), 2, "var result = 0; function inc( a ) return a + 1;                       result = inc( 1 );"),
+                TestCase("result", typeof(double), 2, "var result = 0; function inc( a ) return a + 1\r\n                    result = inc( 1 );"),
+                TestCase("result", typeof(double), 2, "var result = 0; function inc( a ) return a + 1;\r\n                   result = inc( 1 );"),
+                TestCase("result", typeof(double), 2, "var result = 0; function inc( a ) \r\n return a + 1;                  result = inc( 1 );"),
+                TestCase("result", typeof(double), 2, "var result = 0; function inc( a ) \r\n return a + 1\r\n               result = inc( 1 );"),
+                TestCase("result", typeof(double), 2, "var result = 0; function inc( a ) \r\n return a + 1;\r\n              result = inc( 1 );"),
+            };
+            Parse(testcases);
+        }
+
+
+        [Test]
+        public void Can_Define_With_Braces()
+        {
+            var testcases = new List<Tuple<string, Type, object, string>>()
+            {
+                TestCase("result", typeof(double), 2, "var result = 0; function inc( a ) { return a + 1  }                   result = inc( 1 );"),
+                TestCase("result", typeof(double), 2, "var result = 0; function inc( a ) { return a + 1; }                   result = inc( 1 );"),
+                TestCase("result", typeof(double), 2, "var result = 0; function inc( a ) { return a + 1\r\n }                result = inc( 1 );"),
+                TestCase("result", typeof(double), 2, "var result = 0; function inc( a ) { return a + 1;\r\n }               result = inc( 1 );"),
+                TestCase("result", typeof(double), 2, "var result = 0; function inc( a ) \r\n{ \r\n return a + 1 }           result = inc( 1 );"),
+                TestCase("result", typeof(double), 2, "var result = 0; function inc( a ) \r\n{ \r\n return a + 1; }          result = inc( 1 );"),
+                TestCase("result", typeof(double), 2, "var result = 0; function inc( a ) \r\n{ \r\n return a + 1\r\n }       result = inc( 1 );"),
+                TestCase("result", typeof(double), 2, "var result = 0; function inc( a ) \r\n{ \r\n return a + 1;\r\n }\r\n  result = inc( 1 );")
+            };
+            Parse(testcases);
+        }
+
+
+        [Test]
+        public void Can_Define_With_Parameters_On_Separate_Lines()
+        {
+            var testcases = new List<Tuple<string, Type, object, string>>()
+            {
+                TestCase("result", typeof(double), 3, "var result = 0; function add( a, \r\n b ) { return a + b  }                   result = add( 1, 2 );"),                
+            };
+            Parse(testcases);
+        }
+
+
+        [Test]
         public void Can_Use_Aliases()
         {
-            var statements = new List<Tuple<string, Type, object, string>>()
+            var testcases = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 11, "var result = 0; function add, inc, increment( a ) { return a + 1; } result = add( 10 );" ),
-                new Tuple<string,Type, object, string>("result", typeof(double), 11, "var result = 1; function add, inc, increment( a ) { return a + 1; } result = inc( 10 );" ),
-                new Tuple<string,Type, object, string>("result", typeof(double), 11, "var result = 2; function add, inc, increment( a ) { return a + 1; } result = increment( 10 );" )
+                TestCase("result", typeof(double), 11, "var result = 0; function add, inc, increment( a ) { return a + 1; } result = add( 10 );" ),
+                TestCase("result", typeof(double), 11, "var result = 1; function add, inc, increment( a ) { return a + 1; } result = inc( 10 );" ),
+                TestCase("result", typeof(double), 11, "var result = 2; function add, inc, increment( a ) { return a + 1; } result = increment( 10 );" )
             };
-            Parse(statements);
+            Parse(testcases);
         }
 
 
         [Test]
         public void Can_Return_With_Value()
         {
-            var statements = new List<Tuple<string, Type, object, string>>()
+            var testcases = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 1,                 "var result = 0; function test(a) { if( a < 2 ) return 1; return 2; } result = test(1);"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 2,                 "var result = 0; function test(a) { if( a < 2 ) return 1; return 2; } result = test(2);")
+                TestCase("result", typeof(double), 1,                 "var result = 0; function test(a) { if( a < 2 ) return 1; return 2; } result = test(1);"),
+                TestCase("result", typeof(double), 2,                 "var result = 0; function test(a) { if( a < 2 ) return 1; return 2; } result = test(2);")
             };
-            Parse(statements);
+            Parse(testcases);
         }
 
 
         [Test]
         public void Can_Return_Without_Value()
         {
-            var statements = new List<Tuple<string, Type, object, string>>()
+            var testcases = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(object), LNull.Instance,    "var result = 0; function test(a) { if( a > 2 ) return; return 2; }   result = test(3);"),
+                TestCase("result", typeof(object), LNull.Instance,    "var result = 0; function test(a) { if( a > 2 ) return; return 2; }   result = test(3);"),
             };
-            Parse(statements);
+            Parse(testcases);
         }
 
 
         [Test]
         public void Can_Have_Implicit_Arguments_Parameter()
         {
-            var statements = new List<Tuple<string, Type, object, string>>()
+            var testcases = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 2,     "var result = 0; function test(a, b)       { return arguments.length; } result = test(1, 'a');"),
-                new Tuple<string,Type, object, string>("result", typeof(string), "a",   "var result = 0; function test(a, b, c)    { return arguments[a];     } result = test(1, 'a', 2);"),
-                new Tuple<string,Type, object, string>("result", typeof(bool),   true,  "var result = 0; function test(a, b, c, d) { return arguments[a];     } result = test(3, 'a', 2, true);"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 3,     "var result = 0; function test(arguments, b, c, d) { return arguments;} result = test(3, 'a', 2, true);"),
+                TestCase("result", typeof(double), 2,     "var result = 0; function test(a, b)       { return arguments.length; } result = test(1, 'a');"),
+                TestCase("result", typeof(string), "a",   "var result = 0; function test(a, b, c)    { return arguments[a];     } result = test(1, 'a', 2);"),
+                TestCase("result", typeof(bool),   true,  "var result = 0; function test(a, b, c, d) { return arguments[a];     } result = test(3, 'a', 2, true);"),
+                TestCase("result", typeof(double), 3,     "var result = 0; function test(arguments, b, c, d) { return arguments;} result = test(3, 'a', 2, true);"),
             };
-            Parse(statements);
+            Parse(testcases);
         }
 
 
         [Test]
         public void Can_Make_Calls_With_Extra_Parameters()
         {
-            var statements = new List<Tuple<string, Type, object, string>>()
+            var testcases = new List<Tuple<string, Type, object, string>>()
             {
                 new Tuple<string,Type, object, string>("result", typeof(double), 4,     "var result = 0; function test(a, b)       { return arguments[a]; } result = test(2, 'a', 4);")
             };
-            Parse(statements);
+            Parse(testcases);
         }
 
 
         [Test]
         public void Can_Make_Calls()
         {
-            var statements = new List<Tuple<string, Type, object, string>>()
+            var testcases = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 1,     "var result = 0; function test()     { return 1;         } result = test();"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 2,     "var result = 1; function test(a)    { return a + 1;      } result = test(1);"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 4,     "var result = 2; function test(a)    { return a + result; } result = test(2);"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true,    "var result = 1; function test(a)    { return true;       } result = test(1);"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), false,   "var result = 1; function test(a)    { return false;      } result = test(1);"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 5,     "var result = 1; function test(a, b) { return a + b;      } result = test(2,3);"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 3,     "var result = 1; function test(a, b) { return a - b;      } result = test(4,1);"),
-                new Tuple<string,Type, object, string>("result", typeof(string), "com", "var result = 1; function test()     { return 'com';      } result = test();")
+                TestCase("result", typeof(double), 1,     "var result = 0; function test()     { return 1;         } result = test();"),
+                TestCase("result", typeof(double), 2,     "var result = 1; function test(a)    { return a + 1;      } result = test(1);"),
+                TestCase("result", typeof(double), 4,     "var result = 2; function test(a)    { return a + result; } result = test(2);"),
+                TestCase("result", typeof(bool), true,    "var result = 1; function test(a)    { return true;       } result = test(1);"),
+                TestCase("result", typeof(bool), false,   "var result = 1; function test(a)    { return false;      } result = test(1);"),
+                TestCase("result", typeof(double), 5,     "var result = 1; function test(a, b) { return a + b;      } result = test(2,3);"),
+                TestCase("result", typeof(double), 3,     "var result = 1; function test(a, b) { return a - b;      } result = test(4,1);"),
+                TestCase("result", typeof(string), "com", "var result = 1; function test()     { return 'com';      } result = test();")
             };
-            Parse(statements);
+            Parse(testcases);
         }
 
 
         [Test]
         public void Can_Make_Calls_Without_Parenthesis()
         {
-            var statements = new List<Tuple<string, Type, object, string>>()
+            var testcases = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 1,     "var result = 0; function test()        { return 1;          } result = test;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 2,     "var result = 1; function inc(a)        { return a + 1;      } result = inc 1;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 4,     "var result = 2; function addr(a)       { return a + result; } result = addr 2;"),                
-                new Tuple<string,Type, object, string>("result", typeof(double), 3,     "var result = 1; function add2(a, b)    { return a + b;      } result = add2 1, 2;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 6,     "var result = 1; function add3(a, b, c) { return a + b + c;  } result = add3 1, 2, 3;"),
+                TestCase("result", typeof(double), 1,     "var result = 0; function test()        { return 1;          } result = test;"),
+                TestCase("result", typeof(double), 2,     "var result = 1; function inc(a)        { return a + 1;      } result = inc 1;"),
+                TestCase("result", typeof(double), 4,     "var result = 2; function addr(a)       { return a + result; } result = addr 2;"),                
+                TestCase("result", typeof(double), 3,     "var result = 1; function add2(a, b)    { return a + b;      } result = add2 1, 2;"),
+                TestCase("result", typeof(double), 6,     "var result = 1; function add3(a, b, c) { return a + b + c;  } result = add3 1, 2, 3;"),
 
-                new Tuple<string,Type, object, string>("result", typeof(double), 1,     "var result = 0; function test()        { return 1;          } result = test;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 3,     "var result = 1; function inc(a)        { return a + 1;      } result = inc inc(1);"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 6,     "var result = 2; function addr(a)       { return a + result; } result = addr addr(2);"),                
-                new Tuple<string,Type, object, string>("result", typeof(double), 5,     "var result = 1; function add2(a, b)    { return a + b;      } result = add2 add2(1,2), 2;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 14,    "var result = 1; function add3(a, b, c) { return a + b + c;  } result = add3 add3(1,2,1), 2, add3(2,3,3);")
+                TestCase("result", typeof(double), 1,     "var result = 0; function test()        { return 1;          } result = test;"),
+                TestCase("result", typeof(double), 3,     "var result = 1; function inc(a)        { return a + 1;      } result = inc inc(1);"),
+                TestCase("result", typeof(double), 6,     "var result = 2; function addr(a)       { return a + result; } result = addr addr(2);"),                
+                TestCase("result", typeof(double), 5,     "var result = 1; function add2(a, b)    { return a + b;      } result = add2 add2(1,2), 2;"),
+                TestCase("result", typeof(double), 14,    "var result = 1; function add3(a, b, c) { return a + b + c;  } result = add3 add3(1,2,1), 2, add3(2,3,3);")
             };
-            Parse(statements);
+            Parse(testcases);
         }
 
 
         [Test]
         public void Can_Make_Calls_Inside_External_Parenthesis()
         {
-            var statements = new List<Tuple<string, Type, object, string>>()
+            var testcases = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 3, "var result = 0; function inc(a) { return a + 1; }  result = inc(inc(1));"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 3, "var result = 0; function inc(a) { return a + 1; }  if( inc(inc(1)) == 3 ) result = 3;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0; function inc(a) { return a + 1; }  if( inc(1) == 2 ) result = 1;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 2, "var result = 0; var b = 0; function inc(a) { return a + 1; }  while( inc(b) < 3 ){ b++; result = b;}")
+                TestCase("result", typeof(double), 3, "var result = 0; function inc(a) { return a + 1; }  result = inc(inc(1));"),
+                TestCase("result", typeof(double), 3, "var result = 0; function inc(a) { return a + 1; }  if( inc(inc(1)) == 3 ) result = 3;"),
+                TestCase("result", typeof(double), 1, "var result = 0; function inc(a) { return a + 1; }  if( inc(1) == 2 ) result = 1;"),
+                TestCase("result", typeof(double), 2, "var result = 0; var b = 0; function inc(a) { return a + 1; }  while( inc(b) < 3 ){ b++; result = b;}")
             };
-            Parse(statements);
+            Parse(testcases);
         }
 
 
         [Test]
         public void Can_Do_Try_Catch()
         {
-            var statements = new List<Tuple<string, Type, object, string>>()
+            var testcases = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(string), "test error", "var result = 'default'; try { throw 'test error'; } catch(err) { result = err.message; }")
+                TestCase("result", typeof(string), "test error", "var result = 'default'; try { throw 'test error'; } catch(err) { result = err.message; }")
             };
-            Parse(statements);
+            Parse(testcases);
         }
 
 
@@ -736,7 +808,7 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             // Tuple ( 0, 1, 2, 3, 4 )
             //         name, number of parameters, return type, return value, function call as string
-            var statements = new List<Tuple<string, int, Type, object, string>>()
+            var testcases = new List<Tuple<string, int, Type, object, string>>()
             {
                 new Tuple<string, int, Type, object, string>("user.create", 0, typeof(double), 1,        "user.create();"),
                 new Tuple<string, int, Type, object, string>("user.create", 5, typeof(double), "comlib", "user.create (1,  'comlib',  123, true,  30.5);"),
@@ -744,7 +816,7 @@ namespace ComLib.Lang.Tests.Integration.System
                 new Tuple<string, int, Type, object, string>("user.create", 5, typeof(bool),   true,     "user.create (3, \"comlib\", 123, true,  30.5);"),
                 new Tuple<string, int, Type, object, string>("user.create", 5, typeof(double), 30.5,     "user.create  (4, \"comlib\", 123, false, 30.5);")
             };
-            ParseFuncCalls(statements);
+            ParseFuncCalls(testcases);
         }
 
 
@@ -753,7 +825,7 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             // Tuple ( 0, 1, 2, 3, 4 )
             //         name, number of parameters, return type, return value, function call as string
-            var statements = new List<Tuple<string, Type, object, string>>()
+            var testcases = new List<Tuple<string, Type, object, string>>()
             {
                 new Tuple<string, Type, object, string>("result", typeof(double), 1,        "var result = user.create();"),
                 new Tuple<string, Type, object, string>("result", typeof(double), "comlib", "var result = user.create (1,  'comlib',  123, true,  30.5);"),
@@ -761,7 +833,7 @@ namespace ComLib.Lang.Tests.Integration.System
                 new Tuple<string, Type, object, string>("result", typeof(bool),   true,     "var result = user.create (3, \"comlib\", 123, true,  30.5);"),
                 new Tuple<string, Type, object, string>("result", typeof(double), 30.5,     "var result = user.create  (4, \"comlib\", 123, false, 30.5);")
             };
-            Parse(statements, true, (interpreter) => 
+            Parse(testcases, true, (interpreter) => 
             { 
                 interpreter.SetFunctionCallback("user.create", (exp) => 
                 {
@@ -800,12 +872,47 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string, Type, object, string>("result", typeof(bool),   2, "var result = 5; function inc( a ) { return a + 1; } result = inc(1);"),
-                new Tuple<string, Type, object, string>("result", typeof(double), 2, "var result = 5; if ( result > 4 ) { result = 2; }"),
-                new Tuple<string, Type, object, string>("result", typeof(double), 2, "var result = 5; if ( result > 6 ) { result = 1; } else { result = 2; }"),
-                new Tuple<string, Type, object, string>("result", typeof(double), 2, "var result = 5; while ( result >= 3 ) { result = result - 1; }"),                
-                new Tuple<string, Type, object, string>("result", typeof(double), 2, "var result = 5; for( var a = 0; a < 3; a++) { result = a; }"),                
-                new Tuple<string, Type, object, string>("result", typeof(double), 2, "var result = 5; try { result = 2; } catch(err) {}"),                
+                TestCase("result", typeof(bool),   2, "var result = 5; function inc( a ) { return a + 1; } result = inc(1);"),
+                TestCase("result", typeof(double), 2, "var result = 5; if ( result > 4 ) { result = 2; }"),
+                TestCase("result", typeof(double), 2, "var result = 5; if ( result > 6 ) { result = 1; } else { result = 2; }"),
+                TestCase("result", typeof(double), 2, "var result = 5; while ( result >= 3 ) { result = result - 1; }"),                
+                TestCase("result", typeof(double), 2, "var result = 5; for( var a = 0; a < 3; a++) { result = a; }"),                
+                TestCase("result", typeof(double), 2, "var result = 5; try { result = 2; } catch(err) {}"),                
+            };
+            Parse(statements);
+        }
+
+
+        [Test]
+        public void Can_Use_Try_Catch_With_Different_Syntaxes()
+        {
+            var statements = new List<Tuple<string, Type, object, string>>()
+            {
+                TestCase("result", typeof(double), 3, "var result = 1; try { throw 'test error';    } catch(err) { result = 3;    }"),
+                TestCase("result", typeof(double), 3, "var result = 1; try { throw 'test error';    } catch(err) { result = 3     }"),                
+                TestCase("result", typeof(double), 3, "var result = 1; try { throw 'test error';    } catch(err) { result = 3\r\n }"),             
+                TestCase("result", typeof(double), 3, "var result = 1; try { throw 'test error'\r\n } catch(err) { result = 3;    }"),
+                TestCase("result", typeof(double), 3, "var result = 1; try { throw 'test error'\r\n } catch(err) { result = 3     }"),                
+                TestCase("result", typeof(double), 3, "var result = 1; try { throw 'test error'\r\n } catch(err) { result = 3\r\n }"),  
+                TestCase("result", typeof(double), 3, "var result = 1; try { \r\n throw 'test error';    } catch(err) { result = 3;     }"),
+                TestCase("result", typeof(double), 3, "var result = 1; try { \r\n throw 'test error';    } catch(err) { result = 3      }"),                
+                TestCase("result", typeof(double), 3, "var result = 1; try { \r\n throw 'test error';    } \r\ncatch(err) { result = 3\r\n  }"),             
+                TestCase("result", typeof(double), 3, "var result = 1; try \r\n { \r\n throw 'test error'\r\n } catch(err) \r\n{ result = 3;     }"),
+                TestCase("result", typeof(double), 3, "var result = 1; try \r\n { \r\n throw 'test error'\r\n } catch(err) \r\n{ result = 3      }"),                
+                TestCase("result", typeof(double), 3, "var result = 1; try \r\n { \r\n throw 'test error'\r\n } \r\ncatch(err) \r\n{ result = 3\r\n  }"), 
+                
+                TestCase("result", typeof(double), 3, "var result = 1; try throw 'test error';    catch(err) result = 3;"),
+                TestCase("result", typeof(double), 3, "var result = 1; try throw 'test error';    catch(err) result = 3"),                
+                TestCase("result", typeof(double), 3, "var result = 1; try throw 'test error';    catch(err) result = 3\r\n"),             
+                TestCase("result", typeof(double), 3, "var result = 1; try throw 'test error'\r\n catch(err) result = 3;"),
+                TestCase("result", typeof(double), 3, "var result = 1; try throw 'test error'\r\n catch(err) result = 3"),                
+                TestCase("result", typeof(double), 3, "var result = 1; try throw 'test error'\r\n catch(err) result = 3\r\n"),  
+                TestCase("result", typeof(double), 3, "var result = 1; try \r\n throw 'test error';    catch(err) result = 3;"),
+                TestCase("result", typeof(double), 3, "var result = 1; try \r\n throw 'test error';    catch(err) result = 3"),                
+                TestCase("result", typeof(double), 3, "var result = 1; try \r\n throw 'test error';    catch(err) result = 3\r\n"),             
+                TestCase("result", typeof(double), 3, "var result = 1; try \r\n throw 'test error'\r\n catch(err) result = 3;"),
+                TestCase("result", typeof(double), 3, "var result = 1; try \r\n throw 'test error'\r\n catch(err) result = 3"),                
+                TestCase("result", typeof(double), 3, "var result = 1; try \r\n throw 'test error'\r\n catch(err) result = 3\r\n"), 
             };
             Parse(statements);
         }

@@ -69,6 +69,7 @@ namespace ComLib.Lang
 
             _tokenIt.Expect(Tokens.Try);
             ParseBlock(stmt);
+            _tokenIt.AdvancePastNewLines();
             _tokenIt.ExpectMany(Tokens.Catch, Tokens.LeftParenthesis);
             stmt.ErrorName = _tokenIt.ExpectId();
             _tokenIt.Expect(Tokens.RightParenthesis);

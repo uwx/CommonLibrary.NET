@@ -44,9 +44,9 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
+            Combinator_Tests();
             Lang_Script_Tests();
             System_Control_Flow();
-            Combinator_Tests();
             Lang_Type_Tests(); 
             UnitTests();
             FluentTests();            
@@ -289,8 +289,8 @@ namespace ComLib.Samples
 
         static void Combinator_Tests()
         {
-            Combinator_Core_Tests();
             Combinator_Integration_Tests();
+            Combinator_Core_Tests();
             Combinator_System_Tests();
             FluentTests();
             Combinator_Integration_Failures();
@@ -509,6 +509,7 @@ namespace ComLib.Samples
             var ter = new Script_Tests_Errors_Runtime();
             var tes = new Script_Tests_Errors_Syntax();
 
+            tes.Can_Handle_Unterminated_String();
             tes.Can_Handle_Unexpected_Char_At_Start();
             tes.Can_Handle_Multiple_Useless_Parenthesis();
             tes.Can_Handle_Double_Colon_On_Keys();
@@ -543,6 +544,23 @@ namespace ComLib.Samples
             var tp = new Script_Tests_Parenthesis();
             var tmem = new Script_Tests_Memory();
             var tcs = new Script_Tests_CSharp_Integration();
+            var tcb = new Script_Tests_Blocks();
+
+            tp.Can_Do_MultiLine_Conditions();
+
+            tf.Can_Define_With_Parameters_On_Separate_Lines();            
+            tf.Can_Define_With_Braces();
+            tf.Can_Define_Without_Braces();
+            
+            tf.Can_Make_Calls_With_Extra_Parameters();
+            tf.Can_Make_Calls_External_As_Expressions();
+            tf.Can_Make_Calls_External_As_Statements();
+            tf.Can_Make_Calls_With_Mixed_Types();
+            tf.Can_Make_Calls_Inside_External_Parenthesis();
+            tf.Can_Do_Try_Catch();
+            tf.Can_Make_Calls();
+
+            tcb.Can_Use_Try_Catch_With_Different_Syntaxes();
 
             tcs.Can_Call_Function_With_Params();
             tcs.Can_Call_Function_Without_Params();
@@ -550,8 +568,6 @@ namespace ComLib.Samples
             tcs.Can_Call_Function_Using_Generic_List_Of_Basic_Types();
             tcs.Can_Call_Function_Using_Generic_List_Of_Objects();
             tcs.Can_Call_Function_Using_Dictionary();
-
-            tf.Can_Make_Calls_With_Extra_Parameters();
 
             tt.Can_Do_Check_For_Nulls();
 
@@ -576,17 +592,7 @@ namespace ComLib.Samples
             
 
             tmem.Can_Pop_Memory();
-
             
-
-
-            tf.Can_Make_Calls_External_As_Expressions();
-            tf.Can_Make_Calls_External_As_Statements();
-            tf.Can_Make_Calls_With_Mixed_Types();
-            tf.Can_Make_Calls_Inside_External_Parenthesis();
-            tf.Can_Do_Try_Catch(); 
-            tf.Can_Make_Calls();
-       
 
             tp.Can_Do_Complex_Conditions();
 

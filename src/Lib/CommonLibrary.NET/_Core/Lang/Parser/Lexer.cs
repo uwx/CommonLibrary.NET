@@ -196,6 +196,7 @@ namespace ComLib.Lang
             _tokens = new List<TokenData>();
             var hasPlugins = _ctx.Plugins.TotalLexical > 0;
 
+            TokenData last = null;
             while (true)
             {               
                 var token = NextToken();
@@ -261,6 +262,11 @@ namespace ComLib.Lang
                 {
                     break;
                 }
+
+                //DEBUG.ASSERT. Did not progress somehow.
+                if(last == token)
+                    throw new LangException("Syntax Error", "Unexpected token", string.Empty, _pos.Line, _pos.LineCharPosition);
+                last = token;
             }
             return _tokens;
         }
@@ -386,7 +392,7 @@ namespace ComLib.Lang
             // String literal
             else if (c == '"' || c == '\'')
             {
-                _lastToken = ReadString();
+                _lastToken = ReadString( c == '"');
                 tokenLengthCalcMode = TokenLengthCalcMode.String;
                 if (_lastToken.Kind == TokenKind.Multi)
                 {
@@ -664,7 +670,10 @@ namespace ComLib.Lang
             // 2. Handles interpolation "homepage of ${user.name} is ${url}"
             if (!handleInterpolation)
             {
-                var result = ScanCodeString(quote, setPosAfterToken: false);
+                var result = ScanCodeString(quote, setPosAfterToken: true);
+                if(!result.Success)
+                    throw new LangException("Syntax Error", "Unterminated string", string.Empty, _pos.Line, _pos.LineCharPosition);
+
                 return Tokens.ToLiteralString(result.Text);
             }
             return ReadInterpolatedString(quote, false, true, true);

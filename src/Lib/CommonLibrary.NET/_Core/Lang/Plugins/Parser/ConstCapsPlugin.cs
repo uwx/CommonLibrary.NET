@@ -24,6 +24,8 @@ namespace ComLib.Lang.Extensions
     STARTS = 3/10/2012
     ENDS   = June 10th 2012
     
+    // KNOWN ISSUE: Constants should be limited to numbers, bool, strings,
+    // but right now there is a bug where a constant can be assigned a date.
     </doc:example>
     ***************************************************************************/
 
