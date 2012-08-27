@@ -57,8 +57,8 @@ namespace ComLib.Lang.Extensions
         public LinqPlugin()
         {
             _startTokens = _tokens;
-            _precedence = 1;
-            _isContextFree = false;
+            Precedence = 1;
+            IsContextFree = false;
         }
 
 

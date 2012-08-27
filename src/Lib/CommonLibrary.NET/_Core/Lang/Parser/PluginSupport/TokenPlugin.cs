@@ -11,6 +11,12 @@ namespace ComLib.Lang
     public class TokenPlugin : ITokenPlugin
     {
         /// <summary>
+        /// Id of plugin.
+        /// </summary>
+        public string Id { get; set; }
+
+
+        /// <summary>
         /// The starting tokens that are associated w/ the combinator.
         /// </summary>
         protected string[] _tokens;
@@ -32,6 +38,15 @@ namespace ComLib.Lang
         /// Whether or not this combinator can be made into a statemnt.
         /// </summary>
         protected bool _canHandleToken = false;
+
+
+        /// <summary>
+        /// Initialize the token plugin.
+        /// </summary>
+        public TokenPlugin()
+        {
+            this.Id = "ComLib." + this.GetType().Name.Replace("Plugin", string.Empty);
+        }
 
 
         /// <summary>

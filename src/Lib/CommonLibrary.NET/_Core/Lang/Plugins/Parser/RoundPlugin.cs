@@ -62,8 +62,8 @@ namespace ComLib.Lang.Extensions
         /// </summary>
         public RoundPlugin()
         {
-            _hasStatementSupport = false;
-            _canHandleExpression = true;
+            IsStatement = false;
+            IsAutoMatched = true;
             _startTokens = _tokens;
         }
 

@@ -257,9 +257,9 @@ namespace ComLib.Lang
         /// <param name="script">The script content or file name</param>
         /// <param name="isFile">Whether or not the script supplied is a filename or actual script content</param>
         /// <returns></returns>
-        public List<Stmt> ToStatements(string script, bool isFile)
+        public List<Expr> ToStatements(string script, bool isFile)
         {
-            List<Stmt> statements = null;
+            List<Expr> statements = null;
             Execute(() =>
             {
                 statements = _parser.Parse(script);
@@ -297,7 +297,7 @@ namespace ComLib.Lang
             var statements = ToStatements(scriptFile, true);
             using (StreamWriter writer = new StreamWriter(toFile))
             {
-                foreach (Stmt stmt in statements)
+                foreach (Expr stmt in statements)
                 {
                     writer.Write(stmt.AsString());
                 }

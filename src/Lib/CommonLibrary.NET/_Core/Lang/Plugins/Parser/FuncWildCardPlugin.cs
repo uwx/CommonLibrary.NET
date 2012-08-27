@@ -66,10 +66,10 @@ namespace ComLib.Lang.Extensions
         /// </summary>
         public FuncWildCardPlugin()
         {
-            _precedence = 10;
-            _hasStatementSupport = true;
+            Precedence = 10;
+            IsStatement = true;
             _startTokens = _tokens;
-            _isContextFree = false;
+            IsContextFree = false;
         }
 
 

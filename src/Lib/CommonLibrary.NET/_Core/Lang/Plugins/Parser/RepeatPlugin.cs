@@ -62,7 +62,7 @@ namespace ComLib.Lang.Extensions
     /// <summary>
     /// Combinator for handling swapping of variable values. swap a and b.
     /// </summary>
-    public class RepeatPlugin : StmtBlockPlugin
+    public class RepeatPlugin : ExprBlockPlugin
     {
         private static string[] _tokens = new string[] { "repeat" };
         private static Dictionary<Token, bool> _terminatorForTo;
@@ -74,8 +74,8 @@ namespace ComLib.Lang.Extensions
         public RepeatPlugin()
         {
             _startTokens = _tokens;
-            _isContextFree = false;
-            _precedence = 50;
+            IsContextFree = false;
+            Precedence = 50;
 
             _terminatorForTo = new Dictionary<Token, bool>();
             _terminatorForTo[Tokens.ToIdentifier("to")] = true;
@@ -83,11 +83,11 @@ namespace ComLib.Lang.Extensions
             _terminatorForTo[Tokens.NewLine] = true;
             _terminatorForTo[Tokens.LeftBrace] = true;
 
-            _terminatorForTo = new Dictionary<Token, bool>();
-            _terminatorForTo[Tokens.ToIdentifier("by")] = true;
-            _terminatorForTo[Tokens.Semicolon] = true;
-            _terminatorForTo[Tokens.NewLine] = true;
-            _terminatorForTo[Tokens.LeftBrace] = true;
+            _terminatorForBy = new Dictionary<Token, bool>();
+            _terminatorForBy[Tokens.ToIdentifier("by")] = true;
+            _terminatorForBy[Tokens.Semicolon] = true;
+            _terminatorForBy[Tokens.NewLine] = true;
+            _terminatorForBy[Tokens.LeftBrace] = true;
         }
 
 
@@ -129,7 +129,7 @@ namespace ComLib.Lang.Extensions
         /// run step 123.
         /// </summary>
         /// <returns></returns>
-        public override Stmt Parse()
+        public override Expr Parse()
         {
             var startToken = _tokenIt.NextToken;
             _tokenIt.ExpectIdText("repeat");
@@ -192,7 +192,7 @@ namespace ComLib.Lang.Extensions
 
             // Now setup the stmts
             var ctx = _parser.Context;
-            var startStmt = new AssignStmt(true, varname, startVal);
+            var startStmt = new AssignExpr(true, varname, startVal);
             _parser.SetScriptPositionFromNode(startStmt, varname);
             startStmt.Ctx = ctx;
 
@@ -203,11 +203,11 @@ namespace ComLib.Lang.Extensions
 
             var incExp = new UnaryExpr(varname.ToQualifiedName(), incVal, Operator.PlusEqual, _parser.Context);
             _parser.SetScriptPositionFromNode(incExp, incVal);
-            var incStmt = new AssignStmt(false, new VariableExpr(varname.ToQualifiedName()), incExp);
+            var incStmt = new AssignExpr(false, new VariableExpr(varname.ToQualifiedName()), incExp);
             _parser.SetScriptPositionFromNode(incStmt, incExp);
             incStmt.Ctx = ctx;
 
-            var loopStmt = new ForStmt(startStmt, condition, incStmt);
+            var loopStmt = new ForExpr(startStmt, condition, incStmt);
             ParseBlock(loopStmt);            
             return loopStmt;
         }

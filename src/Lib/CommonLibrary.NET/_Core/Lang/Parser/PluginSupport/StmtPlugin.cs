@@ -8,7 +8,7 @@ namespace ComLib.Lang
     /// <summary>
     /// A combinator to extend the parser
     /// </summary>
-    public class StmtPlugin : ExprPluginBase, IStmtPlugin
+    public class StmtPlugin2 : ExprPluginBase, IStmtPlugin2
     {
         /// <summary>
         /// Whether or not this statement supports a terminator like semicolon ;.
@@ -31,7 +31,7 @@ namespace ComLib.Lang
         /// <summary>
         /// Initialize
         /// </summary>
-        public StmtPlugin()
+        public StmtPlugin2()
         {
             _hasStatementSupport = true;
         }

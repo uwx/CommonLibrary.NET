@@ -58,7 +58,7 @@ namespace ComLib.Lang.Extensions
         public VariablePathPlugin()
         {
             _startTokens = _tokens;
-            _hasStatementSupport = true;
+            IsStatement = true;
         }
 
 

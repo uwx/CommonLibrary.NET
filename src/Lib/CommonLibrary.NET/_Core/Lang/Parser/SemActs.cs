@@ -108,7 +108,7 @@ namespace ComLib.Lang
             AddCheck<NewExpr>((semacts, node) => CheckNewExpression(semacts, (NewExpr)node));
             AddCheck<VariableExpr>((semacts, node) => CheckVariable(semacts, (VariableExpr)node));
             AddCheck<FunctionCallExpr>((semacts, node) => CheckFunctionCall(semacts, (FunctionCallExpr)node));
-            AddCheck<IfStmt>((semacts, node) => CheckIfFalse(semacts, node));
+            AddCheck<IfExpr>((semacts, node) => CheckIfFalse(semacts, node));
         }
 
 
@@ -126,7 +126,7 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="stmts">Statements to validate</param>
         /// <returns></returns>
-        public bool Validate(List<Stmt> stmts)
+        public bool Validate(List<Expr> stmts)
         {
             if (stmts == null || stmts.Count == 0)
                 return true;
@@ -156,9 +156,9 @@ namespace ComLib.Lang
         /// <returns></returns>
         public bool Validate(AstNode node)
         {
-            if (node is Stmt)
+            if (node is Expr)
             {
-                _currentSymScope = ((Stmt)node).SymScope;
+                _currentSymScope = ((Expr)node).SymScope;
             }
 
             int initialErrorCount = _errors.Count;
@@ -259,7 +259,7 @@ namespace ComLib.Lang
         /// <param name="node"></param>
         private void CheckIfFalse(SemActs semActs, AstNode node)
         {
-            var stmt = node as IfStmt;
+            var stmt = node as IfExpr;
             if (!(stmt.Condition is ConstantExpr)) return;
 
             var exp = stmt.Condition as ConstantExpr;

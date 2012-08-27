@@ -59,8 +59,8 @@ namespace ComLib.Lang.Extensions
         /// </summary>
         public FluentFuncPlugin()
         {
-            _precedence = 100;
-            _hasStatementSupport = true;
+            Precedence = 100;
+            IsStatement = true;
             _startTokens = _tokens;
         }
 

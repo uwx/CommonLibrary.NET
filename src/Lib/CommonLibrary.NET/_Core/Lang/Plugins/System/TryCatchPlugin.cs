@@ -18,19 +18,14 @@ namespace ComLib.Lang
     /// <summary>
     /// Plugin for throwing errors from the script.
     /// </summary>
-    public class TryCatchPlugin : StmtBlockPlugin
+    public class TryCatchPlugin : ExprBlockPlugin
     {
-        private static string[] _tokens = new string[] { "try" };
-
-
         /// <summary>
         /// Intialize.
         /// </summary>
         public TryCatchPlugin()
         {
-            _startTokens = _tokens;
-            _isSystemLevel = true;
-            _supportsBlock = true;
+            this.ConfigureAsSystemStatement(true, false, "try");
         }
 
 
@@ -62,10 +57,10 @@ namespace ComLib.Lang
         /// try/catch.
         /// </summary>
         /// <returns></returns>
-        public override Stmt  Parse()
+        public override Expr  Parse()
         {
-            var stmt = new TryCatchStmt();
-            var statements = new List<Stmt>();
+            var stmt = new TryCatchExpr();
+            var statements = new List<Expr>();
 
             _tokenIt.Expect(Tokens.Try);
             ParseBlock(stmt);
@@ -85,15 +80,15 @@ namespace ComLib.Lang
     /// <summary>
     /// For loop Expression data
     /// </summary>
-    public class TryCatchStmt : BlockStmt
+    public class TryCatchExpr : BlockExpr
     {
         /// <summary>
         /// Create new instance
         /// </summary>
-        public TryCatchStmt()
+        public TryCatchExpr()
         {
             InitBoundary(true, "}");
-            Catch = new BlockStmt();
+            Catch = new BlockExpr();
         }
 
 
@@ -106,7 +101,7 @@ namespace ComLib.Lang
         /// <summary>
         /// Else statement.
         /// </summary>
-        public BlockStmt Catch;
+        public BlockExpr Catch;
 
 
         /// <summary>
@@ -130,14 +125,14 @@ namespace ComLib.Lang
         /// <summary>
         /// Execute
         /// </summary>
-        public override void DoExecute()
+        public override object DoEvaluate()
         {
             bool tryScopePopped = false;
             bool catchScopePopped = false;
             try
             {
                 Ctx.Memory.Push();
-                LangHelper.Execute(_statements, this);
+                LangHelper.Evaluate(_statements, this);
                 Ctx.Memory.Pop();
                 tryScopePopped = true;
             }
@@ -160,7 +155,7 @@ namespace ComLib.Lang
 
                 // Run statements in catch block.
                 if (Catch != null && Catch.Statements.Count > 0)
-                    LangHelper.Execute(Catch.Statements, Catch);
+                    LangHelper.Evaluate(Catch.Statements, Catch);
 
                 // Pop the catch scope.
                 Ctx.Memory.Pop();
@@ -171,6 +166,7 @@ namespace ComLib.Lang
                 // Pop the catch scope in case there was an error.
                 if (!catchScopePopped) Ctx.Memory.Remove(ErrorName);
             }
+            return LNull.Instance;
         }
     }    
 }

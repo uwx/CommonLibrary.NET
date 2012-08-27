@@ -12,20 +12,16 @@ namespace ComLib.Lang
     /// <summary>
     /// Plugin for throwing errors from the script.
     /// </summary>
-    public class VarPlugin : StmtPlugin, IParserCallbacks
+    public class VarPlugin : ExprPlugin, IParserCallbacks
     {
-        private static string[] _tokens = new string[] { "var", "$IdToken" };
-
-
         /// <summary>
         /// Intialize.
         /// </summary>
         public VarPlugin()
         {
-            _startTokens = _tokens;
-            _isSystemLevel = true;
-            _supportsTerminator = true;
-            _precedence = 1000;
+            this.ConfigureAsSystemStatement(false, true, "var,$IdToken");
+            this.IsAutoMatched = false;
+            this.Precedence = 1000;
         }
 
 
@@ -76,7 +72,7 @@ namespace ComLib.Lang
         /// Parses a assignment statement with declaration.
         /// </summary>
         /// <returns></returns>
-        public override Stmt Parse()
+        public override Expr Parse()
         {
             bool expectVar = _tokenIt.NextToken.Token == Tokens.Var;
             return ParseAssignment(expectVar, true);
@@ -88,7 +84,7 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public override Stmt Parse(object context)
+        public override Expr Parse(object context)
         {
             return ParseAssignment(false, false, context as Expr);
         }
@@ -101,7 +97,7 @@ namespace ComLib.Lang
         /// 4. canVote = CanVote(age);
         /// </summary>
         /// <returns></returns>
-        public Stmt ParseAssignment(bool expectVar, bool expectId = true, Expr varExp = null)
+        public Expr ParseAssignment(bool expectVar, bool expectId = true, Expr varExp = null)
         {
             string name = null;
             if (expectVar) _tokenIt.Expect(Tokens.Var);
@@ -112,7 +108,7 @@ namespace ComLib.Lang
             }
 
             // Case 1: var name;
-            if (_tokenIt.IsEndOfStmtOrBlock()) return new AssignStmt(expectVar, varExp, null);
+            if (_tokenIt.IsEndOfStmtOrBlock()) return new AssignExpr(expectVar, varExp, null);
 
             // Case 2: var name = <expression>
             Expr valueExp = null;
@@ -125,7 +121,7 @@ namespace ComLib.Lang
             }
             // ; ? only 1 declaration / initialization.
             if (_tokenIt.IsEndOfStmtOrBlock())
-                return new AssignStmt(expectVar, varExp, valueExp) { Ctx = Ctx };
+                return new AssignExpr(expectVar, varExp, valueExp) { Ctx = Ctx };
 
             // Multiple 
             // Example 1: var a,b,c;
@@ -155,7 +151,7 @@ namespace ComLib.Lang
 
                 _tokenIt.Expect(Tokens.Comma);
             }
-            return new AssignStmt(expectVar, declarations);
+            return new AssignExpr(expectVar, declarations);
         }
 
 
@@ -165,7 +161,7 @@ namespace ComLib.Lang
         /// <param name="node">The node returned by this implementations Parse method</param>
         public void OnParseComplete(AstNode node)
         {
-            var stmt = node as AssignStmt;
+            var stmt = node as AssignExpr;
             if (stmt._declarations.IsNullOrEmpty())
                 return;
             foreach (var decl in stmt._declarations)
@@ -198,7 +194,7 @@ namespace ComLib.Lang
     /// <summary>
     /// Variable expression data
     /// </summary>
-    public class AssignStmt : Stmt
+    public class AssignExpr : Expr
     {
         private bool _isDeclaration;
         private Expr VarExp;
@@ -216,7 +212,7 @@ namespace ComLib.Lang
         /// <param name="isDeclaration">Whether or not the variable is being declared in addition to assignment.</param>
         /// <param name="name">Name of the variable</param>
         /// <param name="valueExp">Expression representing the value to set variable to.</param>
-        public AssignStmt(bool isDeclaration, string name, Expr valueExp)
+        public AssignExpr(bool isDeclaration, string name, Expr valueExp)
             : this(isDeclaration, new VariableExpr(name), valueExp)
         {
         }
@@ -228,7 +224,7 @@ namespace ComLib.Lang
         /// <param name="isDeclaration">Whether or not the variable is being declared in addition to assignment.</param>
         /// <param name="varExp">Expression representing the variable name to set</param>
         /// <param name="valueExp">Expression representing the value to set variable to.</param>
-        public AssignStmt(bool isDeclaration, Expr varExp, Expr valueExp)
+        public AssignExpr(bool isDeclaration, Expr varExp, Expr valueExp)
         {
             this._isDeclaration = isDeclaration;
             this._declarations = new List<Tuple<Expr, Expr>>();
@@ -241,7 +237,7 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="isDeclaration">Whether or not the variable is being declared in addition to assignment.</param>
         /// <param name="declarations"></param>        
-        public AssignStmt(bool isDeclaration, List<Tuple<Expr, Expr>> declarations)
+        public AssignExpr(bool isDeclaration, List<Tuple<Expr, Expr>> declarations)
         {
             this._isDeclaration = isDeclaration;
             this._declarations = declarations;
@@ -252,7 +248,7 @@ namespace ComLib.Lang
         /// Evaluate
         /// </summary>
         /// <returns></returns>
-        public override void DoExecute()
+        public override object DoEvaluate()
         {
             object result = null;
             foreach (var assigment in _declarations)
@@ -330,6 +326,7 @@ namespace ComLib.Lang
                     }
                 }
             }
+            return LNull.Instance;
         }
     }
 }

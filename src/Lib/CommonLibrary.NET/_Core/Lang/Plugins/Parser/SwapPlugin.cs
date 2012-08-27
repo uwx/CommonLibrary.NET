@@ -35,8 +35,8 @@ namespace ComLib.Lang.Extensions
         /// </summary>
         public SwapPlugin()
         {
-            _hasStatementSupport = true;
-            _canHandleExpression = true;
+            IsStatement = true;
+            IsAutoMatched = true;
             _startTokens = _tokens;
         }
 

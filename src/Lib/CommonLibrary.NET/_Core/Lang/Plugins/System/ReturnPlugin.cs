@@ -19,19 +19,14 @@ namespace ComLib.Lang
     /// <summary>
     /// Plugin for throwing errors from the script.
     /// </summary>
-    public class ReturnPlugin : StmtPlugin
+    public class ReturnPlugin : ExprPlugin
     {
-        private static string[] _tokens = new string[] { "return" };
-
-
         /// <summary>
         /// Intialize.
         /// </summary>
         public ReturnPlugin()
         {
-            _startTokens = _tokens;
-            _isSystemLevel = true;
-            _supportsTerminator = true;
+            this.ConfigureAsSystemExpression(false, true, "return");
         }
 
 
@@ -66,9 +61,9 @@ namespace ComLib.Lang
         /// return value;
         /// </summary>
         /// <returns></returns>
-        public override Stmt  Parse()
+        public override Expr  Parse()
         {
-            var stmt = new ReturnStmt();
+            var stmt = new ReturnExpr();
             _tokenIt.Expect(Tokens.Return);
             if (_tokenIt.IsEndOfStmtOrBlock())
                 return stmt;
@@ -84,7 +79,7 @@ namespace ComLib.Lang
     /// <summary>
     /// For loop Expression data
     /// </summary>
-    public class ReturnStmt : Stmt
+    public class ReturnExpr : Expr
     {
         /// <summary>
         /// Return value.
@@ -95,14 +90,15 @@ namespace ComLib.Lang
         /// <summary>
         /// Execute the statement.
         /// </summary>
-        public override void DoExecute()
+        public override object  DoEvaluate()
         {
-            var parent = this.FindParent<FunctionStmt>();
+            var parent = this.FindParent<FunctionExpr>();
             if (parent == null) throw new LangException("syntax error", "unable to return, parent not found", string.Empty, 0);
 
             object result = Exp == null ? null : Exp.Evaluate();
             bool hasReturnVal = Exp != null;
             parent.Return(result, hasReturnVal);
+            return LNull.Instance;
         }
     }
 }

@@ -46,7 +46,7 @@ namespace ComLib.Lang
         /// <summary>
         /// The parsed statements from interpreting the tokens.
         /// </summary>
-        protected List<Stmt> _statements; 
+        protected List<Expr> _statements; 
 
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace ComLib.Lang
         /// <summary>
         /// Get the list of parsed statements.
         /// </summary>
-        internal List<Stmt> Statements { get { return _statements; } }
+        internal List<Expr> Statements { get { return _statements; } }
         #endregion
 
 
@@ -173,7 +173,7 @@ namespace ComLib.Lang
         {
             _script = script;
             _scriptPath = string.Empty;
-            _statements = new List<Stmt>();
+            _statements = new List<Expr>();
             _memory = _memory == null ? new Memory() : memory;
             _lexer.Init(script);
             _parseErrors.Clear();
@@ -316,10 +316,10 @@ namespace ComLib.Lang
         /// Applies the last doc tags to the function statement.
         /// </summary>
         /// <param name="stmt"></param>
-        protected void ApplyDocTagsToFunction(Stmt stmt)
+        protected void ApplyDocTagsToFunction(Expr stmt)
         {
             if (!_hasSummaryComments) return;
-            if (!(stmt is FuncDeclareStmt))
+            if (!(stmt is FuncDeclareExpr))
             {
                 throw _tokenIt.BuildSyntaxUnexpectedTokenException(_lastCommentToken);
             }
@@ -327,7 +327,7 @@ namespace ComLib.Lang
             // Get the function associated w/ the declaration.
             // Parse the doc tags.
             // Apply the doc tags to the function.
-            var func = ((FuncDeclareStmt)stmt).Function;
+            var func = ((FuncDeclareExpr)stmt).Function;
             var tags = DocHelper.ParseDocTags(_comments);
             func.Meta.Doc = tags.Item1;
             

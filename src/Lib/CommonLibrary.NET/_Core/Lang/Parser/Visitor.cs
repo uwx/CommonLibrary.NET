@@ -38,7 +38,7 @@ namespace ComLib.Lang
         /// Visits each statement
         /// </summary>
         /// <param name="stmts"></param>
-        public void Visit(List<Stmt> stmts)
+        public void Visit(List<Expr> stmts)
         {
             foreach (var stmt in stmts)
             {
@@ -50,36 +50,28 @@ namespace ComLib.Lang
         /// <summary>
         /// Visit the statement
         /// </summary>
-        /// <param name="stmt"></param>
-        public void Visit( Stmt stmt)
+        /// <param name="exp"></param>
+        public void Visit( Expr exp)
         {
-            if (stmt is AssignStmt)
-                Var(stmt as AssignStmt);
+            if (exp is AssignExpr)
+                Var(exp as AssignExpr);
 
-            else if (stmt is ForStmt)
-                For(stmt as ForStmt);
+            else if (exp is ForExpr)
+                For(exp as ForExpr);
 
-            else if (stmt is ForEachStmt)
-                ForEach(stmt as ForEachStmt);
-            
-            else if (stmt is IfStmt)
-                If(stmt as IfStmt);            
-            
-            else if (stmt is TryCatchStmt)
-                Try(stmt as TryCatchStmt);
+            else if (exp is ForEachExpr)
+                ForEach(exp as ForEachExpr);
 
-            else if (stmt is WhileStmt)
-                While(stmt as WhileStmt);
-        }
+            else if (exp is IfExpr)
+                If(exp as IfExpr);
 
+            else if (exp is TryCatchExpr)
+                Try(exp as TryCatchExpr);
 
-        /// <summary>
-        /// Used to visit an expression.
-        /// </summary>
-        /// <param name="exp">expression</param>
-        public void Visit(Expr exp)
-        {
-            if (exp is BinaryExpr)
+            else if (exp is WhileExpr)
+                While(exp as WhileExpr);
+
+            else if (exp is BinaryExpr)
                 Binary(exp as BinaryExpr);
 
             else if (exp is CompareExpr)
@@ -96,11 +88,11 @@ namespace ComLib.Lang
         /// <summary>
         /// Visits the var statement tree.
         /// </summary>
-        /// <param name="assignStmt"></param>
-        public void Var(AssignStmt assignStmt)
+        /// <param name="assignExpr"></param>
+        public void Var(AssignExpr assignExpr)
         {
-            _callBack(assignStmt);
-            foreach (var decl in assignStmt._declarations)
+            _callBack(assignExpr);
+            foreach (var decl in assignExpr._declarations)
             {
                 Visit(decl.Item1);
                 Visit(decl.Item2);
@@ -111,14 +103,14 @@ namespace ComLib.Lang
         /// <summary>
         /// Visits the for statement tree.
         /// </summary>
-        /// <param name="forStmt"></param>
-        public void For(ForStmt forStmt)
+        /// <param name="forExpr"></param>
+        public void For(ForExpr forExpr)
         {
-            _callBack(forStmt);
-            Visit(forStmt.Start);
-            Visit(forStmt.Condition);
-            Visit(forStmt.Increment);
-            foreach (var stmt in forStmt.Statements)
+            _callBack(forExpr);
+            Visit(forExpr.Start);
+            Visit(forExpr.Condition);
+            Visit(forExpr.Increment);
+            foreach (var stmt in forExpr.Statements)
             {
                 Visit(stmt);
             }
@@ -128,12 +120,12 @@ namespace ComLib.Lang
         /// <summary>
         /// Visits the for each statement tree.
         /// </summary>
-        /// <param name="forStmt"></param>
-        public void ForEach(ForEachStmt forStmt)
+        /// <param name="forExpr"></param>
+        public void ForEach(ForEachExpr forExpr)
         {
-            _callBack(forStmt);
-            Visit(forStmt.Condition);
-            foreach (var stmt in forStmt.Statements)
+            _callBack(forExpr);
+            Visit(forExpr.Condition);
+            foreach (var stmt in forExpr.Statements)
             {
                 Visit(stmt);
             }
@@ -143,43 +135,43 @@ namespace ComLib.Lang
         /// <summary>
         /// Visits the if statement tree.
         /// </summary>
-        /// <param name="ifStmt"></param>
-        public void If(IfStmt ifStmt)
+        /// <param name="ifExpr"></param>
+        public void If(IfExpr ifExpr)
         {
-            _callBack(ifStmt);
-            Visit(ifStmt.Condition);
-            foreach (var stmt in ifStmt.Statements)
+            _callBack(ifExpr);
+            Visit(ifExpr.Condition);
+            foreach (var stmt in ifExpr.Statements)
             {
                 Visit(stmt);
             }
-            Visit(ifStmt.Else);
+            Visit(ifExpr.Else);
         }
 
 
         /// <summary>
         /// Visits the try statement tree.
         /// </summary>
-        /// <param name="tryStmt"></param>
-        public void Try(TryCatchStmt tryStmt)
+        /// <param name="tryExpr"></param>
+        public void Try(TryCatchExpr tryExpr)
         {
-            _callBack(tryStmt);
-            foreach (var stmt in tryStmt.Statements)
+            _callBack(tryExpr);
+            foreach (var stmt in tryExpr.Statements)
             {
                 Visit(stmt);
             }
-            Visit(tryStmt.Catch);
+            Visit(tryExpr.Catch);
         }
 
 
         /// <summary>
         /// Visits the while statement tree.
         /// </summary>
-        /// <param name="whileStmt"></param>
-        public void While(WhileStmt whileStmt)
+        /// <param name="whileExpr"></param>
+        public void While(WhileExpr whileExpr)
         {
-            _callBack(whileStmt);
-            Visit(whileStmt.Condition);
-            foreach (var stmt in whileStmt.Statements)
+            _callBack(whileExpr);
+            Visit(whileExpr.Condition);
+            foreach (var stmt in whileExpr.Statements)
             {
                 Visit(stmt);
             }

@@ -8,12 +8,12 @@ namespace ComLib.Lang
     /// <summary>
     /// A combinator to extend the parser
     /// </summary>
-    public class StmtBlockPlugin : StmtPlugin
+    public class ExprBlockPlugin : ExprPlugin
     {
         /// <summary>
         /// Parses a block by first pushing symbol scope and then popping after completion.
         /// </summary>
-        public virtual void ParseBlock(BlockStmt stmt)
+        public virtual void ParseBlock(BlockExpr stmt)
         {
             this.Ctx.Symbols.Push(new SymbolsNested(string.Empty), true);
             stmt.SymScope = this.Ctx.Symbols.Current;
@@ -26,7 +26,7 @@ namespace ComLib.Lang
         /// Parses a conditional block by first pushing symbol scope and then popping after completion.
         /// </summary>
         /// <param name="stmt"></param>
-        public virtual void ParseConditionalBlock(ConditionalBlockStmt stmt)
+        public virtual void ParseConditionalBlock(ConditionalBlockExpr stmt)
         {
             this.Ctx.Symbols.Push(new SymbolsNested(string.Empty), true);
             stmt.SymScope = this.Ctx.Symbols.Current;

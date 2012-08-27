@@ -128,10 +128,10 @@ namespace ComLib.Lang.Extensions
         {
             _callback = callback;
             _startTokens = new string[]{ "log", "put", "fatal", "error", "warn", "info", "debug" };
-            _canHandleExpression = true;
-            _hasStatementSupport = true;
+            IsAutoMatched = true;
+            IsStatement = true;
             _handleNewLineAsEndOfExpression = true;
-            _precedence = 100;
+            Precedence = 100;
         }
 
 

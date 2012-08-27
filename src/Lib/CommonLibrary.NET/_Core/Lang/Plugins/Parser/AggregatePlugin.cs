@@ -37,20 +37,17 @@ namespace ComLib.Lang.Extensions
     /// </summary>
     public class AggregatePlugin : ExprPlugin
     {
-        private static string[] _tokens = new string[] 
-        { 
-            "avg", "min", "max", "sum", "count", "number", 
-            "Avg", "Min", "Max", "Sum", "Count", "Number"
-        };
-
-
         /// <summary>
         /// Initialize
         /// </summary>
         public AggregatePlugin()
         {
-            _canHandleExpression = true;
-            _startTokens = _tokens;
+            this.IsAutoMatched = true;
+            this.StartTokens = new string[] 
+            { 
+                "avg", "min", "max", "sum", "count", "number", 
+                "Avg", "Min", "Max", "Sum", "Count", "Number"
+            };
         }
 
 

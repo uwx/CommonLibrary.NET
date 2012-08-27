@@ -31,8 +31,8 @@ namespace ComLib.Lang
         private IExprPlugin _lastMatchedExp;
         private ITokenPlugin _lastMatchedTok;
         private ILexPlugin _lastMatchedLex;
-        private IStmtPlugin _lastMatchedSysStmt;
-        private IExprBasePlugin _lastMatchedExtStmt;
+        private IExprPlugin _lastMatchedSysStmt;
+        private IExprPlugin _lastMatchedExtStmt;
         private IDictionary<string, ILangPlugin> _sysMap;
         private IDictionary<string, ILangPlugin> _extMap;
         private IDictionary<string, object> _pluginSettings;
@@ -205,13 +205,13 @@ namespace ComLib.Lang
         /// <summary>
         /// Last matched sys stmt plugin.
         /// </summary>
-        public IStmtPlugin LastMatchedSysStmtPlugin { get { return _lastMatchedSysStmt; } }
+        public IExprPlugin LastMatchedSysStmtPlugin { get { return _lastMatchedSysStmt; } }
 
 
         /// <summary>
         /// Last matched sys stmt plugin.
         /// </summary>
-        public IExprBasePlugin LastMatchedExtStmtPlugin { get { return _lastMatchedExtStmt; } }
+        public IExprPlugin LastMatchedExtStmtPlugin { get { return _lastMatchedExtStmt; } }
 
 
         /// <summary>
@@ -294,13 +294,12 @@ namespace ComLib.Lang
                     _disposablePlugins = new List<IDisposable>();
                 _disposablePlugins.Add(pluginToRegister as IDisposable);
             }
-            if (pluginToRegister is IStmtPlugin) RegisterStmtPlugin(pluginToRegister as IStmtPlugin, sort); 
-            else if (pluginToRegister is IExprPlugin) RegisterExprPlugin(pluginToRegister as IExprPlugin, sort);
+            if (pluginToRegister is IExprPlugin) RegisterExprPlugin(pluginToRegister as IExprPlugin, sort);
             else if (pluginToRegister is ITokenPlugin) RegisterTokenPlugin(pluginToRegister as ITokenPlugin, sort);
             else if (pluginToRegister is ILexPlugin) RegisterLexPlugin(pluginToRegister as ILexPlugin, sort);
         }
 
-
+        /*
         /// <summary>
         /// Register a system plugin.
         /// </summary>
@@ -311,7 +310,7 @@ namespace ComLib.Lang
             var map = plugin.IsSystemLevel ? _sysStmtPlugins : _stmtPlugins;
             RegisterPlugin(map, plugin, plugin.StartTokens, sort);
         }
-
+        */
 
         /// <summary>
         /// Register an expression plugin.
@@ -333,7 +332,7 @@ namespace ComLib.Lang
                 foreach (var token in tokens)
                 {
                     AddPlugin(_expPlugins, plugin, token, sort);
-                    if (plugin.HasStatementSupport)
+                    if (plugin.IsStatement)
                         AddPlugin(_expStmtPlugins, plugin, token, sort);
 
                     if (token == "$NumericLiteralToken")
@@ -385,9 +384,6 @@ namespace ComLib.Lang
                 CallBack<T>(_expPlugins, callback);
                 CallBack<T>(_expStmtPlugins, callback);
                 CallBack<T>(_postfixPlugins, callback);
-            }
-            else if (typeof(T) == typeof(IStmtPlugin))
-            {
                 CallBack<T>(_stmtPlugins, callback);
                 CallBack<T>(_sysStmtPlugins, callback);
             }
@@ -612,9 +608,9 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="token">The token</param>
         /// <returns></returns>
-        public IStmtPlugin GetSysStmt(Token token)
+        public IExprPlugin GetSysStmt(Token token)
         {
-            return GetPlugin(_sysStmtPlugins, token) as IStmtPlugin;
+            return GetPlugin(_sysStmtPlugins, token) as IExprPlugin;
         }
         
         
@@ -657,7 +653,7 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="token">The token</param>
         /// <returns></returns>
-        public IExprBasePlugin GetStmt(Token token)
+        public IExprPlugin GetStmt(Token token)
         {
             //string name = token.Text;            
             //if (_expStmtPlugins.ContainsKey(name))
@@ -668,9 +664,9 @@ namespace ComLib.Lang
             //{
             //    return GetPlugin(_stmtPlugins, token) as IExprBasePlugin;
             //}
-            var plugin1 = GetPlugin(_expStmtPlugins, token) as IExprBasePlugin;
+            var plugin1 = GetPlugin(_expStmtPlugins, token) as IExprPlugin;
             var pluginToReturn = plugin1;
-            var plugin2 = GetPlugin(_stmtPlugins, token) as IExprBasePlugin;
+            var plugin2 = GetPlugin(_stmtPlugins, token) as IExprPlugin;
             if (plugin1 == null) return plugin2;
             if (plugin1 != null && plugin2 != null)
                 pluginToReturn = plugin1.Precedence < plugin2.Precedence ? plugin1 : plugin2;

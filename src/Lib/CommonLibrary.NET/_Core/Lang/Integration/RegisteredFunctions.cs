@@ -12,7 +12,7 @@ namespace ComLib.Lang
     /// </summary>
     public class RegisteredFunctions: IFunctionLookup
     {
-        private Dictionary<string, FunctionStmt> _functions;
+        private Dictionary<string, FunctionExpr> _functions;
         private Dictionary<string, string> _lcaseToFormaNameMap;
 
 
@@ -21,7 +21,7 @@ namespace ComLib.Lang
         /// </summary>
         public RegisteredFunctions()
         {
-            _functions = new Dictionary<string, FunctionStmt>();
+            _functions = new Dictionary<string, FunctionExpr>();
             _lcaseToFormaNameMap = new Dictionary<string, string>();
         }
 
@@ -31,7 +31,7 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="pattern"></param>
         /// <param name="stmt">The function</param>
-        public void Register(string pattern, FunctionStmt stmt)
+        public void Register(string pattern, FunctionExpr stmt)
         {
             _functions[pattern] = stmt;
             _lcaseToFormaNameMap[pattern.ToLower()] = pattern;
@@ -67,7 +67,7 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="name">Name of the function</param>
         /// <returns></returns>
-        public FunctionStmt GetByName(string name)
+        public FunctionExpr GetByName(string name)
         {
             return _functions[name];
         }
@@ -90,7 +90,7 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="functionName">The name of the function to call.</param>
         /// <param name="paramListExpressions">List of parameters as expressions to evaluate first to actual values</param>
-        /// <param name="paramVals">List to store the resolved paramter expressions. ( these will be resolved if <see cref="paramListExpressions"/></param> is supplied and resolveParams is true. If 
+        /// <param name="paramVals">List to store the resolved paramter expressions. ( these will be resolved if paramListExpressions is supplied and resolveParams is true. If 
         /// resolveParams is false, the list is assumed to have the values for the paramters to the function.
         /// <param name="resolveParams">Whether or not to resolve the list of parameter expression objects</param>
         /// <returns></returns>
@@ -100,7 +100,7 @@ namespace ComLib.Lang
             if(resolveParams)
                 FunctionHelper.ResolveParametersForScriptFunction(function.Meta, paramListExpressions, paramVals);
             function.ArgumentValues = paramVals;
-            function.Execute();
+            function.Evaluate();
             object result = null;
             if (function.HasReturnValue)
                 result = function.ReturnValue;

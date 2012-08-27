@@ -167,17 +167,14 @@ namespace ComLib.Lang.Extensions
     /// </summary>
     public class EnvPlugin : ExprPlugin
     {
-        private static string[] _tokens = new string[] { "$EnvToken" };
-
-
         /// <summary>
         /// Whether or not this parser can handle the supplied token.
         /// </summary>
         /// <returns></returns>
         public EnvPlugin()
         {
-            _canHandleExpression = true;
-            _startTokens = _tokens;
+            this.IsAutoMatched = true;
+            this.StartTokens = new string[] { "$EnvToken" };
         }
 
 

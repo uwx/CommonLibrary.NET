@@ -52,8 +52,8 @@ namespace ComLib.Lang.Extensions
             _endTokens[Tokens.Comma] = true;
             _endTokens[Tokens.NewLine] = true;
             _endTokens[Tokens.RightBracket] = true;
-            _hasStatementSupport = true;
-            _canHandleExpression = true;
+            IsStatement = true;
+            IsAutoMatched = true;
             _startTokens = _tokens;
         }
 

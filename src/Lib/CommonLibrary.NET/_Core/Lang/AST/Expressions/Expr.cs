@@ -20,6 +20,19 @@ namespace ComLib.Lang
 
 
         /// <summary>
+        /// The symbol scope associated w/ this instance.
+        /// </summary>
+        public ISymbols SymScope { get; set; }
+
+
+        /// <summary>
+        /// Whether or not this statement can be executed immediately at parsing time
+        /// e.g. useful for function declaration statements among other future planned features.
+        /// </summary>
+        public bool IsImmediatelyExecutable { get; set; }
+
+
+        /// <summary>
         /// Evaluate
         /// </summary>
         /// <returns></returns>
@@ -61,6 +74,28 @@ namespace ComLib.Lang
         public virtual object DoEvaluate()
         {
             return null;
+        }
+
+
+        /// <summary>
+        /// String representation of statement.
+        /// </summary>
+        /// <param name="tab">Tab to use</param>
+        /// <param name="incrementTab">Whether or not to add another tab</param>
+        /// <param name="includeNewLine">Whether or not to include a new line.</param>
+        /// <returns></returns>
+        public virtual string AsString(string tab = "", bool incrementTab = false, bool includeNewLine = true)
+        {
+            var stmtType = this.GetType().Name.Replace("Expr", "");
+            string info = string.Format("{0}, {1}, {2} ", stmtType, Ref.Line, Ref.CharPos);
+
+            if (incrementTab)
+                tab = tab + "\t";
+
+            var result = tab + info;
+            if (includeNewLine) result += Environment.NewLine;
+
+            return result;
         }
 
 

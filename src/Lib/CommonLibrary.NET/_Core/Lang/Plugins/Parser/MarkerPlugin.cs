@@ -96,9 +96,8 @@ namespace ComLib.Lang.Extensions
     /// <summary>
     /// Combinator for handling comparisons.
     /// </summary>
-    public class MarkerPlugin : StmtPlugin
+    public class MarkerPlugin : ExprPlugin
     {
-        private static string[] _tokens = new string[]  {  "@" };
         internal static Dictionary<string, string> _markers;
 
 
@@ -124,7 +123,9 @@ namespace ComLib.Lang.Extensions
         /// </summary>
         public MarkerPlugin()
         {
-            _startTokens = _tokens;
+            this.StartTokens = new string[] { "@" };
+            this.IsStatement = true;
+            this.IsTerminatorSupported = true;
         }
 
 
@@ -178,7 +179,7 @@ namespace ComLib.Lang.Extensions
         /// Parses the marker into a MarkerStmt.
         /// </summary>
         /// <returns></returns>
-        public override Stmt Parse()
+        public override Expr Parse()
         {
             // @todo: 
             // 1. Move past "@"
@@ -190,7 +191,7 @@ namespace ComLib.Lang.Extensions
 
             var current = _tokenIt.NextToken.Token;
             _tokenIt.Advance();
-            return new MarkerStmt(marker, current.Text);
+            return new MarkerExpr(marker, current.Text);
         }
     }
 
@@ -199,14 +200,14 @@ namespace ComLib.Lang.Extensions
     /// <summary>
     /// Stmt to represent the marker information.
     /// </summary>
-    public class MarkerStmt : Stmt
+    public class MarkerExpr : Expr
     {
         /// <summary>
         /// Initialize the marker.
         /// </summary>
         /// <param name="tag"></param>
         /// <param name="desc"></param>
-        public MarkerStmt(string tag, string desc)
+        public MarkerExpr(string tag, string desc)
         {
             Tag = tag;
             Desc = desc;

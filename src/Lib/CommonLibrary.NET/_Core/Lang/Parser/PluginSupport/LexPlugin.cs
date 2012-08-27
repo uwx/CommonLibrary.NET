@@ -11,6 +11,12 @@ namespace ComLib.Lang
     public class LexPlugin : ILexPlugin
     {
         /// <summary>
+        /// Id of the plugin.
+        /// </summary>
+        public string Id { get; set; }
+
+
+        /// <summary>
         /// The starting tokens that are associated w/ the combinator.
         /// </summary>
         protected string[] _tokens;
@@ -26,6 +32,15 @@ namespace ComLib.Lang
         /// Whether or not this combinator can be made into a statemnt.
         /// </summary>
         protected bool _canHandleToken = false;
+
+
+        /// <summary>
+        /// Initialize the lexical plugin
+        /// </summary>
+        public LexPlugin()
+        {
+            this.Id = "ComLib." + this.GetType().Name.Replace("Plugin", string.Empty);
+        }
 
 
         /// <summary>

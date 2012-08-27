@@ -21,17 +21,13 @@ namespace ComLib.Lang
     /// </summary>
     public class NewPlugin : ExprPlugin
     {
-        private static string[] _tokens = new string[] { "new" };
-
-
         /// <summary>
         /// Intialize.
         /// </summary>
         public NewPlugin()
         {
-            _startTokens = _tokens;
-            _canHandleExpression = true;
-            _precedence = 100;
+            this.ConfigureAsSystemExpression(false, false, "new");
+            this.Precedence = 100;
         }
 
 

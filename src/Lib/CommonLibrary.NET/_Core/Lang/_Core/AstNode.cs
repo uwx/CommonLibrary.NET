@@ -66,5 +66,33 @@ namespace ComLib.Lang
         {
             return string.Empty;
         }
+
+
+        /// <summary>
+        /// Parent of this statement
+        /// </summary>
+        public AstNode Parent { get; set; }
+
+
+        /// <summary>
+        /// Finds the first parent that is of type T.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public virtual T FindParent<T>() where T : class
+        {
+            T found = default(T);
+            var current = Parent;
+            while (current != null)
+            {
+                if (current is T)
+                {
+                    found = current as T;
+                    break;
+                }
+                current = Parent.Parent;
+            }
+            return found;
+        }
     }
 }

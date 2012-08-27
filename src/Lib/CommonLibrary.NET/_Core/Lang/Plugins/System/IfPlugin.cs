@@ -11,19 +11,14 @@ namespace ComLib.Lang
     /// <summary>
     /// Plugin for throwing errors from the script.
     /// </summary>
-    public class IfPlugin : StmtBlockPlugin
+    public class IfPlugin : ExprBlockPlugin
     {
-        private static string[] _tokens = new string[] { "if" };
-
-
         /// <summary>
         /// Intialize.
         /// </summary>
         public IfPlugin()
         {
-            _startTokens = _tokens;
-            _isSystemLevel = true;
-            _supportsBlock = true;
+            this.ConfigureAsSystemStatement(true, false, "if");
         }
 
 
@@ -57,10 +52,10 @@ namespace ComLib.Lang
         /// return value;
         /// </summary>
         /// <returns></returns>
-        public override Stmt Parse()
+        public override Expr Parse()
         {            
-            IfStmt stmt = new IfStmt();
-            var statements = new List<Stmt>();
+            IfExpr stmt = new IfExpr();
+            var statements = new List<Expr>();
 
             // While ( condition expression )
             _tokenIt.Expect(Tokens.If);
@@ -82,11 +77,11 @@ namespace ComLib.Lang
                 var token = _tokenIt.NextToken;
                 if (_tokenIt.NextToken.Token == Tokens.If)
                 {
-                    stmt.Else = Parse() as BlockStmt;
+                    stmt.Else = Parse() as BlockExpr;
                 }
                 else // Multi-line or single line else
                 {
-                    var elseStmt = new BlockStmt();
+                    var elseStmt = new BlockExpr();
                     ParseBlock(elseStmt);
                     elseStmt.Ctx = Ctx;
                     stmt.Else = elseStmt;
@@ -102,19 +97,19 @@ namespace ComLib.Lang
     /// <summary>
     /// For loop Expression data
     /// </summary>
-    public class IfStmt : ConditionalBlockStmt
+    public class IfExpr : ConditionalBlockExpr
     {
         /// <summary>
         /// Create new instance
         /// </summary>
-        public IfStmt() : base(null, null) { }
+        public IfExpr() : base(null, null) { }
 
 
         /// <summary>
         /// Initialize
         /// </summary>
         /// <param name="condition"></param>
-        public IfStmt(Expr condition)
+        public IfExpr(Expr condition)
             : base(condition, null)
         {
             InitBoundary(true, "}");            
@@ -124,25 +119,26 @@ namespace ComLib.Lang
         /// <summary>
         /// Else statement.
         /// </summary>
-        public BlockStmt Else;
+        public BlockExpr Else;
 
 
 
         /// <summary>
         /// Execute
         /// </summary>
-        public override void DoExecute()
+        public override object DoEvaluate()
         {
             // Case 1: If is true
             if (Condition.EvaluateAs<bool>())
             {
-                LangHelper.Execute(_statements, this);
+                LangHelper.Evaluate(_statements, this);
             }
             // Case 2: Else available to execute
             else if (Else != null)
             {
-                Else.Execute();
+                Else.Evaluate();
             }
+            return LNull.Instance;
         }
     }    
 }

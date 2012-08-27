@@ -24,17 +24,15 @@ namespace ComLib.Lang
     public interface ILangPlugin
     {
         /// <summary>
-        /// Used for ordering of plugins.
+        /// The id of the plugin.
         /// </summary>
-        int Precedence { get; }
+        string Id { get; }
 
 
         /// <summary>
-        /// Whether or not this parser can handle the supplied token.
+        /// Used for ordering of plugins.
         /// </summary>
-        /// <param name="current"></param>
-        /// <returns></returns>
-        bool CanHandle(Token current);
+        int Precedence { get; }
 
 
         /// <summary>
@@ -47,6 +45,14 @@ namespace ComLib.Lang
         /// Examples of grammer
         /// </summary>
         string[] Examples { get; }
+
+
+        /// <summary>
+        /// Whether or not this parser can handle the supplied token.
+        /// </summary>
+        /// <param name="current"></param>
+        /// <returns></returns>
+        bool CanHandle(Token current);
     }
 
 
@@ -151,12 +157,6 @@ namespace ComLib.Lang
 
 
         /// <summary>
-        /// Whether or not this combinator can be made into a statement.
-        /// </summary>
-        bool HasStatementSupport { get; }
-
-
-        /// <summary>
         /// The tokens starting the expression.
         /// </summary>
         string[] StartTokens { get; }
@@ -167,8 +167,46 @@ namespace ComLib.Lang
     /// <summary>
     /// Interface for a plugin at the parser/expression level.
     /// </summary>
-    public interface IExprPlugin : IExprBasePlugin
-    {       
+    public interface IExprPlugin: ILangParser, ILangPlugin
+    {
+        /// <summary>
+        /// Initialize the combinator.
+        /// </summary>
+        /// <param name="parser">The core parser</param>
+        /// <param name="tokenIt">The token iterator</param>
+        void Init(Parser parser, TokenIterator tokenIt);
+
+
+        /// <summary>
+        /// The context of the interpreter.
+        /// </summary>
+        Context Ctx { get; set; }
+
+
+        /// <summary>
+        /// Whether or not this combinator can be made into a statement.
+        /// </summary>
+        bool IsStatement { get; }
+
+
+        /// <summary>
+        /// Whether or not this is a system level plugin.
+        /// </summary>
+        bool IsSystemLevel { get; }
+
+
+        /// <summary>
+        /// Whether or not a termninator is supported
+        /// </summary>
+        bool IsTerminatorSupported { get; }
+
+
+        /// <summary>
+        /// The tokens starting the expression.
+        /// </summary>
+        string[] StartTokens { get; }
+
+
         /// <summary>
         /// Parses an expression
         /// </summary>
@@ -189,7 +227,7 @@ namespace ComLib.Lang
     /// <summary>
     /// Interface for a plugin at the parser/expression level.
     /// </summary>
-    public interface IStmtPlugin : IExprBasePlugin
+    public interface IStmtPlugin2 : IExprBasePlugin
     {
         /// <summary>
         /// The context of the script.
@@ -219,7 +257,7 @@ namespace ComLib.Lang
         /// Parses an expression
         /// </summary>
         /// <returns></returns>
-        Stmt Parse();
+        Expr Parse();
     }
 
 

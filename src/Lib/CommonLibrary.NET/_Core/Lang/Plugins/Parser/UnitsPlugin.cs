@@ -48,7 +48,7 @@ namespace ComLib.Lang.Extensions
         public UnitsPlugin()
         {
             _startTokens = _tokens;
-            _hasStatementSupport = true;
+            IsStatement = true;
         }
 
 

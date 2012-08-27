@@ -24,18 +24,17 @@ namespace ComLib.Lang.Extensions
     /// <summary>
     /// Combinator for handling days of the week.
     /// </summary>
-    public class AliasPlugin : StmtPlugin, IParserCallbacks
+    public class AliasPlugin : ExprPlugin, IParserCallbacks
     {
         /// <summary>
         /// Initialize
         /// </summary>
         public AliasPlugin()
         {
-            _handleNewLineAsEndOfExpression = true;
-            _isSystemLevel = true;
-            _supportsTerminator = true;
-            _handleNewLineAsEndOfExpression = true;
-            _startTokens = new string[] { "alias" };
+            this.StartTokens = new string[] { "alias" };
+            this.IsStatement = true; 
+            this.IsTerminatorSupported = true;
+            this.IsAutoMatched = true;
         }
 
 
@@ -71,7 +70,7 @@ namespace ComLib.Lang.Extensions
         /// Parses the alias statement.
         /// </summary>
         /// <returns></returns>
-        public override Stmt Parse()
+        public override Expr Parse()
         {
             _tokenIt.ExpectIdText("alias");
             var aliasName = _tokenIt.ExpectId(true, true);
@@ -106,7 +105,7 @@ namespace ComLib.Lang.Extensions
     /// <summary>
     /// Statement that assigns one token as an alias to another.
     /// </summary>
-    public class AliasStmt : Stmt
+    public class AliasStmt : Expr
     {
         /// <summary>
         /// Initailize
@@ -132,8 +131,9 @@ namespace ComLib.Lang.Extensions
         /// <summary>
         /// Executes the statement.
         /// </summary>
-        public override void DoExecute()
+        public override object DoEvaluate()
         {
+            return LNull.Instance;
             // This is executed during parse phase.
             // But this statement exists so it can be represented in the AST.
 

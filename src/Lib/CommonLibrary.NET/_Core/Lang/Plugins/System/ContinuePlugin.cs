@@ -19,19 +19,14 @@ namespace ComLib.Lang
     /// <summary>
     /// Plugin for throwing errors from the script.
     /// </summary>
-    public class ContinuePlugin : StmtPlugin
+    public class ContinuePlugin : ExprPlugin
     {
-        private static string[] _tokens = new string[] { "continue" };
-
-
         /// <summary>
         /// Intialize.
         /// </summary>
         public ContinuePlugin()
         {
-            _startTokens = _tokens;
-            _isSystemLevel = true;
-            _supportsTerminator = true;
+            this.ConfigureAsSystemStatement(false, true, "continue");
         }
 
 
@@ -64,11 +59,11 @@ namespace ComLib.Lang
         /// continue;
         /// </summary>
         /// <returns></returns>
-        public override Stmt  Parse()
+        public override Expr Parse()
         {
-            var stmt = new ContinueStmt();
+            var expr = new ContinueExpr();
             _tokenIt.Expect(Tokens.Continue);
-            return stmt;
+            return expr;
         }
     }
 
@@ -77,17 +72,18 @@ namespace ComLib.Lang
     /// <summary>
     /// For loop Expression data
     /// </summary>
-    public class ContinueStmt : Stmt
+    public class ContinueExpr : Expr
     {
         /// <summary>
         /// Execute the statement.
         /// </summary>
-        public override void DoExecute()
+        public override object DoEvaluate()
         {
             var loop = this.FindParent<ILoop>();
             if (loop == null) throw new LangException("syntax error", "unable to break, loop not found", string.Empty, 0);
 
             loop.Continue();
+            return LNull.Instance;
         }
     }
 }

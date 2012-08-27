@@ -56,7 +56,6 @@ namespace ComLib.Lang.Extensions
     /// </summary>
     public class EnablePlugin : ExprPlugin
     {
-        private static string[] _tokens = new string[] { "enable", "disable" };
         private static Dictionary<string, bool> _components;
 
         /// <summary>
@@ -74,8 +73,8 @@ namespace ComLib.Lang.Extensions
         /// </summary>
         public EnablePlugin()
         {
-            _hasStatementSupport = true;
-            _startTokens = _tokens;
+            this.IsStatement = true;
+            this.StartTokens = new string[] { "enable", "disable" };
         }
 
 

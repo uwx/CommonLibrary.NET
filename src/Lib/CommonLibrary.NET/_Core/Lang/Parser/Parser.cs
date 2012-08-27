@@ -45,7 +45,7 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="script">Script text</param>
         /// <param name="memory">Memory scope object</param>
-        public List<Stmt> Parse(string script, Memory memory = null)
+        public List<Expr> Parse(string script, Memory memory = null)
         {
             // 1. Initalize data members
             Init(script, memory);
@@ -55,7 +55,6 @@ namespace ComLib.Lang
 
             // 3. Initialize the combinators.
             _context.Plugins.RegisterAllSystem();
-            _context.Plugins.ForEach<IStmtPlugin>(plugin =>  plugin.Init(this, _tokenIt));
             _context.Plugins.ForEach<IExprPlugin>(plugin =>  plugin.Init(this, _tokenIt));
             _context.Plugins.ForEach<ITokenPlugin>(plugin => plugin.Init(this, _tokenIt));
 
@@ -101,7 +100,7 @@ namespace ComLib.Lang
             this._context.State.Reset();
             foreach (var stmt in _statements)
             {
-                stmt.Execute();
+                stmt.Evaluate();
             }
             // Allow plugins to dispose of themselves.
             _context.Plugins.Dispose();
@@ -112,10 +111,10 @@ namespace ComLib.Lang
         /// Parses a statement.
         /// </summary>
         /// <returns></returns>
-        public Stmt ParseStatement()
+        public Expr ParseStatement()
         {
             _state.StatementNested++;
-            Stmt stmt = null;
+            Expr stmt = null;
             TokenData stmtToken = _tokenIt.NextToken;
             Token nexttoken = _tokenIt.NextToken.Token;
 
@@ -145,7 +144,7 @@ namespace ComLib.Lang
                 // 2. Custom expressions/statements.
                 else if (_context.Plugins.CanHandleStmt(nexttoken))
                 {
-                    stmt = ParseCombinatorStatement();
+                    stmt = ParseExtensionStatement();
                 }
                 // 3. Identifier based statements.
                 else if (nexttoken.Kind == TokenKind.Ident)
@@ -175,7 +174,7 @@ namespace ComLib.Lang
                     _state.StatementNested--;
 
                     // If function statement apply doc tags.
-                    if (stmt is FuncDeclareStmt)
+                    if (stmt is FuncDeclareExpr)
                         ApplyDocTagsToFunction(stmt);
                 }
                 stmtToken = _tokenIt.NextToken;
@@ -450,7 +449,7 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="block"></param>
         /// <returns></returns>
-        public BlockStmt ParseBlock(BlockStmt block)
+        public BlockExpr ParseBlock(BlockExpr block)
         {
             // { statemnt1; statement2; }
             bool isMultiLine = false;
@@ -460,7 +459,7 @@ namespace ComLib.Lang
                 _tokenIt.Advance();
 
             if (_tokenIt.NextToken.Token == Tokens.LeftBrace) isMultiLine = true;
-            if (block == null) block = new BlockStmt();
+            if (block == null) block = new BlockExpr();
 
             // Case 1: Single line block.
             if (!isMultiLine)
@@ -516,12 +515,12 @@ namespace ComLib.Lang
         /// <param name="name"></param>
         /// <param name="useSemicolonAsTerminator"></param>
         /// <returns></returns>
-        public Stmt ParseUnary(string name, bool useSemicolonAsTerminator = true)
+        public Expr ParseUnary(string name, bool useSemicolonAsTerminator = true)
         {
             Operator op = Operators.ToOp(_tokenIt.NextToken.Token.Text);
             var opToken = _tokenIt.NextToken;
             double incrementValue = 1;
-            AssignStmt stmt = null;
+            AssignExpr stmt = null;
             _tokenIt.Advance();
 
             // ++ -- 
@@ -529,7 +528,7 @@ namespace ComLib.Lang
             {
                 var u1 = new UnaryExpr(name, incrementValue, op, _context);
                 SetScriptPosition(u1, opToken);
-                stmt = new AssignStmt(false, new VariableExpr(name), u1);
+                stmt = new AssignExpr(false, new VariableExpr(name), u1);
                 _tokenIt.ExpectEndOfStmt();
             }
             else // += -= *= -=
@@ -538,7 +537,7 @@ namespace ComLib.Lang
                 var exp = ParseExpression(endTokens);
                 var u2 = new UnaryExpr(name, exp, op, _context);
                 SetScriptPosition(u2, opToken);
-                stmt = new AssignStmt(false, new VariableExpr(name), u2);
+                stmt = new AssignExpr(false, new VariableExpr(name), u2);
             }
             stmt.Ctx = _context;
             return stmt;
@@ -551,9 +550,9 @@ namespace ComLib.Lang
         /// <param name="stmt"></param>
         /// <param name="textToEndCondition"></param>
         /// <returns></returns>
-        public ConditionalBlockStmt ParseConditionalStatement(ConditionalBlockStmt stmt, string textToEndCondition = "then")
+        public ConditionalBlockExpr ParseConditionalStatement(ConditionalBlockExpr stmt, string textToEndCondition = "then")
         {
-            if (stmt == null) stmt = new ConditionalBlockStmt(null, null);
+            if (stmt == null) stmt = new ConditionalBlockExpr(null, null);
 
             // Case 1: if ( <expression> ) 
             // Case 2: if   <expression> then
@@ -610,7 +609,7 @@ namespace ComLib.Lang
         }
         */
 
-        private Stmt ParseSystemStatement()
+        private Expr ParseSystemStatement()
         {
             var token = _tokenIt.NextToken.Token;
             var plugin = _context.Plugins.LastMatchedSysStmtPlugin;
@@ -621,7 +620,7 @@ namespace ComLib.Lang
             if (plugin is IParserCallbacks)
                 ((IParserCallbacks)plugin).OnParseComplete(stmt);
 
-            if (plugin.SupportsTerminator)
+            if (plugin.IsTerminatorSupported)
                 _tokenIt.ExpectEndOfStmt();
             return stmt;        
         }
@@ -631,21 +630,21 @@ namespace ComLib.Lang
         /// Parses a combinator into a statement.
         /// </summary>
         /// <returns></returns>
-        private Stmt ParseCombinatorStatement()
+        private Expr ParseExtensionStatement()
         {
             var token = _tokenIt.NextToken.Token;
             var plugin = _context.Plugins.LastMatchedExtStmtPlugin;
-            Stmt stmt = null;
-            if (plugin is IStmtPlugin)
+            Expr stmt = null;
+            if (plugin is IExprPlugin)
             {
-                var stmtPlugin = plugin as IStmtPlugin;
+                var stmtPlugin = plugin as IExprPlugin;
                 stmtPlugin.Ctx = _context;
                 stmt = stmtPlugin.Parse();
 
                 if (stmtPlugin is IParserCallbacks)
                     ((IParserCallbacks)stmtPlugin).OnParseComplete(stmt);
 
-                if (stmtPlugin.SupportsTerminator)
+                if (stmtPlugin.IsTerminatorSupported)
                     _tokenIt.ExpectEndOfStmt();
 
                 return stmt;
@@ -661,8 +660,8 @@ namespace ComLib.Lang
                     ((MemberAccessExpr)exp).IsAssignment = true;
                 stmt = ParseAssignment(exp);
             }
-            else
-                stmt = new ExpressionStmt(exp);
+            //else
+            //    stmt = new ExpressionStmt(exp);
 
             // This is a combinator expression that can also be a statement.
             // Since this is method ParseCombinatorStatement can only be called from ParseStatement,
@@ -684,7 +683,7 @@ namespace ComLib.Lang
         ///     - getuser().name = 'john';
         /// </summary>
         /// <returns></returns>
-        private Stmt ParseIdBasedStatement()
+        private Expr ParseIdBasedStatement()
         {
             var tokenData = _tokenIt.NextToken;
             string name = tokenData.Token.Text;
@@ -692,10 +691,10 @@ namespace ComLib.Lang
             if (exp is FunctionCallExpr)
             {
                 _tokenIt.ExpectEndOfStmt();
-                return new ExpressionStmt(exp);
+                return exp;
             }
             var token = _tokenIt.NextToken.Token;
-            Stmt stmt = null;
+            Expr stmt = null;
             if (token == Tokens.Assignment)
             {
                 stmt = ParseAssignment(exp);
@@ -720,7 +719,7 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="left"></param>
         /// <returns></returns>
-        private Stmt ParseAssignment(Expr left)
+        private Expr ParseAssignment(Expr left)
         {
             var plugin = this.Context.Plugins.GetSysStmt(Tokens.Var) as VarPlugin;
             return plugin.Parse(left);            
@@ -734,6 +733,8 @@ namespace ComLib.Lang
         /// <param name="endTokens"></param>
         /// <param name="initial"></param>
         /// <param name="enableTokenPlugins"></param>
+        /// <param name="identTokens"></param>
+        /// <param name="enableIdentTokensAsEndTokens"></param>
         /// <returns></returns>
         private Tuple2<bool, Expr> ParseExpressionsWithPrecedence(IDictionary<Token, bool> endTokens, Expr initial, 
             bool enableTokenPlugins = true, IDictionary<string, bool> identTokens = null, bool enableIdentTokensAsEndTokens = false)

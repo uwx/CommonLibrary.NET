@@ -35,7 +35,7 @@ namespace ComLib.Lang.Extensions
         /// </summary>
         public WordsPlugin()
         {
-            _hasStatementSupport = true;
+            IsStatement = true;
             _startTokens = _tokens;
         }
 
@@ -152,7 +152,7 @@ namespace ComLib.Lang.Extensions
         {
             _startTokens = _tokens;
             _possibleWords = new List<string>();
-            _precedence = 1;
+            Precedence = 1;
         }
 
 

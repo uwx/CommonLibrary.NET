@@ -19,19 +19,14 @@ namespace ComLib.Lang
     /// <summary>
     /// Plugin for throwing errors from the script.
     /// </summary>
-    public class BreakPlugin : StmtPlugin
+    public class BreakPlugin : ExprPlugin
     {
-        private static string[] _tokens = new string[] { "break" };
-
-
         /// <summary>
         /// Intialize.
         /// </summary>
         public BreakPlugin()
         {
-            _startTokens = _tokens;
-            _isSystemLevel = true;
-            _supportsTerminator = true;
+            this.ConfigureAsSystemStatement(false, true, "break");
         }
 
 
@@ -64,11 +59,11 @@ namespace ComLib.Lang
         /// break;
         /// </summary>
         /// <returns></returns>
-        public override Stmt  Parse()
+        public override Expr Parse()
         {
-            var stmt = new BreakStmt();
+            var expr = new BreakExpr();
             _tokenIt.Expect(Tokens.Break);
-            return stmt;
+            return expr;
         }
     }
 
@@ -77,17 +72,18 @@ namespace ComLib.Lang
     /// <summary>
     /// For loop Expression data
     /// </summary>
-    public class BreakStmt : Stmt
+    public class BreakExpr : Expr
     {
         /// <summary>
         /// Execute the statement.
         /// </summary>
-        public override void DoExecute()
+        public override object DoEvaluate()
         {
             var loop = this.FindParent<ILoop>();
             if (loop == null) throw new LangException("syntax error", "unable to break, loop not found", string.Empty, 0);
 
             loop.Break();
+            return LNull.Instance;
         }
     }
 }

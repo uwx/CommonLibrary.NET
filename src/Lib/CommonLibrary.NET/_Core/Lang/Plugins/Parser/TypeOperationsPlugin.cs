@@ -51,8 +51,8 @@ namespace ComLib.Lang.Extensions
         /// </summary>
         public TypeOperationsPlugin()
         {
-            _hasStatementSupport = false;
-            _canHandleExpression = true;
+            IsStatement = false;
+            IsAutoMatched = true;
             _functionToTypeMap = new Dictionary<string, string>();
             var types = new string[] { "number", "bool", "date", "time", "string" };
             var functionnames = new List<string>();

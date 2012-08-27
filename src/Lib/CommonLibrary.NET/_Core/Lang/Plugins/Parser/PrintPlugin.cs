@@ -61,8 +61,8 @@ namespace ComLib.Lang.Extensions
         /// </summary>
         public PrintExpressionPlugin()
         {
-            _canHandleExpression = true;
-            _hasStatementSupport = true;
+            IsAutoMatched = true;
+            IsStatement = true;
             _handleNewLineAsEndOfExpression = true;
             _startTokens = new string[] { "Print", "print" };
         }

@@ -13,7 +13,7 @@ namespace ComLib.Lang
         /// <summary>
         /// The last statement.
         /// </summary>
-        public Stmt LastStmt;
+        public Expr LastStmt;
 
 
         /// <summary>

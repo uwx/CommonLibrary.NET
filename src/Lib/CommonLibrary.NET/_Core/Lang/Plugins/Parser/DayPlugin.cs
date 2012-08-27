@@ -51,22 +51,19 @@ namespace ComLib.Lang.Extensions
         }
 
 
-        private static string[] _tokens = new string[]
-        { 
-            "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday",
-            "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday",
-
-            "today", "tomorrow", "yesterday",
-            "Today", "Tomorrow", "Yesterday"
-        };
-
-
         /// <summary>
         /// Initialize
         /// </summary>
         public DayPlugin()
         {
-            _startTokens = _tokens;
+            this.StartTokens = new string[]
+            { 
+                "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday",
+                "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday",
+
+                "today", "tomorrow", "yesterday",
+                "Today", "Tomorrow", "Yesterday"
+            };
         }
 
 

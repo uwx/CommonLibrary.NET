@@ -35,7 +35,6 @@ namespace ComLib.Lang.Extensions
     /// </summary>
     public class SortPlugin : ExprPlugin
     {
-        private static string[] _tokens = new string[] { "sort", "Sort" };
         private static IDictionary<Token, bool> _terminators;
 
 
@@ -57,10 +56,10 @@ namespace ComLib.Lang.Extensions
         /// </summary>
         public SortPlugin()
         {
-            _startTokens = _tokens;
-            _canHandleExpression = true;
-            _hasStatementSupport = true;
-            _isContextFree = false;
+            this.StartTokens = new string[] { "sort", "Sort" };
+            this.IsAutoMatched = true;
+            this.IsStatement = true;
+            this.IsContextFree = false;
         }
 
 

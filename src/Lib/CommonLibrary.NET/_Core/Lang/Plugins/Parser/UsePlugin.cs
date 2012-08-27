@@ -79,14 +79,14 @@ namespace ComLib.Lang.Extensions
     /// <summary>
     /// Use plugin.
     /// </summary>
-    public class UsePlugin : StmtPlugin
+    public class UsePlugin : ExprPlugin
     {
         /// <summary>
         /// Initialize
         /// </summary>
         public UsePlugin()
         {
-            _startTokens = new string[] { "use" };
+            this.StartTokens = new string[] { "use" };
         }
 
 
@@ -122,7 +122,7 @@ namespace ComLib.Lang.Extensions
         /// Parses the using statement.
         /// </summary>
         /// <returns></returns>
-        public override Stmt Parse()
+        public override Expr Parse()
         {
             return null;
         }
@@ -132,7 +132,7 @@ namespace ComLib.Lang.Extensions
     /// <summary>
     /// Class to execute a using statement.
     /// </summary>
-    public class UseStmt : Stmt
+    public class UseStmt : Expr
     {
         /// <summary>
         /// Initialize
@@ -152,7 +152,7 @@ namespace ComLib.Lang.Extensions
         /// <summary>
         /// Executes the using.
         /// </summary>
-        public override void  DoExecute()
+        public override object DoEvaluate()
         {
             var source = Source;
 
@@ -189,6 +189,7 @@ namespace ComLib.Lang.Extensions
             scriptParser.Parse(script);
             Parser parser = null;
             parser.Statements.AddRange(scriptParser.Statements);
-        }
+            return LNull.Instance;
+        }        
     }
 }

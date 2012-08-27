@@ -132,8 +132,8 @@ namespace ComLib.Lang.Extensions
         /// </summary>
         public FluentMemberPlugin(bool enableMethodPartMatching)
         {
-            _precedence = 200;
-            _hasStatementSupport = true;
+            Precedence = 200;
+            IsStatement = true;
             _startTokens = _tokens;
         }
 

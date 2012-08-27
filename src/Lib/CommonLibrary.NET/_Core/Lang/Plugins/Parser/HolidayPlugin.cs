@@ -60,7 +60,7 @@ namespace ComLib.Lang.Extensions
             _holidays["christmas"       ] = () => Convert.ToDateTime("12/25/" + DateTime.Now.Year.ToString());
             _holidays["new years eve"] = () => Convert.ToDateTime("12/31/" + DateTime.Now.Year.ToString());
             _startTokens = _tokens;
-            _precedence = 100;
+            Precedence = 100;
         }
 
 

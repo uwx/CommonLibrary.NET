@@ -19,19 +19,14 @@ namespace ComLib.Lang
     /// <summary>
     /// Plugin for throwing errors from the script.
     /// </summary>
-    public class WhilePlugin : StmtBlockPlugin
+    public class WhilePlugin : ExprBlockPlugin
     {
-        private static string[] _tokens = new string[] { "while" };
-
-
         /// <summary>
         /// Intialize.
         /// </summary>
         public WhilePlugin()
         {
-            _startTokens = _tokens;
-            _isSystemLevel = true;
-            _supportsBlock = true;
+            this.ConfigureAsSystemStatement(true, false, "while");
         }
 
 
@@ -66,10 +61,9 @@ namespace ComLib.Lang
         /// Parses either the for or for x in statements.
         /// </summary>
         /// <returns></returns>
-        public override Stmt Parse()
+        public override Expr Parse()
         {
-            WhileStmt stmt = new WhileStmt();
-
+            var stmt = new WhileExpr();
             // While ( condition expression )
             _tokenIt.Expect(Tokens.While);
             ParseConditionalBlock(stmt);
@@ -82,7 +76,7 @@ namespace ComLib.Lang
     /// <summary>
     /// For loop Expression data
     /// </summary>
-    public class WhileStmt : ConditionalBlockStmt, ILoop
+    public class WhileExpr : ConditionalBlockExpr, ILoop
     {
         /// <summary>
         /// Whether or not the break the loop
@@ -105,14 +99,14 @@ namespace ComLib.Lang
         /// <summary>
         /// Create new instance/
         /// </summary>
-        public WhileStmt() : base(null, null) { }
+        public WhileExpr() : base(null, null) { }
 
 
         /// <summary>
         /// Create new instance with condition
         /// </summary>
         /// <param name="condition"></param>
-        public WhileStmt(Expr condition)
+        public WhileExpr(Expr condition)
             : base(condition, null)
         {
             InitBoundary(true, "}");
@@ -122,7 +116,7 @@ namespace ComLib.Lang
         /// <summary>
         /// Execute
         /// </summary>
-        public override void DoExecute()
+        public override object DoEvaluate()
         {
             _continueRunning = true;
             _breakLoop = false;
@@ -135,7 +129,7 @@ namespace ComLib.Lang
                 {
                     foreach (var stmt in _statements)
                     {
-                        stmt.Execute();
+                        stmt.Evaluate();
 
                         Ctx.Limits.CheckLoop(this);
 
@@ -158,6 +152,7 @@ namespace ComLib.Lang
 
                 _continueRunning = Condition.EvaluateAs<bool>();
             }
+            return LNull.Instance;
         }
 
 

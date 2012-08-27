@@ -8,7 +8,7 @@ namespace ComLib.Lang
     /// <summary>
     /// A combinator to extend the parser
     /// </summary>
-    public class ExprPluginBase : IExprBasePlugin
+    public class ExprPluginBase
     {
         /// <summary>
         /// Used to uniquely identify a plugin.
@@ -35,34 +35,10 @@ namespace ComLib.Lang
 
 
         /// <summary>
-        /// Whether or not this combinator can be made into a statemnt.
-        /// </summary>
-        protected bool _hasStatementSupport = false;
-
-
-        /// <summary>
         /// Whether or not to handle a new line as end of this expression plugin and for statement support.
         /// </summary>
         protected bool _handleNewLineAsEndOfExpression = false;
 
-
-        /// <summary>
-        /// Whether or not this combinator can be made into a statemnt.
-        /// </summary>
-        protected bool _canHandleExpression = false;
-
-
-        /// <summary>
-        /// Whether or not this plugin is context free ( context free grammer )
-        /// </summary>
-        protected bool _isContextFree = true;
-
-
-        /// <summary>
-        /// A number given to each plugin to give it an ordering compared to other plugins.
-        /// </summary>
-        protected int _precedence = 1;
-        
 
         /// <summary>
         /// The token iterator.
@@ -92,6 +68,40 @@ namespace ComLib.Lang
 
 
         /// <summary>
+        /// Configures this plugin as a system level statement.
+        /// </summary>
+        /// <param name="isCodeBlockSupported">Whether or not a code block is supported, e.g. if, while, for</param>
+        /// <param name="isTerminatorSupported"></param>
+        /// <param name="token"></param>
+        public void ConfigureAsSystemStatement(bool isCodeBlockSupported, bool isTerminatorSupported, string token)
+        {
+            this.InitTokens(token);
+            this.IsCodeBlockSupported = isCodeBlockSupported;
+            this.IsStatement = true;
+            this.IsSystemLevel = true;
+            this.IsTerminatorSupported = isTerminatorSupported;
+            this.IsAutoMatched = true;
+        }
+
+
+        /// <summary>
+        /// Configures this plugin as a system level statement.
+        /// </summary>
+        /// <param name="isCodeBlockSupported">Whether or not a code block is supported, e.g. if, while, for</param>
+        /// <param name="isTerminatorSupported"></param>
+        /// <param name="token"></param>
+        public void ConfigureAsSystemExpression(bool isCodeBlockSupported, bool isTerminatorSupported, string token)
+        {
+            this.InitTokens(token);
+            this.IsCodeBlockSupported = isCodeBlockSupported;
+            this.IsStatement = false;
+            this.IsSystemLevel = true;
+            this.IsTerminatorSupported = isTerminatorSupported;
+            this.IsAutoMatched = true;
+        }
+
+
+        /// <summary>
         /// Gets the id for this plugin.
         /// </summary>
         public string Id { get { return _id; } }
@@ -100,19 +110,48 @@ namespace ComLib.Lang
         /// <summary>
         /// A number given to each plugin to give it an ordering compared to other plugins.
         /// </summary>
-        public virtual int Precedence { get { return _precedence; } }
-
-
-        /// <summary>
-        /// Whether or not this combinator can be made into a statement.
-        /// </summary>
-        public bool HasStatementSupport { get { return _hasStatementSupport; } }
+        public int Precedence { get; set; }
 
 
         /// <summary>
         /// Whether or not this grammer is context free grammer.
         /// </summary>
-        public bool IsContextFree { get { return _isContextFree; } }
+        public bool IsContextFree { get; set; }
+
+
+        /// <summary>
+        /// Whether or not this expression can be used like a statement.
+        /// </summary>
+        public bool IsStatement { get; set; }
+
+        
+        /// <summary>
+        /// Whether or not this is a system level plugin
+        /// </summary>
+        public bool IsSystemLevel { get; set; }
+
+
+        /// <summary>
+        /// Whether or not a codeblock is supported.
+        /// </summary>
+        public bool IsCodeBlockSupported { get; set; }
+
+
+        /// <summary>
+        /// Whether or not a terminator is supported.
+        /// </summary>
+        public bool IsTerminatorSupported { get; set; }
+
+
+        /// <summary>
+        /// Whether or not this plugin automatically takes over parsing on the match of it's start tokens.
+        /// </summary>
+        public bool IsAutoMatched { get; set; }
+
+        /// <summary>
+        /// The context of the script.
+        /// </summary>
+        public Context Ctx { get; set; }
 
 
         /// <summary>
@@ -121,6 +160,7 @@ namespace ComLib.Lang
         public virtual string[] StartTokens
         {
             get { return _startTokens; }
+            set { _startTokens = value; }
         }
 
 
@@ -158,7 +198,7 @@ namespace ComLib.Lang
         /// <returns></returns>
         public virtual bool CanHandle(Token current)
         {
-            return _canHandleExpression;
+            return IsAutoMatched;
         }
 
 
@@ -206,5 +246,17 @@ namespace ComLib.Lang
             return _tokenIt.Peek(1, passNewLine);
         }
         #endregion
+
+
+        private void InitTokens(string token)
+        {
+            if (!token.Contains(","))
+            {
+                this.StartTokens = new string[] { token };
+                return;
+            }
+            var tokens = token.Split(',');
+            this.StartTokens = tokens;
+        }
     }
 }

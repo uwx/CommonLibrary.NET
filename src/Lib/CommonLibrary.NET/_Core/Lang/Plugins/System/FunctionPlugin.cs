@@ -8,19 +8,14 @@ namespace ComLib.Lang
     /// <summary>
     /// Plugin for throwing errors from the script.
     /// </summary>
-    public class FuncDeclarePlugin : StmtBlockPlugin, IParserCallbacks
+    public class FuncDeclarePlugin : ExprBlockPlugin, IParserCallbacks
     {
-        private static string[] _tokens = new string[] { "function" };
-
-
         /// <summary>
         /// Intialize.
         /// </summary>
         public FuncDeclarePlugin()
         {
-            _startTokens = _tokens;
-            _isSystemLevel = true;
-            _supportsBlock = true;
+            this.ConfigureAsSystemStatement(true, false, "function");
         }
 
 
@@ -54,7 +49,7 @@ namespace ComLib.Lang
         /// return value;
         /// </summary>
         /// <returns></returns>
-        public override Stmt Parse()
+        public override Expr Parse()
         {
             return Parse(_tokenIt.NextToken, true);
         }
@@ -70,9 +65,9 @@ namespace ComLib.Lang
         /// <param name="expectToken">Whether or not to expect the token in tokenData. 
         /// If false, advances the token iterator</param>
         /// <returns></returns>
-        public Stmt Parse(TokenData token, bool expectToken)
+        public Expr Parse(TokenData token, bool expectToken)
         {
-            var stmt = new FuncDeclareStmt();
+            var stmt = new FuncDeclareExpr();
             stmt.Function.Ctx = Ctx;
             _parser.SetScriptPosition(stmt.Function, token);
 
@@ -126,9 +121,9 @@ namespace ComLib.Lang
         /// <summary>
         /// Parses a block by first pushing symbol scope and then popping after completion.
         /// </summary>
-        public override void ParseBlock(BlockStmt stmt)
+        public override void ParseBlock(BlockExpr stmt)
         {
-            var fs = stmt as FunctionStmt;
+            var fs = stmt as FunctionExpr;
             var funcName = fs.Name;
             
             // 1. Define the function in global symbol scope
@@ -159,7 +154,7 @@ namespace ComLib.Lang
         /// <param name="node">The node returned by this implementations Parse method</param>
         public void OnParseComplete(AstNode node)        
         {
-            var function = (node as FuncDeclareStmt).Function;
+            var function = (node as FuncDeclareExpr).Function;
             Ctx.Functions.Register(function.Name, function);
 
             // Register the functions aliases.
@@ -178,25 +173,17 @@ namespace ComLib.Lang
     /// <summary>
     /// Represents a function declaration
     /// </summary>
-    public class FuncDeclareStmt : BlockStmt
+    public class FuncDeclareExpr : BlockExpr
     {
-        private FunctionStmt _function = new FunctionStmt();
+        private FunctionExpr _function = new FunctionExpr();
 
 
         /// <summary>
         /// Function 
         /// </summary>
-        public FunctionStmt Function
+        public FunctionExpr Function
         {
             get { return _function; }
-        }
-
-
-        /// <summary>
-        /// Execute the function statement.
-        /// </summary>
-        public override void DoExecute()
-        {
         }
 
 

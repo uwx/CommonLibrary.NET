@@ -32,18 +32,17 @@ namespace ComLib.Lang.Extensions
     /// <summary>
     /// Combinator for handling days of the week.
     /// </summary>
-    public class ConstCapsPlugin : StmtPlugin, IParserCallbacks
+    public class ConstCapsPlugin : ExprPlugin, IParserCallbacks
     {
         /// <summary>
         /// Initialize
         /// </summary>
         public ConstCapsPlugin()
         {
-            _startTokens = new string[] { "$IdToken" };
-            _handleNewLineAsEndOfExpression = true;
-            _isSystemLevel = true;
-            _supportsTerminator = true;
-            _precedence = 1;
+            this.StartTokens = new string[] { "$IdToken" };
+            this.IsSystemLevel = true;
+            this.IsTerminatorSupported = true;
+            this.Precedence = 1;
         }
 
 
@@ -106,7 +105,7 @@ namespace ComLib.Lang.Extensions
         /// Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
         /// </summary>
         /// <returns></returns>
-        public override Stmt Parse()
+        public override Expr Parse()
         {
             var pairs = new List<KeyValuePair<string, Expr>>();
             while (true)
@@ -188,7 +187,7 @@ namespace ComLib.Lang.Extensions
     /// <summary>
     /// A constant assignment
     /// </summary>
-    public class ConstStmt : Stmt
+    public class ConstStmt : Expr
     {
         /// <summary>
         /// Initialize with pairs of constant assignment values.
@@ -208,13 +207,14 @@ namespace ComLib.Lang.Extensions
         /// <summary>
         /// Execute by storing the constant value in memory.
         /// </summary>
-        public override void DoExecute()
+        public override object  Evaluate()
         {
             foreach (var pair in Assignments)
             {                
                 object val = pair.Value.Evaluate();
                 this.Ctx.Memory.SetValue(pair.Key, val);
             }
+            return LNull.Instance;
         }
     }
 }

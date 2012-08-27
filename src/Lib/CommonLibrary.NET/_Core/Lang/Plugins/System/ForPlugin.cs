@@ -19,19 +19,14 @@ namespace ComLib.Lang
     /// <summary>
     /// Plugin for throwing errors from the script.
     /// </summary>
-    public class ForLoopPlugin : StmtBlockPlugin
+    public class ForLoopPlugin : ExprBlockPlugin
     {
-        private static string[] _tokens = new string[] { "for" };
-
-
         /// <summary>
         /// Intialize.
         /// </summary>
         public ForLoopPlugin()
         {
-            _startTokens = _tokens;
-            _isSystemLevel = true;
-            _supportsBlock = true;
+            this.ConfigureAsSystemStatement(true, false, "for");
         }
 
 
@@ -65,7 +60,7 @@ namespace ComLib.Lang
         /// Parses either the for or for x in statements.
         /// </summary>
         /// <returns></returns>
-        public override Stmt Parse()
+        public override Expr Parse()
         {
             _tokenIt.ExpectMany(Tokens.For, Tokens.LeftParenthesis);
             var ahead = _tokenIt.Peek(1);
@@ -75,10 +70,10 @@ namespace ComLib.Lang
         }
 
 
-        private Stmt ParseForLoop()
+        private Expr ParseForLoop()
         {
-            var stmt = new ForStmt();
-            var statements = new List<Stmt>();
+            var stmt = new ForExpr();
+            var statements = new List<Expr>();
 
             // While ( condition expression )
             // Parse while condition
@@ -98,13 +93,13 @@ namespace ComLib.Lang
         /// return value;
         /// </summary>
         /// <returns></returns>
-        private Stmt ParseForIn()
+        private Expr ParseForIn()
         {
             var varname = _tokenIt.ExpectId();
             _tokenIt.Expect(Tokens.In);
             var sourcename = _tokenIt.ExpectId();
             _tokenIt.Expect(Tokens.RightParenthesis);
-            var stmt = new ForEachStmt(varname, sourcename);
+            var stmt = new ForEachExpr(varname, sourcename);
             ParseBlock(stmt);
             return stmt;
         }
@@ -115,12 +110,12 @@ namespace ComLib.Lang
     /// <summary>
     /// For loop Expression data
     /// </summary>
-    public class ForStmt : WhileStmt
+    public class ForExpr : WhileExpr
     {
         /// <summary>
         /// Initialize
         /// </summary>
-        public ForStmt()
+        public ForExpr()
             : this(null, null, null)
         {
         }
@@ -132,7 +127,7 @@ namespace ComLib.Lang
         /// <param name="start">start expression</param>
         /// <param name="condition">condition for loop</param>
         /// <param name="inc">increment expression</param>
-        public ForStmt(Stmt start, Expr condition, Stmt inc)
+        public ForExpr(Expr start, Expr condition, Expr inc)
             : base(condition)
         {
             InitBoundary(true, "}");
@@ -146,7 +141,7 @@ namespace ComLib.Lang
         /// <param name="start">start expression</param>
         /// <param name="condition">condition for loop</param>
         /// <param name="inc">increment expression</param>
-        public void Init(Stmt start, Expr condition, Stmt inc)
+        public void Init(Expr start, Expr condition, Expr inc)
         {
             Start = start;
             Increment = inc;
@@ -157,13 +152,13 @@ namespace ComLib.Lang
         /// <summary>
         /// Start statement.
         /// </summary>
-        public Stmt Start;
+        public Expr Start;
 
 
         /// <summary>
         /// Increment statement.
         /// </summary>
-        public Stmt Increment;
+        public Expr Increment;
 
 
 
@@ -171,9 +166,9 @@ namespace ComLib.Lang
         /// Execute each expression.
         /// </summary>
         /// <returns></returns>
-        public override void DoExecute()
+        public override object Evaluate()
         {
-            Start.Execute();
+            Start.Evaluate();
             _continueRunning = true;
             _breakLoop = false;
             _continueLoop = false;
@@ -185,7 +180,7 @@ namespace ComLib.Lang
                 {
                     foreach (var stmt in _statements)
                     {
-                        stmt.Execute();
+                        stmt.Evaluate();
 
                         Ctx.Limits.CheckLoop(this);
 
@@ -206,9 +201,10 @@ namespace ComLib.Lang
                 if (_continueRunning == false)
                     break;
 
-                Increment.Execute();
+                Increment.Evaluate();
                 _continueRunning = Condition.EvaluateAs<bool>();
             }
+            return LNull.Instance;
         }
     } 
 
@@ -217,7 +213,7 @@ namespace ComLib.Lang
     /// <summary>
     /// For loop Expression data
     /// </summary>
-    public class ForEachStmt : WhileStmt
+    public class ForEachExpr : WhileExpr
     {
         private string _varName;
         private string _sourceName;
@@ -228,7 +224,8 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="varname">Name of the variable in the loop</param>
         /// <param name="sourceName">Name of the variable containing the items to loop through.</param>
-        public ForEachStmt(string varname, string sourceName) : base(null)
+        public ForEachExpr(string varname, string sourceName)
+            : base(null)
         {
             _varName = varname;
             _sourceName = sourceName;
@@ -239,7 +236,7 @@ namespace ComLib.Lang
         /// Execute each expression.
         /// </summary>
         /// <returns></returns>
-        public override void DoExecute()
+        public override object DoEvaluate()
         {
             _continueRunning = true;
             _breakLoop = false;
@@ -266,7 +263,7 @@ namespace ComLib.Lang
                 {
                     foreach (var stmt in _statements)
                     {
-                        stmt.Execute();
+                        stmt.Evaluate();
 
                         Ctx.Limits.CheckLoop(this);
                          
@@ -290,6 +287,7 @@ namespace ComLib.Lang
                 // Increment.
                 _continueRunning = enumerator.MoveNext();
             }
+            return LNull.Instance;
         }
     }    
 }

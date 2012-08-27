@@ -46,7 +46,7 @@ namespace ComLib.Lang.Helpers
             return args;
         }
 
-
+        /*
         /// <summary>
         /// Executes the statements.
         /// </summary>
@@ -59,6 +59,23 @@ namespace ComLib.Lang.Helpers
                 foreach (var stmt in statements)
                 {
                     stmt.Execute();
+                }
+            }
+        }
+        */
+
+        /// <summary>
+        /// Executes the statements.
+        /// </summary>
+        /// <param name="statements"></param>
+        /// <param name="parent"></param>
+        public static void Evaluate(List<Expr> statements, AstNode parent)
+        {
+            if (statements != null && statements.Count > 0)
+            {
+                foreach (var stmt in statements)
+                {
+                    stmt.Evaluate();
                 }
             }
         }

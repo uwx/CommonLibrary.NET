@@ -42,8 +42,8 @@ namespace ComLib.Lang.Extensions
         /// </summary>
         public TypeOfPlugin()
         {
-            _hasStatementSupport = false;
-            _canHandleExpression = true;
+            IsStatement = false;
+            IsAutoMatched = true;
             _startTokens = _tokens;
         }
 

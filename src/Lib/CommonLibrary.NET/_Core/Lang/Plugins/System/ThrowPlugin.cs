@@ -19,19 +19,14 @@ namespace ComLib.Lang
     /// <summary>
     /// Plugin for throwing errors from the script.
     /// </summary>
-    public class ThrowPlugin : StmtPlugin
+    public class ThrowPlugin : ExprPlugin
     {
-        private static string[] _tokens = new string[] { "throw" };
-
-
         /// <summary>
         /// Intialize.
         /// </summary>
         public ThrowPlugin()
         {
-            _startTokens = _tokens;
-            _isSystemLevel = true;
-            _supportsTerminator = true;
+            this.ConfigureAsSystemStatement(false, true, "throw");
         }
 
 
@@ -64,11 +59,11 @@ namespace ComLib.Lang
         /// throw error;
         /// </summary>
         /// <returns></returns>
-        public override Stmt  Parse()
+        public override Expr Parse()
         {
              _tokenIt.Expect(Tokens.Throw);
             var exp = _parser.ParseExpression(Terminators.ExpStatementEnd, passNewLine: true);
-            return new ThrowStmt() { Exp = exp };
+            return new ThrowExpr() { Exp = exp };
         }
     }
 
@@ -77,12 +72,12 @@ namespace ComLib.Lang
     /// <summary>
     /// For loop Expression data
     /// </summary>
-    public class ThrowStmt : Stmt
+    public class ThrowExpr : Expr
     {
         /// <summary>
         /// Create new instance
         /// </summary>
-        public ThrowStmt()
+        public ThrowExpr()
         {
         }
 
@@ -96,7 +91,7 @@ namespace ComLib.Lang
         /// <summary>
         /// Execute
         /// </summary>
-        public override void DoExecute()
+        public override object DoEvaluate()
         {
             object message = null;
             if (Exp != null)

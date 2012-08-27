@@ -34,7 +34,7 @@ namespace ComLib.Lang.Extensions
         public PercentPlugin()
         {
             _startTokens = _tokens;
-            _hasStatementSupport = true;
+            IsStatement = true;
         }
 
 

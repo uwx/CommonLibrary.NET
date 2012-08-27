@@ -67,8 +67,7 @@ namespace ComLib.Lang.Extensions
         /// </summary>
         public MachineInfoPlugin()
         {
-            _startTokens = new string[]{ "mac", "@" };
-            _canHandleExpression = true;
+            this.StartTokens = new string[]{ "mac", "@" };
         }
 
 

@@ -8,7 +8,7 @@ namespace ComLib.Lang
     /// <summary>
     /// A combinator to extend the parser
     /// </summary>
-    public class ExprPlugin : ExprPluginBase, IExprPlugin, IExprBasePlugin
+    public class ExprPlugin : ExprPluginBase, IExprPlugin
     {
         /// <summary>
         /// Parses the expression.
