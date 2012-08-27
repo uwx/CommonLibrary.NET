@@ -620,7 +620,7 @@ namespace ComLib.Lang
             if (plugin is IParserCallbacks)
                 ((IParserCallbacks)plugin).OnParseComplete(stmt);
 
-            if (plugin.IsTerminatorSupported)
+            if (plugin.IsEndOfStatementRequired)
                 _tokenIt.ExpectEndOfStmt();
             return stmt;        
         }
@@ -634,31 +634,30 @@ namespace ComLib.Lang
         {
             var token = _tokenIt.NextToken.Token;
             var plugin = _context.Plugins.LastMatchedExtStmtPlugin;
-            Expr stmt = null;
-            if (plugin is IExprPlugin)
+            var expPlugin = plugin as IExprPlugin;
+            Expr result = null;
+            if(!expPlugin.IsAssignmentSupported )
             {
-                var stmtPlugin = plugin as IExprPlugin;
-                stmtPlugin.Ctx = _context;
-                stmt = stmtPlugin.Parse();
+                expPlugin.Ctx = _context;
+                result = expPlugin.Parse();
 
-                if (stmtPlugin is IParserCallbacks)
-                    ((IParserCallbacks)stmtPlugin).OnParseComplete(stmt);
+                if (expPlugin is IParserCallbacks)
+                    ((IParserCallbacks)expPlugin).OnParseComplete(result);
 
-                if (stmtPlugin.IsTerminatorSupported)
+                if (expPlugin.IsEndOfStatementRequired)
                     _tokenIt.ExpectEndOfStmt();
 
-                return stmt;
+                return result;
             }
 
-            var expStmt = plugin as IExprPlugin;
-            var exp = expStmt.Parse();
+            var exp = expPlugin.Parse();
             exp.Ctx = _context;
 
             if (_tokenIt.NextToken.Token == Tokens.Assignment)
             {
                 if (exp is MemberAccessExpr)
                     ((MemberAccessExpr)exp).IsAssignment = true;
-                stmt = ParseAssignment(exp);
+                result = ParseAssignment(exp);
             }
             //else
             //    stmt = new ExpressionStmt(exp);
@@ -667,7 +666,7 @@ namespace ComLib.Lang
             // Since this is method ParseCombinatorStatement can only be called from ParseStatement,
             // this must be a statement. In which case, it must terminate.
             _tokenIt.ExpectEndOfStmt();
-            return stmt;
+            return result;
         }
 
 

@@ -74,6 +74,8 @@ namespace ComLib.Lang.Extensions
         public EnablePlugin()
         {
             this.IsStatement = true;
+            this.IsSystemLevel = true;
+            this.IsEndOfStatementRequired = true;
             this.StartTokens = new string[] { "enable", "disable" };
         }
 

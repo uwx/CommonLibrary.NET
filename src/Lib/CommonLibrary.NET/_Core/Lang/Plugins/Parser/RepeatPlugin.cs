@@ -73,9 +73,11 @@ namespace ComLib.Lang.Extensions
         /// </summary>
         public RepeatPlugin()
         {
-            _startTokens = _tokens;
-            IsContextFree = false;
-            Precedence = 50;
+            this.StartTokens = _tokens;
+            this.IsStatement = true;
+            this.IsAutoMatched = true;
+            this.IsContextFree = false;
+            this.Precedence = 50;
 
             _terminatorForTo = new Dictionary<Token, bool>();
             _terminatorForTo[Tokens.ToIdentifier("to")] = true;

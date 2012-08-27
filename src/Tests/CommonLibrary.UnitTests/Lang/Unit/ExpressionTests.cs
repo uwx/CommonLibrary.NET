@@ -194,10 +194,10 @@ namespace ComLib.Lang.Tests.Unit
             Expr expr = isConst
                             ? (Expr)new ConstantExpr(val)
                             : (Expr)new VariableExpr(val.ToString());
-            var exp = new AssignStmt(true, name, expr);
+            var exp = new AssignExpr(true, name, expr);
             expr.Ctx = ctx;
             exp.Ctx = ctx;
-            exp.Execute();
+            exp.Evaluate();
             Assert.AreEqual(expected, memory.Get<object>(name));
         }
     }

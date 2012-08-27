@@ -125,7 +125,6 @@ namespace ComLib.Lang.Extensions
         {
             this.StartTokens = new string[] { "@" };
             this.IsStatement = true;
-            this.IsTerminatorSupported = true;
         }
 
 
@@ -189,8 +188,12 @@ namespace ComLib.Lang.Extensions
             var marker = _tokenIt.NextToken.Token.Text;
             _tokenIt.Advance();
 
+            // 3. Literal string.
             var current = _tokenIt.NextToken.Token;
             _tokenIt.Advance();
+
+            if (_tokenIt.IsExplicitEndOfStmt())
+                _tokenIt.ExpectEndOfStmt();
             return new MarkerExpr(marker, current.Text);
         }
     }

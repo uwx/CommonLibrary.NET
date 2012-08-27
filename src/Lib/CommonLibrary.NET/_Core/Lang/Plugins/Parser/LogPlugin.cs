@@ -127,11 +127,11 @@ namespace ComLib.Lang.Extensions
         public LogPlugin(Action<int, string, LError> callback)
         {
             _callback = callback;
-            _startTokens = new string[]{ "log", "put", "fatal", "error", "warn", "info", "debug" };
-            IsAutoMatched = true;
-            IsStatement = true;
-            _handleNewLineAsEndOfExpression = true;
-            Precedence = 100;
+            this.StartTokens = new string[]{ "log", "put", "fatal", "error", "warn", "info", "debug" };
+            this.IsAutoMatched = true;
+            this.IsStatement = true;
+            this.IsEndOfStatementRequired = true;
+            this.Precedence = 100;
         }
 
 

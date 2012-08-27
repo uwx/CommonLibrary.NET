@@ -79,7 +79,7 @@ namespace ComLib.Lang
             this.IsCodeBlockSupported = isCodeBlockSupported;
             this.IsStatement = true;
             this.IsSystemLevel = true;
-            this.IsTerminatorSupported = isTerminatorSupported;
+            this.IsEndOfStatementRequired = isTerminatorSupported;
             this.IsAutoMatched = true;
         }
 
@@ -96,7 +96,7 @@ namespace ComLib.Lang
             this.IsCodeBlockSupported = isCodeBlockSupported;
             this.IsStatement = false;
             this.IsSystemLevel = true;
-            this.IsTerminatorSupported = isTerminatorSupported;
+            this.IsEndOfStatementRequired = isTerminatorSupported;
             this.IsAutoMatched = true;
         }
 
@@ -132,6 +132,12 @@ namespace ComLib.Lang
 
 
         /// <summary>
+        /// Whether or not this plugin supports assignments
+        /// </summary>
+        public bool IsAssignmentSupported { get; set; }
+
+
+        /// <summary>
         /// Whether or not a codeblock is supported.
         /// </summary>
         public bool IsCodeBlockSupported { get; set; }
@@ -140,7 +146,7 @@ namespace ComLib.Lang
         /// <summary>
         /// Whether or not a terminator is supported.
         /// </summary>
-        public bool IsTerminatorSupported { get; set; }
+        public bool IsEndOfStatementRequired { get; set; }
 
 
         /// <summary>

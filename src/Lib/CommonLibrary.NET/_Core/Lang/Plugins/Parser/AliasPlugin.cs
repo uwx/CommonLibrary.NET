@@ -33,7 +33,7 @@ namespace ComLib.Lang.Extensions
         {
             this.StartTokens = new string[] { "alias" };
             this.IsStatement = true; 
-            this.IsTerminatorSupported = true;
+            this.IsEndOfStatementRequired = true;
             this.IsAutoMatched = true;
         }
 

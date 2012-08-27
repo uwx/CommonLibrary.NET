@@ -132,9 +132,10 @@ namespace ComLib.Lang.Extensions
         /// </summary>
         public FluentMemberPlugin(bool enableMethodPartMatching)
         {
-            Precedence = 200;
-            IsStatement = true;
-            _startTokens = _tokens;
+            this.Precedence = 200;
+            this.IsStatement = true;
+            this.StartTokens = _tokens;
+            this.IsAssignmentSupported = true;
         }
 
 

@@ -473,6 +473,8 @@ namespace ComLib.Lang.Tests.Component
             var statements = new List<Tuple<string, Type, object, string>>()
             {
                 new Tuple<string,Type, object, string>("result", typeof(double), 2,  "var result = 1; @todo 'needs some changes' result = 2;"),
+                new Tuple<string,Type, object, string>("result", typeof(double), 2,  "var result = 1; @note 'needs some changes'; result = 2;"),
+                new Tuple<string,Type, object, string>("result", typeof(double), 2,  "var result = 1; @bug 'needs some changes'\r\n result = 2;")
                 
             };
             Parse(statements, true, i =>

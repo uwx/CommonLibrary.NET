@@ -44,12 +44,14 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
+            FluentTests(); 
             Combinator_Tests();
+            Semantic_Tests();
             Lang_Script_Tests();
             System_Control_Flow();
             Lang_Type_Tests(); 
             UnitTests();
-            FluentTests();            
+            
         }
 
 
@@ -179,6 +181,7 @@ namespace ComLib.Samples
         static void FluentTests()
         {
             var tests = new Fluent_Call_Tests();
+            tests.Can_Use_Fluent_Member_Set_Property();
             tests.Can_Handle_Ambiguity();
             tests.Can_Call_Function_With_Named_Fluent_Parameters();
             tests.Can_Call_Function_With_Named_Parameters();
@@ -349,9 +352,9 @@ namespace ComLib.Samples
         static void Combinator_Integration_Tests()
         {
             var ci = new Plugin_Integration_Positives();
+            ci.Can_Use_Units();
             ci.Can_Use_Repeat_Plugin();
             ci.Can_Use_Const_Plugin();
-            ci.Can_Use_Units();
             ci.Can_Use_Linq_Plugin();
             ci.Can_Use_Suffix();
             ci.Can_Use_Sort_With_Set();
@@ -374,6 +377,9 @@ namespace ComLib.Samples
         {            
             var c = new Plugin_Component_Positives();
 
+            c.Can_Use_Marker_Plugin();
+            c.Can_Use_Repeat_Plugin();
+            c.Can_Use_Swap_Plugin();
             c.Can_Use_TypeOps_Plugin();
             c.Can_Use_Env_Plugin();
             c.Can_Use_DateNumber_Plugin();
@@ -528,9 +534,15 @@ namespace ComLib.Samples
         }
 
 
+        static void Semantic_Tests()
+        {
+            var s = new SemActs_Tests();
+            s.Can_Validate_Division_By_Zero();
+        }
+
         static void Lang_Script_Tests()
         {
-            Lang_Script_Errors();
+            //Lang_Script_Errors();
             var ta = new Script_Tests_Assignment();
             var tf = new Script_Tests_Functions();
             
@@ -545,6 +557,21 @@ namespace ComLib.Samples
             var tmem = new Script_Tests_Memory();
             var tcs = new Script_Tests_CSharp_Integration();
             var tcb = new Script_Tests_Blocks();
+
+            tcb.Can_Use_Non_Nested_BlockStatements();
+                
+            ta.Can_Do_Single_Assignment_Constant_Expressions();
+            ta.Can_Do_Complex_Addition_On_Mixed_Types();
+            ta.Can_Do_Single_Assignment_Constant_Math_Expressions();
+            ta.Can_Do_Unary_Expressions();
+            ta.Can_Do_Single_Assignment_Constant_Math_Expressions_With_Precendence();
+            ta.Can_Do_Single_Assignment_Constant_Math_Expressions_With_Precendence_With_Parenthesis();
+            ta.Can_Handle_Escape_Chars_InString();
+            ta.Can_Do_Single_Assignment_Constant_Logical_Expressions();
+            ta.Can_Do_Single_Assignment_Constant_Math_Expressions_With_Mixed_Types();
+            ta.Can_Do_Multiple_Assignment_Expressions();
+            ta.Can_Do_Multiple_Assignment_Constant_Expressions_In_Same_Line();
+            
 
             tp.Can_Do_MultiLine_Conditions();
 
@@ -578,17 +605,6 @@ namespace ComLib.Samples
             tco.Can_Create_Custom_Object_Via_Different_Constructors();
             tco.Can_Access_Custom_Object_Instance_Properties();
                                      
-            ta.Can_Do_Single_Assignment_Constant_Expressions();
-            ta.Can_Do_Complex_Addition_On_Mixed_Types();
-            ta.Can_Do_Single_Assignment_Constant_Math_Expressions();
-            ta.Can_Do_Unary_Expressions();
-            ta.Can_Do_Single_Assignment_Constant_Math_Expressions_With_Precendence();
-            ta.Can_Do_Single_Assignment_Constant_Math_Expressions_With_Precendence_With_Parenthesis();
-            ta.Can_Handle_Escape_Chars_InString();
-            ta.Can_Do_Single_Assignment_Constant_Logical_Expressions();
-            ta.Can_Do_Single_Assignment_Constant_Math_Expressions_With_Mixed_Types();
-            ta.Can_Do_Multiple_Assignment_Expressions();
-            ta.Can_Do_Multiple_Assignment_Constant_Expressions_In_Same_Line();
             
 
             tmem.Can_Pop_Memory();

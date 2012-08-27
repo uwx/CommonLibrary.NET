@@ -1377,8 +1377,13 @@ namespace ComLib.Lang.Tests.Integration.System
             };
             Parse(statements, true, i =>
             {
-                i.Context.Callbacks.Subscribe("statement-on-after-execute", (sender, node) => statementCount++);
-                i.Context.Callbacks.Subscribe("expression-on-after-execute", (sender, node) => expressionCount++);
+                i.Context.Callbacks.Subscribe("expression-on-after-execute", (sender, node) => 
+                {
+                    if (node is IfExpr || node is AssignExpr)
+                        statementCount++;
+                    else 
+                        expressionCount++;
+                });
             }, onNewScript: () => { statementCount = 0; expressionCount = 0; });
             Assert.AreEqual(statementCount, 4);
             Assert.AreEqual(expressionCount, 6);

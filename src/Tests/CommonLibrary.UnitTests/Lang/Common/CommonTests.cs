@@ -349,8 +349,6 @@ namespace ComLib.Lang.Tests.Common
             RequiredPlugins = new[] { typeof(RepeatPlugin) },
             Positive = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string, Type, object, string>("result", typeof(double), 26, "result = 0; var a = 18; var b = 30; var c = 4; repeat ndx = a to < b by c { result = ndx; }"),
-
                 new Tuple<string, Type, object, string>("result", typeof(double), 10, "result = 0; repeat to 10                 { result = it;  }"),
                 new Tuple<string, Type, object, string>("result", typeof(double), 9,  "result = 0; repeat to 10 by 2            { result = it;  }"),
                 new Tuple<string, Type, object, string>("result", typeof(double), 9,  "result = 0; repeat to < 10               { result = it;  }"),
@@ -370,6 +368,8 @@ namespace ComLib.Lang.Tests.Common
                 new Tuple<string, Type, object, string>("result", typeof(double), 22, "result = 0; repeat ndx = 12 to 22 by 2   { result = ndx; }"),
                 new Tuple<string, Type, object, string>("result", typeof(double), 24, "result = 0; repeat ndx = 14 to < 25      { result = ndx; }"),
                 new Tuple<string, Type, object, string>("result", typeof(double), 26, "result = 0; repeat ndx = 18 to < 30 by 4 { result = ndx; }"),
+
+                new Tuple<string, Type, object, string>("result", typeof(double), 26, "result = 0; var a = 18; var b = 30; var c = 4; repeat ndx = a to < b by c { result = ndx; }"),
 
                 
             }

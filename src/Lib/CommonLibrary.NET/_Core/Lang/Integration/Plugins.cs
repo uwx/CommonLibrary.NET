@@ -322,6 +322,7 @@ namespace ComLib.Lang
             _totalExpPlugins++;
 
             var tokens = plugin.StartTokens;
+            // Case 1: Postfix plugin - single start token
             if (tokens.Length == 1 && tokens[0] == "$Suffix")
             {
                 AddPlugin(_postfixPlugins, plugin, "$Suffix", sort);
@@ -329,10 +330,14 @@ namespace ComLib.Lang
             }
             else
             {
+                // Case 2: Expression plugin
                 foreach (var token in tokens)
                 {
                     AddPlugin(_expPlugins, plugin, token, sort);
-                    if (plugin.IsStatement)
+                    if (plugin.IsSystemLevel)
+                        AddPlugin(_sysStmtPlugins, plugin, token, sort);
+
+                    else if(plugin.IsStatement)
                         AddPlugin(_expStmtPlugins, plugin, token, sort);
 
                     if (token == "$NumericLiteralToken")

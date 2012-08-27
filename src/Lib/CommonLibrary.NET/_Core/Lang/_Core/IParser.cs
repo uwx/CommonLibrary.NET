@@ -196,9 +196,15 @@ namespace ComLib.Lang
 
 
         /// <summary>
+        /// Whether or not assignment is supported by this plugin.
+        /// </summary>
+        bool IsAssignmentSupported { get; }
+        
+
+        /// <summary>
         /// Whether or not a termninator is supported
         /// </summary>
-        bool IsTerminatorSupported { get; }
+        bool IsEndOfStatementRequired { get; }
 
 
         /// <summary>

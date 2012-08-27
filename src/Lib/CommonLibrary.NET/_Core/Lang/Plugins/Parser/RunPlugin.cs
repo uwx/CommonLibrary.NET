@@ -59,9 +59,11 @@ namespace ComLib.Lang.Extensions
         /// </summary>
         public RunPlugin()
         {
-            IsStatement = true;
-            IsAutoMatched = true;
-            _startTokens = _tokens;
+            this.IsStatement = true;
+            this.IsAutoMatched = true;
+            this.StartTokens = _tokens;
+            this.IsEndOfStatementRequired = true;
+
         }
 
 

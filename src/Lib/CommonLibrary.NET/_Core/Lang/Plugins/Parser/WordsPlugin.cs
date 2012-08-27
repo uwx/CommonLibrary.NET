@@ -35,8 +35,9 @@ namespace ComLib.Lang.Extensions
         /// </summary>
         public WordsPlugin()
         {
-            IsStatement = true;
-            _startTokens = _tokens;
+            this.StartTokens = _tokens; 
+            this.IsStatement = true;
+            this.IsEndOfStatementRequired = true;
         }
 
 

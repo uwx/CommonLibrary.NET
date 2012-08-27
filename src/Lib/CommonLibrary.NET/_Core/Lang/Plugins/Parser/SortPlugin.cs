@@ -60,6 +60,7 @@ namespace ComLib.Lang.Extensions
             this.IsAutoMatched = true;
             this.IsStatement = true;
             this.IsContextFree = false;
+            this.IsEndOfStatementRequired = true;
         }
 
 

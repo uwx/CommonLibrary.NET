@@ -22,15 +22,18 @@ namespace ComLib.Lang.Tests.Unit
             var semacts = new SemActs();
             var a = new VariableExpr("a");
             a.Ref = new ScriptRef("", 1, 1);
-
+            a.SymScope = symScope.Current;
+            
             var zero = new ConstantExpr(0);
             zero.Ref = new ScriptRef("", 1, 5);
+            zero.SymScope = symScope.Current;
 
             var divExpr = new BinaryExpr(a, Operator.Divide, zero);
-            var assignStmt = new AssignStmt(true, new VariableExpr("result"), divExpr);
-            assignStmt.SymScope = symScope.Current;
-            var stmts = new List<Stmt>();
-            stmts.Add(assignStmt);
+            divExpr.SymScope = symScope.Current;
+            var assignExpr = new AssignExpr(true, new VariableExpr("result"), divExpr);
+            assignExpr.SymScope = symScope.Current;
+            var stmts = new List<Expr>();
+            stmts.Add(assignExpr);
 
             bool success = semacts.Validate(stmts);
             var results = semacts.Results;
@@ -44,20 +47,25 @@ namespace ComLib.Lang.Tests.Unit
         [Test]
         public void Can_Validate_Variable_Does_Not_Exist()
         {
+            var symScope = new Symbols();
+            symScope.DefineVariable("result");
+            
             var semacts = new SemActs();
             var a = new VariableExpr("a");
             a.Ref = new ScriptRef("", 1, 1);
-
+            a.SymScope = symScope.Current;
+            
             var zero = new ConstantExpr(2);
             zero.Ref = new ScriptRef("", 1, 5);
+            zero.SymScope = symScope.Current;
 
-            var symScope = new Symbols();
-            symScope.DefineVariable("result");
             var divExpr = new BinaryExpr(a, Operator.Divide, zero);
-            var assignStmt = new AssignStmt(true, new VariableExpr("result"), divExpr);
-            assignStmt.SymScope = symScope.Current;
-            var stmts = new List<Stmt>();
-            stmts.Add(assignStmt);
+            divExpr.SymScope = symScope.Current;
+
+            var assignExpr = new AssignExpr(true, new VariableExpr("result"), divExpr);
+            assignExpr.SymScope = symScope.Current;
+            var stmts = new List<Expr>();
+            stmts.Add(assignExpr);
 
             bool success = semacts.Validate(stmts);
             var results = semacts.Results;
