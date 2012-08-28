@@ -94,9 +94,8 @@ namespace ComLib.Lang.Extensions
             var result = FluentHelper.MatchFunctionName(_parser.Context.Symbols, _parser.Context.ExternalFunctions, ids);
             
             _tokenIt.Advance(result.TokenCount);
-            var exp = new FunctionCallExpr();
-            exp.NameExp = new VariableExpr(result.Name);
-            _parser.ParseParameters(exp, false, false, true);
+            var nameExp = new VariableExpr(result.Name);
+            var exp = _parser.ParseFuncExpression(nameExp);
             return exp;
         }
     }

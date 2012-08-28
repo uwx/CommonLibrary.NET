@@ -44,8 +44,8 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            Combinator_Tests();
             FluentTests();
+            Combinator_Tests();
             Semantic_Tests();
             Lang_Script_Tests();
             System_Control_Flow();
@@ -181,6 +181,7 @@ namespace ComLib.Samples
         static void FluentTests()
         {
             var tests = new Fluent_Call_Tests();
+            tests.Can_Call_MultiWord_Function_With_Underscores();
             tests.Can_Call_MultiWord_Function_With_CamelCasing();
             tests.Can_Use_Fluent_Member_Set_Property();
             tests.Can_Handle_Ambiguity();
