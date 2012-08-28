@@ -29,15 +29,13 @@ namespace ComLib.Lang.Tests.Integration
             var func = "function order( index, amount, of, at, on, using ) { var args = [amount, of, at, on, using]; return args[index]; }";
             var statements = new List<Tuple<string, Type, object, string>>()
             {   
-                new Tuple<string, Type, object, string>( "result", typeof(object), LNull.Instance,     func + "result = order( 0, amount: null, of: 'ibm', at: $45.50, on: Aug 2nd 2012 at 9:30 am, using: 'default pricing' )"),
-                new Tuple<string, Type, object, string>( "result", typeof(object), LNull.Instance,     func + "result = order( 1, 300, null, at: $45.50, on: Aug 2nd 2012 at 9:30 am, using: 'default pricing' )"),
-                
-                
-                new Tuple<string, Type, object, string>( "result", typeof(double), 300,     func + "result = order( 0, amount: 300, of: 'ibm', at: $45.50, on: Aug 2nd 2012 at 9:30 am, using: 'default pricing' )"),
-                new Tuple<string, Type, object, string>( "result", typeof(string), "ibm",   func + "result = order( 1, 300, of: 'ibm', at: $45.50, on: Aug 2nd 2012 at 9:30 am, using: 'default pricing' )"),
-                new Tuple<string, Type, object, string>( "result", typeof(double), 45.50,   func + "result = order( 2, 300, 'ibm', at: $45.50, on: Aug 2nd 2012 at 9:30 am, using: 'default pricing' )"),
-                new Tuple<string, Type, object, string>( "result", typeof(DateTime), dt,    func + "result = order( 3, 300, 'ibm', $45.50, on: Aug 2nd 2012 at 9:30 am, using: 'default pricing' )"),
-                new Tuple<string, Type, object, string>( "result", typeof(string), pricing, func + "result = order( 4, 300, 'ibm', $45.50, Aug 2nd 2012 at 9:30 am, using: 'default pricing' )")
+                new Tuple<string, Type, object, string>( "result", typeof(object), LNull.Instance,      func + "result = order( 0, amount: null, of: 'ibm', at: $45.50, on: Aug 2nd 2012 at 9:30 am, using: 'default pricing' )"),
+                new Tuple<string, Type, object, string>( "result", typeof(object), LNull.Instance,      func + "result = order( 1, 300, null, at: $45.50, on: Aug 2nd 2012 at 9:30 am, using: 'default pricing' )"),
+                new Tuple<string, Type, object, string>( "result", typeof(double), 300,                 func + "result = order( 0, amount: 300, of: 'ibm', at: $45.50, on: Aug 2nd 2012 at 9:30 am, using: 'default pricing' )"),
+                new Tuple<string, Type, object, string>( "result", typeof(string), "ibm",               func + "result = order( 1, 300, of: 'ibm', at: $45.50, on: Aug 2nd 2012 at 9:30 am, using: 'default pricing' )"),
+                new Tuple<string, Type, object, string>( "result", typeof(double), 45.50,               func + "result = order( 2, 300, 'ibm', at: $45.50, on: Aug 2nd 2012 at 9:30 am, using: 'default pricing' )"),
+                new Tuple<string, Type, object, string>( "result", typeof(DateTime), dt,                func + "result = order( 3, 300, 'ibm', $45.50, on: Aug 2nd 2012 at 9:30 am, using: 'default pricing' )"),
+                new Tuple<string, Type, object, string>( "result", typeof(string), pricing,             func + "result = order( 4, 300, 'ibm', $45.50, Aug 2nd 2012 at 9:30 am, using: 'default pricing' )")
             };
             Parse(statements, true, i => i.Context.Plugins.RegisterAll());
         }
@@ -92,7 +90,57 @@ namespace ComLib.Lang.Tests.Integration
 
 
         [Test]
-        public void Can_Call_MultiWord_Function()
+        public void Can_Call_Function_With_WildCard()
+        {
+            var func = "function 'find user by' * ( fname, parts, args) { return fname + ' ' + parts[args[0]] + ' ' + args[1]; } ";
+            var statements = new List<Tuple<string, Type, object, string>>()
+            {
+                new Tuple<string,Type, object, string>("result", typeof(string), "name name fluent", func + "result = find user by name ( 0, 'fluent' ); "),
+                new Tuple<string,Type, object, string>("result", typeof(string), "name group group doctor", func + "result = find user by name group ( 1, 'doctor' ); "),
+                new Tuple<string,Type, object, string>("result", typeof(string), "name group level group senior", func + "result = find user by name group level ( 1, 'senior', 'marketer' ); ")
+            };
+            Parse(statements, true, i => i.Context.Plugins.Register(new FuncWildCardPlugin()));
+        }        
+
+
+        [Test]
+        public void Can_Call_MultiWord_Function_With_Underscores()
+        {
+            var func = "function order_to_buy, order_to_purchase( shares ) { return shares + ' shares'; }";
+            var statements = new List<Tuple<string, Type, object, string>>()
+            {
+                new Tuple<string,Type, object, string>("result", typeof(string), "3 shares", func + " var result = order to buy( 3 )"),
+                new Tuple<string,Type, object, string>("result", typeof(string), "3 shares", func + " var result = order to purchase( 3 )"),
+                new Tuple<string,Type, object, string>("result", typeof(string), "3 shares", func + " var result = order to buy 3")
+            };
+            Parse(statements, true, i =>
+            {
+                i.Context.Plugins.RegisterAll();
+                i.Context.Types.Register(typeof(User), null);
+            });
+        }
+
+
+        [Test]
+        public void Can_Call_MultiWord_Function_With_Underscores_With_String_Literals()
+        {
+            var func = "function 'order_to_buy', 'order_to_purchase'( shares ) { return shares + ' shares'; }";
+            var statements = new List<Tuple<string, Type, object, string>>()
+            {
+                new Tuple<string,Type, object, string>("result", typeof(string), "3 shares", func + " var result = order to buy( 3 )"),
+                new Tuple<string,Type, object, string>("result", typeof(string), "3 shares", func + " var result = order to purchase( 3 )"),
+                new Tuple<string,Type, object, string>("result", typeof(string), "3 shares", func + " var result = order to buy 3")
+            };
+            Parse(statements, true, i =>
+            {
+                i.Context.Plugins.RegisterAll();
+                i.Context.Types.Register(typeof(User), null);
+            });
+        }
+
+
+        [Test]
+        public void Can_Call_MultiWord_Function_With_Spaces_With_String_Literals()
         {
             var func = "function 'order to buy', 'order to purchase'( shares ) { return shares + ' shares'; }";
             var statements = new List<Tuple<string, Type, object, string>>()
@@ -110,23 +158,9 @@ namespace ComLib.Lang.Tests.Integration
 
 
         [Test]
-        public void Can_Call_Function_With_WildCard()
+        public void Can_Call_MultiWord_Function_With_CamelCasing()
         {
-            var func = "function 'find user by' * ( fname, parts, args) { return fname + ' ' + parts[args[0]] + ' ' + args[1]; } ";
-            var statements = new List<Tuple<string, Type, object, string>>()
-            {
-                new Tuple<string,Type, object, string>("result", typeof(string), "name name fluent", func + "result = find user by name ( 0, 'fluent' ); "),
-                new Tuple<string,Type, object, string>("result", typeof(string), "name group group doctor", func + "result = find user by name group ( 1, 'doctor' ); "),
-                new Tuple<string,Type, object, string>("result", typeof(string), "name group level group senior", func + "result = find user by name group level ( 1, 'senior', 'marketer' ); ")
-            };
-            Parse(statements, true, i => i.Context.Plugins.Register(new FuncWildCardPlugin()));
-        }
-
-
-        [Test]
-        public void Can_Call_MultiWord_Function_Via_Replacing_Spaces_With_Underscores()
-        {
-            var func = "function 'order_to_buy', 'order_to_purchase'( shares ) { return shares + ' shares'; }";
+            var func = "function orderToBuy, orderToPurchase( shares ) { return shares + ' shares'; }";
             var statements = new List<Tuple<string, Type, object, string>>()
             {
                 new Tuple<string,Type, object, string>("result", typeof(string), "3 shares", func + " var result = order to buy( 3 )"),

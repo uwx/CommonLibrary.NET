@@ -551,9 +551,45 @@ namespace ComLib.Lang
             // Build up the word until , is hit.
             while (ahead.Token.Kind == TokenKind.Ident)
             {
+                total++;                
+                combinedWord += " " + ahead.Token.Text;
+                possibleWords.Add(combinedWord);                
+                ahead = Peek(total, false);
+            }
+            return possibleWords;
+        }
+
+
+        /// <summary>
+        /// Gets a list of consequtive id tokens appended to form potential names.
+        /// e.g. [ "refill", "refill inventory" ]
+        /// </summary>
+        public List<Tuple2<string, int>> PeekConsequetiveIdsAppendedWithTokenCounts(bool enableCamelCasingAsSeparateWords)
+        {
+            int total = 1;
+            var currentWord = NextToken.Token.Text;
+            var ahead = Peek(1, false);
+
+            var possibleWords = new List<Tuple2<string, int>>();
+            possibleWords.Add(new Tuple2<string, int>(currentWord, total));
+            var combinedWord = currentWord;
+            var camelCasedWord = currentWord;
+
+            // Build up the word until , is hit.
+            while (ahead.Token.Kind == TokenKind.Ident)
+            {
                 total++;
                 combinedWord += " " + ahead.Token.Text;
-                possibleWords.Add(combinedWord);
+                possibleWords.Add(new Tuple2<string, int>(combinedWord, total));
+                if (enableCamelCasingAsSeparateWords)
+                {
+                    var tokenText = ahead.Token.Text;
+                    string upperWord = Char.ToUpper(tokenText[0]).ToString();
+                    if (tokenText.Length > 1)
+                        upperWord += tokenText.Substring(1);
+                    camelCasedWord += upperWord;
+                    possibleWords.Add(new Tuple2<string, int>(camelCasedWord, total));
+                }
                 ahead = Peek(total, false);
             }
             return possibleWords;

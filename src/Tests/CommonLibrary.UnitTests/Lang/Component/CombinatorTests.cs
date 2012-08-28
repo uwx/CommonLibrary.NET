@@ -395,7 +395,7 @@ namespace ComLib.Lang.Tests.Component
         public void Can_Use_Env_Plugin()
         {
             var computer = System.Environment.GetEnvironmentVariable("computername");
-            System.Environment.SetEnvironmentVariable("custom1", "1234", EnvironmentVariableTarget.User);
+            //System.Environment.SetEnvironmentVariable("custom1", "1234", EnvironmentVariableTarget.User);
             var statements = new List<Tuple<string, Type, object, string>>()
             {
                 new Tuple<string,Type, object, string>("a", typeof(string), computer, "var a = env.computername;"),               

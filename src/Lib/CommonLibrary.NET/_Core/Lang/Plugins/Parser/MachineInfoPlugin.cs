@@ -40,25 +40,25 @@ namespace ComLib.Lang.Extensions
     /// Combinator for handling days of the week.
     /// </summary>
     public class MachineInfoPlugin : ExprPlugin
-    {
-        private static IDictionary<string, Func<string>> _map;
+    {        
+        private static IDictionary<string, bool> _map;
 
 
         static MachineInfoPlugin()
         {
-            _map = new Dictionary<string, Func<string>>();
-            _map["machine"] = () => Environment.MachineName;
-            _map["domain"] = () => Environment.UserDomainName;
-            _map["user"] = () => Environment.UserName;
-            _map["cmdline"] = () => Environment.CommandLine;
-            _map["numprocs"] = () => Environment.ProcessorCount.ToString();
-            _map["osname"] = () => Environment.OSVersion.Platform.ToString();
-            _map["osversion"] = () => Environment.OSVersion.Version.ToString();
-            _map["osspack"] = () => Environment.OSVersion.ServicePack;
-            _map["sysdir"] = () => Environment.SystemDirectory;
-            _map["memory"] = () => Environment.WorkingSet.ToString();
-            _map["version"] = () => Environment.Version.ToString();
-            _map["currentdir"] = () => Environment.CurrentDirectory;
+            _map = new Dictionary<string, bool>();
+            _map["machine"]     = true;
+            _map["domain"]      = true;
+            _map["user"]        = true;
+            _map["cmdline"]     = true;
+            _map["numprocs"]    = true;
+            _map["osname"]      = true;
+            _map["osversion"]   = true;
+            _map["osspack"]     = true;
+            _map["sysdir"]      = true;
+            _map["memory"]      = true;
+            _map["version"]     = true;
+            _map["currentdir"]  = true;
         }
 
 
@@ -146,9 +146,56 @@ namespace ComLib.Lang.Extensions
             // Invalid property name?
             if (!_map.ContainsKey(propname))
                 throw _tokenIt.BuildSyntaxException("Unknown machine property : " + propname, propToken);
+                        
+            return new MachineInfoExpr(propname);
+        }
+    }
 
-            var val = _map[propname]();
-            return new ConstantExpr(val);
+
+    /// <summary>
+    /// Variable expression data
+    /// </summary>
+    public class MachineInfoExpr : Expr
+    {
+        private static IDictionary<string, Func<string>> _map;
+        private string _propName;
+
+        static MachineInfoExpr()
+        {
+            _map = new Dictionary<string, Func<string>>();
+            _map["machine"]     = () => Environment.MachineName;
+            _map["domain"]      = () => Environment.UserDomainName;
+            _map["user"]        = () => Environment.UserName;
+            _map["cmdline"]     = () => Environment.CommandLine;
+            _map["numprocs"]    = () => Environment.ProcessorCount.ToString();
+            _map["osname"]      = () => Environment.OSVersion.Platform.ToString();
+            _map["osversion"]   = () => Environment.OSVersion.Version.ToString();
+            _map["osspack"]     = () => Environment.OSVersion.ServicePack;
+            _map["sysdir"]      = () => Environment.SystemDirectory;
+            _map["memory"]      = () => Environment.WorkingSet.ToString();
+            _map["version"]     = () => Environment.Version.ToString();
+            _map["currentdir"]  = () => Environment.CurrentDirectory;
+        }
+
+        /// <summary>
+        /// Initialize.
+        /// </summary>
+        /// <param name="propname">The machine info property name.</param>
+        public MachineInfoExpr(string propname)
+        {
+            _propName = propname;
+        }
+
+
+        /// <summary>
+        /// Evaluate
+        /// </summary>
+        /// <returns></returns>
+        public override object DoEvaluate()
+        {
+            // No validation needed at this poin. The plugin checks if it's a valid prop name.
+            var result = _map[_propName]();
+            return result;
         }
     }
 }

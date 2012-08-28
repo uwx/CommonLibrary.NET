@@ -186,24 +186,53 @@ namespace ComLib.Lang.Extensions
         public override Expr Parse()
         {
             EnvToken token = _tokenIt.NextToken.Token as EnvToken;
-            string val = string.Empty;
-            ConstantExpr expr = null;
-
-            // Case 1: $env.sys.systemroot
-            // Case 2: $env.user.systemroot            
-            if (!string.IsNullOrEmpty(token.Scope))
-            {
-                EnvironmentVariableTarget target = (token.Scope == "sys")
-                                                 ? EnvironmentVariableTarget.Machine
-                                                 : EnvironmentVariableTarget.User;
-                val = System.Environment.GetEnvironmentVariable(token.VarName, target);
-                expr = new ConstantExpr(val);
-            }
-            // Case 3: $env.systemroot
-            val = System.Environment.GetEnvironmentVariable(token.VarName);
-            expr = new ConstantExpr(val);
+            var expr = new EnvExpr(token.Scope, token.VarName);
             _tokenIt.Advance();
             return expr;
+        }
+    }
+
+
+    /// <summary>
+    /// Variable expression data
+    /// </summary>
+    public class EnvExpr : Expr
+    {
+        private string _scope;
+        private string _varName;
+
+
+        /// <summary>
+        /// Initialize.
+        /// </summary>
+        /// <param name="scope">The scope of the environment variable : either "sys" or "user" or ""</param>
+        /// <param name="varName">The name of the envrionment variable</param>
+        public EnvExpr(string scope, string varName)
+        {
+            _scope = scope;
+            _varName = varName;
+        }
+
+
+        /// <summary>
+        /// Evaluate
+        /// </summary>
+        /// <returns></returns>
+        public override object DoEvaluate()
+        {
+            var val = "";
+            // Case 1: $env.sys.systemroot
+            // Case 2: $env.user.systemroot            
+            if (string.IsNullOrEmpty(_scope))
+            {
+                val = System.Environment.GetEnvironmentVariable(_varName);
+                return val;
+            }
+            EnvironmentVariableTarget target = (_scope == "sys")
+                                                ? EnvironmentVariableTarget.Machine
+                                                : EnvironmentVariableTarget.User;
+            val = System.Environment.GetEnvironmentVariable(_varName, target);           
+            return val;
         }
     }
 }

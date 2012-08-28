@@ -149,7 +149,7 @@ namespace ComLib.Lang.Extensions
         /// Evaluate
         /// </summary>
         /// <returns></returns>
-        public override object Evaluate()
+        public override object DoEvaluate()
         {
             var result = _exp.Evaluate();
             double val = 0;

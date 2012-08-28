@@ -51,9 +51,6 @@ namespace ComLib.Lang.Extensions
     /// </summary>
     public class FluentFuncPlugin : ExprPlugin
     {
-        private static string[] _tokens = new string[] { "$IdToken" };        
-
-
         /// <summary>
         /// Initialize.
         /// </summary>
@@ -61,7 +58,7 @@ namespace ComLib.Lang.Extensions
         {
             Precedence = 100;
             IsStatement = true;
-            _startTokens = _tokens;
+            StartTokens = new string[] { "$IdToken" };
         }
 
 
@@ -80,7 +77,7 @@ namespace ComLib.Lang.Extensions
             // Check if multi-word function name.
             // e.g. "refill inventory"
             // 1. Is it a function call?
-            var ids = _tokenIt.PeekConsequetiveIdsAppended();
+            var ids = _tokenIt.PeekConsequetiveIdsAppendedWithTokenCounts(true);
             var result = FluentHelper.MatchFunctionName(_parser.Context.Symbols, _parser.Context.ExternalFunctions, ids);
             return result.Exists;
         }
@@ -93,7 +90,7 @@ namespace ComLib.Lang.Extensions
         public override Expr Parse()
         {
             // 1. Is it a function call?
-            var ids = _tokenIt.PeekConsequetiveIdsAppended();
+            var ids = _tokenIt.PeekConsequetiveIdsAppendedWithTokenCounts(true);
             var result = FluentHelper.MatchFunctionName(_parser.Context.Symbols, _parser.Context.ExternalFunctions, ids);
             
             _tokenIt.Advance(result.TokenCount);

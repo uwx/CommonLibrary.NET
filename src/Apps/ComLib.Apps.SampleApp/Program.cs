@@ -44,8 +44,8 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            FluentTests(); 
             Combinator_Tests();
+            FluentTests();
             Semantic_Tests();
             Lang_Script_Tests();
             System_Control_Flow();
@@ -181,6 +181,7 @@ namespace ComLib.Samples
         static void FluentTests()
         {
             var tests = new Fluent_Call_Tests();
+            tests.Can_Call_MultiWord_Function_With_CamelCasing();
             tests.Can_Use_Fluent_Member_Set_Property();
             tests.Can_Handle_Ambiguity();
             tests.Can_Call_Function_With_Named_Fluent_Parameters();
@@ -189,8 +190,6 @@ namespace ComLib.Samples
             tests.Can_Use_Fluent_Member_Set_Property();
             tests.Can_Use_Fluent_Member_Get_Property();
             tests.Can_Use_Fluent_Member_Method_Calls();            
-            tests.Can_Call_MultiWord_Function_Via_Replacing_Spaces_With_Underscores();
-            tests.Can_Call_MultiWord_Function();      
         }
 
 
@@ -292,8 +291,8 @@ namespace ComLib.Samples
 
         static void Combinator_Tests()
         {
-            Combinator_Integration_Tests();
             Combinator_Core_Tests();
+            Combinator_Integration_Tests();
             Combinator_System_Tests();
             FluentTests();
             Combinator_Integration_Failures();
@@ -377,6 +376,7 @@ namespace ComLib.Samples
         {            
             var c = new Plugin_Component_Positives();
 
+            c.Can_Use_Env_Plugin();
             c.Can_Use_Marker_Plugin();
             c.Can_Use_Repeat_Plugin();
             c.Can_Use_Swap_Plugin();
