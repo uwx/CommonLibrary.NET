@@ -259,6 +259,11 @@ namespace ComLib.Lang
                 // Case 3: user = -> assignment
                 var okToCheckPlugins = !IsExplicitIdentExpression(token);
 
+                // PREVENT PLUGIN TAKEOVER ON IDENT BASED ENDTOKENS
+                var next = _tokenIt.Peek();
+                if (enableIdentTokenTextAsEndToken && next.Token.Kind == TokenKind.Ident && identEndTokens.ContainsKey(next.Token.Text))
+                    okToCheckPlugins = false;
+
                 // Token replacements                
                 if (okToCheckPlugins && enablePlugins && hasTokenReplacePlugins && ( token.Kind == TokenKind.Ident )
                     && _context.Plugins.CanHandleTok(token, true))

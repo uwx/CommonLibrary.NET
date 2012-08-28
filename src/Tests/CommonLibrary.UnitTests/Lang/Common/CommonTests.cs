@@ -352,7 +352,7 @@ namespace ComLib.Lang.Tests.Common
                 new Tuple<string, Type, object, string>("result", typeof(double), 10, "result = 0; repeat to 10                 { result = it;  }"),
                 new Tuple<string, Type, object, string>("result", typeof(double), 9,  "result = 0; repeat to 10 by 2            { result = it;  }"),
                 new Tuple<string, Type, object, string>("result", typeof(double), 9,  "result = 0; repeat to < 10               { result = it;  }"),
-                new Tuple<string, Type, object, string>("result", typeof(double), 9,  "result = 0; repeat to < 10 by 2          { result = it;  }"), 
+                new Tuple<string, Type, object, string>("result", typeof(double), 9,  "result = 0; repeat to < 10 by 2          { result = it;  }"),
                                                                                                                      
                 new Tuple<string, Type, object, string>("result", typeof(double), 15, "result = 0; repeat 1 to 15               { result = it;  }"),
                 new Tuple<string, Type, object, string>("result", typeof(double), 14, "result = 0; repeat 2 to 15 by 2          { result = it;  }"),
@@ -369,9 +369,10 @@ namespace ComLib.Lang.Tests.Common
                 new Tuple<string, Type, object, string>("result", typeof(double), 24, "result = 0; repeat ndx = 14 to < 25      { result = ndx; }"),
                 new Tuple<string, Type, object, string>("result", typeof(double), 26, "result = 0; repeat ndx = 18 to < 30 by 4 { result = ndx; }"),
 
-                new Tuple<string, Type, object, string>("result", typeof(double), 26, "result = 0; var a = 18; var b = 30; var c = 4; repeat ndx = a to < b by c { result = ndx; }"),
-
-                
+                new Tuple<string, Type, object, string>("result", typeof(double), 26, "result = 0; var a = 18;                   var b = 30; var c = 4; repeat ndx = a to < b by c { result = ndx; }"),
+                new Tuple<string, Type, object, string>("result", typeof(double), 26, "result = 0; var a = [10, 18];             var b = 30; var c = 4; repeat ndx = a[1] to < b by c { result = ndx; }"),
+                new Tuple<string, Type, object, string>("result", typeof(double), 26, "result = 0; var a = { one: 10, two: 18};  var b = 30; var c = 4; repeat ndx = a.two to < b by c { result = ndx; }"),
+                new Tuple<string, Type, object, string>("result", typeof(double), 26, "result = 0; function getA(){ return 18; } var b = 30; var c = 4; repeat ndx = getA() to < b by c { result = ndx; }"),
             }
         };
 
