@@ -39,16 +39,12 @@ namespace ComLib.Lang.Extensions
     /// </summary>
     public class UnitsPlugin : ExprPlugin
     {
-        private static string[] _tokens = new string[] { "$Suffix" };
-
-
         /// <summary>
         /// Initialize
         /// </summary>
         public UnitsPlugin()
         {
-            _startTokens = _tokens;
-            IsStatement = true;
+            this.StartTokens = new string[] { "$Suffix" };
         }
 
 

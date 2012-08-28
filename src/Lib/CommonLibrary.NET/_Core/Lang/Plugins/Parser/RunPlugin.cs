@@ -51,9 +51,6 @@ namespace ComLib.Lang.Extensions
     /// </summary>
     public class RunPlugin : ExprPlugin
     {
-        private static string[] _tokens = new string[] { "run", "Run" };
-
-
         /// <summary>
         /// Initialize
         /// </summary>
@@ -61,7 +58,7 @@ namespace ComLib.Lang.Extensions
         {
             this.IsStatement = true;
             this.IsAutoMatched = true;
-            this.StartTokens = _tokens;
+            this.StartTokens = new string[] { "run", "Run" };
             this.IsEndOfStatementRequired = true;
 
         }

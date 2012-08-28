@@ -41,6 +41,7 @@ namespace ComLib.Lang.Extensions
         {
             this.StartTokens = new string[] { "$IdToken" };
             this.IsSystemLevel = true;
+            this.IsStatement = true;
             this.IsEndOfStatementRequired = true;
             this.Precedence = 1;
         }

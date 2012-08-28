@@ -31,8 +31,6 @@ namespace ComLib.Lang.Extensions
     /// </summary>
     public class RoundPlugin : ExprPlugin
     {
-        private static string[] _tokens = new string[] { "Round", "round" };
-
         /// <summary>
         /// How to round
         /// </summary>
@@ -62,9 +60,9 @@ namespace ComLib.Lang.Extensions
         /// </summary>
         public RoundPlugin()
         {
-            IsStatement = false;
-            IsAutoMatched = true;
-            _startTokens = _tokens;
+            this.IsStatement = false;
+            this.IsAutoMatched = true;
+            this.StartTokens = new string[] { "Round", "round" };
         }
 
 

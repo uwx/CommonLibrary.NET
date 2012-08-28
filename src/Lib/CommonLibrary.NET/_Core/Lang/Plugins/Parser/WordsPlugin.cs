@@ -27,15 +27,12 @@ namespace ComLib.Lang.Extensions
     /// </summary>
     public class WordsPlugin : ExprPlugin
     {
-        private static string[] _tokens = new string[] { "@" };
-
-
         /// <summary>
         /// Intialize.
         /// </summary>
         public WordsPlugin()
         {
-            this.StartTokens = _tokens; 
+            this.StartTokens = new string[] { "@" };
             this.IsStatement = true;
             this.IsEndOfStatementRequired = true;
         }
@@ -180,7 +177,7 @@ namespace ComLib.Lang.Extensions
                 return isWordReplacement;
             }
             bool found = false;
-            _possibleWords = _tokenIt.PeekConsequetiveIdsAppended();
+            _possibleWords = _tokenIt.PeekConsequetiveIdsAppended(_tokenIt.LLK);
 
             // Do a reverse check.
             // 1. Get consequetive id tokens.

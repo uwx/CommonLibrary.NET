@@ -1,7 +1,6 @@
-﻿// Grammer file for most ( not all ) of fluentscript syntax.
-// This file is used to auto-generate some of the code, which includes
-// 1. statment classes such as TryPlugin
-
+﻿// Grammer file for most ( not all ) of core fluentscript syntax.
+// This file is not used at the moment but eventually will be used
+// to generate SOME of the code
 // ******************************************************************************
 [TOKENS]
 Keywords			:   "var", "if", "while", "for", "switch", "try", 

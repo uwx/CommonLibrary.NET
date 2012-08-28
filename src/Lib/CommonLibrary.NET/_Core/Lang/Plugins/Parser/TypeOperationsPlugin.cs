@@ -51,8 +51,8 @@ namespace ComLib.Lang.Extensions
         /// </summary>
         public TypeOperationsPlugin()
         {
-            IsStatement = false;
-            IsAutoMatched = true;
+            this.IsStatement = false;
+            this.IsAutoMatched = true;
             _functionToTypeMap = new Dictionary<string, string>();
             var types = new string[] { "number", "bool", "date", "time", "string" };
             var functionnames = new List<string>();
@@ -67,7 +67,7 @@ namespace ComLib.Lang.Extensions
                 _functionToTypeMap["is_" + type + "_like"] = type;
                 _functionToTypeMap["to_" + type] = type;
             }
-            _startTokens = _functionToTypeMap.Keys.ToArray();
+            this.StartTokens = _functionToTypeMap.Keys.ToArray();
         }
 
 

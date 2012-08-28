@@ -23,15 +23,12 @@ namespace ComLib.Lang.Extensions
     /// </summary>
     public class MoneyPlugin : ExprPlugin
     {
-        private static string[] _tokens = new string[] { "$" };
-
-
         /// <summary>
         /// Initialize
         /// </summary>
         public MoneyPlugin()
         {
-            _startTokens = _tokens;
+            this.StartTokens = new string[] { "$" };
         }
 
 

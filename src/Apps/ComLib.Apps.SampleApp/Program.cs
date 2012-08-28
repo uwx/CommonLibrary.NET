@@ -44,8 +44,8 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            FluentTests();
             Combinator_Tests();
+            FluentTests();
             Semantic_Tests();
             Lang_Script_Tests();
             System_Control_Flow();
@@ -376,7 +376,7 @@ namespace ComLib.Samples
         static void Combinator_Core_Tests()
         {            
             var c = new Plugin_Component_Positives();
-
+            c.Can_Use_Sort_Plugin();
             c.Can_Use_Env_Plugin();
             c.Can_Use_Marker_Plugin();
             c.Can_Use_Repeat_Plugin();

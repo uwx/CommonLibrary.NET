@@ -37,8 +37,7 @@ namespace ComLib.Lang.Extensions
     /// Combinator for handling swapping of variable values. swap a and b.
     /// </summary>
     public class RecordsPlugin : ExprPlugin
-    {
-        private static string[] _tokens = new string[] { "[" };
+    {        
         private Dictionary<Token, bool> _endTokens;
 
 
@@ -52,9 +51,7 @@ namespace ComLib.Lang.Extensions
             _endTokens[Tokens.Comma] = true;
             _endTokens[Tokens.NewLine] = true;
             _endTokens[Tokens.RightBracket] = true;
-            IsStatement = true;
-            IsAutoMatched = true;
-            _startTokens = _tokens;
+            this.StartTokens = new string[] { "[" };
         }
 
 

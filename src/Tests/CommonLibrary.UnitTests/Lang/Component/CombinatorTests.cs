@@ -209,6 +209,13 @@ namespace ComLib.Lang.Tests.Component
 
 
         [Test]
+        public void Can_Use_Sort_Plugin()
+        {
+            RunTests(CommonTestCases_Plugins.Sort, _testType);
+        }
+
+
+        [Test]
         public void Can_Use_Time_Plugin()
         {
             RunTests(CommonTestCases_Plugins.Time, _testType);
@@ -510,7 +517,7 @@ namespace ComLib.Lang.Tests.Component
 
 
         [Test]
-        public void Can_Use_Sort_Plugin()
+        public void Can_Use_Sort_Plugin2()
         {
             var list1 = "var list = [4,    3,     1,     5,    2,     6   ];";
             var list2 = "var list = ['b',  'd',   'a',   'c',  'f',   'e' ];";
@@ -526,20 +533,19 @@ namespace ComLib.Lang.Tests.Component
 
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 3,     " var list = sort [2, 1, 4, 3] asc; var result = list[2];"),                
-                new Tuple<string,Type, object, string>("result", typeof(double), 1,     "var numbers = [2, 3, 1]; sort numbers asc; sort numbers desc; var result = numbers[2];"),                
-                new Tuple<string,Type, object, string>("result", typeof(double), 4,     list1 + " sort list asc; sort list desc; var result = list[2];"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 3,     list1 + " sort list asc;  var result = list[2];"),
-                new Tuple<string,Type, object, string>("result", typeof(string), "c",   list2 + " sort list asc;  var result = list[2];"),
-                new Tuple<string,Type, object, string>("result", typeof(bool),   false, list3 + " sort list asc;  var result = list[2];"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 3.2,   list4 + " sort list asc;  var result = list[2];"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 4,     list1 + " sort list desc; var result = list[2];"),
-                new Tuple<string,Type, object, string>("result", typeof(string), "d",   list2 + " sort list desc; var result = list[2];"),
-                new Tuple<string,Type, object, string>("result", typeof(bool),   true,  list3 + " sort list desc; var result = list[2];"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 4.1,   list4 + " sort list desc; var result = list[2];"),
-
-                new Tuple<string,Type, object, string>("result", typeof(double), 180,   items + " sort books by book.pages desc; var result = books[1].pages;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 120,   items + " sort books by book.pages asc;  var result = books[1].pages;")                
+                TestCase("result", typeof(double), 3,     " var list = sort [2, 1, 4, 3] asc; var result = list[2];"),                
+                TestCase("result", typeof(double), 1,     "var numbers = [2, 3, 1]; sort numbers asc; sort numbers desc; var result = numbers[2];"),                
+                TestCase("result", typeof(double), 4,     list1 + " sort list asc; sort list desc; var result = list[2];"),
+                TestCase("result", typeof(double), 3,     list1 + " sort list asc;  var result = list[2];"),
+                TestCase("result", typeof(string), "c",   list2 + " sort list asc;  var result = list[2];"),
+                TestCase("result", typeof(bool),   false, list3 + " sort list asc;  var result = list[2];"),
+                TestCase("result", typeof(double), 3.2,   list4 + " sort list asc;  var result = list[2];"),
+                TestCase("result", typeof(double), 4,     list1 + " sort list desc; var result = list[2];"),
+                TestCase("result", typeof(string), "d",   list2 + " sort list desc; var result = list[2];"),
+                TestCase("result", typeof(bool),   true,  list3 + " sort list desc; var result = list[2];"),
+                TestCase("result", typeof(double), 4.1,   list4 + " sort list desc; var result = list[2];"),
+                TestCase("result", typeof(double), 180,   items + " sort books by book.pages desc; var result = books[1].pages;"),
+                TestCase("result", typeof(double), 120,   items + " sort books by book.pages asc;  var result = books[1].pages;"),
             };
             Parse(statements, true, i =>
             {

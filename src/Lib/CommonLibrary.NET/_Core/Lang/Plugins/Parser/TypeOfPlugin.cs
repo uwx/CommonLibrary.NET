@@ -34,17 +34,14 @@ namespace ComLib.Lang.Extensions
     /// </summary>
     public class TypeOfPlugin : ExprPlugin
     {
-        private static string[] _tokens = new string[] { "typeof" };
-        
-
         /// <summary>
         /// Intialize.
         /// </summary>
         public TypeOfPlugin()
         {
-            IsStatement = false;
-            IsAutoMatched = true;
-            _startTokens = _tokens;
+            this.IsStatement = false;
+            this.IsAutoMatched = true;
+            this.StartTokens = new string[] { "typeof" };
         }
 
 

@@ -538,7 +538,7 @@ namespace ComLib.Lang
         /// Gets a list of consequtive id tokens appended to form potential names.
         /// e.g. [ "refill", "refill inventory" ]
         /// </summary>
-        public List<string> PeekConsequetiveIdsAppended()
+        public List<string> PeekConsequetiveIdsAppended(int maxTokenLookAhead)
         {
             int total = 1;
             var currentWord = NextToken.Token.Text;
@@ -549,7 +549,7 @@ namespace ComLib.Lang
             var combinedWord = currentWord;
 
             // Build up the word until , is hit.
-            while (ahead.Token.Kind == TokenKind.Ident)
+            while (ahead.Token.Kind == TokenKind.Ident && total < maxTokenLookAhead)
             {
                 total++;                
                 combinedWord += " " + ahead.Token.Text;

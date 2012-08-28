@@ -35,16 +35,13 @@ namespace ComLib.Lang.Extensions
     /// </summary>
     public class SuffixPlugin : ExprPlugin
     {
-        private static string[] _tokens = new string[] { "$Suffix" };
-
-
         /// <summary>
         /// Initialize
         /// </summary>
         public SuffixPlugin()
         {
-            _startTokens = _tokens;
-            IsStatement = true;
+            this.StartTokens = new string[] { "$Suffix" };
+            this.IsStatement = true;
         }
 
 

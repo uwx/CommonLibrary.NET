@@ -30,8 +30,7 @@ namespace ComLib.Lang.Extensions
     /// Combinator for handling comparisons.
     /// </summary>
     public class LinqPlugin : ExprPlugin
-    {
-        private static string[] _tokens = new string[] { "$IdToken", "select", "from", "where" };
+    {        
         private static IDictionary<Token, bool> _terminators;
 
 
@@ -56,9 +55,9 @@ namespace ComLib.Lang.Extensions
         /// </summary>
         public LinqPlugin()
         {
-            _startTokens = _tokens;
-            Precedence = 1;
-            IsContextFree = false;
+            this.StartTokens = new string[] { "$IdToken", "select", "from", "where" };
+            this.Precedence = 1;
+            this.IsContextFree = false;
         }
 
 

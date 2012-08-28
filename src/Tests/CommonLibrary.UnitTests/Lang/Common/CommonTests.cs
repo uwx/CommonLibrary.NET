@@ -442,6 +442,44 @@ namespace ComLib.Lang.Tests.Common
                 TestCase("result", typeof(string), "com", "set result = 1; function test()     { return 'com';      } result = test();")
             }
         };
+
+
+        /// <summary>
+        /// Test cases for the typeof plugin
+        /// </summary>
+        private static string Sort_books = "[	name	|	isactive	| pubdate	          |	pubtime	            |	totalpages  \r\n"
+                                                    + "'book 3',   true,		  new Date(2012, 8, 2),	new Time(9 , 30, 0) ,	130		\r\n"
+                                                    + "'book 2',   true,		  new Date(2012, 8, 2),	new Time(12, 30, 0) ,	110		\r\n"
+                                                    + "'book 1',   false,		  new Date(2012, 8, 2),	new Time(15, 30, 0) ,	140		\r\n"
+                                                    + "'book 4',   true,		  new Date(2012, 8, 2),	new Time(8 , 30, 0) ,	120		\r\n"
+                                                    + "]";
+        private static string Sort_books_var = "var books = " + Sort_books;
+        private static string Sort_map      = "var books = { popular: " + Sort_books + " };";
+        private static string Sort_list     = "var books = [ " + Sort_books + ", [ 0, 1 ] ]; ";
+        private static string Sort_func     = "function getbooks1(){ return " + Sort_books + "; }";
+        private static string Sort_funcmap  = "function getbooks2(){ return { popular: " + Sort_books + " }; }";
+        private static string Sort_funclist = "function getbooks3(){ return [ " + Sort_books + ", [ 0, 1 ] ]; }";
+        private static DateTime Sort_dt = new DateTime(2012, 8, 2);
+        private static TimeSpan Sort_ts = new TimeSpan(8, 30, 0);
+        public static TestCases Sort = new TestCases()
+        {
+            Name = "Sort Plugin",
+            RequiredPlugins = new[] { typeof(SortPlugin), typeof(RecordsPlugin) },
+            Positive = new List<Tuple<string, Type, object, string>>()
+            {
+                TestCase("result", typeof(string), 		"book 1", 	Sort_books_var + "; sort books by book.name asc      ; result = books[0].name"),
+                TestCase("result", typeof(bool),   		false,    	Sort_books_var + "; sort books by book.isactive asc  ; result = books[0].isactive"),
+                TestCase("result", typeof(double), 		110, 		Sort_books_var + "; sort books by book.totalpages asc; result = books[0].totalpages"),
+                TestCase("result", typeof(DateTime), 	Sort_dt,	Sort_books_var + "; sort books by book.pubdate asc   ; result = books[0].pubdate"),
+                TestCase("result", typeof(TimeSpan), 	Sort_ts, 	Sort_books_var + "; sort books by book.pubtime asc   ; result = books[0].pubtime"),
+                
+                TestCase("result", typeof(string), 		"book 1", 	Sort_map       + "\r\n sort book in books.popular by book.name asc      				;\r\n result = books.popular[0].name"),
+                TestCase("result", typeof(bool),   		false,    	Sort_list      + "\r\n sort book in books[0] by book.isactive asc  	 		;\r\n result = books[0][0].isactive"),
+                TestCase("result", typeof(double), 		110, 		Sort_func      + "\r\n sort book in getbooks1() by book.totalpages asc		;\r\n result = books[0].totalpages"),
+                TestCase("result", typeof(DateTime), 	Sort_dt,	Sort_funcmap   + "\r\n sort book in getbooks2().popular by book.pubdate asc  ;\r\n result = books[0].pubdate"),
+                TestCase("result", typeof(TimeSpan), 	Sort_ts, 	Sort_funclist  + "\r\n sort book in getbooks3()[0] by book.pubtime asc   	;\r\n result = books[0].pubtime"),
+            }
+        };
         
         
         /// <summary>

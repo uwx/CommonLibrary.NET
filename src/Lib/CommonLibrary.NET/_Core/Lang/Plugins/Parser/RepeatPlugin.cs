@@ -64,7 +64,6 @@ namespace ComLib.Lang.Extensions
     /// </summary>
     public class RepeatPlugin : ExprBlockPlugin
     {
-        private static string[] _tokens = new string[] { "repeat" };
         private static Dictionary<Token, bool> _terminatorForTo;
         private static Dictionary<Token, bool> _terminatorForBy;
 
@@ -73,7 +72,7 @@ namespace ComLib.Lang.Extensions
         /// </summary>
         public RepeatPlugin()
         {
-            this.StartTokens = _tokens;
+            this.StartTokens = new string[] { "repeat" };
             this.IsStatement = true;
             this.IsAutoMatched = true;
             this.IsContextFree = false;

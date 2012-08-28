@@ -58,18 +58,17 @@ namespace ComLib.Lang.Extensions
     /// </summary>
     public class FuncWildCardPlugin : ExprPlugin
     {
-        private static string[] _tokens = new string[] { "$IdToken" };        
-
+        private FunctionLookupResult _result;
 
         /// <summary>
         /// Initialize.
         /// </summary>
         public FuncWildCardPlugin()
         {
-            Precedence = 10;
-            IsStatement = true;
-            _startTokens = _tokens;
-            IsContextFree = false;
+            this.Precedence = 10;
+            this.IsStatement = true;
+            this.StartTokens = new string[] { "$IdToken" }; 
+            this.IsContextFree = false;
         }
 
 
@@ -87,10 +86,10 @@ namespace ComLib.Lang.Extensions
 
             // Check if multi-word function name.
             // e.g. "refill inventory"
-            // 1. Is it a function call?
-            var tokens = _tokenIt.PeekConsequetiveIdsAppended();
-            var result = FluentHelper.MatchFunctionWildCard(_parser.Context.Symbols, _parser.Context.Functions, tokens);
-            return result.Exists;
+            // 1. Is it a function call?            
+            var tokens = _tokenIt.PeekConsequetiveIdsAppended(_tokenIt.LLK);
+            _result = FluentHelper.MatchFunctionWildCard(_parser.Context.Symbols, _parser.Context.Functions, tokens);
+            return _result.Exists;
         }
 
 
@@ -101,11 +100,9 @@ namespace ComLib.Lang.Extensions
         public override Expr Parse()
         {
             // 1. Is it a function call?
-            var ids = _tokenIt.PeekConsequetiveIdsAppended();
-            var result = FluentHelper.MatchFunctionWildCard(_parser.Context.Symbols, _parser.Context.Functions, ids);
             var fnameToken = _tokenIt.NextToken;
 
-            _tokenIt.Advance(result.TokenCount + 1);
+            _tokenIt.Advance(_result.TokenCount + 1);
 
             string remainderOfFuncName = string.Empty;
             var parts = new List<Expr>();
@@ -160,7 +157,7 @@ namespace ComLib.Lang.Extensions
             {
                 _parser.ParseParameters(exp, true, false, false);
             }
-            exp.NameExp = new VariableExpr(result.Name);
+            exp.NameExp = new VariableExpr(_result.Name);
             
             // Have to restructure the arguments.
             // 1. const expr     , fullwildcard,   "name role"

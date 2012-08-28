@@ -25,16 +25,13 @@ namespace ComLib.Lang.Extensions
     /// </summary>
     public class PercentPlugin : ExprPlugin
     {
-        private static string[] _tokens = new string[] { "$Suffix" };
-
-
         /// <summary>
         /// Initialize
         /// </summary>
         public PercentPlugin()
         {
-            _startTokens = _tokens;
-            IsStatement = true;
+            this.StartTokens = new string[] { "$Suffix" };
+            this.IsStatement = true;
         }
 
 

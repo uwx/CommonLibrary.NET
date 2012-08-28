@@ -27,18 +27,15 @@ namespace ComLib.Lang.Extensions
     /// </summary>
     public class SwapPlugin : ExprPlugin
     {
-        private static string[] _tokens = new string[] { "swap", "Swap" };
-
-
         /// <summary>
         /// Intialize.
         /// </summary>
         public SwapPlugin()
         {
-            IsStatement = true;
-            IsEndOfStatementRequired = true;
-            IsAutoMatched = true;
-            _startTokens = _tokens;
+            this.IsStatement = true;
+            this.IsEndOfStatementRequired = true;
+            this.IsAutoMatched = true;
+            this.StartTokens = new string[] { "swap", "Swap" };
         }
 
 

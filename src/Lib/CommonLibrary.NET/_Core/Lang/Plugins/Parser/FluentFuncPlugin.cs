@@ -51,14 +51,17 @@ namespace ComLib.Lang.Extensions
     /// </summary>
     public class FluentFuncPlugin : ExprPlugin
     {
+        private FunctionLookupResult _result;
+
+
         /// <summary>
         /// Initialize.
         /// </summary>
         public FluentFuncPlugin()
         {
-            Precedence = 100;
-            IsStatement = true;
-            StartTokens = new string[] { "$IdToken" };
+            this.Precedence = 100;
+            this.IsStatement = true;
+            this.StartTokens = new string[] { "$IdToken" };
         }
 
 
@@ -78,8 +81,8 @@ namespace ComLib.Lang.Extensions
             // e.g. "refill inventory"
             // 1. Is it a function call?
             var ids = _tokenIt.PeekConsequetiveIdsAppendedWithTokenCounts(true);
-            var result = FluentHelper.MatchFunctionName(_parser.Context.Symbols, _parser.Context.ExternalFunctions, ids);
-            return result.Exists;
+            _result = FluentHelper.MatchFunctionName(_parser.Context.Symbols, _parser.Context.ExternalFunctions, ids);
+            return _result.Exists;
         }
 
 
@@ -90,11 +93,8 @@ namespace ComLib.Lang.Extensions
         public override Expr Parse()
         {
             // 1. Is it a function call?
-            var ids = _tokenIt.PeekConsequetiveIdsAppendedWithTokenCounts(true);
-            var result = FluentHelper.MatchFunctionName(_parser.Context.Symbols, _parser.Context.ExternalFunctions, ids);
-            
-            _tokenIt.Advance(result.TokenCount);
-            var nameExp = new VariableExpr(result.Name);
+            _tokenIt.Advance(_result.TokenCount);
+            var nameExp = new VariableExpr(_result.Name);
             var exp = _parser.ParseFuncExpression(nameExp);
             return exp;
         }

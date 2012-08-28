@@ -24,7 +24,6 @@ namespace ComLib.Lang.Extensions
     /// </summary>
     public class TimePlugin : ExprPlugin
     {
-        private static string[] _tokens = new string[] { "$NumberToken", "Noon", "noon", "midnight", "Midnight" };
         private static Dictionary<string, TimeSpan> _aliases;
 
         /// <summary>
@@ -45,7 +44,7 @@ namespace ComLib.Lang.Extensions
         /// </summary>
         public TimePlugin()
         {
-            _startTokens = _tokens;
+            this.StartTokens = new string[] { "$NumberToken", "Noon", "noon", "midnight", "Midnight" };
         }
 
 

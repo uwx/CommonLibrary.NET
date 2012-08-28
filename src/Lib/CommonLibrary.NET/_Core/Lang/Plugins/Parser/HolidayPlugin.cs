@@ -27,13 +27,6 @@ namespace ComLib.Lang.Extensions
     /// </summary>
     public class HolidayPlugin : ExprPlugin
     {
-        private static readonly string[] _tokens = 
-        {
-            "New", "Valentines", "Independence", "Christmas",
-            "new", "valentines", "christmas", "independence"
-        };
-
-
         private Dictionary<string, Func<DateTime>> _holidays;
 
 
@@ -59,8 +52,12 @@ namespace ComLib.Lang.Extensions
             _holidays["christmas eve"   ] = () => Convert.ToDateTime("12/24/" + DateTime.Now.Year.ToString());
             _holidays["christmas"       ] = () => Convert.ToDateTime("12/25/" + DateTime.Now.Year.ToString());
             _holidays["new years eve"] = () => Convert.ToDateTime("12/31/" + DateTime.Now.Year.ToString());
-            _startTokens = _tokens;
-            Precedence = 100;
+            this.StartTokens = new string[] 
+            {
+                "New", "Valentines", "Independence", "Christmas",
+                "new", "valentines", "christmas", "independence"
+            };
+            this.Precedence = 100;
         }
 
 
