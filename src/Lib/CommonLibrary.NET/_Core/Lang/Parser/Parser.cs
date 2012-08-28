@@ -650,14 +650,14 @@ namespace ComLib.Lang
                 return result;
             }
 
-            var exp = expPlugin.Parse();
-            exp.Ctx = _context;
+            result = expPlugin.Parse();
+            result.Ctx = _context;
 
             if (_tokenIt.NextToken.Token == Tokens.Assignment)
             {
-                if (exp is MemberAccessExpr)
-                    ((MemberAccessExpr)exp).IsAssignment = true;
-                result = ParseAssignment(exp);
+                if (result is MemberAccessExpr)
+                    ((MemberAccessExpr)result).IsAssignment = true;
+                result = ParseAssignment(result);
             }
             //else
             //    stmt = new ExpressionStmt(exp);
