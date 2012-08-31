@@ -28,44 +28,7 @@ namespace ComLib.Lang.Helpers
             }
             names.Reverse();
             return names;
-        }
-
-
-        /// <summary>
-        /// Match a function wildcard.
-        /// </summary>
-        /// <param name="symbols">The symbol table</param>
-        /// <param name="ids">The consequtive identifiers</param>
-        /// <param name="funcs">The registered functions</param>
-        /// <returns></returns>
-        public static FunctionLookupResult MatchFunctionWildCard(Symbols symbols, RegisteredFunctions funcs, List<string> ids)
-        {
-            int tokenIndexFunctioName = 0;
-            bool found = false;            
-            string name = string.Empty;
-            for (int ndx = 0; ndx < ids.Count; ndx++ )
-            {
-                tokenIndexFunctioName = ndx;                
-
-                // "find user by"
-                name = ids[ndx];
-                if (symbols.IsFunc(name))
-                {
-                    var func = funcs.GetByName(name);
-                    if (func.Meta.HasWildCard)
-                    {
-                        found = true;
-                        break;
-                    }
-                }
-            }
-            var result = new FunctionLookupResult();
-            result.Exists = found;
-            result.Name = name;
-            result.TokenCount = tokenIndexFunctioName;
-            result.FunctionMode = MemberMode.FunctionScript;
-            return result;
-        }
+        }        
 
 
         /// <summary>
@@ -75,7 +38,7 @@ namespace ComLib.Lang.Helpers
         /// <param name="funcs">The list of external functions.</param>
         /// <param name="ids">List of strings representing identifier tokens</param>
         /// <returns></returns>
-        public static FunctionLookupResult MatchFunctionName(Symbols symbols, ExternalFunctions funcs, List<Tuple2<string,int>> ids)
+        public static FunctionLookupResult MatchFunctionName(Context ctx, List<Tuple2<string,int>> ids)
         {
             var names = ids;
             var foundFuncName = string.Empty;
@@ -90,17 +53,17 @@ namespace ComLib.Lang.Helpers
                 string funcNameWithUnderScores = funcName.Replace(' ', '_');
 
                 // Case 1: "refill inventory" - exists with spaces
-                if (symbols.IsFunc(funcName))
+                if (ctx.Symbols.IsFunc(funcName))
                 {
                     foundFuncName = funcName;
                 }
                 // Case 2: "refill_inventory" - replace space with underscore. 
-                else if (symbols.IsFunc(funcNameWithUnderScores))
+                else if (ctx.Symbols.IsFunc(funcNameWithUnderScores))
                 {
                     foundFuncName = funcNameWithUnderScores;
                 }
                 // Case 3: Check external functions
-                else if (funcs.Contains(funcName))
+                else if (ctx.ExternalFunctions.Contains(funcName))
                 {
                     memberMode = MemberMode.FunctionExternal;
                     foundFuncName = funcName;
@@ -113,9 +76,21 @@ namespace ComLib.Lang.Helpers
                     break;
                 }
             }
-            // A single word function is not fluent
-            if (!found || (found && tokenCount == 1 ))
-                return FunctionLookupResult.False;
+            // CASE 1: Not found
+            if (!found ) return FunctionLookupResult.False;
+
+            // CASE 2: Single word function
+            if ((found && tokenCount == 1) && memberMode == MemberMode.FunctionScript)
+            {
+                var func = ctx.Functions.GetByName(foundFuncName);
+
+                // If wildcard return true;
+                if (func.Meta.HasWildCard)
+                    return new FunctionLookupResult(true, foundFuncName, memberMode) { TokenCount = tokenCount };
+                else
+                    return FunctionLookupResult.False;
+            }
+                
 
             var result = new FunctionLookupResult()
             {

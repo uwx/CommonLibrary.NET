@@ -87,9 +87,37 @@ namespace ComLib.Lang.Extensions
             // Check if multi-word function name.
             // e.g. "refill inventory"
             // 1. Is it a function call?            
-            var tokens = _tokenIt.PeekConsequetiveIdsAppended(_tokenIt.LLK);
-            _result = FluentHelper.MatchFunctionWildCard(_parser.Context.Symbols, _parser.Context.Functions, tokens);
-            return _result.Exists;
+            var tokens = _tokenIt.PeekConsequetiveIdsAppendedWithTokenCounts(true, _tokenIt.LLK);
+            _result = FluentHelper.MatchFunctionName(_parser.Context, tokens);
+                        
+            // Validate.
+            // 1. The function must exist.
+            if (!_result.Exists) return false;
+
+            // 2. Only fluentscript functions support wildcard.
+            if (_result.FunctionMode != MemberMode.FunctionScript) return false;
+            
+            // 3. Has wildcard flag must be turned on.
+            var func = _parser.Context.Functions.GetByName(_result.Name);
+            if (!func.Meta.HasWildCard) return false;
+
+            return true;
+        }
+
+
+        private bool CheckIfSingleIdentWildCard(List<Tuple2<string, int>> tokens)
+        {
+            var first = tokens[0].First;
+            if (_parser.Context.Functions.Contains(first))
+            {
+                var func = _parser.Context.Functions.GetByName(first);
+                if (func.Meta.HasWildCard)
+                {
+                    _result = new FunctionLookupResult(true, first, MemberMode.FunctionScript) { TokenCount = 1 };
+                    return true;
+                }
+            }
+            return false;
         }
 
 
@@ -102,7 +130,7 @@ namespace ComLib.Lang.Extensions
             // 1. Is it a function call?
             var fnameToken = _tokenIt.NextToken;
 
-            _tokenIt.Advance(_result.TokenCount + 1);
+            _tokenIt.Advance(_result.TokenCount);
 
             string remainderOfFuncName = string.Empty;
             var parts = new List<Expr>();
@@ -153,9 +181,18 @@ namespace ComLib.Lang.Extensions
                 _parser.SetScriptPosition(fullWildCard, firstPart);
             }   
 
-            if (_tokenIt.NextToken.Token == Tokens.LeftParenthesis)
+            var token = _tokenIt.NextToken.Token;
+
+            // CASE 1: Parse parameters with parenthesis "("
+            if (token == Tokens.LeftParenthesis)
             {
                 _parser.ParseParameters(exp, true, false, false);
+            }
+            // CASE 2: Parse parameters with ":" until newline.
+            else if (token == Tokens.Colon)
+            {
+                _tokenIt.Advance();
+                _parser.ParseParameters(exp, false, false, true);
             }
             exp.NameExp = new VariableExpr(_result.Name);
             

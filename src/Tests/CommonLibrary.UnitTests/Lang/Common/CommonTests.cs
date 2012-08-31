@@ -475,9 +475,9 @@ namespace ComLib.Lang.Tests.Common
                 
                 TestCase("result", typeof(string), 		"book 1", 	Sort_map       + "\r\n sort book in books.popular by book.name asc      				;\r\n result = books.popular[0].name"),
                 TestCase("result", typeof(bool),   		false,    	Sort_list      + "\r\n sort book in books[0] by book.isactive asc  	 		;\r\n result = books[0][0].isactive"),
-                TestCase("result", typeof(double), 		110, 		Sort_func      + "\r\n sort book in getbooks1() by book.totalpages asc		;\r\n result = books[0].totalpages"),
-                TestCase("result", typeof(DateTime), 	Sort_dt,	Sort_funcmap   + "\r\n sort book in getbooks2().popular by book.pubdate asc  ;\r\n result = books[0].pubdate"),
-                TestCase("result", typeof(TimeSpan), 	Sort_ts, 	Sort_funclist  + "\r\n sort book in getbooks3()[0] by book.pubtime asc   	;\r\n result = books[0].pubtime"),
+                //TestCase("result", typeof(double), 		110, 		Sort_func      + "\r\n sort book in getbooks1() by book.totalpages asc		;\r\n result = books[0].totalpages"),
+                //TestCase("result", typeof(DateTime), 	Sort_dt,	Sort_funcmap   + "\r\n sort book in getbooks2().popular by book.pubdate asc  ;\r\n result = books[0].pubdate"),
+                //TestCase("result", typeof(TimeSpan), 	Sort_ts, 	Sort_funclist  + "\r\n sort book in getbooks3()[0] by book.pubtime asc   	;\r\n result = books[0].pubtime"),
             }
         };
         

@@ -99,7 +99,33 @@ namespace ComLib.Lang.Tests.Integration
                 TestCase("result", typeof(string), "name group level group senior", func + "result = find user by name group level ( 1, 'senior', 'marketer' ); ")
             };
             Parse(statements, true, i => i.Context.Plugins.Register(new FuncWildCardPlugin()));
-        }        
+        }
+
+
+        [Test]
+        public void Can_Call_Function_WildCard_With_Underscores()
+        {
+            var func = "function find_user_by * ( fname, parts, args) { return fname + ' ' + parts[args[0]] + ' ' + args[1]; } ";
+            var statements = new List<Tuple<string, Type, object, string>>()
+            {
+                TestCase("result", typeof(string), "name name fluent",              func + "result = find user by name ( 0, 'fluent' ); "),
+                TestCase("result", typeof(string), "name group group doctor",       func + "result = find user by name group ( 1, 'doctor' ); "),
+                TestCase("result", typeof(string), "name group level group senior", func + "result = find user by name group level ( 1, 'senior', 'marketer' ); "),
+
+                TestCase("result", typeof(string), "name name fluent",              func + "result = find user by name: 0, 'fluent'; "),
+                TestCase("result", typeof(string), "name group group doctor",       func + "result = find user by name group: 1, 'doctor'\r\n"),
+                TestCase("result", typeof(string), "name group level group senior", func + "result = find user by name group level: 1, 'senior', 'marketer'"),
+
+                TestCase("result", typeof(string), "name name fluent",              func + "result = find_user_by name ( 0, 'fluent' ); "),
+                TestCase("result", typeof(string), "name group group doctor",       func + "result = find_user_by name group ( 1, 'doctor' ); "),
+                TestCase("result", typeof(string), "name group level group senior", func + "result = find_user_by name group level ( 1, 'senior', 'marketer' ); "),
+
+                TestCase("result", typeof(string), "name name fluent",              func + "result = find_user_by name: 0, 'fluent'; "),
+                TestCase("result", typeof(string), "name group group doctor",       func + "result = find_user_by name group: 1, 'doctor'\r\n"),
+                TestCase("result", typeof(string), "name group level group senior", func + "result = find_user_by name group level: 1, 'senior', 'marketer'"),
+            };
+            Parse(statements, true, i => i.Context.Plugins.Register(new FuncWildCardPlugin()));
+        }
 
 
         [Test]

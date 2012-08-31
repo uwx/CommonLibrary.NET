@@ -78,10 +78,8 @@ namespace ComLib.Lang.Extensions
             if (!(next.Token.Kind == TokenKind.Ident)) return false;
 
             // Check if multi-word function name.
-            // e.g. "refill inventory"
-            // 1. Is it a function call?
-            var ids = _tokenIt.PeekConsequetiveIdsAppendedWithTokenCounts(true);
-            _result = FluentHelper.MatchFunctionName(_parser.Context.Symbols, _parser.Context.ExternalFunctions, ids);
+            var ids = _tokenIt.PeekConsequetiveIdsAppendedWithTokenCounts(true, _tokenIt.LLK);
+            _result = FluentHelper.MatchFunctionName(_parser.Context, ids);
             return _result.Exists;
         }
 
