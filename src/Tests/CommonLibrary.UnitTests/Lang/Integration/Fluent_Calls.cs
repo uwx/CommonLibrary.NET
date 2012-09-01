@@ -89,7 +89,7 @@ namespace ComLib.Lang.Tests.Integration
 
 
         [Test]
-        public void Can_Call_Function_With_WildCard()
+        public void Can_Call_WildCard()
         {
             var func = "function 'find user by' * ( fname, parts, args) { return fname + ' ' + parts[args[0]] + ' ' + args[1]; } ";
             var statements = new List<Tuple<string, Type, object, string>>()
@@ -103,7 +103,7 @@ namespace ComLib.Lang.Tests.Integration
 
 
         [Test]
-        public void Can_Call_Function_WildCard_With_Underscores()
+        public void Can_Call_WildCard_With_Underscores()
         {
             var func = "function find_user_by * ( fname, parts, args) { return fname + ' ' + parts[args[0]] + ' ' + args[1]; } ";
             var statements = new List<Tuple<string, Type, object, string>>()

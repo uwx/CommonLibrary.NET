@@ -181,14 +181,14 @@ namespace ComLib.Samples
         static void FluentTests()
         {
             var tests = new Fluent_Call_Tests();
-            tests.Can_Call_Function_WildCard_With_Underscores();
+            tests.Can_Call_WildCard_With_Underscores();
             tests.Can_Call_MultiWord_Function_With_Underscores();
             tests.Can_Call_MultiWord_Function_With_CamelCasing();
             tests.Can_Use_Fluent_Member_Set_Property();
             tests.Can_Handle_Ambiguity();
             tests.Can_Call_Function_With_Named_Fluent_Parameters();
             tests.Can_Call_Function_With_Named_Parameters();
-            tests.Can_Call_Function_With_WildCard();
+            tests.Can_Call_WildCard();
             tests.Can_Use_Fluent_Member_Set_Property();
             tests.Can_Use_Fluent_Member_Get_Property();
             tests.Can_Use_Fluent_Member_Method_Calls();            

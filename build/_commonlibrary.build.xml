@@ -10,7 +10,7 @@
 	<!-- ****************************************************************************************
 		Remove the temp/current directory 
 	*******************************************************************************************-->
-	<target name="Clean">
+	<target name="Clean" depends="CheckBaseDir">
 		<delete file="${dist.dir.root}\${app.name}_${build.version}.zip" />
 		<delete dir="${dist.dir}" />
 		<delete dir="${dist.dir}\src\Apps\ComLib.Apps.CodeGeneration\bin\debug" />
@@ -26,14 +26,14 @@
 	</target>
 			
 	
-	<target name="Secure">		
+	<target name="Secure" depends="CheckBaseDir">		
 	</target>
 	
 	
 	<!-- ****************************************************************************************
 	     This writes out the version information into all the files named "AssemblyVersion.cs" in the directory.
 	      **************************************************************************************** -->	
-	<target name="Version">
+	<target name="Version" depends="CheckBaseDir">
 		<foreach item="File" property="assemblyVersionFilePath">
 			<in>
 				<items>
@@ -61,7 +61,7 @@
 	<!-- ****************************************************************************************
 		Compile the project.
 	*******************************************************************************************-->
-	<target name="Compile">
+	<target name="Compile" depends="CheckBaseDir">
 		<echo message="Compiling : ${compile.compiler} ${compile.solutionOrProject} /t:${compile.target} /p:Configuration=${compile.configuration}" />		
 		<exec program="${compile.compiler}" workingdir="${compile.workingDir}" failonerror="false">
 			<arg value="${compile.solutionOrProject}" />
@@ -75,7 +75,7 @@
 	<!-- ****************************************************************************************
 		Compile the project.
 	*******************************************************************************************-->
-	<target name="PackageExamples">
+	<target name="PackageExamples" depends="CheckBaseDir">
 		<echo message="${app.source.dir}" />
 		<mkdir dir="${dist.dir}\src\Examples" />
 		<mkdir dir="${dist.dir}\src\Examples\ComLib.Apps.SampleApp" />
@@ -112,7 +112,7 @@
 	<!-- ****************************************************************************************
 		Packages the binaries
 	*******************************************************************************************-->
-	<target name="PackageBinaries">
+	<target name="PackageBinaries" depends="CheckBaseDir">
 		<echo message="${app.source.dir}" />
 		<zip zipfile="${dist.dir.root}\${app.name}_${build.version}_Binaries.zip">
 		    <fileset basedir="${app.source.dir}\Lib\CommonLibrary.NET\bin\${compile.configuration}">
@@ -125,7 +125,7 @@
 	<!-- ****************************************************************************************
 		Packages the documentation (.chm) file(s).
 	*******************************************************************************************-->
-	<target name="PackageDocumentation">
+	<target name="PackageDocumentation" depends="CheckBaseDir">
 		<echo message="${app.source.dir}" />
 		<zip zipfile="${dist.dir.root}\${app.name}_${build.version}_Documentation.zip">
 		    <fileset basedir="${app.base.dir}\Doc">
@@ -138,7 +138,7 @@
 	<!-- ****************************************************************************************
 		Packages the sources.
 	*******************************************************************************************-->
-	<target name="Package">			
+	<target name="Package" depends="CheckBaseDir">			
 		<mkdir dir="${dist.dir}" />
 		<copy todir="${dist.dir}">
 		    <fileset basedir="${app.base.dir}">
@@ -180,11 +180,18 @@
 		</zip>
 	</target>
 	
+	
+	<target name="CheckBaseDir">
+		<if test="${not file::exists(compile.solutionOrProject)}">
+			<fail message="${app.base.dir} does NOT EXIST!!!" />
+		</if>
+	</target>
+	
 		
 	<!-- ****************************************************************************************
 		Execute the build
 	*******************************************************************************************-->
-	<target name="Execute">
+	<target name="Execute" depends="CheckBaseDir">		
 		<call target="Clean" />	
 		<call target="Version" />
 		<call target="Secure" />
