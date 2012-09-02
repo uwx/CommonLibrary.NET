@@ -1,158 +1,172 @@
 
+# file methods
+def find_file
+{
+
+}
+
+
+def write_file
+{
+
+}
+
+
+	# <loadtasks assembly="..\lib\External\NAntContrib\0.85\NAnt.Contrib.Tasks.dll"  -->
 	
-include "${args.settings.file}"
-
-// Initialize settings.
-var dist = 
-{ 
-	dir: 
-	{
-		root: "dist",
-		name: ""
-	} 
-}.
-dist.dir.root = "dist".
-dist.dir.name = "${dist.dir.root}\${app.name}_${build.version}".
-
-
-// ****************************************************************************************
-//	@summary: Remove the temp/current directory 
-// ****************************************************************************************
-step "Clean"
-{
-	delete file   "${dist.dir.root}\${app.name}_${build.version}.zip" 
-	delete folder "${dist.dir.name}" 
-	delete folders(s)
-		- "${dist.dir.name}\src\Apps\ComLib.Apps.CodeGeneration\bin\debug"
-		- "${dist.dir.name}\src\Apps\ComLib.Apps.CodeGeneration\obj"
-		- "${app.base.dir}\src\Apps\ComLib.Apps.SampleApp\bin\debug" 
-		- "${app.base.dir}\src\Apps\ComLib.Apps.SampleApp\obj" 
-		- "${app.base.dir}\src\Apps\ComLib.Apps.StockMarketApp\bin\debug" 
-		- "${app.base.dir}\src\Apps\ComLib.Apps.StockMarketApp\obj" 
-		- "${app.base.dir}\src\Lib\CommonLibrary.NET\bin\debug" 
-		- "${app.base.dir}\src\Lib\CommonLibrary.NET\obj" 
-		- "${app.base.dir}\src\Tests\CommonLibrary.UnitTests\bin\debug" 
-		- "${app.base.dir}\src\Tests\CommonLibrary.UnitTests\obj"
-}
-
-
-// ***************************************************************************************
-// @summary: Secures any sensitive data.
-// ***************************************************************************************
-step "Secure"
-{
-}
-
-
-// ***************************************************************************************
-// @summary: This writes out the version information into all the files named "AssemblyVersion.cs" 
-// in the directory.
-// ***************************************************************************************
-step "Version"
-{
-	get all files in folder "${app.base.dir}\\src\\" include: "**\AssemblyVersion.cs"
-	for each file in files
-	{
-		print "AssemblyInfo file name : ${file.FullName}" 	
-		change read attributes on file  "${file.FullName}" non-readonly
-		write all text to file "${file.FullName}" contents: "using System.Reflection; ${newline}[assembly: AssemblyVersionAttribute("${build.version}")]"
-	}
-}
-
-
-// ****************************************************************************************
-//	Compile the project.
-// *******************************************************************************************-->
-step "Compile"
-{
-	print "Compiling : ${compile.compiler} ${compile.solutionOrProject} /t:${compile.target} /p:Configuration=${compile.configuration}" 		
-	run program "${compile.compiler}" in_working_dir: "${compile.workingDir}" don't failonerror, 
-		args: [ "${compile.solutionOrProject}", "/t:${compile.target}", "/p:Configuration=${compile.configuration}" ]
-}
-
-
-// ****************************************************************************************
-// @summary: Packages the examples into a zip file.	
-// ****************************************************************************************
-step "PackageExamples" :
-	print "${app.source.dir}" 
-	create folder "${dist.dir.name}\src\Examples" 
-	create folder "${dist.dir.name}\src\Examples\ComLib.Apps.SampleApp" 
-	create folder "${dist.dir.name}\src\Examples\ComLib.Apps.StockMarketApp"
-	copy   folder "${dist.dir.name}\src\Lib\CommonLibrary.NET\_Samples" 	to: "${dist.dir.name}\src\examples" include: "**/*"		
-	copy   folder "${dist.dir.name}\src\Apps\ComLib.Apps.SampleApp" 	  	to: "${dist.dir.name}\src\examples\ComLib.Apps.SampleApp" include: "**/*"
-	copy   folder "${dist.dir.name}\src\Apps\ComLib.Apps.StockMarketApp"    to: "${dist.dir.name}\src\examples\ComLib.Apps.StockMarketApp" include: "**/*" 		
-	zip    folder "${dist.dir.name}\Src\Examples" to: "${dist.dir.root}\${app.name}_${build.version}_Examples.zip" include: "**/*"
-
-
-// ****************************************************************************************
-// @summary: Pacakges the binaries
-// ****************************************************************************************
-step "PackageBinaries"
-{
-	print "${app.source.dir}"
-	zip folder "${app.source.dir}\Lib\CommonLibrary.NET\bin\${compile.configuration}" to: "${dist.dir.root}\${app.name}_${build.version}_Binaries.zip" include: "**/*dll" 		
-}
-
-
-// ****************************************************************************************
-// @summary: Pacakges the documentation .chm file(s).
-// ****************************************************************************************
-step "PackageDocumentation"
-{
-	print "${app.source.dir}" 
-	zip folder "${app.base.dir}\Doc" to: "${dist.dir.root}\${app.name}_${build.version}_Documentation.zip" include: "**/*.chm"
-}
-
-
-// ****************************************************************************************
-// @summary: Pacakges the documentation .chm file(s).
-// ****************************************************************************************	
-step "Package" 
-{
-	create folder "${dist.dir.name}" 
-	copy   folder "${app.base.dir}" to: "${dist.dir.name}" include:"**/*" 
-
-	delete file(s): 
-		- "${dist.dir.name}\doc\*.chm" 		        				
-		- "${dist.dir.name}\src\Apps\ComLib.Apps.CodeGeneration\bin\debug\*.pdb" 
-		- "${dist.dir.name}\src\Apps\ComLib.Apps.SampleApp\bin\debug\*.pdb" 
-		- "${dist.dir.name}\src\Apps\ComLib.Apps.SampleApp\bin\debug\*.xml" 
-		- "${dist.dir.name}\src\Apps\ComLib.Apps.StockMarketApp\bin\debug\*.pdb" 
-		- "${dist.dir.name}\src\Apps\ComLib.Apps.StockMarketApp\bin\debug\*.xml" 
-		- "${dist.dir.name}\src\Lib\CommonLibrary.NET\bin\debug\*.pdb" 
-		- "${dist.dir.name}\src\Lib\CommonLibrary.NET\bin\debug\*.xml" 
-		- "${dist.dir.name}\src\Tests\CommonLibrary.UnitTests\bin\debug\*.pdb" 
-		- "${dist.dir.name}\src\Tests\CommonLibrary.UnitTests\bin\debug\*.xml" 
-		- "${dist.dir.name}\dist\*.zip" 
+	build.dir.public = "" 
+	dist.dir.root = "dist" 
+	dist.dir = "${dist.dir.root}\${app.name}_${build.version}"
 		
-	delete folder(s):		
-		- "${dist.dir.name}\build\dist" 
-		- "${dist.dir.name}\src\Apps\ComLib.Apps.SampleApp\obj" 
-		- "${dist.dir.name}\src\Apps\ComLib.Apps.SampleApp\bin" 
-		- "${dist.dir.name}\src\Apps\ComLib.Apps.CodeGeneration\obj" 
-		- "${dist.dir.name}\src\Apps\ComLib.Apps.CodeGeneration\bin" 
-		- "${dist.dir.name}\src\Apps\ComLib.Apps.StockMarketApp\obj" 
-		- "${dist.dir.name}\src\Apps\ComLib.Apps.StockMarketApp\bin" 
-		- "${dist.dir.name}\src\Lib\CommonLibrary.NET\obj" 
-		- "${dist.dir.name}\src\Lib\CommonLibrary.NET\bin" 
-		- "${dist.dir.name}\src\Tests\CommonLibrary.UnitTests\bin" 		
-		- "${dist.dir.name}\src\Tests\CommonLibrary.UnitTests\obj"
+		
+	# @summary: Removes temp files and directories created as part of the last build.
+	def Clean
+		delete file "${dist.dir.root}\${app.name}_${build.version}.zip" 
+		delete dir "${dist.dir}" 
+		
+		delete named dirs @{app.base.dir}\src\Apps, 	named: [ 'bin', 'obj' ], recurse: yes
+		delete named dirs @{app.base.dir}\src\Lib, 		named: [ 'bin', 'obj' ], recurse: yes
+		delete named dirs @{app.base.dir}\src\Tests, 	named: [ 'bin', 'obj' ], recurse: yes
+	}
 			
-	zip folder "${dist.dir.name}" to: "${dist.dir.root}\${app.name}_${build.version}_Sources.zip" include: "**/*" 
-}
-
 	
-// ****************************************************************************************
-// @summary: Execute the build
-// ****************************************************************************************
-step "Execute"
-{
-	run "Clean" 
-	run "Version" 
-	run "Secure" 
-	run "Compile" 
-	run "Package" 
-	run "PackageBinaries" 
-	run "PackageExamples"	
-}
+	# @summary: Secures any files.
+	def Secure
+	{
+	}
+	
+	
+	# @summary: This writes out the version information into all the files named "AssemblyVersion.cs" in the directory.
+	def Version
+	{
+		files = find files 'AssemblyVersion.cs' in: @{app.base.dir}\src		
+		for file in files
+			write file file.fullname, "${build.verion}"
+	}
+	
+	
+	# @summary	Compile the project.
+	def Compile
+		print "Compiling : ${compile.compiler} ${compile.solutionOrProject} /t:${compile.target} /p:Configuration=${compile.configuration}" 		
+		exec program: "${compile.compiler}",
+			 workingdir: "${compile.workingDir}",
+			 failonerror: false, 
+			 args: 
+			 [
+			 	"${compile.solutionOrProject}", 
+			 	"/t:${compile.target}", 
+			 	"/p:Configuration=${compile.configuration}" 
+			 ]
+	}	
+	
+	
+	# ****************************************************************************************
+		Compile the project.
+	*******************************************************************************************-->
+	def PackageExamples
+		print "${app.source.dir}" 
+		make dir "${dist.dir}\src\Examples" 
+		make dir "${dist.dir}\src\Examples\ComLib.Apps.SampleApp" 
+		make dir "${dist.dir}\src\Examples\ComLib.Apps.StockMarketApp" 
+		
+		
+		<copy todir="${dist.dir}\src\examples
+		    <fileset basedir="${dist.dir}\src\Lib\CommonLibrary.NET\_Samples
+		        <include name="**/*" 
+		    </fileset>
+		</copy>
+		<copy todir="${dist.dir}\src\examples\ComLib.Apps.SampleApp
+			<fileset basedir="${dist.dir}\src\Apps\ComLib.Apps.SampleApp
+		        <include name="**/*" 
+		    </fileset>
+		</copy>
+		<copy todir="${dist.dir}\src\examples\ComLib.Apps.StockMarketApp
+			<fileset basedir="${dist.dir}\src\Apps\ComLib.Apps.StockMarketApp
+		        <include name="**/*" 
+		    </fileset>
+		</copy>
+		
+		<zip zipfile="${dist.dir.root}\${app.name}_${build.version}_Examples.zip
+		    <!--<fileset basedir="${dist.dir}\Src\Lib\CommonLibrary.NET\_Samples
+		        <include name="**/*" 
+		    </fileset>-->
+			<fileset basedir="${dist.dir}\Src\Examples
+		        <include name="**/*" 
+		    </fileset>
+		</zip>
+	}
+	
+	
+	# ****************************************************************************************
+		Packages the binaries
+	*******************************************************************************************-->
+	def PackageBinaries
+		<echo message="${app.source.dir}" 
+		<zip zipfile="${dist.dir.root}\${app.name}_${build.version}_Binaries.zip
+		    <fileset basedir="${app.source.dir}\Lib\CommonLibrary.NET\bin\${compile.configuration}
+		        <include name="**/*dll" 
+		    </fileset>
+		</zip>
+	}
+	
+	
+	# ****************************************************************************************
+		Packages the documentation (.chm) file(s).
+	*******************************************************************************************-->
+	def PackageDocumentation
+		<echo message="${app.source.dir}" 
+		<zip zipfile="${dist.dir.root}\${app.name}_${build.version}_Documentation.zip
+		    <fileset basedir="${app.base.dir}\Doc
+		        <include name="**/*.chm" 
+		    </fileset>
+		</zip>
+	}
+	
+	
+	# ****************************************************************************************
+		Packages the sources.
+	*******************************************************************************************-->
+	def Package	
+	{
+		# make the dist dir
+		make dir "${dist.dir}"
+		
+		# copy the whole source directory to the dist dir
+		copy dir "${app.base.dir}", to: "${dist.dir}", exclude: [ *.svn ]
+
+		# delete directories with specified file extensions
+		delete dir @{dist.dir}\doc, 		[ .chm       ]
+		delete dir @{dist.dir}\src\Apps, 	[ .pdb, .xml ]
+		delete dir @{dist.dir}\src\Lib, 	[ .pdb, .xml ]
+		delete dir @{dist.dir}\src\Tests, 	[ .pdb, .xml ]
+		delete dir @{dist.dir}\dist
+		
+		# remove all the obj/bin directories.
+		delete named dirs @{dist.dir}\build\dist 
+		delete named dirs @{dist.dir}\src\Apps, 	named: [ 'bin', 'obj' ], recurse: yes
+		delete named dirs @{dist.dir}\src\Lib, 		named: [ 'bin', 'obj' ], recurse: yes
+		delete named dirs @{dist.dir}\src\Tests, 	named: [ 'bin', 'obj' ], recurse: yes
+		
+		# zip up base dir for sources distribution
+		zip folder "${dist.dir}", file: @{dist.dir.root}\${app.name}_${build.version}_Sources.zip
+	}
+	
+
+	def CheckBaseDir
+	{
+		if ! file "${compile.solutionOrProject}" exists
+			fail "${app.base.dir} does NOT EXIST!!!"			
+	}
+	
+		
+	# @summary: Executes the full build process
+	def Execute
+	{
+		Clean	
+		Version 
+		Secure 
+		Compile 
+		Package 
+		Package Binaries 
+		Package Examples 
+	}
