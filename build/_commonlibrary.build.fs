@@ -1,168 +1,192 @@
 
-# file methods
-def find_file
-{
+# *************************************************************************************
+# @summary: FluentScript based build script for commonlibrary.net
+# @desc:	Automates the commonlibrary.net build by cleaning out the directories,
+#			updating version numbers, compiling and then packaging the binaries,
+#			source code, documentation, and examples
+# @author:  kishore reddy
+# @date:    Sep 2nd, 2012
+# @version: 1.0
+# @fs-version: 0.9.8.8
+# 
+# args: name  |	type	|  example,							  | desc
+# [ 
+# 		task,	string,   [ Clean, Secure, Execute 			],	'Which task to run'
+# 		log,	bool,	  [ yes, no, true, false 			],	'Whether or not to create a build log'
+# 		file,	string,   [ 'env.home\log.txt', 'c:\log.txt'],	'The path to the build log file'
+# ]
+#
+# @remarks: 
+# [	
+#	This has been converted to fluentscript from NAnt.
+# 	This is also a live test of the fluentscript language.
+# ]
+# *************************************************************************************
 
-}
+# 1. Constants ( version, base dir etc )
+version   = 0.9.8.8
+base_dir  = C:\DEV\business\CommonLibrary.NET\CommonLibraryNet_LATEST
+build_ver = version.text
 
 
-def write_file
-{
+# 2. Application specific settigns
+app = 	{
+			name:    'CommonLibraryNET'
+			basedir: base_dir
+			srcdir : @base_dir\src
+			pubdir : @base_dir\dist
+			testdir: 'src\tests'
+		}
 
-}
+# 3. Build dir		
+build.dir.public = "" 
+dist.dir.root = "dist" 
+dist.dir = "${dist.dir.root}\${app.name}_${build.version}"
 
 
-	# <loadtasks assembly="..\lib\External\NAntContrib\0.85\NAnt.Contrib.Tasks.dll"  -->
-	
-	build.dir.public = "" 
-	dist.dir.root = "dist" 
-	dist.dir = "${dist.dir.root}\${app.name}_${build.version}"
-		
-		
+# 4. Register words  e.g. bin = 'bin'
+@words ( bin, obj )
+
+
+# 5. Functions
+
 	# @summary: Removes temp files and directories created as part of the last build.
+	# @args: none
+	# @example: [ Clean, Clean() ]
 	def Clean
-		delete file "${dist.dir.root}\${app.name}_${build.version}.zip" 
-		delete dir "${dist.dir}" 
+	{
+		delete file @{dist.dir.root}\@{app.name}_@{build.version}.zip 
+		delete dir  @distdir
 		
-		delete named dirs @{app.base.dir}\src\Apps, 	named: [ 'bin', 'obj' ], recurse: yes
-		delete named dirs @{app.base.dir}\src\Lib, 		named: [ 'bin', 'obj' ], recurse: yes
-		delete named dirs @{app.base.dir}\src\Tests, 	named: [ 'bin', 'obj' ], recurse: yes
+		# dirs.deleteByName
+		delete dirs by name @{app.base.dir}\src\Apps, 	names: [ bin, obj ], recurse
+		delete dirs by name @{app.base.dir}\src\Lib, 	names: [ bin, obj ], recurse
+		delete dirs by name @{app.base.dir}\src\Tests, 	names: [ bin, obj ], recurse
 	}
-			
+
+
 	
 	# @summary: Secures any files.
+	# @args: none
+	# @example: [ Clean, Clean() ]
 	def Secure
 	{
 	}
-	
+
+
 	
 	# @summary: This writes out the version information into all the files named "AssemblyVersion.cs" in the directory.
+	# @args: none
+	# @example: [ Clean, Clean() ]
 	def Version
 	{
 		files = find files 'AssemblyVersion.cs' in: @{app.base.dir}\src		
 		for file in files
-			write file file.fullname, "${build.verion}"
+			write file file.fullname, content: "${build.verion}", overwrite: yes
 	}
+
 	
-	
+
 	# @summary	Compile the project.
+	# @args: none
+	# @example: [ Clean, Clean() ]
 	def Compile
-		print "Compiling : ${compile.compiler} ${compile.solutionOrProject} /t:${compile.target} /p:Configuration=${compile.configuration}" 		
+		print Compiling : ${compile.compiler} ${compile.solutionOrProject} /t:${compile.target} /p:Configuration=${compile.configuration} 		
+		
 		exec program: "${compile.compiler}",
 			 workingdir: "${compile.workingDir}",
 			 failonerror: false, 
 			 args: 
 			 [
-			 	"${compile.solutionOrProject}", 
-			 	"/t:${compile.target}", 
-			 	"/p:Configuration=${compile.configuration}" 
+				"${compile.solutionOrProject}", 
+				"/t:${compile.target}", 
+				"/p:Configuration=${compile.configuration}" 
 			 ]
 	}	
-	
-	
-	# ****************************************************************************************
-		Compile the project.
-	*******************************************************************************************-->
+
+
+	# Compile the project.
+	# @args: none
+	# @example: [ Clean, Clean() ]
 	def PackageExamples
 		print "${app.source.dir}" 
-		make dir "${dist.dir}\src\Examples" 
-		make dir "${dist.dir}\src\Examples\ComLib.Apps.SampleApp" 
-		make dir "${dist.dir}\src\Examples\ComLib.Apps.StockMarketApp" 
+		make dir @distdir\src\Examples                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+		make dir @distdir\src\Examples\ComLib.Apps.SampleApp
+		make dir @distdir\src\Examples\ComLib.Apps.StockMarketApp		
 		
-		
-		<copy todir="${dist.dir}\src\examples
-		    <fileset basedir="${dist.dir}\src\Lib\CommonLibrary.NET\_Samples
-		        <include name="**/*" 
-		    </fileset>
-		</copy>
-		<copy todir="${dist.dir}\src\examples\ComLib.Apps.SampleApp
-			<fileset basedir="${dist.dir}\src\Apps\ComLib.Apps.SampleApp
-		        <include name="**/*" 
-		    </fileset>
-		</copy>
-		<copy todir="${dist.dir}\src\examples\ComLib.Apps.StockMarketApp
-			<fileset basedir="${dist.dir}\src\Apps\ComLib.Apps.StockMarketApp
-		        <include name="**/*" 
-		    </fileset>
-		</copy>
-		
-		<zip zipfile="${dist.dir.root}\${app.name}_${build.version}_Examples.zip
-		    <!--<fileset basedir="${dist.dir}\Src\Lib\CommonLibrary.NET\_Samples
-		        <include name="**/*" 
-		    </fileset>-->
-			<fileset basedir="${dist.dir}\Src\Examples
-		        <include name="**/*" 
-		    </fileset>
-		</zip>
+		copy dir @distdir\src\Lib\CommonLibrary.NET\_Samples   to: @distdir\src\examples
+		copy dir @distdir\src\Apps\ComLib.Apps.SampleApp       to: @distdir\src\examples\ComLib.Apps.SampleApp
+		copy dir @distdir\src\Apps\ComLib.Apps.StockMarketApp  to: @distdir\src\examples\ComLib.Apps.StockMarketApp		
+		zip  dir @distdir\Src\Examples  					   to: @{dist.dir.root}\${app.name}_${build.version}_Examples.zip
 	}
-	
-	
-	# ****************************************************************************************
-		Packages the binaries
-	*******************************************************************************************-->
+
+
+	#	Packages the binaries
+	# @args: none
+	# @example: [ Clean, Clean() ]
 	def PackageBinaries
-		<echo message="${app.source.dir}" 
-		<zip zipfile="${dist.dir.root}\${app.name}_${build.version}_Binaries.zip
-		    <fileset basedir="${app.source.dir}\Lib\CommonLibrary.NET\bin\${compile.configuration}
-		        <include name="**/*dll" 
-		    </fileset>
-		</zip>
+		print "${app.source.dir}" 
+		zip dir "${app.source.dir}\Lib\CommonLibrary.NET\bin\${compile.configuration}",
+			to: "${dist.dir.root}\${app.name}_${build.version}_Binaries.zip",
+			include: [ *.html, *.doc, *.chm ]
 	}
-	
-	
-	# ****************************************************************************************
-		Packages the documentation (.chm) file(s).
-	*******************************************************************************************-->
+
+
+	#	Packages the documentation (.chm) file(s).
+	# @args: none
+	# @example: [ Clean, Clean() ]
 	def PackageDocumentation
-		<echo message="${app.source.dir}" 
-		<zip zipfile="${dist.dir.root}\${app.name}_${build.version}_Documentation.zip
-		    <fileset basedir="${app.base.dir}\Doc
-		        <include name="**/*.chm" 
-		    </fileset>
-		</zip>
+		print "${app.source.dir}" 
+		zip dir "${app.base.dir}\Doc",
+			to: "${dist.dir.root}\${app.name}_${build.version}_Documentation.zip",
+			include: [ *.html, *.doc, *.chm ]		
 	}
-	
-	
-	# ****************************************************************************************
-		Packages the sources.
-	*******************************************************************************************-->
+
+
+	#	Packages the sources.
+	# @args: none
+	# @example: [ Clean, Clean() ]
 	def Package	
 	{
 		# make the dist dir
-		make dir "${dist.dir}"
+		make dir @distdir
 		
 		# copy the whole source directory to the dist dir
-		copy dir "${app.base.dir}", to: "${dist.dir}", exclude: [ *.svn ]
+		copy dir "${app.base.dir}", to: @distdir, exclude: [ *.svn ]
 
 		# delete directories with specified file extensions
-		delete dir @{dist.dir}\doc, 		[ .chm       ]
-		delete dir @{dist.dir}\src\Apps, 	[ .pdb, .xml ]
-		delete dir @{dist.dir}\src\Lib, 	[ .pdb, .xml ]
-		delete dir @{dist.dir}\src\Tests, 	[ .pdb, .xml ]
-		delete dir @{dist.dir}\dist
+		delete files @distdir\doc, 			[ .chm       ]
+		delete files @distdir\src\Apps, 	[ .pdb, .xml ]
+		delete files @distdir\src\Lib, 		[ .pdb, .xml ]
+		delete files @distdir\src\Tests, 	[ .pdb, .xml ]
+		delete files @distdir\dist
 		
 		# remove all the obj/bin directories.
-		delete named dirs @{dist.dir}\build\dist 
-		delete named dirs @{dist.dir}\src\Apps, 	named: [ 'bin', 'obj' ], recurse: yes
-		delete named dirs @{dist.dir}\src\Lib, 		named: [ 'bin', 'obj' ], recurse: yes
-		delete named dirs @{dist.dir}\src\Tests, 	named: [ 'bin', 'obj' ], recurse: yes
+		delete dir		  	@distdir\build\dist 
+		delete dirs by name @distdir\src\Apps, 		named: [ bin, obj ], recurse: yes
+		delete dirs by name @distdir\src\Lib, 		named: [ bin, obj ], recurse: yes
+		delete dirs by name @distdir\src\Tests, 	named: [ bin, obj ], recurse: yes
 		
 		# zip up base dir for sources distribution
-		zip folder "${dist.dir}", file: @{dist.dir.root}\${app.name}_${build.version}_Sources.zip
+		zip folder "@distdir", file: @{dist.dir.root}\${app.name}_${build.version}_Sources.zip
 	}
-	
 
+
+	# @args: none
+	# @example: [ Clean, Clean() ]
 	def CheckBaseDir
 	{
 		if ! file "${compile.solutionOrProject}" exists
 			fail "${app.base.dir} does NOT EXIST!!!"			
 	}
-	
+
 		
 	# @summary: Executes the full build process
+	# @args: none
+	# @example: [ Clean, Clean() ]
 	def Execute
 	{
-		Clean	
+		Clean	 
 		Version 
 		Secure 
 		Compile 
@@ -170,3 +194,5 @@ def write_file
 		Package Binaries 
 		Package Examples 
 	}
+
+
