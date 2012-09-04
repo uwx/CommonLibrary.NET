@@ -19,6 +19,31 @@ namespace ComLib.Lang
 
 
     /// <summary>
+    /// A setup plugin to just configure the interpreter
+    /// </summary>
+    public interface ISetupPlugin
+    {
+        /// <summary>
+        /// The id of the plugin.
+        /// </summary>
+        string Id { get; }
+
+
+        /// <summary>
+        /// Used for ordering of plugins.
+        /// </summary>
+        int Precedence { get; }
+
+
+        /// <summary>
+        /// Executes the configuration
+        /// </summary>
+        void Execute(Context ctx);
+    }
+
+
+
+    /// <summary>
     /// Marker interface for any type of plugin.
     /// </summary>
     public interface ILangPlugin
@@ -143,6 +168,7 @@ namespace ComLib.Lang
 
 
 
+    /*
     /// <summary>
     /// Interface for a plugin at the parser/expression level.
     /// </summary>
@@ -161,7 +187,7 @@ namespace ComLib.Lang
         /// </summary>
         string[] StartTokens { get; }
     }
-
+    */
 
 
     /// <summary>
@@ -229,7 +255,7 @@ namespace ComLib.Lang
     }
 
 
-
+    /*
     /// <summary>
     /// Interface for a plugin at the parser/expression level.
     /// </summary>
@@ -265,7 +291,7 @@ namespace ComLib.Lang
         /// <returns></returns>
         Expr Parse();
     }
-
+    */
 
     /// <summary>
     /// Marker interface for statements, expression plugins to recieve callbacks when parsing is complete.

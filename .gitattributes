@@ -560,6 +560,7 @@ src/Lib/CommonLibrary.NET/_Core/Lang/DataTypes/LNumber.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/DataTypes/LObject.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/DataTypes/LString.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/DataTypes/LUnit.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/DataTypes/LVersion.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Entities/FunctionLookupResult.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Extensions/MethodExtensions.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/ArgsFetcher.cs -text
@@ -586,6 +587,7 @@ src/Lib/CommonLibrary.NET/_Core/Lang/Parser/PluginSupport/ExprPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/PluginSupport/ExprPluginBase.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/PluginSupport/LexPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/PluginSupport/PluginMetaInfo.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Parser/PluginSupport/SetupPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/PluginSupport/StmtBlockPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/PluginSupport/StmtPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/PluginSupport/TokenPlugin.cs -text
@@ -612,6 +614,7 @@ src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/DefPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/EmailPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/EnablePlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/EnvPlugin.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/FailPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/FileExtPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/FluentFuncPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/FluentMemberPlugin.cs -text
@@ -619,6 +622,7 @@ src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/FluentPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/FuncWildCardPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/HashCommentPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/HolidayPlugin.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/IOPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/LinqPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/LogPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/MachineInfoPlugin.cs -text

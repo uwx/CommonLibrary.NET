@@ -10,8 +10,10 @@ namespace ComLib.Lang.Tests.Common
     public class TestCases
     {
         public string Name { get; set; }
+        public object[] SetupPlugins { get; set; }
         public Type[] RequiredTypes { get; set; }
         public Type[] RequiredPlugins { get; set; }
+        public List<Tuple<string, string, string>> Failures { get; set; }
         public List<Tuple<string, Type, object, string>> Positive { get; set; }
     }
 
@@ -34,6 +36,12 @@ namespace ComLib.Lang.Tests.Common
         {
             return new Tuple<string, Type, object, string>
                 (resultVarName, resultType, resultValue, script);                
+        }
+
+
+        protected static new Tuple<string, string, string> Error(string errorType, string errorMsg, string script)
+        {
+            return new Tuple<string, string, string>(errorType, errorMsg, script);
         }
 
 
@@ -245,6 +253,23 @@ namespace ComLib.Lang.Tests.Common
         /// <summary>
         /// Test cases for the typeof plugin
         /// </summary>
+        public static TestCases Fail = new TestCases()
+        {
+            Name = "Fail Plugin",
+            RequiredPlugins = new[] { typeof(FailPlugin) },
+            Failures = new List<Tuple<string, string, string>>()
+            {
+                Error("Exit Error", "file not found",     "fail 'file not found'"),
+                Error("Exit Error", "120",                "fail 120"),
+                Error("Exit Error", "log.txt not found",  "var file = 'log.txt'; fail \"#{file} not found\""),
+                Error("Exit Error", "inside trycatch",  "try { fail 'inside trycatch'; } catch(err) { }"),
+            }
+        };
+
+
+        /// <summary>
+        /// Test cases for the typeof plugin
+        /// </summary>
         public static TestCases FileExt = new TestCases()
         {
             Name = "FileExt Plugin",
@@ -297,6 +322,26 @@ namespace ComLib.Lang.Tests.Common
                 TestCase("a", typeof(DateTime), new DateTime(DateTime.Now.Year, 1, 1),   "var a = New Years;"),                
                 TestCase("a", typeof(DateTime), new DateTime(DateTime.Now.Year, 7, 4),   "var a = Independence Day;"), 
                 TestCase("a", typeof(DateTime), new DateTime(DateTime.Now.Year, 12, 24), "var a = Christmas Eve;")
+            }
+        };
+
+
+        /// <summary>
+        /// Test cases for the typeof plugin
+        /// </summary>
+        public static TestCases IO = new TestCases()
+        {
+            Name = "IO Plugin",
+            SetupPlugins = new[] { new IOPlugin() },
+            Positive = new List<Tuple<string, Type, object, string>>()
+            {
+                TestCase("a", typeof(object), null, "file.create( c:\\temp\\fs-io-test.txt,  'testing' );"),
+                TestCase("a", typeof(object), null, "file.append( c:\\temp\\fs-io-test.txt,  'updated' );"),
+                TestCase("a", typeof(object), null, "file.copy  ( c:\\temp\\fs-io-test.txt,  c:\\temp\\fs-io-test1.txt, true );"),
+                TestCase("a", typeof(object), null, "file.rename( c:\\temp\\fs-io-test.txt,  'fs-io-test2.txt', true );"),
+                TestCase("a", typeof(object), null, "file.move  ( c:\\temp\\fs-io-test2.txt,  c:\\temp\\fs-io-test.txt  );"),
+                TestCase("a", typeof(object), null, "file.delete( c:\\temp\\fs-io-test.txt );"),
+
             }
         };
 
@@ -708,15 +753,20 @@ namespace ComLib.Lang.Tests.Common
                 TestCase("result", typeof(string), "3.5.702.18", "var version = 3.5.702.18; result = version.Text();"),
                 TestCase("result", typeof(string), "3.5.702.18", "var version = 3.5.702.18; result = version.Text()\r\n"),
                 TestCase("result", typeof(string), "3.5.702.18", "var version = 3.5.702.18; result = version.Text()"),
-                TestCase("result", typeof(double), 3,   "var version = 3.5.702.18; result = version.Major;"),
-                TestCase("result", typeof(double), 5,   "var version = 3.5.702.18; result = version.Minor"),
-                TestCase("result", typeof(double), 702, "var version = 3.5.702.18; result = version.Build"),
-                TestCase("result", typeof(double), 18,  "var version = 3.5.702.18; result = version.Revision"),
-
+                
+                TestCase("result", typeof(double), 3,   "var version = 3.5.702.18;    result = version.Major;"),
+                TestCase("result", typeof(double), 3,   "var version = 3.5.702.18\r\n result = version.Major;"),
+                TestCase("result", typeof(double), 5,   "var version = 3.5.702.18;    result = version.Minor"),
+                TestCase("result", typeof(double), 702, "var version = 3.5.702.18;    result = version.Build"),
+                TestCase("result", typeof(double), 18,  "var version = 3.5.702.18;    result = version.Revision"),
+                
                 TestCase("result", typeof(string), "1.5.2.80", "function getVersion() { return 1.5.2.80; } result = getVersion().Text();"),
                 TestCase("result", typeof(string), "1.5.2.80", "var items = {a: 1.2, b: 2, c: 1.5.2.80 }; result = items.c.Text();"),
                 TestCase("result", typeof(string), "1.5.2.80", "var items = [ 1.2, 1.3, 1.5.2.80 ]; result = items[2].Text();"),
              
+                TestCase("result", typeof(double), 3,   "var version = 3.5.702; result = version.Major;"),
+                TestCase("result", typeof(double), 5,   "var version = 3.5.702; result = version.Minor"),
+                TestCase("result", typeof(double), 702, "var version = 3.5.702; result = version.Build")
             }
         };
 

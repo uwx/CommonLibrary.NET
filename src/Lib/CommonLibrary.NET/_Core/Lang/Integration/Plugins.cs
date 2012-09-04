@@ -21,6 +21,7 @@ namespace ComLib.Lang
         private IDictionary<string, List<ILangPlugin>> _postfixPlugins = new Dictionary<string, List<ILangPlugin>>();
         private IDictionary<string, List<ILangPlugin>> _stmtPlugins    = new Dictionary<string, List<ILangPlugin>>();
         private IDictionary<string, List<ILangPlugin>> _expStmtPlugins = new Dictionary<string, List<ILangPlugin>>();
+        private IDictionary<string, ISetupPlugin>      _setupPlugins   = new Dictionary<string, ISetupPlugin>();
         
 
         private int _totalExpPlugins = 0;
@@ -46,6 +47,7 @@ namespace ComLib.Lang
         {
             _sysMap = new Dictionary<string, ILangPlugin>();
             _extMap = new Dictionary<string, ILangPlugin>();
+            _setupPlugins = new Dictionary<string, ISetupPlugin>();
             _pluginSettings = new Dictionary<string, object>();
         }
 
@@ -82,6 +84,7 @@ namespace ComLib.Lang
             _extMap["Def"]      	   =  new DefPlugin();
             _extMap["Enable"]      	   =  new EnablePlugin();
             _extMap["Email"]      	   =  new EmailPlugin();
+            _extMap["Fail"]            =  new FailPlugin();
             _extMap["FileExt"]         =  new FileExtPlugin();
             _extMap["FluentFunc"]      =  new FluentFuncPlugin();
             _extMap["FluentMember"]    =  new FluentMemberPlugin();
@@ -112,7 +115,7 @@ namespace ComLib.Lang
             _extMap["Uri"]      	   =  new UriPlugin();
             _extMap["VariablePath"]    =  new VariablePathPlugin();
             _extMap["Version"]         =  new VersionPlugin();
-            _extMap["Words"] = new WordsPlugin();
+            _extMap["Words"]           =  new WordsPlugin();
             _extMap["WordsInterpret"]  =  new WordsInterpretPlugin();
 
             /*
@@ -228,6 +231,7 @@ namespace ComLib.Lang
             foreach (var pair in _sysMap) plugins.Add(pair.Value);
             foreach (var pair in _extMap) plugins.Add(pair.Value);
             Register(plugins.ToArray());
+            Register(new IOPlugin());
         }
 
 
@@ -267,7 +271,18 @@ namespace ComLib.Lang
         public void RegisterCustomSubSet(ICollection<string> pluginKeys)
         {
             RegisterExtensionsByNames(pluginKeys, _extMap);
-        }     
+        }
+
+
+
+        /// <summary>
+        /// Registers a setup plugin.
+        /// </summary>
+        /// <param name="plugin"></param>
+        public void Register(ISetupPlugin plugin)
+        {
+            _setupPlugins[plugin.Id] = plugin;
+        }
 
 
         /// <summary>
@@ -394,6 +409,20 @@ namespace ComLib.Lang
                 CallBack<T>(_stmtPlugins, callback);
                 CallBack<T>(_sysStmtPlugins, callback);
             }
+        }
+
+
+        /// <summary>
+        /// Executes all setup plugins.
+        /// </summary>
+        /// <param name="i"></param>
+        /// <param name="ctx"></param>
+        public void ExecuteSetupPlugins(Context ctx)
+        {
+            if (_setupPlugins == null || _setupPlugins.Count == 0) return;
+
+            foreach (var pair in _setupPlugins)
+                pair.Value.Execute(ctx);
         }
 
 

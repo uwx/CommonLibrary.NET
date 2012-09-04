@@ -57,7 +57,7 @@ namespace ComLib.Lang
             _context.Plugins.RegisterAllSystem();
             _context.Plugins.ForEach<IExprPlugin>(plugin =>  plugin.Init(this, _tokenIt));
             _context.Plugins.ForEach<ITokenPlugin>(plugin => plugin.Init(this, _tokenIt));
-
+            _context.Plugins.ExecuteSetupPlugins(_context);
             
             // 4. Move to first token
             _tokenIt.Advance();

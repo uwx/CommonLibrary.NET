@@ -36,6 +36,24 @@ namespace ComLib.Lang
     }
 
 
+    /// <summary>
+    /// Exception used in script parsing
+    /// </summary>
+    public class LangFailException : LangException
+    {
+        /// <summary>
+        /// Initialize
+        /// </summary>
+        /// <param name="error">Error message</param>
+        /// <param name="scriptpath">Script where error occurred.</param>
+        /// <param name="lineNumber">Line number where error occurred.</param>
+        public LangFailException(string error, string scriptpath, int lineNumber)
+            : base("Exit Error", error, scriptpath, lineNumber) 
+        {
+        }
+    }
+
+
 
     /// <summary>
     /// Exception used in script for sandbox/limits functionality. e.g. loop/callstack limits.

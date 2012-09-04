@@ -538,6 +538,7 @@
     <Compile Include="_Core\Lang\Parser\PluginSupport\LexPlugin.cs" />
     <Compile Include="_Core\Lang\Parser\PluginSupport\ExprPlugin.cs" />
     <Compile Include="_Core\Lang\Parser\PluginSupport\ExprPluginBase.cs" />
+    <Compile Include="_Core\Lang\Parser\PluginSupport\SetupPlugin.cs" />
     <Compile Include="_Core\Lang\Parser\Terminators.cs" />
     <Compile Include="_Core\Lang\Parser\Visitor.cs" />
     <Compile Include="_Core\Lang\Parser\SemActs.cs" />
@@ -556,6 +557,8 @@
     <Compile Include="_Core\Lang\Plugins\Parser\AndOrPlugin.cs" />
     <Compile Include="_Core\Lang\Plugins\Parser\ConstCapsPlugin.cs" />
     <Compile Include="_Core\Lang\Plugins\Parser\AliasPlugin.cs" />
+    <Compile Include="_Core\Lang\Plugins\Parser\FailPlugin.cs" />
+    <Compile Include="_Core\Lang\Plugins\Parser\IOPlugin.cs" />
     <Compile Include="_Core\Lang\Plugins\Parser\VersionPlugin.cs" />
     <Compile Include="_Core\Lang\Plugins\Parser\FileExtPlugin.cs" />
     <Compile Include="_Core\Lang\Plugins\Parser\TypeOperationsPlugin.cs" />

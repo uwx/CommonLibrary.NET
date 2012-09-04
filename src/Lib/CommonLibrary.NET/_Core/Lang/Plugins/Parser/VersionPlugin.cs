@@ -15,7 +15,9 @@ namespace ComLib.Lang.Extensions
     // This is particularily useful for when fluentscript is used for build automation.
     // e.g. 0.9.8.7
     
-    version = 0.9.8.7
+    version  = 0.9.8.7
+    version2 = 0.9.8
+    
     print( version.Major )
     print( version.Minor )
     print( version.Revision )

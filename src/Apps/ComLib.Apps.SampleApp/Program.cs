@@ -386,6 +386,7 @@ namespace ComLib.Samples
         {            
             var c = new Plugin_Component_Positives();
 
+            c.Can_Use_Fail_Plugin();
             c.Can_Use_Version_Plugin();
             c.Can_Use_FileExt();
             c.Can_Use_Sort_Plugin();

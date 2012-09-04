@@ -142,6 +142,10 @@ namespace ComLib.Lang
             {
                 throw;
             }
+            catch (LangFailException)
+            {
+                throw;
+            }
             catch (Exception ex)
             {
                 Ctx.Limits.CheckExceptions(this);

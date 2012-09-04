@@ -183,7 +183,7 @@ namespace ComLib.Lang.Extensions
                     throw new FileNotFoundException("File : " + source + " does not exist");
             }
 
-            var script = File.ReadAllText(source);
+            var script = System.IO.File.ReadAllText(source);
             Context ctx = null;
             var scriptParser = new Parser(ctx);
             scriptParser.Parse(script);

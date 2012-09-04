@@ -137,6 +137,13 @@ namespace ComLib.Lang.Tests.Component
             RunTests(CommonTestCases_Plugins.Email, _testType);            
         }
 
+        
+        [Test]
+        public void Can_Use_Fail_Plugin()
+        {
+            ExpectErrors(CommonTestCases_Plugins.Fail, _testType);
+        } 
+        
 
         [Test]
         public void Can_Use_FileExt()

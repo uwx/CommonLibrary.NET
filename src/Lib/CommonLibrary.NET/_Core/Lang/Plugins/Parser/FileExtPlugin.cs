@@ -17,10 +17,10 @@ namespace ComLib.Lang.Extensions
     // Format: "*" "." <extension_name>
     // NOTE: The "*" is optional.
     
-    delete_files( 'c:\\app\src\', .pdb )
-    delete_files( 'c:\\app\src\', .dll )
-    delete_files( 'c:\\app\src\', .svn )
-    delete_files( 'c:\\app\src\', .exe )
+    some_file_operation( 'c:\\app\src\', .pdb )
+    some_file_operation( 'c:\\app\src\', *.dll )
+    some_file_operation( 'c:\\app\src\', .svn )
+    some_file_operation( 'c:\\app\src\', .exe )
     
     </doc:example>
     ***************************************************************************/

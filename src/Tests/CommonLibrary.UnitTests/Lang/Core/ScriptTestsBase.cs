@@ -73,10 +73,28 @@ namespace ComLib.Lang.Tests.Common
                 bool execute = true, Action<Interpreter> initializer = null,
                 bool replaceSemicolonsWithNewLines = false, Action onNewScript = null)
         {
-            if (testType == TestType.Component)
-                RunComponentTests(testCases, execute, initializer, replaceSemicolonsWithNewLines, onNewScript);
-            if (testType == TestType.Integration)
-                RunIntegrationTests(testCases, execute, initializer, replaceSemicolonsWithNewLines, onNewScript);
+            var statements = testCases.Positive;
+            Parse(statements, execute, (i) =>
+            {
+                if (initializer != null)
+                    initializer(i);
+                else
+                {
+                    //if (testCases.SetupPlugins != null && testCases.SetupPlugins.Length > 0)
+                    //{
+                    //    for (int ndx = 0; ndx < testCases.SetupPlugins.Length; ndx++)
+                    //    {
+                    //        var plugin = testCases.SetupPlugins[ndx];
+                    //        i.Context.Plugins.Register((ISetupPlugin)plugin);
+                    //    }
+                    //}
+
+                    if (testType == TestType.Component)
+                        InitComponentTests(i, testCases);
+                    if (testType == TestType.Integration)
+                        InitIntegrationTests(i, testCases);
+                }
+            }, replaceSemicolonsWithNewLines, onNewScript);
         }
 
 
@@ -87,25 +105,34 @@ namespace ComLib.Lang.Tests.Common
         /// <param name="execute"></param>
         /// <param name="initializer"></param>
         /// <param name="replaceSemicolonsWithNewLines"></param>
-        protected void RunComponentTests(TestCases testCases,
+        protected void ExpectErrors(TestCases testCases, TestType testType,
                 bool execute = true, Action<Interpreter> initializer = null,
                 bool replaceSemicolonsWithNewLines = false, Action onNewScript = null)
         {
             var statements = testCases.Positive;
-            Parse(statements, execute, (i) =>
+            for(int ndx = 0; ndx < testCases.Failures.Count; ndx++)
             {
+                var scenario = testCases.Failures[ndx];
+                var i = new Interpreter();
                 if (initializer != null)
                     initializer(i);
                 else
                 {
-                    if (testCases.RequiredTypes != null && testCases.RequiredTypes.Length > 0)
-                        testCases.RequiredTypes.ForEach(type => i.Context.Types.Register(type, null));
-                    if (testCases.RequiredPlugins != null && testCases.RequiredPlugins.Length > 0)
-                        testCases.RequiredPlugins.ForEach( pluginType => i.Context.Plugins.RegisterCustomByType(pluginType));
+                    if (testType == TestType.Component)
+                        InitComponentTests(i, testCases);
+                    if (testType == TestType.Integration)
+                        InitIntegrationTests(i, testCases);
                 }
-
+                Console.WriteLine(scenario.Item3);
+                i.Execute(scenario.Item3);
+                Assert.IsFalse(i.Result.Success);
+                Assert.IsNotNull(i.Result.Ex);
+                Assert.IsTrue(i.Result.Message.StartsWith(scenario.Item1));
+                if (scenario.Item2 != null)
+                {
+                    Assert.IsTrue(i.Result.Message.Contains(scenario.Item2));
+                }
             }
-            , replaceSemicolonsWithNewLines, onNewScript);
         }
 
 
@@ -116,24 +143,29 @@ namespace ComLib.Lang.Tests.Common
         /// <param name="execute"></param>
         /// <param name="initializer"></param>
         /// <param name="replaceSemicolonsWithNewLines"></param>
-        protected void RunIntegrationTests(TestCases testCases,
-                bool execute = true, Action<Interpreter> initializer = null,
-                bool replaceSemicolonsWithNewLines = false, Action onNewScript = null)
+        protected void InitComponentTests(Interpreter i, TestCases testCases)
         {
-            var statements = testCases.Positive;
-            Parse(statements, execute, (i) =>
-            {
-                if (initializer != null)
-                    initializer(i);
-                else
-                {
-                    if (testCases.RequiredTypes != null && testCases.RequiredTypes.Length > 0)
-                        testCases.RequiredTypes.ForEach(type => i.Context.Types.Register(type, null));
-                    i.Context.Plugins.RegisterAllCustom();
-                }
+            if (testCases.RequiredTypes != null && testCases.RequiredTypes.Length > 0)
+                testCases.RequiredTypes.ForEach(type => i.Context.Types.Register(type, null));
 
-            }
-            , replaceSemicolonsWithNewLines, onNewScript);
+            if (testCases.RequiredPlugins != null && testCases.RequiredPlugins.Length > 0)
+                testCases.RequiredPlugins.ForEach( pluginType => i.Context.Plugins.RegisterCustomByType(pluginType));            
+        }
+
+
+        /// <summary>
+        /// Parses / executes a list of statements.
+        /// </summary>
+        /// <param name="statements"></param>
+        /// <param name="execute"></param>
+        /// <param name="initializer"></param>
+        /// <param name="replaceSemicolonsWithNewLines"></param>
+        protected void InitIntegrationTests(Interpreter i, TestCases testCases)
+        {
+            if (testCases.RequiredTypes != null && testCases.RequiredTypes.Length > 0)
+                testCases.RequiredTypes.ForEach(type => i.Context.Types.Register(type, null));
+            
+            i.Context.Plugins.RegisterAllCustom();
         }
 
 
