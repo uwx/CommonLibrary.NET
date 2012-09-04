@@ -177,6 +177,9 @@ namespace ComLib.Lang.Tests.Common
                     Console.WriteLine();
                     Console.Write(stmt.Item4);
                     i.Execute(stmt.Item4);
+                    if (!i.Result.Success && !string.IsNullOrEmpty(i.Result.Message))
+                        Console.WriteLine("\r\n\r\nERROR : " + i.Result.Message);
+
                     if (stmt.Item1 != null)
                     {
                         object obj = i.Memory[stmt.Item1];

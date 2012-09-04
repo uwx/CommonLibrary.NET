@@ -135,6 +135,13 @@ namespace ComLib.Lang.Tests.Component
         public void Can_Use_Email()
         {
             RunTests(CommonTestCases_Plugins.Email, _testType);            
+        }
+
+
+        [Test]
+        public void Can_Use_FileExt()
+        {
+            RunTests(CommonTestCases_Plugins.FileExt, _testType);
         } 
 
 
@@ -249,6 +256,12 @@ namespace ComLib.Lang.Tests.Component
             RunTests(CommonTestCases_Plugins.VarPath, _testType);            
         }
 
+
+        [Test]
+        public void Can_Use_Version_Plugin()
+        {
+            RunTests(CommonTestCases_Plugins.Version, _testType);
+        }
 
         [Test]
         public void Can_Use_Log_Plugin()

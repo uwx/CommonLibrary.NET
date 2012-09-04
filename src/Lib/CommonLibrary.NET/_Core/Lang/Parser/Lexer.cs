@@ -478,6 +478,7 @@ namespace ComLib.Lang
             return token;
         }
 
+        
         /// <summary>
         /// Peeks at the next word that does not include a space.
         /// </summary>
@@ -506,6 +507,34 @@ namespace ComLib.Lang
 
 
         /// <summary>
+        /// Peeks at the next word that does not include a space.
+        /// </summary>
+        /// <returns></returns>
+        public string PeekPostiveNumber()
+        {
+            string text = _pos.Text;
+            int currentPos = _pos.Pos + 1;
+
+            string word = "";
+
+            // TODO: Does not properly handle checking against multiple "."
+            while (true && currentPos <= LAST_POSITION)
+            {
+                char c = text[currentPos];
+                if (('0' <= c && c <= '9') || (c == '.'))
+                {                    
+                    word += c;
+                }
+                else
+                    break;
+
+                currentPos++;
+            }
+            return word;
+        }
+
+
+        /// <summary>
         /// Peeks at the next word that does not include a space or new line
         /// </summary>
         /// <param name="extra1">An extra character that is allowed to be part of the word in addition to the allowed chars</param>
@@ -517,7 +546,7 @@ namespace ComLib.Lang
             string text = _pos.Text;
             int currentPos = startPos == -1
                            ? _pos.Pos + 1
-                           : startPos + 1;
+                           : _pos.Pos + startPos;
 
             string word = "";
             bool hasExtra1 = extra1 != char.MinValue;

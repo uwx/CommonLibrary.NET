@@ -80,6 +80,13 @@ namespace ComLib.Lang.Tests.Integration
 
 
         [Test]
+        public void Can_Use_FileExt()
+        {
+            RunTests(CommonTestCases_Plugins.FileExt, _testType);
+        } 
+
+
+        [Test]
         public void Can_Use_HashComment_Plugin()
         {
             RunTests(CommonTestCases_Plugins.HashComment, _testType);
@@ -181,6 +188,13 @@ namespace ComLib.Lang.Tests.Integration
         public void Can_Use_VariablePath_Plugin()
         {
             RunTests(CommonTestCases_Plugins.VarPath, _testType);
+        }
+
+
+        [Test]
+        public void Can_Use_Version_Plugin()
+        {
+            RunTests(CommonTestCases_Plugins.Version, _testType);
         }
 
 

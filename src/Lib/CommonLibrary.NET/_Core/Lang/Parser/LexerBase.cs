@@ -42,6 +42,12 @@ namespace ComLib.Lang
 
 
             /// <summary>
+            /// The last char parsed.
+            /// </summary>
+            public char LastChar; 
+
+
+            /// <summary>
             /// The current char
             /// </summary>
             public char CurrentChar;
@@ -301,6 +307,7 @@ namespace ComLib.Lang
             // Still valid?
             if (_pos.Pos <= LAST_POSITION)
             {
+                _pos.LastChar = _pos.CurrentChar;
                 _pos.CurrentChar = _pos.Text[_pos.Pos];
                 return _pos.CurrentChar;
             }
@@ -433,9 +440,15 @@ namespace ComLib.Lang
 
             bool matched = false;
             bool valid = true;
+            bool handledDecimal = false;
             while (_pos.Pos <= LAST_POSITION)
             {
-                if ('0' <= _pos.CurrentChar && _pos.CurrentChar <= '9' || _pos.CurrentChar == '.')
+                if (!handledDecimal && _pos.CurrentChar == '.')
+                {
+                    buffer.Append(_pos.CurrentChar);
+                    handledDecimal = true;
+                }
+                else if ('0' <= _pos.CurrentChar && _pos.CurrentChar <= '9')
                     buffer.Append(_pos.CurrentChar);
                 else
                 {

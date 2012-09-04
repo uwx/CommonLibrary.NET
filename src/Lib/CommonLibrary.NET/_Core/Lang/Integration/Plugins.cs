@@ -82,6 +82,7 @@ namespace ComLib.Lang
             _extMap["Def"]      	   =  new DefPlugin();
             _extMap["Enable"]      	   =  new EnablePlugin();
             _extMap["Email"]      	   =  new EmailPlugin();
+            _extMap["FileExt"]         =  new FileExtPlugin();
             _extMap["FluentFunc"]      =  new FluentFuncPlugin();
             _extMap["FluentMember"]    =  new FluentMemberPlugin();
             _extMap["FuncWildCard"]    =  new FuncWildCardPlugin();
@@ -110,7 +111,8 @@ namespace ComLib.Lang
             _extMap["Units"]      	   =  new UnitsPlugin();
             _extMap["Uri"]      	   =  new UriPlugin();
             _extMap["VariablePath"]    =  new VariablePathPlugin();
-            _extMap["Words"]      	   =  new WordsPlugin();
+            _extMap["Version"]         =  new VersionPlugin();
+            _extMap["Words"] = new WordsPlugin();
             _extMap["WordsInterpret"]  =  new WordsInterpretPlugin();
 
             /*

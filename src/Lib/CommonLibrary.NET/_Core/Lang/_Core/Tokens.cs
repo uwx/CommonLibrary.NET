@@ -120,6 +120,7 @@ namespace ComLib.Lang
         public const int LiteralDate        = 210;
         public const int LiteralOther       = 211;
         public const int LiteralBool        = 212;
+        public const int LiteralVersion     = 213;
 
         // Comparision operators ( < <= > >= == != )
         public const int Plus               = 300;
@@ -781,6 +782,19 @@ namespace ComLib.Lang
         {
             var val = DateTime.Parse(text);
             return new Token(TokenKind.LiteralDate, TokenTypes.LiteralDate, text, val);
+        }
+
+
+        /// <summary>
+        /// Creates a version literal token from the information supplied
+        /// </summary>
+        /// <param name="text">The text representing the version</param>
+        /// <returns></returns>
+        public static Token ToLiteralVersion(string text)
+        {
+            var val = Version.Parse(text);
+            var lv = new LVersion(val);
+            return new Token(TokenKind.LiteralOther, TokenTypes.LiteralVersion, text, lv);
         }
 
 

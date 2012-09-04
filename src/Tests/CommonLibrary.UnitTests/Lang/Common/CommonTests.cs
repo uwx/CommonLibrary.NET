@@ -245,6 +245,31 @@ namespace ComLib.Lang.Tests.Common
         /// <summary>
         /// Test cases for the typeof plugin
         /// </summary>
+        public static TestCases FileExt = new TestCases()
+        {
+            Name = "FileExt Plugin",
+            RequiredPlugins = new[] { typeof(FileExtPlugin) },
+            Positive = new List<Tuple<string, Type, object, string>>()
+            {
+                TestCase("result", typeof(string), ".svn", "function getSvn() { return .svn; } result = getSvn();"),
+                TestCase("result", typeof(string), ".svn", "var items = {a: .xml, b:.doc, c:.svn }; result = items.c;"),
+                TestCase("result", typeof(string), ".svn", "var items = [ .xml, .doc, .svn ]; result = items[2];"),
+                
+                TestCase("result", typeof(string), "*.svn", "function getSvn() { return *.svn; } result = getSvn();"),
+                TestCase("result", typeof(string), "*.svn", "var items = {a: .xml, b:.doc, c:*.svn }; result = items.c;"),
+                TestCase("result", typeof(string), "*.svn", "var items = [ .xml, .doc, *.svn ]; result = items[2];"),
+                
+                TestCase("result", typeof(string), ".xml",  "var result = .xml" ),
+                TestCase("result", typeof(string), "*.xml", "var result = *.xml"),
+                TestCase("result", typeof(string), ".svn",  "var result = .svn" ),
+                TestCase("result", typeof(string), "*.svn", "var result = *.svn"),
+            }
+        };
+
+
+        /// <summary>
+        /// Test cases for the typeof plugin
+        /// </summary>
         public static TestCases HashComment = new TestCases()
         {
             Name = "HashComment Plugin",
@@ -670,6 +695,30 @@ namespace ComLib.Lang.Tests.Common
             }
         };
 
+
+        /// <summary>
+        /// Test cases for the typeof plugin
+        /// </summary>
+        public static TestCases Version = new TestCases()
+        {
+            Name = "Version Plugin",
+            RequiredPlugins = new[] { typeof(VersionPlugin) },
+            Positive = new List<Tuple<string, Type, object, string>>()
+            {   
+                TestCase("result", typeof(string), "3.5.702.18", "var version = 3.5.702.18; result = version.Text();"),
+                TestCase("result", typeof(string), "3.5.702.18", "var version = 3.5.702.18; result = version.Text()\r\n"),
+                TestCase("result", typeof(string), "3.5.702.18", "var version = 3.5.702.18; result = version.Text()"),
+                TestCase("result", typeof(double), 3,   "var version = 3.5.702.18; result = version.Major;"),
+                TestCase("result", typeof(double), 5,   "var version = 3.5.702.18; result = version.Minor"),
+                TestCase("result", typeof(double), 702, "var version = 3.5.702.18; result = version.Build"),
+                TestCase("result", typeof(double), 18,  "var version = 3.5.702.18; result = version.Revision"),
+
+                TestCase("result", typeof(string), "1.5.2.80", "function getVersion() { return 1.5.2.80; } result = getVersion().Text();"),
+                TestCase("result", typeof(string), "1.5.2.80", "var items = {a: 1.2, b: 2, c: 1.5.2.80 }; result = items.c.Text();"),
+                TestCase("result", typeof(string), "1.5.2.80", "var items = [ 1.2, 1.3, 1.5.2.80 ]; result = items[2].Text();"),
+             
+            }
+        };
 
 
         private static string Records_Extra = "var num = 20; var name = 'catcher'; var active = true; function add(a, b) { return a + b; }";

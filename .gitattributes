@@ -612,6 +612,7 @@ src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/DefPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/EmailPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/EnablePlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/EnvPlugin.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/FileExtPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/FluentFuncPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/FluentMemberPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/FluentPlugin.cs -text
@@ -641,6 +642,7 @@ src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/UnitsPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/UriPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/UsePlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/VariablePathPlugin.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/VersionPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/WordsPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/System/BreakPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/System/ContinuePlugin.cs -text
