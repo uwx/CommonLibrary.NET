@@ -44,7 +44,7 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            //TestVersion();
+            TestVersion();
             Combinator_Tests();
             FluentTests();
             Semantic_Tests();
@@ -58,7 +58,7 @@ namespace ComLib.Samples
 
         static void TestVersion()
         {
-            Version v = new Version("0.9.8.7");
+            Version v = new Version("0.9.8");
             Console.WriteLine(v.ToString());
         }
 

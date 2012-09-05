@@ -231,7 +231,7 @@ namespace ComLib.Lang
             foreach (var pair in _sysMap) plugins.Add(pair.Value);
             foreach (var pair in _extMap) plugins.Add(pair.Value);
             Register(plugins.ToArray());
-            Register(new IOPlugin());
+            Register(new FileIOPlugin());
         }
 
 

@@ -1,11 +1,11 @@
 {anchor:Aggregate}
 ! 1. Aggregate
 *Description:* Provides sum, min, max, avg, count aggregate functions for lists.
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.AggregatePlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\AggregatePlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1289916]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1289916]
 {code:c#}
 // Aggregate plugin allows sum, min, max, avg, count aggregate functions to 
 // be applied to lists of objects.
@@ -31,11 +31,11 @@ result = count( numbers );
 {anchor:Alias}
 ! 2. Alias
 *Description:* Provides using an alias for a keyword such as set for var inside a script.
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.AliasPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\AliasPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1349987]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1349987]
 {code:c#}
 // Alias plugin allows setting up alias of words to other words/tokens in a script
 
@@ -50,11 +50,11 @@ var result2 = 2
 {anchor:AndOr}
 ! 3. AndOr
 *Description:* Provides words "and" "or" to be used in place of && and ||
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.AndOrPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\AndOrPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1343614]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1343614]
 {code:c#}
 // AndOr plugin allows the words "and" "or" to be used in place of && ||
 
@@ -66,11 +66,11 @@ if ( i < 30 or  j > 20 ) then print works
 {anchor:Bool}
 ! 4. Bool
 *Description:* Provides synonyms yes/no, on/off for bool values true/false.
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.BoolPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\BoolPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1290454]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1290454]
 {code:c#}
 // Bool plugin allows aliases for true/false
 
@@ -83,11 +83,11 @@ var result = no;
 {anchor:Compare}
 ! 5. Compare
 *Description:* Provides synonyms for comparison operators
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.ComparePlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\ComparePlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1290453]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1290453]
 {code:c#}
     
 // Compare plugin allows word aliases for the comparison operators. See list below
@@ -140,11 +140,11 @@ if a is above b  then
 {anchor:ConstCaps}
 ! 6. ConstCaps
 *Description:* Allows defining constants with UPPERCASE letters.
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.ConstCapsPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\ConstCapsPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1345095]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1345095]
 {code:c#}
 // Const caps plugin allows the creation of constants using capital letters
 // Constants are defined if all the letters are uppercase
@@ -167,11 +167,11 @@ ENDS   = June 10th 2012
 {anchor:Date}
 ! 7. Date
 *Description:* Provides word based representation for dates e.g December 21st 2011
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.DatePlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\DatePlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1289913]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1289913]
 {code:c#}
 // Date plugin allows date expressions in a friendly format like January 1 2001;
 // Following formats are supported.
@@ -197,11 +197,11 @@ if today is before December 25th 2011 then
 {anchor:DateNumber}
 ! 8. DateNumber
 *Description:* Provides representation of dates in the form of numbers e.g. 1/27/2012
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.DateNumberPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\DateNumberPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1289913]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1289913]
 {code:c#}
 // Date number plugin allow you to specify dates in the form of numbers as 
 // samples below.
@@ -215,11 +215,11 @@ var date3 = 6\10\2012 at 7:45am;
 {anchor:Day}
 ! 9. Day
 *Description:* Provides alias and word based representation for days e.g Tuesday, Saturday, today, tommorrow 
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.DayPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\DayPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1289914]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1289914]
 {code:c#}
 // Day plugin allows days of the week to be used as words. 
 // lowercase and uppercase days are supported:
@@ -237,11 +237,11 @@ if tommorrow is Saturday then
 {anchor:Def}
 ! 10. Def
 *Description:* Allows the word "def" to be used instead of "function" when declaring functions. 
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.DefPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\DefPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1333227]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1333227]
 {code:c#}
 // Def plugin allows the word "def" to be used instead of "function" when declaring functions.
     
@@ -254,11 +254,11 @@ def add( a, b )
 {anchor:Email}
 ! 11. Email
 *Description:* Provides using emails without quotes such as john.doe@company.com
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.EmailPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\EmailPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1332189]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1332189]
 {code:c#}
 // Email plugin enables recognition of emails as strings without using quotes,
 // such as john.doe@company.com
@@ -271,11 +271,11 @@ email3 = super.man_1@metropolis.com
 {anchor:Env}
 ! 12. Env
 *Description:* Provides access to environment variables
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.EnvPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\EnvPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1289918]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1289918]
 {code:c#}
 // Env plugin allows direct access to environment variables via the "env" object.
 
@@ -290,14 +290,98 @@ result = env.path;
 result = env.SystemRoot;
 {code:c#}
 [#Back to top]
+{anchor:Fail}
+! 13. Fail
+*Description:* Terminates a program abruptly with a message.
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
+*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.FailPlugin
+*Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\FailPlugin.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1387648]
+{code:c#}
+// Terminates a program abruptly with a message.
+
+fail 'settings file not found, exiting application'
+
+fail "file : #{path} not found, exiting application"
+
+fail 0
+{code:c#}
+[#Back to top]
+{anchor:FileExt}
+! 14. FileExt
+*Description:* Allows represnting file extension with out having to surround them in quotes e.g. .xml, .doc, *.dll
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
+*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.FileExtPlugin
+*Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\FileExtPlugin.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1387575]
+{code:c#}
+// Allows represnting file extension with out having to surround them in quotes
+// e.g. such as .doc, or *.doc 
+
+// Format: "*" "." <extension_name>
+// NOTE: The "*" is optional.
+
+some_file_operation( 'c:\\app\\src\\', .pdb )
+some_file_operation( 'c:\\app\\src\\', *.dll )
+some_file_operation( 'c:\\app\\src\\', .svn )
+some_file_operation( 'c:\\app\\src\\', .exe )
+{code:c#}
+[#Back to top]
+{anchor:FileIO}
+! 15. FileIO
+*Description:* Provides basic File/Directory operations.
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
+*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.FileIOPlugin
+*Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\IOPlugin.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1387646]
+{code:c#}
+ 
+ // Provides basic File/Directory operations.
+      
+ // Case 1: Fluent-mode ( files ) - with Uri plugin and FluentMember plugin
+ create   file  c:\temp\fs.txt   contents: 'testing'
+ append   file  c:\temp\fs.txt   contents: 'testing'
+ copy     file  c:\temp\fs.txt   to: c:\temp\fs.log
+ move     file  c:\temp\fs.txt   to: c:\temp\fs2.txt
+ rename   file  c:\temp\fs.txt   to: 'fs1.txt'
+ delete   file  c:\temp\fs.txt 
+ var exists = file exists c:\temp\fs.txt
+ 
+  
+ // Case 2: Fluent-mode ( directories ) - with Uri plugin and FluentMember plugin
+ create   dir   c:\temp\fs
+ copy     dir   c:\temp\fs,       to: c:\temp\fs1
+ move     dir   c:\temp\fs2,      to: c:\temp\fs
+ rename   dir   c:\temp\fs1,      to: 'fs2'
+ delete   dir   c:\temp\fs
+ var exists = dir exists       c:\temp\fs 
+ 
+
+ // Case 3: Files  ( Explicit calls )
+ File.Create( 'c:\\build\\log.txt', 'contents' )
+ File.Append( 'c:\\build\\log.txt', 'contents' )
+ File.Copy  ( 'c:\\build\\log.txt', 'c:\\build\\file2.txt')
+ File.Rename( 'c:\\temp\\fs.txt',  'fs-io-test2.txt', true );
+ File.Delete( 'c:\\temp\\fs.txt' )
+ File.Move  ( 'c:\\temp\\fs.txt',  'c:\\temp\\fs-io-test.txt' )
+ 
+
+ // Case 4: Directories ( Explicit calls )
+ // NOTE: This is similar to case 3 where each call is "Dir.<method>( <paramlist> )"
+ 
+{code:c#}
+[#Back to top]
 {anchor:Fluent Functions}
-! 13. Fluent Functions
+! 16. Fluent Functions
 *Description:* Provides ability to call functions with spaces in name. e.g. refill inventory
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.Fluent FunctionsPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\FluentFuncPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1334088]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1334088]
 {code:c#}
 // Fluent Func plugins allows calling functions with spaces.
  
@@ -332,14 +416,14 @@ refill inventory 'KL-131', 200
 {code:c#}
 [#Back to top]
 {anchor:Fluent Members}
-! 14. Fluent Members
+! 17. Fluent Members
 *Description:* Provides ability to access properties and methods on a custom c# object without the 
             "."( dot operator ).
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.Fluent MembersPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\FluentFuncPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1338334]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1338334]
 {code:c#}
  
  // Fluent Member plugin allows properties and methods to be accessed without "."
@@ -370,15 +454,15 @@ refill inventory 'KL-131', 200
 {code:c#}
 [#Back to top]
 {anchor:Function Wildcard}
-! 15. Function Wildcard
+! 18. Function Wildcard
 *Description:* Provides a 'wildcard' like ability to functions so that 2 functions that have different names are
             associated with the same function.
             
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.Function WildcardPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\FuncWildCardPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1346790]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1346790]
 {code:c#}
 // FuncWildCard plugin allows using functions with changing names allowing
 // a single function to handle function calls with different names.
@@ -420,13 +504,13 @@ create user by name password email role ( "user01", "password", "user01@abc.com"
 {code:c#}
 [#Back to top]
 {anchor:HashComment}
-! 16. HashComment
+! 19. HashComment
 *Description:* Provides single line comment using # instead of //
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.HashCommentPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\HashCommentPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1344512]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1344512]
 {code:c#}
 // Allows using # for single line comments instead of //
 
@@ -436,13 +520,13 @@ create user by name password email role ( "user01", "password", "user01@abc.com"
 {code:c#}
 [#Back to top]
 {anchor:Holiday}
-! 17. Holiday
+! 20. Holiday
 *Description:* Provides holiday names e.g. Christmas, Independence Day, Christmas Eve, New Years
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.HolidayPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\HolidayPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1289952]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1289952]
 {code:c#}
 // Holiday plugin allows references to dates using Holiday names such as:
 // Christmas
@@ -455,13 +539,13 @@ if today is New Years 2012 then
 {code:c#}
 [#Back to top]
 {anchor:Linq}
-! 18. Linq
+! 21. Linq
 *Description:* Provides partial support for linq-like queries on lists.
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.LinqPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\LinqPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1290456]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1290456]
 {code:c#}
 // Linq plugin is a Light-weight and partial version of Linq style queries and comprehensions
 // NOTE: This has limited functionality as of this release.
@@ -479,13 +563,13 @@ var favorities = from book in books where book.pages < 150 and book.author == 'k
 {code:c#}
 [#Back to top]
 {anchor:Log}
-! 19. Log
+! 22. Log
 *Description:* Provides logging ability to either the console or a log file
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.LogPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\LogPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1349989]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1349989]
 {code:c#}
 // CONFIGURATION    
 // 1. Set level to "error" and log to console
@@ -530,13 +614,13 @@ info 'finished updating data'
 {code:c#}
 [#Back to top]
 {anchor:MachineInfo}
-! 20. MachineInfo
+! 23. MachineInfo
 *Description:* Provides markers/comments that are checked for syntax
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.MachineInfoPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\MachineInfoPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1349266]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1349266]
 {code:c#}
 // Machine info plugin provides variable names to get information about the machine
     
@@ -563,13 +647,13 @@ print ( mac currentdir  )
 {code:c#}
 [#Back to top]
 {anchor:Marker}
-! 21. Marker
+! 24. Marker
 *Description:* Provides markers/comments that are checked for syntax
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.MarkerPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\MarkerPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1293552]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1293552]
 {code:c#}
 // Marker plugin allows you to mark code like comments but in the form of statements
 // so that syntax is checked. This allows for structured comments.
@@ -587,13 +671,13 @@ also do additional cleanup of code"
 {code:c#}
 [#Back to top]
 {anchor:Money}
-! 22. Money
+! 25. Money
 *Description:* Provides dollar sign $ support for numbers.
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.MoneyPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\MoneyPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1289917]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1289917]
 {code:c#}
 // Money plugin simply allows the $ to be prefixed to numbers.
 
@@ -603,13 +687,13 @@ if salary is more than $160 then
 {code:c#}
 [#Back to top]
 {anchor:Percent}
-! 23. Percent
+! 26. Percent
 *Description:* Provides using a percent sign % after a number to indicate percentage
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.PercentPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\PercentPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1357973]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1357973]
 {code:c#}
 // Percent plugin allow using a percent sign % after a number to indicate percentage
  
@@ -622,13 +706,13 @@ b = 75 %
 {code:c#}
 [#Back to top]
 {anchor:Print}
-! 24. Print
+! 27. Print
 *Description:* Provides functionality to print to console a line of text without wrapping around quotes.
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.PrintPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\PrintPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1290455]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1290455]
 {code:c#}
 // Print plugin derives from the "TakeoverPlugin"
 // Takeovers are keywords that consume the entire line of text in the script
@@ -641,13 +725,13 @@ print No need for quotes in #{language} if text to print is on one line
 {code:c#}
 [#Back to top]
 {anchor:Records}
-! 25. Records
+! 28. Records
 *Description:* Supports representing data in a table/csv like format.
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.RecordsPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\RecordsPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1296274]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1296274]
 {code:c#}
    
    // Supports representing data in a table/csv like format
@@ -672,13 +756,13 @@ print No need for quotes in #{language} if text to print is on one line
 {code:c#}
 [#Back to top]
 {anchor:Repeat}
-! 26. Repeat
+! 29. Repeat
 *Description:* Repeat plugin provides convenient ways to execute loops.
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.RepeatPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\RepeatPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1383748]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1383748]
 {code:c#}
 // Repeat plugin provides convenient ways to execute loops.        
 
@@ -728,13 +812,13 @@ repeat ndx = 1 to < 10 by 2
 {code:c#}
 [#Back to top]
 {anchor:Round}
-! 27. Round
+! 30. Round
 *Description:* Provides rounding of numbers using round, round up, round down.
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.RoundPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\RoundPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1292482]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1292482]
 {code:c#}
 // Round plugin provides functions to round, round up or round down numbers.
 
@@ -751,13 +835,13 @@ var d = round down 2.3;
 {code:c#}
 [#Back to top]
 {anchor:Run}
-! 28. Run
+! 31. Run
 *Description:* Provides alternative ways of calling a function.
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.RunPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\RunPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1289922]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1289922]
 {code:c#}
 // Run plugin provides alternate way to call a function for fluid syntax.
 // Notes: 
@@ -794,13 +878,13 @@ run step 'Clean up';
 {code:c#}
 [#Back to top]
 {anchor:Set}
-! 29. Set
+! 32. Set
 *Description:* Allows the word "set" to be used instead of "var" when declaring variables
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.SetPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\SetPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1333226]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1333226]
 {code:c#}
 // Set plugin allows using the word 'set' instead of 'var' when declaring variables
     
@@ -808,13 +892,13 @@ set age = 33
 {code:c#}
 [#Back to top]
 {anchor:Sort}
-! 30. Sort
+! 33. Sort
 *Description:* Provides ability to sort of list of either basic types of objects with properties.
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.SortPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\SortPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1293513]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1293513]
 {code:c#}
 // Sort plugin allows you to sort a list
 
@@ -836,13 +920,13 @@ sort i in books by i.pages desc
 {code:c#}
 [#Back to top]
 {anchor:Step}
-! 31. Step
+! 34. Step
 *Description:* Allows the word "step" to be used instead of "function" when declaring functions. 
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.StepPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\StepPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1343616]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1343616]
 {code:c#}
 // Step plugin allows the word "step" to be used instead of "function" when declaring functions.
     
@@ -853,13 +937,13 @@ step add( a, b )
 {code:c#}
 [#Back to top]
 {anchor:Suffix}
-! 32. Suffix
+! 35. Suffix
 *Description:* Provides enables the use of functions as postfix operators on constants
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.SuffixPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\SuffixPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1331001]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1331001]
 {code:c#}
 // Suffix plugin enables the use of functions as postfix operators on constants.
 
@@ -881,13 +965,13 @@ var time = 3 hours + 20 minutes;
 {code:c#}
 [#Back to top]
 {anchor:Swap}
-! 33. Swap
+! 36. Swap
 *Description:* Provides ability to swap values of 2 variables in 1 statement e.g swap a with b;
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.SwapPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\SwapPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1289912]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1289912]
 {code:c#}
 // Swap plugin provides 1 line statement to swap variables.
 
@@ -899,13 +983,13 @@ swap a with b;
 {code:c#}
 [#Back to top]
 {anchor:Time}
-! 34. Time
+! 37. Time
 *Description:* Provides time representation in format 12:30 pm
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.TimePlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\TimePlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1289920]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1289920]
 {code:c#}
 // Time plugin provides a convenient way to represent time in fluent syntax.
 
@@ -916,13 +1000,13 @@ if t is 12:30 pm then
 {code:c#}
 [#Back to top]
 {anchor:TypeOf}
-! 35. TypeOf
+! 38. TypeOf
 *Description:* Provides checking of data types
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.TypeOfPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\TypeOfPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1289920]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1289920]
 {code:c#}
 // Type of plugins gets the type of an expression.
 
@@ -942,13 +1026,13 @@ dataType = typeof inc               // 'function:inc'
 {code:c#}
 [#Back to top]
 {anchor:Units}
-! 36. Units
+! 39. Units
 *Description:* Provides usage of units of measure such as length, weight
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.UnitsPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\UnitsPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1331000]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1331000]
 {code:c#}
  
  // Units plugin allows the usage of units of measure such as length, weight
@@ -975,13 +1059,13 @@ dataType = typeof inc               // 'function:inc'
 {code:c#}
 [#Back to top]
 {anchor:Uri}
-! 37. Uri
+! 40. Uri
 *Description:* Provides url and folder representations as strings without quotes.
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.UriPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\UriPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1293481]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1293481]
 {code:c#}
 // Uri plugin allows you urls and file paths without surrounding them in 
 // quotes as long as there are no spaces. These are interpreted as strings.
@@ -997,13 +1081,13 @@ var file3 = 'c:/data/blog posts.xml';
 {code:c#}
 [#Back to top]
 {anchor:VariablePath}
-! 38. VariablePath
+! 41. VariablePath
 *Description:* Provides representation of file paths in more convenient ways.
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.VariablePathPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\VariablePathPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1358170]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1358170]
 {code:c#}
 // Provides representation of file paths in more convenient ways
 
@@ -1038,14 +1122,36 @@ file = @home\build\@{script}.build.xml
 // 2. use doublequotes for wrapping the path name e.g. "\build\appbuild.fs"
 {code:c#}
 [#Back to top]
+{anchor:Version}
+! 42. Version
+*Description:* Version plugin enables representation of versions using format 1.2.3.4.
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
+*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.VersionPlugin
+*Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\VersionPlugin.cs
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1387576]
+{code:c#}
+// Version plugin enables representation of versions using format 1.2.3.4.
+// This is particularily useful for when fluentscript is used for build automation.
+// e.g. 0.9.8.7
+
+version  = 0.9.8.7
+version2 = 0.9.8
+
+print( version.Major )
+print( version.Minor )
+print( version.Revision )
+print( version.Build )
+{code:c#}
+[#Back to top]
 {anchor:Words}
-! 39. Words
+! 43. Words
 *Description:* Provides ability to use multi-word strings. e.g fluent script = 'fluent script'
-*Date*: 9/1/2012
-*Version*: 0.9.8.7
+*Date*: 9/5/2012
+*Version*: 0.9.8.8
 *Type:* CommonLibrary.dll - ComLib.Lang.Extensions.WordsPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\WordsPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76551#1311195]
+*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1311195]
 {code:c#}
 // Words plugin enables the registration of custom text/words into the language
 // which are then immediately available for use. 

@@ -59,9 +59,9 @@ dist.dir = "${dist.dir.root}\${app.name}_${build.version}"
 		delete dir  @distdir
 		
 		# dirs.deleteByName
-		delete dirs by name @{app.base.dir}\src\Apps, 	names: [ bin, obj ], recurse
-		delete dirs by name @{app.base.dir}\src\Lib, 	names: [ bin, obj ], recurse
-		delete dirs by name @{app.base.dir}\src\Tests, 	names: [ bin, obj ], recurse
+		delete dirs @basedir\src\Apps, 	names: [ bin, obj ], recursive: yes
+		delete dirs @basedir\src\Lib, 	names: [ bin, obj ], recursive: yes
+		delete dirs @basedir\src\Tests, 	names: [ bin, obj ], recursive: yes
 	}
 
 

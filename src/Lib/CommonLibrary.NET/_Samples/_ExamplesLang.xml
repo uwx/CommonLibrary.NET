@@ -100,6 +100,27 @@
             <fileref name="_Core\Lang\Plugins\Parser\EnvPlugin.cs" />
             <example wikienabled="true" wikistyle="xml_markers" fileid="1289918">EnvPlugin.cs</example>
         </component>
+        <component name="Fail">
+            <shortdesc>Terminates a program abruptly with a message.</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\FailPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1387648">FailPlugin.cs</example>
+        </component>
+        <component name="FileExt">
+            <shortdesc>Allows represnting file extension with out having to surround them in quotes e.g. .xml, .doc, *.dll</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\FileExtPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1387575">FileExtPlugin.cs</example>
+        </component>
+        <component name="FileIO">
+            <shortdesc>Provides basic File/Directory operations.</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\IOPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1387646">IOPlugin.cs</example>
+        </component>
         <component name="Fluent Functions">
             <shortdesc>Provides ability to call functions with spaces in name. e.g. refill inventory</shortdesc>
             <summary>@shortdesc. If a function is defined with name "refill_inventory", it can be called using
@@ -288,6 +309,13 @@
             <language-style>python</language-style>
             <fileref name="_Core\Lang\Plugins\Parser\VariablePathPlugin.cs" />
             <example wikienabled="true" wikistyle="xml_markers" fileid="1358170">VariablePathPlugin.cs</example>
+        </component>
+        <component name="Version">
+            <shortdesc>Version plugin enables representation of versions using format 1.2.3.4.</shortdesc>
+            <summary>@shortdesc</summary>
+            <language-style>python</language-style>
+            <fileref name="_Core\Lang\Plugins\Parser\VersionPlugin.cs" />
+            <example wikienabled="true" wikistyle="xml_markers" fileid="1387576">VersionPlugin.cs</example>
         </component>
         <component name="Words">
             <shortdesc>Provides ability to use multi-word strings. e.g fluent script = 'fluent script'</shortdesc>

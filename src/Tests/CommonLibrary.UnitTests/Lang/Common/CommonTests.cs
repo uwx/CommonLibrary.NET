@@ -332,10 +332,36 @@ namespace ComLib.Lang.Tests.Common
         public static TestCases IO = new TestCases()
         {
             Name = "IO Plugin",
-            SetupPlugins = new[] { new IOPlugin() },
+            SetupPlugins = new[] { new FileIOPlugin() },
             RequiredPlugins = new [] { typeof(FluentMemberPlugin) },
             Positive = new List<Tuple<string, Type, object, string>>()
             {
+                // Directory tests
+                TestCase(null,     typeof(object), null,   @"create dir 'c:\\temp\\fs' "),
+                TestCase("exists", typeof(bool),   true,   @"var exists = dir exists  'c:\\temp\\fs'"), 
+                TestCase(null,     typeof(object), null,   @"copy   dir 'c:\\temp\\fs',  'c:\\temp\\fs1', true"),
+                TestCase(null,     typeof(object), null,   @"rename dir 'c:\\temp\\fs1',  'fs2' "),
+                TestCase(null,     typeof(object), null,   @"delete dir 'c:\\temp\\fs' "),
+                TestCase(null,     typeof(object), null,   @"move   dir 'c:\\temp\\fs2',  'c:\\temp\\fs'"),
+                TestCase(null,     typeof(object), null,   @"delete dir 'c:\\temp\\fs' "),
+
+                TestCase(null,     typeof(object), null,   @"Dir.Create( 'c:\\temp\\fs' );"),
+                TestCase("exists", typeof(bool),   true,   @"var exists = Dir.Exists( 'c:\\temp\\fs');"),             
+                TestCase(null,     typeof(object), null,   @"Dir.Copy  ( 'c:\\temp\\fs',  'c:\\temp\\fs1', true );"),
+                TestCase(null,     typeof(object), null,   @"Dir.Rename( 'c:\\temp\\fs1',  'fs2' );"),
+                TestCase(null,     typeof(object), null,   @"Dir.Delete( 'c:\\temp\\fs' );"),
+                TestCase(null,     typeof(object), null,   @"Dir.Move  ( 'c:\\temp\\fs2',  'c:\\temp\\fs'  );"),
+                TestCase(null,     typeof(object), null,   @"Dir.Delete( 'c:\\temp\\fs' );"),
+
+                TestCase(null,     typeof(object), null,   @"Dir Create( 'c:\\temp\\fs' );"),
+                TestCase("exists", typeof(bool),   true,   @"var exists = Dir Exists( 'c:\\temp\\fs');"),             
+                TestCase(null,     typeof(object), null,   @"Dir Copy  ( 'c:\\temp\\fs',  'c:\\temp\\fs1', true );"),
+                TestCase(null,     typeof(object), null,   @"Dir Rename( 'c:\\temp\\fs1',  'fs2' );"),
+                TestCase(null,     typeof(object), null,   @"Dir Delete( 'c:\\temp\\fs' );"),
+                TestCase(null,     typeof(object), null,   @"Dir Move  ( 'c:\\temp\\fs2',  'c:\\temp\\fs'  );"),
+                TestCase(null,     typeof(object), null,   @"Dir Delete( 'c:\\temp\\fs' );"),
+
+                // File tests
                 TestCase(null,     typeof(object), null,   @"create file 'c:\\temp\\fs-io-test.txt',  'testing'  "),
                 TestCase("exists", typeof(bool),   true,   @"var exists = file exists  'c:\\temp\\fs-io-test.txt'"),                
                 TestCase(null,     typeof(object), null,   @"append file 'c:\\temp\\fs-io-test.txt',  'updated' "),
@@ -362,6 +388,7 @@ namespace ComLib.Lang.Tests.Common
                 TestCase(null,     typeof(object), null,   @"File Delete( 'c:\\temp\\fs-io-test.txt' );"),
                 TestCase(null,     typeof(object), null,   @"File Move  ( 'c:\\temp\\fs-io-test2.txt',  'c:\\temp\\fs-io-test.txt'  );"),
                 TestCase(null,     typeof(object), null,   @"File Delete( 'c:\\temp\\fs-io-test.txt' );"),
+
             }
         };
 
@@ -786,7 +813,8 @@ namespace ComLib.Lang.Tests.Common
              
                 TestCase("result", typeof(double), 3,   "var version = 3.5.702; result = version.Major;"),
                 TestCase("result", typeof(double), 5,   "var version = 3.5.702; result = version.Minor"),
-                TestCase("result", typeof(double), 702, "var version = 3.5.702; result = version.Build")
+                TestCase("result", typeof(double), 702, "var version = 3.5.702; result = version.Build"),
+                TestCase("result", typeof(double), -1,   "var version = 3.5.702; result = version.Revision")
             }
         };
 
