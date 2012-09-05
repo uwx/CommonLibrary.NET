@@ -80,14 +80,14 @@ namespace ComLib.Lang.Tests.Common
                     initializer(i);
                 else
                 {
-                    //if (testCases.SetupPlugins != null && testCases.SetupPlugins.Length > 0)
-                    //{
-                    //    for (int ndx = 0; ndx < testCases.SetupPlugins.Length; ndx++)
-                    //    {
-                    //        var plugin = testCases.SetupPlugins[ndx];
-                    //        i.Context.Plugins.Register((ISetupPlugin)plugin);
-                    //    }
-                    //}
+                    if (testCases.SetupPlugins != null && testCases.SetupPlugins.Length > 0)
+                    {
+                        for (int ndx = 0; ndx < testCases.SetupPlugins.Length; ndx++)
+                        {
+                            var plugin = testCases.SetupPlugins[ndx];
+                            i.Context.Plugins.Register((ISetupPlugin)plugin);
+                        }
+                    }
 
                     if (testType == TestType.Component)
                         InitComponentTests(i, testCases);

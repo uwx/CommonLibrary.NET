@@ -748,6 +748,7 @@ namespace ComLib.Lang
         {
             // Check for end token.
             if (token == Tokens.EndToken) return null;
+            if (map == null || map.Count == 0) return null;
 
             string name = key == null ? token.Text : key;
             bool isCurrentToken = tokenPos == 0;

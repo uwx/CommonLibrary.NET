@@ -6,9 +6,9 @@ using System.Text;
 namespace ComLib.Lang
 {
     /// <summary>
-    /// Boolean datatype.
+    /// Used to represent a version number e.g. 0.9.8.7
     /// </summary>
-    public class LVersion : LObject
+    public class LVersion
     {
         /// <summary>
         /// Initialize
@@ -24,37 +24,37 @@ namespace ComLib.Lang
 
 
         /// <summary>
-        /// The major part of the version ( first )
+        /// The First unit of the version.
         /// </summary>
-        public int Major    { get; set; }
-                 
-        
-        /// <summary>
-        /// The minor part of the version ( second )
-        /// </summary> 
-        public int Minor    { get; set; }
-                      
-        
-        /// <summary>
-        /// The build part of the version ( third )
-        /// </summary>
-        public int Build    { get; set; }
-                                   
+        public int Major { get; set; }
+
 
         /// <summary>
-        /// The revision part of the version ( fourth )
+        /// The second unit of the version.
+        /// </summary>
+        public int Minor { get; set; }
+
+
+        /// <summary>
+        /// The third unit of the version.
+        /// </summary>
+        public int Build { get; set; }
+
+
+        /// <summary>
+        /// The fourth unit of the version.
         /// </summary>
         public int Revision { get; set; }
-
+        
 
         /// <summary>
-        /// The text representation of the version.
+        /// text based representation of the version.
         /// </summary>
         /// <returns></returns>
         public string Text()
         {
             var text = this.Major + "." + this.Minor + "." + this.Build;
-            if(this.Revision < 0 )
+            if (this.Revision < 0)
                 return text;
 
             return text + "." + this.Revision.ToString();

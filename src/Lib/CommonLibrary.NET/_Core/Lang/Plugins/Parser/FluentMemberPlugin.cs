@@ -309,7 +309,7 @@ namespace ComLib.Lang.Extensions
             // 2. Class method
             else if (klass != null && method != null)
             {
-                rootVar = klass.Text;
+                rootVar = type.Name;
                 if (helper.IsClassMethod(type, method.Text))
                 {   
                     memberName = method.Text;
@@ -394,8 +394,18 @@ namespace ComLib.Lang.Extensions
             Type type = null;
             if (klass != null)
             {
-                if (_ctx.Types.Contains(klass.Text)) 
+                // Case 1: Check if class name e..g "File" exists in the registered types.
+                if (_ctx.Types.Contains(klass.Text))
                     type = _ctx.Types.Get(klass.Text);
+
+                // Case 2: Class name is "File" but used as "file" in script, in a case insensitive way.
+                // This is ok, as long as there is NOT another instance variable with the same name.
+                else if(!_ctx.Symbols.Contains(klass.Text))
+                {
+                    var name = Char.ToUpper(klass.Text[0]) + klass.Text.Substring(1);
+                    if (_ctx.Types.Contains(name))
+                        type = _ctx.Types.Get(name);
+                }
             }
             if (instance != null)
             {

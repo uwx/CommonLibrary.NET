@@ -167,6 +167,13 @@ namespace ComLib.Lang.Tests.Component
 
 
         [Test]
+        public void Can_Use_IO_Plugin()
+        {
+            RunTests(CommonTestCases_Plugins.IO, _testType);
+        }
+
+
+        [Test]
         public void Can_Use_MachineInfo_Plugin()
         {
             RunTests(CommonTestCases_Plugins.MachineInfo, _testType); 

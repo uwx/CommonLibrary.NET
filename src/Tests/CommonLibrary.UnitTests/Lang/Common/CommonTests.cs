@@ -333,15 +333,35 @@ namespace ComLib.Lang.Tests.Common
         {
             Name = "IO Plugin",
             SetupPlugins = new[] { new IOPlugin() },
+            RequiredPlugins = new [] { typeof(FluentMemberPlugin) },
             Positive = new List<Tuple<string, Type, object, string>>()
             {
-                TestCase("a", typeof(object), null, "file.create( c:\\temp\\fs-io-test.txt,  'testing' );"),
-                TestCase("a", typeof(object), null, "file.append( c:\\temp\\fs-io-test.txt,  'updated' );"),
-                TestCase("a", typeof(object), null, "file.copy  ( c:\\temp\\fs-io-test.txt,  c:\\temp\\fs-io-test1.txt, true );"),
-                TestCase("a", typeof(object), null, "file.rename( c:\\temp\\fs-io-test.txt,  'fs-io-test2.txt', true );"),
-                TestCase("a", typeof(object), null, "file.move  ( c:\\temp\\fs-io-test2.txt,  c:\\temp\\fs-io-test.txt  );"),
-                TestCase("a", typeof(object), null, "file.delete( c:\\temp\\fs-io-test.txt );"),
+                TestCase(null,     typeof(object), null,   @"create file 'c:\\temp\\fs-io-test.txt',  'testing'  "),
+                TestCase("exists", typeof(bool),   true,   @"var exists = file exists  'c:\\temp\\fs-io-test.txt'"),                
+                TestCase(null,     typeof(object), null,   @"append file 'c:\\temp\\fs-io-test.txt',  'updated' "),
+                TestCase(null,     typeof(object), null,   @"copy   file 'c:\\temp\\fs-io-test.txt',  'c:\\temp\\fs-io-test1.txt', true"),
+                TestCase(null,     typeof(object), null,   @"rename file 'c:\\temp\\fs-io-test1.txt',  'fs-io-test2.txt', true"),
+                TestCase(null,     typeof(object), null,   @"delete file 'c:\\temp\\fs-io-test.txt' "),
+                TestCase(null,     typeof(object), null,   @"move   file 'c:\\temp\\fs-io-test2.txt',  'c:\\temp\\fs-io-test.txt'"),
+                TestCase(null,     typeof(object), null,   @"delete file 'c:\\temp\\fs-io-test.txt' "),
 
+                TestCase(null,     typeof(object), null,   @"File.Create( 'c:\\temp\\fs-io-test.txt',  'testing' );"),
+                TestCase("exists", typeof(bool),   true,   @"var exists = File.Exists( 'c:\\temp\\fs-io-test.txt');"),                
+                TestCase(null,     typeof(object), null,   @"File.Append( 'c:\\temp\\fs-io-test.txt',  'updated' );"),
+                TestCase(null,     typeof(object), null,   @"File.Copy  ( 'c:\\temp\\fs-io-test.txt',  'c:\\temp\\fs-io-test1.txt', true );"),
+                TestCase(null,     typeof(object), null,   @"File.Rename( 'c:\\temp\\fs-io-test1.txt',  'fs-io-test2.txt', true );"),
+                TestCase(null,     typeof(object), null,   @"File.Delete( 'c:\\temp\\fs-io-test.txt' );"),
+                TestCase(null,     typeof(object), null,   @"File.Move  ( 'c:\\temp\\fs-io-test2.txt',  'c:\\temp\\fs-io-test.txt'  );"),
+                TestCase(null,     typeof(object), null,   @"File.Delete( 'c:\\temp\\fs-io-test.txt' );"),
+
+                TestCase(null,     typeof(object), null,   @"File Create( 'c:\\temp\\fs-io-test.txt',  'testing' );"),
+                TestCase("exists", typeof(bool),   true,   @"var exists = File.Exists( 'c:\\temp\\fs-io-test.txt');"),                
+                TestCase(null,     typeof(object), null,   @"File Append( 'c:\\temp\\fs-io-test.txt',  'updated' );"),
+                TestCase(null,     typeof(object), null,   @"File Copy  ( 'c:\\temp\\fs-io-test.txt',  'c:\\temp\\fs-io-test1.txt', true );"),
+                TestCase(null,     typeof(object), null,   @"File Rename( 'c:\\temp\\fs-io-test1.txt',  'fs-io-test2.txt', true );"),
+                TestCase(null,     typeof(object), null,   @"File Delete( 'c:\\temp\\fs-io-test.txt' );"),
+                TestCase(null,     typeof(object), null,   @"File Move  ( 'c:\\temp\\fs-io-test2.txt',  'c:\\temp\\fs-io-test.txt'  );"),
+                TestCase(null,     typeof(object), null,   @"File Delete( 'c:\\temp\\fs-io-test.txt' );"),
             }
         };
 

@@ -194,7 +194,23 @@ namespace ComLib.Lang.Extensions
         /// <param name="overwrite">Whether or not to overwrite any existing files</param>
         public static void Copy(string path, string to, bool overwrite)
         {
-            throw new NotImplementedException("Copy directory not yet implemented");
+            if (!Directory.Exists(to))
+                Directory.CreateDirectory(to);
+
+            string[] files = Directory.GetFiles(path);
+            foreach (string file in files)
+            {
+                string name = Path.GetFileName( file );
+                string dest = Path.Combine(to, name);
+                System.IO.File.Copy( file, dest );
+            }
+            string[] folders = Directory.GetDirectories(path);
+            foreach (string folder in folders)
+            {
+                string name = Path.GetFileName( folder );
+                string dest = Path.Combine(to, name);
+                Copy( folder, dest, overwrite );
+            }
         }
 
 
