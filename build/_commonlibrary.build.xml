@@ -187,6 +187,23 @@
 		</if>
 	</target>
 	
+	
+	<target name="SetupFSFolders">
+		<copy todir="${app.base.dir}\src\Lib\FluentScript\Lang">
+			<fileset basedir="${dist.dir}\src\Lib\CommonLibrary.NET\_Core\Lang">
+		        <include name="**/*" />
+		    </fileset>
+		</copy>
+		<delete dir="${app.base.dir}\src\Lib\FluentScript\Lang\AST\Statements" />		
+		<delete>
+		    <fileset>
+				<include name="${app.base.dir}\src\Lib\FluentScript\Lang\Parser\PluginSupport\StmtBlockPlugin.cs" />		
+				<include name="${app.base.dir}\src\Lib\FluentScript\Lang\Parser\PluginSupport\StmtPlugin.cs" />
+		    </fileset>
+		</delete>
+	</target>
+	
+	
 		
 	<!-- ****************************************************************************************
 		Execute the build
@@ -199,6 +216,7 @@
 		<call target="Package" />
 		<call target="PackageBinaries" />
 		<call target="PackageExamples" />
+		<call target="SetupFSFolders" />
 	</target>
 	
 </project>
