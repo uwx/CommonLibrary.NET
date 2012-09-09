@@ -7,6 +7,56 @@ using System.Text;
 namespace ComLib.Lang
 {
     /// <summary>
+    /// The result of a scan for a specific token
+    /// </summary>
+    public class ScanTokenResult
+    {
+        /// <summary>
+        /// Initialize
+        /// </summary>
+        /// <param name="success"></param>
+        /// <param name="text"></param>
+        public ScanTokenResult(bool success, string text)
+            : this(success, text, 0)
+        {
+        }
+
+
+        /// <summary>
+        /// Initialize
+        /// </summary>
+        /// <param name="success"></param>
+        /// <param name="text">The parsed text</param>
+        /// <param name="totalNewLines">The total number of new lines</param>
+        public ScanTokenResult(bool success, string text, int totalNewLines)
+        {
+            Success = success;
+            Text = text;
+            Lines = totalNewLines;
+        }
+
+
+        /// <summary>
+        /// Whether or not the token was properly present
+        /// </summary>
+        public readonly bool Success;
+
+
+        /// <summary>
+        /// The text of the token.
+        /// </summary>
+        public readonly string Text;
+
+
+        /// <summary>
+        /// Number of lines parsed.
+        /// </summary>
+        public int Lines;
+    }
+
+
+
+    /// <summary>
     /// Base class for the language lexer... this does not know anything about tokens.
     /// This class only has methods to readchars, peekchars, read words, numbers etc.
     /// </summary>
