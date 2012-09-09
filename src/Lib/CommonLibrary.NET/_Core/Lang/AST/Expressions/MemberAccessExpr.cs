@@ -183,7 +183,7 @@ namespace ComLib.Lang
             // CASE 2. Static method call: "Person.Create" 
             if(isVariableExp )
             { 
-                BoolMessageItem result = IsMemberStaticAccess(variableName);
+                var result = IsMemberStaticAccess(variableName);
                 if (result.Success)
                     return GetStaticMemberAccess(result.Item as Type);
             }

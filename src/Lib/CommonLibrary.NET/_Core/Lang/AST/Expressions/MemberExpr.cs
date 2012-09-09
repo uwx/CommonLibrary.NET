@@ -132,7 +132,7 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="variableName"></param>
         /// <returns></returns>
-        protected BoolMessageItem IsMemberStaticAccess(string variableName)
+        protected BoolMsgObj IsMemberStaticAccess(string variableName)
         {
             Type type = null;
             bool isStatic = false;
@@ -157,7 +157,7 @@ namespace ComLib.Lang
                     actualName = name;
                 }
             }
-            return new BoolMessageItem(type, isStatic, string.Empty);
+            return new BoolMsgObj(type, isStatic, string.Empty);
         }
 
 

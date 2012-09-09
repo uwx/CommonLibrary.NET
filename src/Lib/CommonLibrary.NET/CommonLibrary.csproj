@@ -630,6 +630,7 @@
     <Compile Include="_Core\Lang\Parser\Lexer.cs" />
     <Compile Include="_Core\Lang\Parser\Parser.cs" />
     <Compile Include="_Core\Lang\_Core\AstNode.cs" />
+    <Compile Include="_Core\Lang\_Core\BoolMsgObj.cs" />
     <Compile Include="_Core\Lang\_Core\Callbacks.cs" />
     <Compile Include="_Core\Lang\_Core\CallStack.cs" />
     <Compile Include="_Core\Lang\_Core\Context.cs" />

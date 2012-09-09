@@ -146,9 +146,9 @@ namespace ComLib.Lang.Extensions
                 var result = ParseTo();
                 startVal = new ConstantExpr(1.0);
                 _parser.SetScriptPosition(startVal, startToken);
-                op = result.First;
-                endVal = result.Second;
-                incVal = result.Third;
+                op = result.Item1;
+                endVal = result.Item2;
+                incVal = result.Item3;
             }
             // Case 2: repeat 1 to 10
             else if (_tokenIt.NextToken.Token.Kind == TokenKind.LiteralNumber)
@@ -157,9 +157,9 @@ namespace ComLib.Lang.Extensions
                 var result = ParseTo();
                 startVal = new ConstantExpr(num);
                 _parser.SetScriptPosition(startVal, startToken);
-                op = result.First;
-                endVal = result.Second;
-                incVal = result.Third;
+                op = result.Item1;
+                endVal = result.Item2;
+                incVal = result.Item3;
             }
             // Case 3: repeat ndx to 10
             else if (_tokenIt.NextToken.Token.Kind == TokenKind.Ident)
@@ -180,9 +180,9 @@ namespace ComLib.Lang.Extensions
                     _parser.SetScriptPosition(startVal, startToken);
                 }
                 var result = ParseTo();
-                op = result.First;
-                endVal = result.Second;
-                incVal = result.Third;
+                op = result.Item1;
+                endVal = result.Item2;
+                incVal = result.Item3;
             }
             // auto-create variable name.
             if (varname == null)
@@ -214,7 +214,7 @@ namespace ComLib.Lang.Extensions
         }
 
 
-        private Tuple3<Operator, Expr, Expr> ParseTo()
+        private Tuple<Operator, Expr, Expr> ParseTo()
         {
             var op = Operator.LessThanEqual;
             _tokenIt.Advance();
@@ -249,7 +249,7 @@ namespace ComLib.Lang.Extensions
                 incVal = new ConstantExpr(1.0);
                 _parser.SetScriptPosition(incVal, currentToken);
             }
-            return new Tuple3<Operator, Expr, Expr>(op, end, incVal);
+            return new Tuple<Operator, Expr, Expr>(op, end, incVal);
         }
 
 
