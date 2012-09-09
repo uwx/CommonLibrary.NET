@@ -537,7 +537,6 @@ src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/IndexableExpr.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/InterpolatedExpr.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/MemberAccessExpr.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/MemberExpr.cs -text
-src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/MemberValueExpr.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/NamedParameterExpr.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/NewExpr.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/UnaryExpr.cs -text
@@ -595,7 +594,6 @@ src/Lib/CommonLibrary.NET/_Core/Lang/Parser/SemActs.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/Terminators.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/TokenIterator.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/Visitor.cs -text
-src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Core/AliasPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Core/AliasTokenPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Core/LexReplacePlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Core/LineReaderPlugin.cs -text
@@ -689,7 +687,6 @@ src/Lib/CommonLibrary.NET/_Core/Lang/_Core/ScriptRef.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/_Core/Symbols.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/_Core/TokenData.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/_Core/Tokens.cs -text
-src/Lib/CommonLibrary.NET/_Core/Lang/_Core/Variable.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/grammer.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lexer/LexArgs.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lexer/LexBase.cs -text
