@@ -105,9 +105,9 @@ namespace ComLib.Lang.Extensions
         }
 
 
-        private bool CheckIfSingleIdentWildCard(List<Tuple2<string, int>> tokens)
+        private bool CheckIfSingleIdentWildCard(List<Tuple<string, int>> tokens)
         {
-            var first = tokens[0].First;
+            var first = tokens[0].Item1;
             if (_parser.Context.Functions.Contains(first))
             {
                 var func = _parser.Context.Functions.GetByName(first);

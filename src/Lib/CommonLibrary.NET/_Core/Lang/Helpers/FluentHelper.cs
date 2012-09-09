@@ -38,7 +38,7 @@ namespace ComLib.Lang.Helpers
         /// <param name="funcs">The list of external functions.</param>
         /// <param name="ids">List of strings representing identifier tokens</param>
         /// <returns></returns>
-        public static FunctionLookupResult MatchFunctionName(Context ctx, List<Tuple2<string,int>> ids)
+        public static FunctionLookupResult MatchFunctionName(Context ctx, List<Tuple<string,int>> ids)
         {
             var names = ids;
             var foundFuncName = string.Empty;
@@ -49,7 +49,7 @@ namespace ComLib.Lang.Helpers
             {
                 // "refill inventory"
                 var possible = ids[ndx];
-                string funcName = possible.First;
+                string funcName = possible.Item1;
                 string funcNameWithUnderScores = funcName.Replace(' ', '_');
 
                 // Case 1: "refill inventory" - exists with spaces
@@ -72,7 +72,7 @@ namespace ComLib.Lang.Helpers
                 if (!string.IsNullOrEmpty(foundFuncName))
                 {
                     found = true;
-                    tokenCount = possible.Second;
+                    tokenCount = possible.Item2;
                     break;
                 }
             }

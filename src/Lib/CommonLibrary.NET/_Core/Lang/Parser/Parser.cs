@@ -366,8 +366,8 @@ namespace ComLib.Lang
                 {
                     if (exp != null) SetScriptPosition(exp, tokenData);
                     var result = ParseExpressionsWithPrecedence(endTokens, exp, true, identEndTokens, enableIdentTokenTextAsEndToken);
-                    exp = result.Second;
-                    expEndsInParenthesis = result.First;
+                    exp = result.Item2;
+                    expEndsInParenthesis = result.Item1;
                 }
                 // Exp 7. Interpolated token "${first} name ${last} name".
                 else if (token.Kind == TokenKind.Multi)
@@ -740,7 +740,7 @@ namespace ComLib.Lang
         /// <param name="identTokens"></param>
         /// <param name="enableIdentTokensAsEndTokens"></param>
         /// <returns></returns>
-        private Tuple2<bool, Expr> ParseExpressionsWithPrecedence(IDictionary<Token, bool> endTokens, Expr initial, 
+        private Tuple<bool, Expr> ParseExpressionsWithPrecedence(IDictionary<Token, bool> endTokens, Expr initial, 
             bool enableTokenPlugins = true, IDictionary<string, bool> identTokens = null, bool enableIdentTokensAsEndTokens = false)
         {
             _state.PrecedenceParseStackCount++;
@@ -913,7 +913,7 @@ namespace ComLib.Lang
             bool endsInParenthesis = false;
             _state.PrecedenceParseStackCount--;
 
-            return new Tuple2<bool, Expr>(endsInParenthesis, finalExp);
+            return new Tuple<bool, Expr>(endsInParenthesis, finalExp);
         }
 
 

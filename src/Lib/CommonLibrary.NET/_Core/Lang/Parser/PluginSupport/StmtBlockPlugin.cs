@@ -8,7 +8,7 @@ namespace ComLib.Lang
     /// <summary>
     /// A combinator to extend the parser
     /// </summary>
-    public class ExprBlockPlugin : ExprPlugin
+    public class StmtBlockPlugin : ExprPlugin
     {
         /// <summary>
         /// Parses a block by first pushing symbol scope and then popping after completion.
