@@ -12,6 +12,7 @@ doc/comlib.wiki.examples.txt -text
 doc/comlib.wiki.fluent.txt -text
 doc/fluentscript_jsimpl.js -text
 doc/webapp_security.txt -text
+ide/CommonLibrary.FluentScript.sln -text
 ide/CommonLibrary.SampleApp.sln -text
 install/database/install_model_Config.sql -text
 install/database/install_model_Log.sql -text
@@ -22,6 +23,15 @@ lib/External/NUnit/2.5.5/nunit.framework.dll -text
 src/Apps/ComLib.Apps.CodeGeneration/Program.cs -text
 src/Apps/ComLib.Apps.CodeGeneration/Properties/AssemblyInfo.cs -text
 src/Apps/ComLib.Apps.CodeGeneration/SampleModels.cs -text
+src/Apps/ComLib.Apps.FluentScript/BoolMsgItem.cs -text
+src/Apps/ComLib.Apps.FluentScript/FS.cs -text
+src/Apps/ComLib.Apps.FluentScript/FSArgs.cs -text
+src/Apps/ComLib.Apps.FluentScript/FSHelper.cs -text
+src/Apps/ComLib.Apps.FluentScript/FluentScript.exe.csproj -text
+src/Apps/ComLib.Apps.FluentScript/FluentScript.exe.csproj.user -text
+src/Apps/ComLib.Apps.FluentScript/Properties/AssemblyInfo.cs -text
+src/Apps/ComLib.Apps.FluentScript/Properties/AssemblyVersion.cs -text
+src/Apps/ComLib.Apps.FluentScript/app.config -text
 src/Apps/ComLib.Apps.FluentSharp/FS.cs -text
 src/Apps/ComLib.Apps.FluentSharp/FSArgs.cs -text
 src/Apps/ComLib.Apps.FluentSharp/Properties/AssemblyInfo.cs -text
@@ -760,6 +770,9 @@ src/Lib/CommonLibrary.NET/_Samples/Example_ToDo.cs -text
 src/Lib/CommonLibrary.NET/_Samples/Example_Validation.cs -text
 src/Lib/CommonLibrary.NET/_Samples/_Examples.xml -text
 src/Lib/CommonLibrary.NET/_Samples/_ExamplesLang.xml -text
+src/Lib/FluentScript/FluentScript.csproj -text
+src/Lib/FluentScript/Properties/AssemblyInfo.cs -text
+src/Lib/FluentScript/Properties/AssemblyVersion.cs -text
 src/Tests/CommonLibrary.UnitTests/AccountTests.cs -text
 src/Tests/CommonLibrary.UnitTests/ArgsParserTests.cs -text
 src/Tests/CommonLibrary.UnitTests/AuthServiceTests.cs -text

@@ -188,7 +188,7 @@
 	</target>
 	
 	
-	<target name="SetupFSFolders">
+	<target name="FS_Setup">
 		<copy todir="${app.base.dir}\src\Lib\FluentScript\Lang">
 			<fileset basedir="${dist.dir}\src\Lib\CommonLibrary.NET\_Core\Lang">
 		        <include name="**/*" />
@@ -197,12 +197,42 @@
 		<delete dir="${app.base.dir}\src\Lib\FluentScript\Lang\AST\Statements" />		
 		<delete>
 		    <fileset>
+				<include name="${app.base.dir}\src\Lib\FluentScript\Lang\grammer.cs" />		
 				<include name="${app.base.dir}\src\Lib\FluentScript\Lang\Parser\PluginSupport\StmtBlockPlugin.cs" />		
 				<include name="${app.base.dir}\src\Lib\FluentScript\Lang\Parser\PluginSupport\StmtPlugin.cs" />
 		    </fileset>
 		</delete>
 	</target>
 	
+
+	<target name="FS_Compile">
+		<property name="fs.solution" value="${app.base.dir}\ide\CommonLibrary.FluentScript.sln" />
+		<echo message="Compiling : ${compile.compiler} ${fs.solution} /t:${compile.target} /p:Configuration=${compile.configuration}" />		
+		<exec program="${compile.compiler}" workingdir="${compile.workingDir}" failonerror="false">
+			<arg value="${fs.solution}" />
+			<arg value="/t:${compile.target}" />
+			<arg value="/p:Configuration=${compile.configuration}" />
+		</exec>
+	</target>
+
+
+	<target name="FS_Package">
+		<echo message="${app.source.dir}" />
+		<!-- 1. Just the dll for library usage -->
+		<zip zipfile="${dist.dir.root}\Fluentscript_${build.version}_lib.zip">
+		    <fileset basedir="${app.source.dir}\Lib\FluentScript\bin\${compile.configuration}">
+		        <include name="**/*dll" />
+		    </fileset>
+		</zip>		
+		
+		<!-- 2. FluentScript.exe standalone -->
+		<zip zipfile="${dist.dir.root}\Fluentscript_${build.version}_exe.zip">
+		    <fileset basedir="${app.source.dir}\Apps\ComLib.Apps.FluentScript\bin\${compile.configuration}">
+		        <include name="**/*dll" />
+				<include name="**/*exe" />
+		    </fileset>
+		</zip>
+	</target>
 	
 		
 	<!-- ****************************************************************************************
@@ -216,7 +246,9 @@
 		<call target="Package" />
 		<call target="PackageBinaries" />
 		<call target="PackageExamples" />
-		<call target="SetupFSFolders" />
+		<call target="FS_Setup" />
+		<call target="FS_Compile" />
+		<call target="FS_Package" />
 	</target>
 	
 </project>
