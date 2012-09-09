@@ -389,13 +389,30 @@ namespace ComLib.Lang.Extensions
         }
 
 
+        /// <summary>
+        /// Converts a list of items to a dictionary with the items.
+        /// </summary>
+        /// <typeparam name="T">Type of items to use.</typeparam>
+        /// <param name="items">List of items.</param>
+        /// <returns>Converted list as dictionary.</returns>
+        public static IDictionary<T, T> ToDictionary<T>(IList<T> items)
+        {
+            IDictionary<T, T> dict = new Dictionary<T, T>();
+            foreach (T item in items)
+            {
+                dict[item] = item;
+            }
+            return dict;
+        }
+
+
         private static List<object> FindInternal(string path, string[] named, string[] exts, bool recursive)
         {
             var files = new List<object>();
             var hasExtFilter = exts != null && exts.Length > 0;
             var hasNameFilter = named != null && named.Length > 0;
-            IDictionary<string, string> extMap = hasExtFilter ? exts.ToDictionary() : null;
-            IDictionary<string, string> nameMap = hasNameFilter ? named.ToDictionary() : null;
+            IDictionary<string, string> extMap = hasExtFilter ? ToDictionary(exts) : null;
+            IDictionary<string, string> nameMap = hasNameFilter ? ToDictionary(named) : null;
 
             // Match the files.
             Dir.ForEachFile(path, recursive, (filepath) =>
@@ -460,7 +477,7 @@ namespace ComLib.Lang.Extensions
         {
             var files = new List<object>();
             var hasNameFilter = named != null && named.Length > 0;
-            IDictionary<string, string> nameMap = hasNameFilter ? named.ToDictionary() : null;
+            IDictionary<string, string> nameMap = hasNameFilter ? Files.ToDictionary(named) : null;
 
             // Match the files.
             Dir.ForEachDir(path, recursive, (filepath) =>

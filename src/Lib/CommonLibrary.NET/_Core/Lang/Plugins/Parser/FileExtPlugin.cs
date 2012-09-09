@@ -50,7 +50,7 @@ namespace ComLib.Lang.Extensions
 	            "mp3",  "mp4",  "avi"
             };
             _extLookup = new Dictionary<string, string>();
-            _extLookup = _extensions.ToDictionary();
+            _extLookup = Files.ToDictionary(_extensions);
         }
 
 

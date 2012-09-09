@@ -26,18 +26,18 @@ namespace ComLib.Lang
         /// Error message for failure, status message for success.
         /// </summary>
         public readonly string Message;
-		
-		
+
+
         /// <summary>
         /// True message.
         /// </summary>
-        public static readonly BoolMessageItem True = new BoolMessageItem(null, true, string.Empty);
+        public static readonly BoolMsgObj True = new BoolMsgObj(null, true, string.Empty);
 
 
         /// <summary>
         /// False message.
         /// </summary>
-        public static readonly BoolMessageItem False = new BoolMessageItem(null, false, string.Empty);
+        public static readonly BoolMsgObj False = new BoolMsgObj(null, false, string.Empty);
         
 
         /// <summary>

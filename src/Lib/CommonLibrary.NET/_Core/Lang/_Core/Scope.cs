@@ -130,7 +130,7 @@ namespace ComLib.Lang
         public void Each(Action<KeyValuePair<string, object>> callback)
         {
             var block = _stack[_currentStackIndex];
-            block.ForEach(pair => callback(pair));
+            ForEach(block, pair => callback(pair));
         }
 
 
@@ -292,6 +292,19 @@ namespace ComLib.Lang
             _totalStringLength = 0;
             _stack = new List<Block>();
             _stack.Add(new Block());
+        }
+
+
+        /// <summary>
+        /// Execute action on each item in enumeration.
+        /// </summary>
+        /// <typeparam name="T">Type of item to use with the method.</typeparam>
+        /// <param name="items">List of items.</param>
+        /// <param name="action">Action to call for each item.</param>
+        public static void ForEach<T>(IEnumerable<T> items, Action<T> action)
+        {
+            foreach (var item in items)
+                action(item);
         }
     }
 }
