@@ -22,7 +22,6 @@ lib/External/NUnit/2.5.5/nunit.framework.dll -text
 src/Apps/ComLib.Apps.CodeGeneration/Program.cs -text
 src/Apps/ComLib.Apps.CodeGeneration/Properties/AssemblyInfo.cs -text
 src/Apps/ComLib.Apps.CodeGeneration/SampleModels.cs -text
-src/Apps/ComLib.Apps.FluentSharp/Comlib.Apps.FluentSharp.csproj -text
 src/Apps/ComLib.Apps.FluentSharp/FS.cs -text
 src/Apps/ComLib.Apps.FluentSharp/FSArgs.cs -text
 src/Apps/ComLib.Apps.FluentSharp/Properties/AssemblyInfo.cs -text
