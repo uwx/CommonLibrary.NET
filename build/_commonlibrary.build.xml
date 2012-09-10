@@ -230,6 +230,7 @@
 		    <fileset basedir="${app.source.dir}\Apps\ComLib.Apps.FluentScript\bin\${compile.configuration}">
 		        <include name="**/*dll" />
 				<include name="**/*exe" />
+				<include name="**/*config" />
 		    </fileset>
 		</zip>
 	</target>
