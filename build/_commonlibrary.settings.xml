@@ -15,7 +15,7 @@
 	<property name="build.version.major" value="0"/>
 	<property name="build.version.minor" value="9"/>
 	<property name="build.version.revision" value="8"/>
-	<property name="build.version.build" value="7"/>
+	<property name="build.version.build" value="8"/>
 	<property name="build.version" value="${build.version.major}.${build.version.minor}.${build.version.revision}.${build.version.build}"/>
 	<property name="build.label" value="${build.label.prefix}${build.version}" />
 	
