@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -56,7 +57,10 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="scripts\function1.js" />
+    <Content Include="scripts\helloworld.js" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Lib\FluentScript\FluentScript.csproj">
       <Project>{978AC4F4-5610-4A92-92A9-078D48A4B659}</Project>

@@ -784,6 +784,10 @@ namespace ComLib.Lang
                     bool is2CharNewLine = next == '\n';
                     IncrementLine(is2CharNewLine);
                     token = Tokens.NewLine;
+                    if (is2CharNewLine)
+                        buffer.Append("\r\n");
+                    else
+                        buffer.Append("\n"); 
                     break;
                 }
                 // Interpolation.

@@ -17,6 +17,7 @@ namespace ComLib.Apps.FluentSharp
     public class FS 
     {
         private FSArgs _args;
+        private string[] _cmdArgs;
 
 
         /// <summary>
@@ -38,17 +39,7 @@ namespace ComLib.Apps.FluentSharp
         /// </summary>
         public FS(string[] args)
         {
-            _args = FSHelper.ParseArgs(args);
-        }
-
-
-        /// <summary>
-        /// Validates the settings.
-        /// </summary>
-        /// <returns></returns>
-        public BoolMsgItem Validate()
-        {
-            return FSHelper.Validate(_args);
+            _cmdArgs = args;
         }
 
 
@@ -57,16 +48,111 @@ namespace ComLib.Apps.FluentSharp
         /// </summary>
         public BoolMsgItem  Execute()
         {
-            var result = Validate();
-            if (!result.Success)
-                return result;
+            // 1. Load settings from config file
+            LoadSettings();
 
+            // 2. Override settings from command line arguments
+            OverrideSettings();
+
+            // 3. Setup defaults
+            ApplyDefaultSettings();
+
+            // 4. Validate the settings
+            var result = ValidateSettings();
+            if (!result.Success)
+            {
+                HandleValidationFailure(result);
+                return new BoolMsgItem(false, result.Message, 1);
+            }
+
+            // 5. Create interpreter and run code.
+            var i = CreateInterpreter();
+
+            // 6. Execute the code
+            ExecuteCode(i);            
+
+            var exitCode = i.Result.Success ? 0 : 1;
+            var finalResult = new BoolMsgItem(i.Result.Success, i.Result.Message, exitCode);
+            return finalResult;
+        }
+
+
+        /// <summary>
+        /// Load the settings.
+        /// </summary>
+        /// <returns></returns>
+        private void LoadSettings()
+        {
+            _args = FSHelper.LoadSettings();
+        }
+
+
+        /// <summary>
+        /// Override the settings from config with command line settings
+        /// </summary>
+        /// <returns></returns>
+        private void OverrideSettings()
+        {
+            FSHelper.ParseArgs(_args, _cmdArgs);
+        }
+
+
+        /// <summary>
+        /// Validates the settings.
+        /// </summary>
+        /// <returns></returns>
+        private BoolMsgItem ValidateSettings()
+        {
+            return FSHelper.Validate(_args);
+        }
+
+
+        private void ApplyDefaultSettings()
+        {
+            if (_args.LogFolder == "logfiles")
+                Directory.CreateDirectory(_args.LogFolder);
+            if (_args.OutPutFolder == "outputfiles")
+                Directory.CreateDirectory(_args.OutPutFolder);
+        }
+
+
+        private Interpreter CreateInterpreter()
+        {
+            var i = new Interpreter();
+
+            // 1. Printing/logging.
+            i.Context.Settings.EnablePrinting = true;
+            i.Context.Settings.EnableLogging = true;
+
+            // 2. What plugins to register?
+            if (_args.PluginGroup == "sys")
+                i.Context.Plugins.RegisterAllSystem();
+            else if (_args.PluginGroup == "all")
+                i.Context.Plugins.RegisterAll();
+
+            return i;
+        }
+
+
+        private void HandleValidationFailure(BoolMsgItem result)
+        {
+            var orig = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Unable to execute. Some settings/inputs have errors:");
+            Console.WriteLine(result.Message);
+            Console.ResetColor();
+        }
+
+
+        private void ExecuteCode(Interpreter i)
+        {
+            // 4. Setup environment - e.g folders.
             // Get the script or template.
             var file = new FileInfo(_args.FilePath);
             var script = File.ReadAllText(file.FullName);
-            var i = new Interpreter();
-            i.Context.Settings.EnablePrinting = true;
-            i.Context.Settings.EnableLogging = true;
+
+            
+            // CASE 1: Template file ( e.g. like asp.net syntax with fluentscript in between <% %>
             if (_args.IsTemplate)
             {
                 var finalscript = Templater.Render(script);
@@ -77,26 +163,17 @@ namespace ComLib.Apps.FluentSharp
                 string buffer = i.Memory.Get<string>("buffer");
                 File.WriteAllText(_args.OutPutFolder + "\\" + file.Name.Replace(".js", ".html"), buffer);
             }
-            // Convert to tokens.
+            // CASE 2: Just want to get the tokens from the script.
             else if (_args.Tokenize)
             {
                 // Interpret the rendered script.
                 i.PrintTokens(file.FullName, _args.OutPutFolder + "\\" + file.Name.Replace(".js", ".tokens.txt"));
             }
-            // Just execute
-            else 
+            // 3. CASE 3: Execute the script.
+            else
             {
-                if (_args.PluginGroup == "sys")
-                    i.Context.Plugins.RegisterAllSystem();
-                else if(_args.PluginGroup == "all")
-                    i.Context.Plugins.RegisterAll();
-
                 i.Execute(script);
             }
-
-            var exitCode = i.Result.Success ? 0 : 1;
-            var finalResult = new BoolMsgItem(i.Result.Success, i.Result.Message, exitCode);
-            return finalResult;
         }
     }
 }

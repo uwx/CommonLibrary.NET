@@ -27,6 +27,17 @@ namespace ComLib.Lang.Extensions
         /// <returns></returns>
         public override Token[] Parse()
         {
+            return ParseLine(false);
+        }
+
+
+        /// <summary>
+        /// Parse the entire line.
+        /// </summary>
+        /// <param name="includeNewLine"></param>
+        /// <returns></returns>
+        protected Token[] ParseLine(bool includeNewLine)
+        {
             // print no quotes needed!
             var takeoverToken = _lexer.LastTokenData;
             int line = _lexer.LineNumber;

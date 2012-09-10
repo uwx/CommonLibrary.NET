@@ -31,7 +31,7 @@ namespace ComLib.Lang.Extensions
         /// </summary>
         public PrintPlugin()
         {
-            _tokens = new string[] { "Print", "print" };
+            _tokens = new string[] { "print", "println" };
         }
 
 
@@ -46,6 +46,19 @@ namespace ComLib.Lang.Extensions
             if (nextToken.Token == ComLib.Lang.Tokens.LeftParenthesis || nextToken.Token.Text == "\"")
                 return false;
             return true;
+        }
+
+
+        /// <summary>
+        /// Parse the expression.
+        /// </summary>
+        /// <returns></returns>
+        public override Token[] Parse()
+        {
+            var includeNewLine = false;
+            if (_lexer.LastTokenData.Token.Text == "println")
+                includeNewLine = true;
+            return base.ParseLine(includeNewLine);
         }
     }
 
@@ -64,7 +77,7 @@ namespace ComLib.Lang.Extensions
             IsAutoMatched = true;
             IsStatement = true;
             _handleNewLineAsEndOfExpression = true;
-            _startTokens = new string[] { "Print", "print" };
+            _startTokens = new string[] { "print", "println" };
         }
 
 
