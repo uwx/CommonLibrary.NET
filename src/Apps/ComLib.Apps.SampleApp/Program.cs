@@ -44,8 +44,8 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            TestVersion();
             Combinator_Tests();
+            TestVersion();
             FluentTests();
             Semantic_Tests();
             Lang_Script_Tests();
@@ -301,11 +301,11 @@ namespace ComLib.Samples
 
         static void Combinator_Tests()
         {
+            Combinator_System_Tests();
+            Combinator_Integration_Failures();
             Combinator_Core_Tests();
             Combinator_Integration_Tests();
-            Combinator_System_Tests();
             FluentTests();
-            Combinator_Integration_Failures();
             
         }
 
@@ -320,6 +320,7 @@ namespace ComLib.Samples
             var st = new Script_Tests_Types();
             var sf = new Script_Tests_Functions();
 
+            sf.Can_Make_Calls();
             sf.Can_Make_Calls_With_Extra_Parameters();
              sf.Can_Have_Implicit_Arguments_Parameter();
             
@@ -348,6 +349,7 @@ namespace ComLib.Samples
         static void Combinator_Integration_Failures()
         {
             var c = new Plugin_Integration_Failures();
+            c.Can_Pass_Variables_To_Function_With_Same_ParameterNames();
             c.Can_Use_Email_Plugin_With_Incorrect_Chars();
             c.Can_Use_Bool_Plugin();
             c.Can_Use_Linq_Plugin_Inside_Parenthesis_In_If();

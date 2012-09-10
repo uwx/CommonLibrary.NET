@@ -125,7 +125,7 @@ namespace ComLib.Lang.Helpers
             var endTokens = BuildEndTokens(enableNewLineAsEnd, meta);
             
             int totalNamedParams = 0;
-
+            var hasMetaArguments = meta != null && meta.ArgumentNames != null && meta.ArgumentNames.Count > 0;
             while (true)
             {
                 Expr exp = null;
@@ -140,10 +140,12 @@ namespace ComLib.Lang.Helpers
                 var token = tokenIt.NextToken.Token;
                 var peek = tokenIt.Peek().Token;
 
+                var isVar = parser.Context.Symbols.Contains(token.Text);
+                
                 // CASE 1: Named params for external c# object method calls                
                 // CASE 2: Named params for internal script functions ( where we have access to its param metadata )
                 if ( (meta == null && token.Kind == TokenKind.Ident && peek == Tokens.Colon ) ||
-                     (meta != null && token.Kind == TokenKind.Ident && meta.ArgumentsLookup.ContainsKey(token.Text) ) )
+                     (hasMetaArguments && token.Kind == TokenKind.Ident && meta.ArgumentsLookup.ContainsKey(token.Text) && !isVar))
                 {         
                     string paramName = token.Text;
                     tokenIt.Advance();
@@ -159,7 +161,17 @@ namespace ComLib.Lang.Helpers
                     args.Add(exp);
                     totalNamedParams++;
                 }
-                // CASE 2: Normal param
+                // CASE 2: Name of variable being passed to function is same as one of the parameter names.
+                else if (isVar && hasMetaArguments && meta.ArgumentsLookup.ContainsKey(token.Text))
+                {
+                    // Can not have normal parameters after named parameters.
+                    if (totalNamedParams > 0)
+                        throw tokenIt.BuildSyntaxException("Un-named parameters must come before named parameters");
+
+                    exp = parser.ParseIdExpression();
+                    args.Add(exp);
+                }
+                // CASE 3: Normal param
                 else
                 {
                     // Can not have normal parameters after named parameters.

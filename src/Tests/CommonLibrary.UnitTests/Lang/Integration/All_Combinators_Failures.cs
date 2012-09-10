@@ -21,6 +21,24 @@ namespace ComLib.Lang.Tests.Integration
     public class Plugin_Integration_Failures : ScriptTestsBase
     {
         [Test]
+        public void Can_Pass_Variables_To_Function_With_Same_ParameterNames()
+        {
+            var script =                "function max(a, b) {"
+                + Environment.NewLine + "    if (a > b) return a;"
+                + Environment.NewLine + "    if (a == b) return a;"
+                + Environment.NewLine + "    return b;"
+                + Environment.NewLine + "}"
+                + Environment.NewLine + ""
+                + Environment.NewLine + "a = 1"
+                + Environment.NewLine + "b = 2"
+                + Environment.NewLine + "res = max(a, b)";
+
+            Parse(new Tuple<string, Type, object, string>("res", typeof(double), 2, script),
+                  true, i => i.Context.Plugins.RegisterAll());
+        }
+
+
+        [Test]
         public void Can_Use_NewLines_With_Fluent_Plugin()
         {
             Parse(new Tuple<string, Type, object, string>("res2", typeof(double), 3, 
