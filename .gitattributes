@@ -10,6 +10,7 @@ doc/Library[!!-~]Presentation.doc -text
 doc/License.txt -text
 doc/comlib.wiki.examples.txt -text
 doc/comlib.wiki.fluent.txt -text
+doc/fluentscript_instructions.txt -text
 doc/fluentscript_jsimpl.js -text
 doc/webapp_security.txt -text
 ide/CommonLibrary.FluentScript.sln -text

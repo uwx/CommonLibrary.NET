@@ -1,0 +1,35 @@
+
+LIBRARY ( Fluentscript.dll )
+
+1. Download and extract the fluentscript_<version>_lib.zip
+2. Reference the .NET fluentscript.dll into your .NET application
+3. Reference namespace ComLib.Lang in your code
+4. For setup of the interpreter:
+	var i = new Interpreter();
+	i.Execute( "print( 'hello world' )" );
+	
+5. For more detailed setup of refer to Setup section fluentscript documentation page:
+	http://fluentscript.codeplex.com/wikipage?title=Setup&referringTitle=Documentation for more information
+	
+	
+
+	
+EXECUTABLE ( FluentScript.exe )
+
+Install:
+1. Download and extract the fluentscript_<version>_exe.zip to your local folder e.g. c:\tools\FluentScript\0.9.8.8
+2. This install folder will be referred to as FSHOME = c:\tools\FluentScript\0.9.8.8 or where ever you installed to
+
+
+Create SampleScript:
+1. Create a folder in FSHOME called samples
+2. Add a file in FSHOME\Samples called helloworld.js with contents "print('helloworld')"
+
+
+Execute script:
+1. Open the command prompt start -> run -> cmd
+2. Cd into your FSHOME e.g. cd c:\tools\FluentScript\0.9.8.8
+3. Run you script via fluentscript 
+	fs.exe file:samples\helloworld.js
+		
+	

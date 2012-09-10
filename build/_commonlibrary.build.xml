@@ -218,6 +218,7 @@
 
 	<target name="FS_Package">
 		<echo message="${app.source.dir}" />
+		
 		<!-- 1. Just the dll for library usage -->
 		<zip zipfile="${dist.dir.root}\Fluentscript_${build.version}_lib.zip">
 		    <fileset basedir="${app.source.dir}\Lib\FluentScript\bin\${compile.configuration}">
@@ -226,11 +227,22 @@
 		</zip>		
 		
 		<!-- 2. FluentScript.exe standalone -->
+		<copy todir="${app.source.dir}\Apps\ComLib.Apps.FluentScript\bin\${compile.configuration}\samples">
+			<fileset basedir="${app.source.dir}\Apps\ComLib.Apps.FluentScript\scripts">
+		        <include name="**/*" />
+		    </fileset>
+		</copy>
+		<delete>
+		    <fileset>
+				<include name="${app.source.dir}\Apps\ComLib.Apps.FluentScript\bin\${compile.configuration}\*.pdb" />
+				<include name="${app.source.dir}\Apps\ComLib.Apps.FluentScript\bin\${compile.configuration}\fs.vshost.exe" />
+				<include name="${app.source.dir}\Apps\ComLib.Apps.FluentScript\bin\${compile.configuration}\fs.vshost.exe.config" />
+				<include name="${app.source.dir}\Apps\ComLib.Apps.FluentScript\bin\${compile.configuration}\fs.vshost.exe.manifest" />
+		    </fileset>
+		</delete>
 		<zip zipfile="${dist.dir.root}\Fluentscript_${build.version}_exe.zip">
-		    <fileset basedir="${app.source.dir}\Apps\ComLib.Apps.FluentScript\bin\${compile.configuration}">
-		        <include name="**/*dll" />
-				<include name="**/*exe" />
-				<include name="**/*config" />
+		    <fileset basedir="${app.source.dir}\Apps\ComLib.Apps.FluentScript\bin\${compile.configuration}\">
+		        <include name="**/**" />
 		    </fileset>
 		</zip>
 	</target>
