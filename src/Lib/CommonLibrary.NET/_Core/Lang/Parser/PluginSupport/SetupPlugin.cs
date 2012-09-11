@@ -35,7 +35,7 @@ namespace ComLib.Lang
         /// Executes a setup on the interpreter
         /// </summary>
         /// <param name="ctx"></param>
-        public virtual void Execute( Context ctx)
+        public virtual void Setup(Context ctx)
         {
         }
     }

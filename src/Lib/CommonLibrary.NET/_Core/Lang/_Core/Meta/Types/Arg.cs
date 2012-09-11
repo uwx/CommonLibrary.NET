@@ -50,6 +50,18 @@ namespace ComLib.Lang
 
 
         /// <summary>
+        /// Whether or not this argument is required or can be null.
+        /// </summary>
+        public bool Required { get; set; }
+
+
+        /// <summary>
+        /// Default value of argument.
+        /// </summary>
+        public object DefaultValue { get; set; }
+
+
+        /// <summary>
         /// List of example values for the paramter.
         /// </summary>
         public List<string> Examples { get; set; }

@@ -57,7 +57,7 @@ namespace ComLib.Lang.Extensions
         /// </summary>
         /// <param name="i">The instance of the interpreter</param>
         /// <param name="ctx">The context of the interperter</param>
-        public override void Execute(Context ctx)
+        public override void Setup(Context ctx)
         {
             ctx.Types.Register(typeof(File), null);
             ctx.Types.Register(typeof(Dir),  null);

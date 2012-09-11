@@ -422,7 +422,7 @@ namespace ComLib.Lang
             if (_setupPlugins == null || _setupPlugins.Count == 0) return;
 
             foreach (var pair in _setupPlugins)
-                pair.Value.Execute(ctx);
+                pair.Value.Setup(ctx);
         }
 
 

@@ -557,6 +557,7 @@
     <Compile Include="_Core\Lang\Plugins\Parser\AndOrPlugin.cs" />
     <Compile Include="_Core\Lang\Plugins\Parser\ConstCapsPlugin.cs" />
     <Compile Include="_Core\Lang\Plugins\Parser\AliasPlugin.cs" />
+    <Compile Include="_Core\Lang\Plugins\Parser\ExecPlugin.cs" />
     <Compile Include="_Core\Lang\Plugins\Parser\FailPlugin.cs" />
     <Compile Include="_Core\Lang\Plugins\Parser\IOPlugin.cs" />
     <Compile Include="_Core\Lang\Plugins\Parser\VersionPlugin.cs" />

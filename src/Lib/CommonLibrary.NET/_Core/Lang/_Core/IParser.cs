@@ -38,7 +38,7 @@ namespace ComLib.Lang
         /// <summary>
         /// Executes the configuration
         /// </summary>
-        void Execute(Context ctx);
+        void Setup(Context ctx);
     }
 
 

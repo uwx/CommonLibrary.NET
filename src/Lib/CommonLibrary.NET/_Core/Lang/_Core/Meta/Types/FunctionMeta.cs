@@ -59,6 +59,33 @@ namespace ComLib.Lang
 
 
         /// <summary>
+        /// Initailizes
+        /// </summary>
+        /// <param name="name">Name of the arg</param>
+        /// <param name="desc">Description of the arg</param>
+        /// <param name="alias">Alias for the arg</param>
+        /// <param name="type">Datatype of the arg</param>
+        /// <param name="required">Whether or not arg is required</param>
+        /// <param name="defaultVal">Default value of arg</param>
+        /// <param name="examples">Examples of arg</param>
+        public void AddArg(string name, string desc, string alias, string type, bool required, object defaultVal, string examples)
+        {
+            var arg = new Arg();
+            arg.Name = name;
+            arg.Desc = desc;
+            arg.Type = type;
+            arg.Required = required;
+            arg.Alias = alias;
+            arg.Examples = new List<string>() { examples };
+            this.Arguments.Add(arg);
+            this.ArgumentsLookup[arg.Name] = arg;
+            this.ArgumentsLookup[arg.Alias] = arg;
+            this.ArgumentNames[arg.Name] = arg.Name;
+            this.ArgumentNames[arg.Alias] = arg.Name;
+        }
+
+
+        /// <summary>
         /// Function declaration
         /// </summary>
         public string Name;
