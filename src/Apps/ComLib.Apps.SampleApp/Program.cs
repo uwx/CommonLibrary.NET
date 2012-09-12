@@ -44,6 +44,8 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
+            var result1 = Convert.ChangeType("2.0", typeof(double), null);
+            var result2 = Convert.ChangeType("8/15/2012", typeof(DateTime), null);
             Combinator_Tests();
             TestVersion();
             FluentTests();

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using ComLib.Lang;
+using ComLib.Lang.Helpers;
 
 
 namespace ComLib.Lang.Extensions
@@ -50,7 +51,7 @@ namespace ComLib.Lang.Extensions
 	            "mp3",  "mp4",  "avi"
             };
             _extLookup = new Dictionary<string, string>();
-            _extLookup = Files.ToDictionary(_extensions);
+            _extLookup = LangHelper.ToDictionary(_extensions);
         }
 
 

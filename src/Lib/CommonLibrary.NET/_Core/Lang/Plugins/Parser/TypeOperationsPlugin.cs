@@ -446,8 +446,8 @@ namespace ComLib.Lang.Extensions
             var d = DateTime.Today;            
             return new DateTime(d.Year, d.Month, d.Day, t.Hours, t.Minutes, t.Seconds);
         }
-        private static object Convert_String_To_Number(ConvertSpec spec, object val) { return Convert.ChangeType(val, typeof(double)); }
-        private static object Convert_String_To_Date(ConvertSpec spec, object val) { return Convert.ChangeType(val, typeof(DateTime)); }
+        private static object Convert_String_To_Number(ConvertSpec spec, object val) { return Convert.ChangeType(val, typeof(double), null); }
+        private static object Convert_String_To_Date(ConvertSpec spec, object val) { return Convert.ChangeType(val, typeof(DateTime), null); }
         private static object Convert_String_To_Time(ConvertSpec spec, object val) 
         {
             string txt = ((string)val).ToLower();
