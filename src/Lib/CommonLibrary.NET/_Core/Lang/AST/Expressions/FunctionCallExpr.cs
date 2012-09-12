@@ -6,9 +6,13 @@ using System.Text.RegularExpressions;
 using System.Collections;
 using System.Reflection;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.Types;
 using ComLib.Lang.Helpers;
+// </lang:using>
 
-namespace ComLib.Lang
+namespace ComLib.Lang.AST
 {        
     /// <summary>
     /// Function call expression data.

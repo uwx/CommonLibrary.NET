@@ -5,8 +5,12 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.Types;
+// </lang:using>
 
-namespace ComLib.Lang
+namespace ComLib.Lang.AST
 {
     /// <summary>
     /// Condition expression less, less than equal, more, more than equal etc.

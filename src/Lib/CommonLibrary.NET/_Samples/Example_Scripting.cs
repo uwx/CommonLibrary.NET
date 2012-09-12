@@ -58,7 +58,7 @@ namespace ComLib.Samples
             Console.WriteLine(string.Format("Success: {0}, Message: {1}", i.Result.Success, i.Result.Message));
 
             // 6. Register plugins which extend the syntax and functionality
-            i.Context.Plugins.Register(new ComLib.Lang.Extensions.DatePlugin());
+            i.Context.Plugins.Register(new ComLib.Lang.Plugins.DatePlugin());
             i.Execute("var date = January 1st 2012 at 9:30 am;");
             var date = i.Memory.Get<DateTime>("date");
             Console.WriteLine("Success: {0}, Date: {1}", i.Result.Success, date.ToShortDateString());

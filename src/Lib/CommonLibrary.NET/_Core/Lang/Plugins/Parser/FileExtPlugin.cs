@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using ComLib.Lang;
+
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
 using ComLib.Lang.Helpers;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -103,13 +108,13 @@ namespace ComLib.Lang.Extensions
             if (token.Text == "." && !Char.IsLetter(curr)) return false;
 
             // *.
-            if (token == ComLib.Lang.Tokens.Multiply && curr == '.')
+            if (token == ComLib.Lang.Core.Tokens.Multiply && curr == '.')
             {
                 var result = _lexer.PeekWord(1);
                 if (_extLookup.ContainsKey(result.Value))
                     return true;
             }
-            else if (token == ComLib.Lang.Tokens.Dot)
+            else if (token == ComLib.Lang.Core.Tokens.Dot)
             {
                 var result = _lexer.PeekWord(0);
                 if (_extLookup.ContainsKey(result.Value))
@@ -141,7 +146,7 @@ namespace ComLib.Lang.Extensions
             // 2. Get the file extension name.
             var lineTokenPart = _lexer.ReadWord();
             var finalText = pretext + lineTokenPart.Text;
-            var token = ComLib.Lang.Tokens.ToLiteralString(finalText);
+            var token = ComLib.Lang.Core.Tokens.ToLiteralString(finalText);
             var t = new TokenData() { Token = token, Line = line, LineCharPos = pos };
             _lexer.ParsedTokens.Add(t);
             return new Token[] { token };

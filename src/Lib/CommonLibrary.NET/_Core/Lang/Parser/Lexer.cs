@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+// <lang:using>
+using ComLib.Lang.Core;
+// </lang:using>
 
-namespace ComLib.Lang
+
+namespace ComLib.Lang.Parsing
 {
     /// <summary>
     /// Converts script from a series of characters into a series of tokens.

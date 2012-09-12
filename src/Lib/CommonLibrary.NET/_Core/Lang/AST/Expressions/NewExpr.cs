@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang.Helpers;
 
-namespace ComLib.Lang
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.Types;
+using ComLib.Lang.Helpers;
+// </lang:using>
+
+namespace ComLib.Lang.AST
 {
     /// <summary>
     /// New instance creation.

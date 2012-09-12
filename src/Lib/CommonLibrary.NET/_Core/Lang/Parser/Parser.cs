@@ -3,9 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Types;
 using ComLib.Lang.Helpers;
+using ComLib.Lang.Plugins;
+// </lang:using>
 
-namespace ComLib.Lang
+namespace ComLib.Lang.Parsing
 {
     /// <summary>
     /// Uses the Lexer to parse script in terms of sequences of Statements and Expressions;
@@ -28,7 +34,8 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="context"></param>
         public Parser(Context context) : base(context)
-        {
+        {      
+            
         }
 
 
@@ -524,7 +531,7 @@ namespace ComLib.Lang
         {
             Operator op = Operators.ToOp(_tokenIt.NextToken.Token.Text);
             var opToken = _tokenIt.NextToken;
-            double incrementValue = 1;
+            double incrementValue = 1;            
             AssignExpr stmt = null;
             _tokenIt.Advance();
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ComLib.Lang
+namespace ComLib.Lang.Core
 {
     /// <summary>
     /// Abstract syntax tree node.
@@ -14,12 +14,6 @@ namespace ComLib.Lang
         /// Reference to the script.
         /// </summary>
         public ScriptRef Ref;
-
-
-        /// <summary>
-        /// Context information of the script.
-        /// </summary>
-        public Context Ctx;
 
 
         /// <summary>

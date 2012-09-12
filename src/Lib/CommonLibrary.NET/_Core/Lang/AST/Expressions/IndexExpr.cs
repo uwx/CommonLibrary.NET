@@ -6,8 +6,12 @@ using System.Text.RegularExpressions;
 using System.Collections;
 using System.Reflection;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.Types;
+// </lang:using>
 
-namespace ComLib.Lang
+namespace ComLib.Lang.AST
 {
     /// <summary>
     /// Member access expressions for "." property or "." method.

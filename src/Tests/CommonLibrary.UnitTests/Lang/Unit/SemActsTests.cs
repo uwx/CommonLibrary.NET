@@ -5,6 +5,10 @@ using System.Text;
 using NUnit.Framework;
 
 using ComLib.Lang;
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Parsing;
+using ComLib.Lang.Plugins;
 
 namespace ComLib.Lang.Tests.Unit
 {

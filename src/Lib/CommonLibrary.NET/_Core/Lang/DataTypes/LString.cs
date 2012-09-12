@@ -4,10 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
+// <lang:using>
+using ComLib.Lang.Core;
 using ComLib.Lang.Helpers;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
 
-namespace ComLib.Lang
+namespace ComLib.Lang.Types
 {
     /// <summary>
     /// Boolean datatype.
@@ -41,6 +45,16 @@ namespace ComLib.Lang
         }
 
 
+        /// <summary>
+        /// Initialize
+        /// </summary>
+        /// <param name="val">Value of the string</param>
+        /// <param name="varName">Name of the variable</param>
+        public LString(string varName, string val) : this(null, varName, val)
+        {            
+        }
+        
+        
         /// <summary>
         /// Initialize
         /// </summary>

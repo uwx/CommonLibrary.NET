@@ -3,7 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ComLib.Lang
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Helpers;
+using ComLib.Lang.Plugins;
+// </lang:using>
+
+
+namespace ComLib.Lang.Parsing
 {
     /// <summary>
     /// Class that visits each ast node in the trees.
@@ -20,7 +28,7 @@ namespace ComLib.Lang
         /// Initialize
         /// </summary>
         public AstVisitor()
-        {
+        {            
             _callBack = null;
         }
 

@@ -6,40 +6,14 @@ using System.Text.RegularExpressions;
 using System.Collections;
 using System.Reflection;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Types;
+// </lang:using>
 
-namespace ComLib.Lang
-{
-    /// <summary>
-    /// Represents the member access mode
-    /// </summary>
-    public enum MemberMode
-    {
-        /// <summary>
-        /// External function
-        /// </summary>
-        FunctionExternal,
-
-
-        /// <summary>
-        /// Internal function
-        /// </summary>
-        FunctionScript,
-
-
-        /// <summary>
-        /// Instance method on class
-        /// </summary>
-        CustObjMethodInstance,
-
-
-        /// <summary>
-        /// Static method on class
-        /// </summary>
-        CustObjMethodStatic
-    }
-
-
-
+namespace ComLib.Lang.AST
+{   
     /// <summary>
     /// Represents the member access
     /// </summary>
@@ -122,7 +96,7 @@ namespace ComLib.Lang
     /// </summary>
     public class MemberAccessExpr : MemberExpr
     {
-        private static LDate _dateTypeForMethodCheck = new LDate(null, null);
+        private static LDate _dateTypeForMethodCheck = new LDate(null);
 
 
         /// <summary>

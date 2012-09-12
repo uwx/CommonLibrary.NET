@@ -3,7 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ComLib.Lang
+
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.Types;
+// </lang:using>
+
+namespace ComLib.Lang.Parsing
 {
     /// <summary>
     /// Context information for the script.
@@ -19,8 +25,8 @@ namespace ComLib.Lang
             ExternalFunctions = new ExternalFunctions();
             Functions = new RegisteredFunctions();
             Words = new RegisteredWords();
-            Plugins = new Plugins();
-            Symbols = new Lang.Symbols();
+            Plugins = new RegisteredPlugins();
+            Symbols = new Symbols();
             Memory = new Memory();
             Limits = new Limits(this);
             TokenAliases = new Dictionary<string, Lang.Token>();
@@ -41,7 +47,7 @@ namespace ComLib.Lang
         /// <summary>
         /// All the combinators that extend parsing.
         /// </summary>
-        public Plugins Plugins;
+        public RegisteredPlugins Plugins;
 
 
         /// <summary>

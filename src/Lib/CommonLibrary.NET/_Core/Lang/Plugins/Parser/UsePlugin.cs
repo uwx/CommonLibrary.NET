@@ -4,10 +4,15 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Reflection;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Types;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************

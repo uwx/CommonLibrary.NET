@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ComLib.Lang
+namespace ComLib.Lang.Core
 {
     /// <summary>
     /// The categories of tokens.
@@ -793,7 +793,7 @@ namespace ComLib.Lang
         public static Token ToLiteralVersion(string text)
         {
             var val = Version.Parse(text);
-            var lv = new LVersion(val);
+            var lv = new ComLib.Lang.Types.LVersion(val);
             return new Token(TokenKind.LiteralOther, TokenTypes.LiteralVersion, text, lv);
         }
 

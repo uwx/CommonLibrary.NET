@@ -537,6 +537,8 @@ src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/EvaluatableExpr.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/Expr.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/FunctionCallExpr.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/FunctionExpr.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/ILoop.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/IParameterExpression.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/IndexExpr.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/IndexableExpr.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/InterpolatedExpr.cs -text
@@ -565,6 +567,7 @@ src/Lib/CommonLibrary.NET/_Core/Lang/DataTypes/LObject.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/DataTypes/LString.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/DataTypes/LUnit.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/DataTypes/LVersion.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/DataTypes/Units.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Entities/FunctionLookupResult.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Extensions/MethodExtensions.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/ArgsFetcher.cs -text
@@ -572,6 +575,7 @@ src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/DocHelper.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/FluentHelper.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/FunctionHelper.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/LangHelper.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/LangUtils.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/TimeTypeHelper.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Integration/ExternalFunctions.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Integration/Plugins.cs -text
@@ -579,6 +583,17 @@ src/Lib/CommonLibrary.NET/_Core/Lang/Integration/RegisteredFunctions.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Integration/RegisteredTypes.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Integration/RegisteredWords.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Integration/Units.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Parser/Core/Callbacks.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Parser/Core/Context.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Parser/Core/LangState.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Parser/Core/Limits.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Parser/IParser.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Parser/Integration/ExternalFunctions.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Parser/Integration/Plugins.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Parser/Integration/RegisteredFunctions.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Parser/Integration/RegisteredTypes.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Parser/Integration/RegisteredWords.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Parser/Integration/Units.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/Interpreter.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/Lexer.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/LexerBase.cs -text
@@ -670,7 +685,9 @@ src/Lib/CommonLibrary.NET/_Core/Lang/_Core/BoolMsgObj.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/_Core/CallStack.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/_Core/Callbacks.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/_Core/Context.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/_Core/FunctionLookupResult.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/_Core/IAstWalk.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/_Core/IFunction.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/_Core/IFunctionStore.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/_Core/ILoop.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/_Core/IParser.cs -text
@@ -679,6 +696,7 @@ src/Lib/CommonLibrary.NET/_Core/Lang/_Core/LangSettings.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/_Core/LangState.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/_Core/LangUtils.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/_Core/Limits.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/_Core/MemberMode.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/_Core/Memory.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/_Core/Meta/Docs/DocTags.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/_Core/Meta/Docs/Example.cs -text

@@ -3,7 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ComLib.Lang
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Parsing;
+// </lang:using>
+
+namespace ComLib.Lang.Plugins
 {
     /// <summary>
     /// Plugin for throwing errors from the script.

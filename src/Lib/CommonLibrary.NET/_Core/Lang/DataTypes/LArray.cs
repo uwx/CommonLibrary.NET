@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using ComLib.Lang.Parsing;
 using ComLib.Lang.Helpers;
 
-namespace ComLib.Lang
+namespace ComLib.Lang.Types
 {
     /// <summary>
     /// Array datatype
@@ -68,7 +69,9 @@ namespace ComLib.Lang
         /// Initialize
         /// </summary>
         /// <param name="val">Value of the string</param>
-        public LArray(List<object> val) : this(null, val) { }
+        public LArray(List<object> val) : this(null, val) 
+        {
+        }
 
 
         /// <summary>

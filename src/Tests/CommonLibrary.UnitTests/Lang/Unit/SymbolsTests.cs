@@ -5,6 +5,8 @@ using System.Text;
 using NUnit.Framework;
 
 using ComLib.Lang;
+using ComLib.Lang.Core;
+using ComLib.Lang.Types;
 
 namespace ComLib.Lang.Tests.Unit
 {

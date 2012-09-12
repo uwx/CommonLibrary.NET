@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ComLib.Lang
+using ComLib.Lang.Core;
+
+namespace ComLib.Lang.Parsing
 {
     /// <summary>
     /// Interface for the language parser. This is reused for combinators and the core parser.
@@ -168,28 +170,6 @@ namespace ComLib.Lang
 
 
 
-    /*
-    /// <summary>
-    /// Interface for a plugin at the parser/expression level.
-    /// </summary>
-    public interface IExprBasePlugin: ILangParser, ILangPlugin
-    {
-        /// <summary>
-        /// Initialize the combinator.
-        /// </summary>
-        /// <param name="parser">The core parser</param>
-        /// <param name="tokenIt">The token iterator</param>
-        void Init(Parser parser, TokenIterator tokenIt);
-
-
-        /// <summary>
-        /// The tokens starting the expression.
-        /// </summary>
-        string[] StartTokens { get; }
-    }
-    */
-
-
     /// <summary>
     /// Interface for a plugin at the parser/expression level.
     /// </summary>
@@ -253,45 +233,6 @@ namespace ComLib.Lang
         /// <returns></returns>
         Expr Parse(object context);
     }
-
-
-    /*
-    /// <summary>
-    /// Interface for a plugin at the parser/expression level.
-    /// </summary>
-    public interface IStmtPlugin2 : IExprBasePlugin
-    {
-        /// <summary>
-        /// The context of the script.
-        /// </summary>
-        Context Ctx { get; set; }
-
-
-        /// <summary>
-        /// Whether or not the statement plugin support a terminator such as ; or new line.
-        /// </summary>
-        bool SupportsTerminator { get; }
-
-
-        /// <summary>
-        /// Whether or not the statement plugin supports a block such as { ... } which can hold multipl statements.
-        /// </summary>
-        bool SupportsBlock { get; }
-
-
-        /// <summary>
-        /// Whether or not this a system level plugin.
-        /// </summary>
-        bool IsSystemLevel { get ; }
-
-
-        /// <summary>
-        /// Parses an expression
-        /// </summary>
-        /// <returns></returns>
-        Expr Parse();
-    }
-    */
 
     /// <summary>
     /// Marker interface for statements, expression plugins to recieve callbacks when parsing is complete.

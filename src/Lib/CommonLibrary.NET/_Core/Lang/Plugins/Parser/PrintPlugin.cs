@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -43,7 +47,7 @@ namespace ComLib.Lang.Extensions
         public override bool CanHandle(Token current)
         {
             var nextToken = _lexer.PeekToken();
-            if (nextToken.Token == ComLib.Lang.Tokens.LeftParenthesis || nextToken.Token.Text == "\"")
+            if (nextToken.Token == ComLib.Lang.Core.Tokens.LeftParenthesis || nextToken.Token.Text == "\"")
                 return false;
             return true;
         }

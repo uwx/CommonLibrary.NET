@@ -6,7 +6,12 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
 using ComLib.Lang.Helpers;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
 namespace ComLib.Lang
 {
@@ -59,7 +64,7 @@ namespace ComLib.Lang
         /// Initialize
         /// </summary>
         public Interpreter()
-        {
+        {            
             _settings = new LangSettings();
             
             // Initialzie the context.

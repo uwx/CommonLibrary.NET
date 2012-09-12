@@ -5,14 +5,25 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.Types;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang
+namespace ComLib.Lang.AST
 {
     /// <summary>
     /// Base class for Expressions
     /// </summary>
     public class Expr : AstNode
     {
+        /// <summary>
+        /// Context information of the script.
+        /// </summary>
+        public Context Ctx;
+
+
         /// <summary>
         /// Empty expr.
         /// </summary>

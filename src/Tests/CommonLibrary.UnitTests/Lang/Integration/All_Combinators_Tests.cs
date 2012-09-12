@@ -7,7 +7,8 @@ using NUnit.Framework;
 
 using ComLib;
 using ComLib.Lang;
-using ComLib.Lang.Extensions;
+using ComLib.Lang.Core;
+using ComLib.Lang.Plugins;
 using ComLib.Tests;
 
 using CommonLibrary.Tests.Common;

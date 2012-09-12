@@ -5,7 +5,7 @@ using System.Text;
 using NUnit.Framework;
 
 using ComLib.Lang;
-using ComLib.Lang.Extensions;
+using ComLib.Lang.Plugins;
 
 
 namespace ComLib.Lang.Tests.Unit

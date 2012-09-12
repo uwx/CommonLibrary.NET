@@ -5,8 +5,14 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Types;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang
+namespace ComLib.Lang.Plugins
 {
     /* *************************************************************************
     <doc:example>	

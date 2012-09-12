@@ -1342,8 +1342,8 @@ namespace ComLib
             // 2. LAST_POSITION = 5;
             // 3. _state can not be more than 6. 6 indicating that it's past end
             // 4. _state == 5 Indicating it's at end.
-            if (pos >= LAST_POSITION) throw new Lang.LangException("Lexical Error", "Can not set position to : " + pos, "", -1, -1);
-            if (pos < 0) throw new Lang.LangException("Lexical Error", "Can not set position before 0 : " + pos, "", -1, -1);
+            if (pos >= LAST_POSITION) throw new Lang.Core.LangException("Lexical Error", "Can not set position to : " + pos, "", -1, -1);
+            if (pos < 0) throw new Lang.Core.LangException("Lexical Error", "Can not set position before 0 : " + pos, "", -1, -1);
 
             _state.Pos = pos;
             _state.CurrentChar = _state.Text[_state.Pos];

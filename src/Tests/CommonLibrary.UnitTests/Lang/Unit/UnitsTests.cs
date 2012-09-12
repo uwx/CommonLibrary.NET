@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+
+using ComLib.Lang.Types;
 using ComLib.Lang.Helpers;
 
 

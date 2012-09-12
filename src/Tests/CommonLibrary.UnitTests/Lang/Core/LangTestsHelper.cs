@@ -6,6 +6,9 @@ using System.Text;
 using NUnit.Framework;
 using ComLib;
 using ComLib.Lang;
+using ComLib.Lang.Core;
+using ComLib.Lang.Parsing;
+using ComLib.Lang.AST;
 
 
 namespace ComLib.Lang.Tests.Common

@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -126,7 +130,7 @@ namespace ComLib.Lang.Extensions
             var letter = _lexer.State.CurrentChar;
             var lineTokenPart = _lexer.ReadUri();
             var finalText = takeoverToken.Token.Text + lineTokenPart.Text;
-            var lineToken = ComLib.Lang.Tokens.ToLiteralString(finalText);
+            var lineToken = ComLib.Lang.Core.Tokens.ToLiteralString(finalText);
             var t = new TokenData() { Token = lineToken, Line = line, LineCharPos = pos };
             _lexer.ParsedTokens.Add(t);
             return new Token[] { lineToken };

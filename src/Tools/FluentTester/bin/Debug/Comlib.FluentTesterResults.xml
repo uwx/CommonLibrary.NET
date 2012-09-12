@@ -1,23 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfScriptResult xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <ScriptResult FilePath="\data\combinators\comb_fluent.js" Succeed="true" Duration="156">
+  <ScriptResult FilePath="\data\system\types\sys_array.js" Succeed="true" Duration="109.37150000000001">
     <ExpectedResults>
-      <ExpectedData IsMatched="true" Name="res1a1" Expected="fluent" Actual="fluent" />
-      <ExpectedData IsMatched="true" Name="res1a2" Expected="script" Actual="script" />
-      <ExpectedData IsMatched="true" Name="res1a3" Expected="${month}/${day}/${year}" Actual="5/24/2012 12:00:00 AM" />
-      <ExpectedData IsMatched="true" Name="res1a4" Expected="true" Actual="True" />
-      <ExpectedData IsMatched="true" Name="res1a5" Expected="fluent" Actual="fluent" />
-      <ExpectedData IsMatched="true" Name="res1a6" Expected="script" Actual="script" />
-      <ExpectedData IsMatched="true" Name="res1a7" Expected="${month}/${day}/${year}" Actual="5/24/2012 12:00:00 AM" />
-      <ExpectedData IsMatched="true" Name="res1a8" Expected="true" Actual="True" />
-      <ExpectedData IsMatched="true" Name="res1a9" Expected="false" Actual="False" />
-      <ExpectedData IsMatched="true" Name="res1a10" Expected="false" Actual="False" />
-      <ExpectedData IsMatched="true" Name="res1a11" Expected="fluent script" Actual="fluent script" />
-      <ExpectedData IsMatched="true" Name="res1a12" Expected="fluent script" Actual="fluent script" />
-      <ExpectedData IsMatched="true" Name="res1a13" Expected="kdog@abc.com" Actual="kdog@abc.com" />
+      <ExpectedData IsMatched="true" Name="res1a" Expected="FluentScript" Actual="FluentScript" />
+      <ExpectedData IsMatched="true" Name="res1b" Expected="CodeHelix" Actual="CodeHelix" />
+      <ExpectedData IsMatched="true" Name="res1c" Expected="100" Actual="100" />
+      <ExpectedData IsMatched="true" Name="res2a" Expected="FluentScript" Actual="FluentScript" />
+      <ExpectedData IsMatched="true" Name="res2b" Expected="CodeHelix" Actual="CodeHelix" />
+      <ExpectedData IsMatched="true" Name="res2c" Expected="FluentScript" Actual="FluentScript" />
+      <ExpectedData IsMatched="true" Name="res2d" Expected="CodeHelix" Actual="CodeHelix" />
+      <ExpectedData IsMatched="true" Name="res3a" Expected="FluentScript1" Actual="FluentScript1" />
+      <ExpectedData IsMatched="true" Name="res3b" Expected="101" Actual="101" />
+      <ExpectedData IsMatched="true" Name="res3c" Expected="FluentScript2" Actual="FluentScript2" />
+      <ExpectedData IsMatched="true" Name="res3d" Expected="102" Actual="102" />
+      <ExpectedData IsMatched="true" Name="res4a" Expected="test" Actual="test" />
+      <ExpectedData IsMatched="true" Name="res4b" Expected="101" Actual="101" />
+      <ExpectedData IsMatched="true" Name="res4c" Expected="102" Actual="102" />
+      <ExpectedData IsMatched="true" Name="res5a" Expected="304" Actual="304" />
+      <ExpectedData IsMatched="true" Name="res6a" Expected="1" Actual="1" />
+      <ExpectedData IsMatched="true" Name="res6b" Expected="1" Actual="1" />
+      <ExpectedData IsMatched="true" Name="res7a" Expected="1" Actual="1" />
+      <ExpectedData IsMatched="true" Name="res8a" Expected="FluentScript" Actual="FluentScript" />
+      <ExpectedData IsMatched="true" Name="res8b" Expected="100" Actual="100" />
+      <ExpectedData IsMatched="true" Name="res8c" Expected="new name" Actual="new name" />
+      <ExpectedData IsMatched="true" Name="res8d" Expected="200" Actual="200" />
+      <ExpectedData IsMatched="true" Name="res8e" Expected="FluentScript1" Actual="FluentScript1" />
+      <ExpectedData IsMatched="true" Name="res8f" Expected="101" Actual="101" />
+      <ExpectedData IsMatched="true" Name="res8g" Expected="new nested name" Actual="new nested name" />
+      <ExpectedData IsMatched="true" Name="res8h" Expected="220" Actual="220" />
+      <ExpectedData IsMatched="true" Name="resEnd" Expected="CodeHelix2" Actual="CodeHelix2" />
     </ExpectedResults>
   </ScriptResult>
-  <ScriptResult FilePath="\data\combinators\comb_fluentfunc.js" Succeed="true" Duration="22">
+  <ScriptResult FilePath="\data\system\types\sys_date.js" Succeed="true" Duration="15.624500000000001">
+    <ExpectedResults>
+      <ExpectedData IsMatched="true" Name="res1a" Expected="2012" Actual="2012" />
+      <ExpectedData IsMatched="true" Name="res1b" Expected="6" Actual="6" />
+      <ExpectedData IsMatched="true" Name="res1c" Expected="11" Actual="11" />
+      <ExpectedData IsMatched="true" Name="res1d" Expected="1" Actual="1" />
+      <ExpectedData IsMatched="true" Name="res1e" Expected="8" Actual="8" />
+      <ExpectedData IsMatched="true" Name="res1f" Expected="30" Actual="30" />
+      <ExpectedData IsMatched="true" Name="res1g" Expected="0" Actual="0" />
+      <ExpectedData IsMatched="true" Name="res1h" Expected="2012" Actual="2012" />
+      <ExpectedData IsMatched="true" Name="res1i" Expected="6" Actual="6" />
+      <ExpectedData IsMatched="true" Name="res1j" Expected="11" Actual="11" />
+      <ExpectedData IsMatched="true" Name="res1k" Expected="1" Actual="1" />
+      <ExpectedData IsMatched="true" Name="res1l" Expected="8" Actual="8" />
+      <ExpectedData IsMatched="true" Name="res1m" Expected="30" Actual="30" />
+      <ExpectedData IsMatched="true" Name="res1n" Expected="0" Actual="0" />
+      <ExpectedData IsMatched="true" Name="res2a" Expected="2013" Actual="2013" />
+      <ExpectedData IsMatched="true" Name="res2b" Expected="7" Actual="7" />
+      <ExpectedData IsMatched="true" Name="res2c" Expected="12" Actual="12" />
+      <ExpectedData IsMatched="true" Name="res2d" Expected="5" Actual="5" />
+      <ExpectedData IsMatched="true" Name="res2e" Expected="9" Actual="9" />
+      <ExpectedData IsMatched="true" Name="res2f" Expected="45" Actual="45" />
+      <ExpectedData IsMatched="true" Name="res2g" Expected="20" Actual="20" />
+    </ExpectedResults>
+  </ScriptResult>
+  <ScriptResult FilePath="\data\system\types\sys_string.js" Succeed="true" Duration="0">
+    <ExpectedResults>
+      <ExpectedData IsMatched="true" Name="res1a" Expected="q" Actual="q" />
+      <ExpectedData IsMatched="true" Name="res1b" Expected="10" Actual="10" />
+      <ExpectedData IsMatched="true" Name="res1c" Expected="39" Actual="39" />
+      <ExpectedData IsMatched="true" Name="res1d" Expected="The quick brown cat jumps over the lazy dog" Actual="The quick brown cat jumps over the lazy dog" />
+      <ExpectedData IsMatched="true" Name="res1e" Expected="quick" Actual="quick" />
+      <ExpectedData IsMatched="true" Name="res1f" Expected="quick" Actual="quick" />
+    </ExpectedResults>
+  </ScriptResult>
+  <ScriptResult FilePath="\data\system\types\sys_map.js" Succeed="true" Duration="0">
+    <ExpectedResults>
+      <ExpectedData IsMatched="true" Name="res1a" Expected="FluentScript" Actual="FluentScript" />
+      <ExpectedData IsMatched="true" Name="res1b" Expected="CodeHelix" Actual="CodeHelix" />
+      <ExpectedData IsMatched="true" Name="res1c" Expected="100" Actual="100" />
+      <ExpectedData IsMatched="true" Name="res1d" Expected="FluentScript" Actual="FluentScript" />
+      <ExpectedData IsMatched="true" Name="res1e" Expected="CodeHelix" Actual="CodeHelix" />
+      <ExpectedData IsMatched="true" Name="res1f" Expected="100" Actual="100" />
+      <ExpectedData IsMatched="true" Name="res2a" Expected="FluentScript" Actual="FluentScript" />
+      <ExpectedData IsMatched="true" Name="res2b" Expected="CodeHelix" Actual="CodeHelix" />
+      <ExpectedData IsMatched="true" Name="res2c" Expected="FluentScript" Actual="FluentScript" />
+      <ExpectedData IsMatched="true" Name="res2d" Expected="CodeHelix" Actual="CodeHelix" />
+      <ExpectedData IsMatched="true" Name="res3a" Expected="FluentScript1" Actual="FluentScript1" />
+      <ExpectedData IsMatched="true" Name="res3b" Expected="FluentScript1" Actual="FluentScript1" />
+      <ExpectedData IsMatched="true" Name="res3c" Expected="102" Actual="102" />
+      <ExpectedData IsMatched="true" Name="res3d" Expected="102" Actual="102" />
+      <ExpectedData IsMatched="true" Name="res4a" Expected="101" Actual="101" />
+      <ExpectedData IsMatched="true" Name="res4b" Expected="102" Actual="102" />
+      <ExpectedData IsMatched="true" Name="res5a" Expected="304" Actual="304" />
+      <ExpectedData IsMatched="true" Name="res6a" Expected="1" Actual="1" />
+      <ExpectedData IsMatched="true" Name="res6b" Expected="1" Actual="1" />
+      <ExpectedData IsMatched="true" Name="res7a" Expected="1" Actual="1" />
+      <ExpectedData IsMatched="true" Name="res8a" Expected="FluentScript" Actual="FluentScript" />
+      <ExpectedData IsMatched="true" Name="res8b" Expected="100" Actual="100" />
+      <ExpectedData IsMatched="true" Name="res8c" Expected="new name" Actual="new name" />
+      <ExpectedData IsMatched="true" Name="res8d" Expected="200" Actual="200" />
+      <ExpectedData IsMatched="true" Name="res8e" Expected="FluentScript1" Actual="FluentScript1" />
+      <ExpectedData IsMatched="true" Name="res8f" Expected="101" Actual="101" />
+      <ExpectedData IsMatched="true" Name="res8g" Expected="new nested name" Actual="new nested name" />
+      <ExpectedData IsMatched="true" Name="res8h" Expected="220" Actual="220" />
+      <ExpectedData IsMatched="true" Name="resEnd" Expected="CodeHelix2" Actual="CodeHelix2" />
+    </ExpectedResults>
+  </ScriptResult>
+  <ScriptResult FilePath="\data\system\types\sys_csharpobj.js" Succeed="true" Duration="15.624500000000001">
+    <ExpectedResults>
+      <ExpectedData IsMatched="true" Name="res1a" Expected="fluent" Actual="fluent" />
+      <ExpectedData IsMatched="true" Name="res1b" Expected="script" Actual="script" />
+      <ExpectedData IsMatched="true" Name="res1c" Expected="${month}/${day}/${year}" Actual="9/12/2012 12:00:00 AM" />
+      <ExpectedData IsMatched="true" Name="res1d" Expected="true" Actual="True" />
+      <ExpectedData IsMatched="true" Name="res1e" Expected="2012" Actual="2012" />
+      <ExpectedData IsMatched="true" Name="res1f" Expected="Queens" Actual="Queens" />
+      <ExpectedData IsMatched="true" Name="res1g" Expected="NY" Actual="NY" />
+      <ExpectedData IsMatched="true" Name="res2a" Expected="fluent2" Actual="fluent2" />
+      <ExpectedData IsMatched="true" Name="res2b" Expected="script2" Actual="script2" />
+      <ExpectedData IsMatched="true" Name="res2c" Expected="2/20/1980" Actual="2/20/1980 12:00:00 AM" />
+      <ExpectedData IsMatched="true" Name="res2d" Expected="false" Actual="False" />
+      <ExpectedData IsMatched="true" Name="res2e" Expected="Miami" Actual="Miami" />
+      <ExpectedData IsMatched="true" Name="res2f" Expected="Florida" Actual="Florida" />
+      <ExpectedData IsMatched="true" Name="res3a" Expected="fluent2 script2" Actual="fluent2 script2" />
+      <ExpectedData IsMatched="true" Name="res3b" Expected="kishore red" Actual="kishore red" />
+      <ExpectedData IsMatched="true" Name="res3c" Expected="Miami, Florida USA" Actual="Miami, Florida USA" />
+      <ExpectedData IsMatched="true" Name="res3d" Expected="Miami Florida CountryX" Actual="Miami Florida CountryX" />
+      <ExpectedData IsMatched="true" Name="res3e" Expected="jane, doe, False, 2012, 20.5" Actual="jane, doe, False, 2012, 20.5" />
+      <ExpectedData IsMatched="true" Name="res4a" Expected="home cooked" Actual="home cooked" />
+      <ExpectedData IsMatched="true" Name="res4b" Expected="turkey with gravy" Actual="turkey with gravy" />
+      <ExpectedData IsMatched="true" Name="res4c" Expected="john@bronx.com" Actual="john@bronx.com" />
+      <ExpectedData IsMatched="true" Name="res5a" Expected="john doe" Actual="john doe" />
+    </ExpectedResults>
+  </ScriptResult>
+  <ScriptResult FilePath="\data\system\types\sys_function.js" Succeed="true" Duration="0">
     <ExpectedResults>
       <ExpectedData IsMatched="true" Name="res1a" Expected="2" Actual="2" />
       <ExpectedData IsMatched="true" Name="res1b" Expected="3" Actual="3" />
@@ -35,55 +143,11 @@
       <ExpectedData IsMatched="true" Name="res5a" Expected="16" Actual="16" />
       <ExpectedData IsMatched="true" Name="res6a" Expected="1" Actual="1" />
       <ExpectedData IsMatched="true" Name="res6b" Expected="1" Actual="1" />
-      <ExpectedData IsMatched="true" Name="res6c" Expected="1" Actual="1" />
-      <ExpectedData IsMatched="true" Name="res6d" Expected="1" Actual="1" />
       <ExpectedData IsMatched="true" Name="res7a" Expected="1" Actual="1" />
-      <ExpectedData IsMatched="true" Name="res7b" Expected="1" Actual="1" />
       <ExpectedData IsMatched="true" Name="resEnd" Expected="4" Actual="4" />
     </ExpectedResults>
   </ScriptResult>
-  <ScriptResult FilePath="\data\combinators\Comb_Email.js" Succeed="true" Duration="4">
-    <ExpectedResults>
-      <ExpectedData IsMatched="true" Name="res1a" Expected="super.man@metrop.com" Actual="super.man@metrop.com" />
-      <ExpectedData IsMatched="true" Name="res1b" Expected="bat_man@gotham.com" Actual="bat_man@gotham.com" />
-      <ExpectedData IsMatched="true" Name="res1ba" Expected="spider.man.2080@marvel.com" Actual="spider.man.2080@marvel.com" />
-      <ExpectedData IsMatched="true" Name="res1c" Expected="a new super.man@metrop.com" Actual="a new super.man@metrop.com" />
-      <ExpectedData IsMatched="true" Name="res1d" Expected="a new bat_man@gotham.com" Actual="a new bat_man@gotham.com" />
-      <ExpectedData IsMatched="true" Name="res1e" Expected="super.man@metrop.com stock" Actual="super.man@metrop.com stock" />
-      <ExpectedData IsMatched="true" Name="res1f" Expected="bat_man@gotham.com stock" Actual="bat_man@gotham.com stock" />
-      <ExpectedData IsMatched="true" Name="res1g" Expected="a new super.man@metrop.com stock" Actual="a new super.man@metrop.com stock" />
-      <ExpectedData IsMatched="true" Name="res1h" Expected="a new bat_man@gotham.com stock" Actual="a new bat_man@gotham.com stock" />
-      <ExpectedData IsMatched="true" Name="res2a" Expected="super.man@metrop.com more" Actual="super.man@metrop.com more" />
-      <ExpectedData IsMatched="true" Name="res2b" Expected="bat_man@gotham.com more" Actual="bat_man@gotham.com more" />
-      <ExpectedData IsMatched="true" Name="res2c" Expected="a new super.man@metrop.com" Actual="a new super.man@metrop.com" />
-      <ExpectedData IsMatched="true" Name="res2d" Expected="a new bat_man@gotham.com" Actual="a new bat_man@gotham.com" />
-      <ExpectedData IsMatched="true" Name="res2e" Expected="super.man@metrop.com stock" Actual="super.man@metrop.com stock" />
-      <ExpectedData IsMatched="true" Name="res2f" Expected="bat_man@gotham.com stock" Actual="bat_man@gotham.com stock" />
-      <ExpectedData IsMatched="true" Name="res2g" Expected="a new super.man@metrop.com stock" Actual="a new super.man@metrop.com stock" />
-      <ExpectedData IsMatched="true" Name="res2h" Expected="a new bat_man@gotham.com stock" Actual="a new bat_man@gotham.com stock" />
-      <ExpectedData IsMatched="true" Name="res2i" Expected="a new stock super.man@metrop.com" Actual="a new stock super.man@metrop.com" />
-      <ExpectedData IsMatched="true" Name="res2j" Expected="a new stock bat_man@gotham.com" Actual="a new stock bat_man@gotham.com" />
-      <ExpectedData IsMatched="true" Name="res3a" Expected="super.man@metrop.com" Actual="super.man@metrop.com" />
-      <ExpectedData IsMatched="true" Name="res3b" Expected="bat_man@gotham.com" Actual="bat_man@gotham.com" />
-      <ExpectedData IsMatched="true" Name="res3c" Expected="spider.man.2080@marvel.com" Actual="spider.man.2080@marvel.com" />
-      <ExpectedData IsMatched="true" Name="res4a" Expected="super.man@metrop.com" Actual="super.man@metrop.com" />
-      <ExpectedData IsMatched="true" Name="res4b" Expected="bat_man@gotham.com" Actual="bat_man@gotham.com" />
-      <ExpectedData IsMatched="true" Name="res4c" Expected="spider.man.2080@marvel.com" Actual="spider.man.2080@marvel.com" />
-      <ExpectedData IsMatched="true" Name="res5a" Expected="super.man@metrop.com3 analytics" Actual="super.man@metrop.com3 analytics" />
-      <ExpectedData IsMatched="true" Name="res5b" Expected="bat_man@gotham.comtrue fluent" Actual="bat_man@gotham.comtrue fluent" />
-      <ExpectedData IsMatched="true" Name="res5c" Expected="spider.man.2080@marvel.comtrue fluent" Actual="spider.man.2080@marvel.comtrue fluent" />
-      <ExpectedData IsMatched="true" Name="res6a" Expected="true" Actual="True" />
-      <ExpectedData IsMatched="true" Name="res6b" Expected="true" Actual="True" />
-      <ExpectedData IsMatched="true" Name="res6c" Expected="true" Actual="True" />
-      <ExpectedData IsMatched="true" Name="res6d" Expected="true" Actual="True" />
-      <ExpectedData IsMatched="true" Name="res6e" Expected="true" Actual="True" />
-      <ExpectedData IsMatched="true" Name="res7a" Expected="true" Actual="True" />
-      <ExpectedData IsMatched="true" Name="res7b" Expected="true" Actual="True" />
-      <ExpectedData IsMatched="true" Name="res7c" Expected="true" Actual="True" />
-      <ExpectedData IsMatched="true" Name="resEnd" Expected="bat_man@gotham.com" Actual="bat_man@gotham.com" />
-    </ExpectedResults>
-  </ScriptResult>
-  <ScriptResult FilePath="\data\combinators\comb_def.js" Succeed="true" Duration="2">
+  <ScriptResult FilePath="\data\system\types\sys_function_noparen.js" Succeed="true" Duration="0">
     <ExpectedResults>
       <ExpectedData IsMatched="true" Name="res1a" Expected="2" Actual="2" />
       <ExpectedData IsMatched="true" Name="res1b" Expected="3" Actual="3" />
@@ -105,7 +169,26 @@
       <ExpectedData IsMatched="true" Name="resEnd" Expected="4" Actual="4" />
     </ExpectedResults>
   </ScriptResult>
-  <ScriptResult FilePath="\data\combinators\comb_set.js" Succeed="true" Duration="3">
+  <ScriptResult FilePath="\data\system\types\sys_doctags.js" Succeed="true" Duration="15.624500000000001">
+    <ExpectedResults>
+      <ExpectedData IsMatched="true" Name="res1a" Expected="300 IBM 20.55 7/1/2012 12:00:00 AM premium policy" Actual="300 IBM 20.55 7/1/2012 12:00:00 AM premium policy" />
+      <ExpectedData IsMatched="true" Name="res1b" Expected="300 IBM 20.55 7/1/2012 12:00:00 AM premium policy" Actual="300 IBM 20.55 7/1/2012 12:00:00 AM premium policy" />
+    </ExpectedResults>
+  </ScriptResult>
+  <ScriptResult FilePath="\data\combinators\comb_aggregate_sum.js" Succeed="true" Duration="140.6205">
+    <ExpectedResults>
+      <ExpectedData IsMatched="true" Name="res1" Expected="6" Actual="6" />
+      <ExpectedData IsMatched="true" Name="res2" Expected="7" Actual="7" />
+      <ExpectedData IsMatched="true" Name="res3" Expected="6" Actual="6" />
+      <ExpectedData IsMatched="true" Name="res4" Expected="6" Actual="6" />
+      <ExpectedData IsMatched="true" Name="res5" Expected="8" Actual="8" />
+      <ExpectedData IsMatched="true" Name="res6" Expected="5" Actual="5" />
+      <ExpectedData IsMatched="true" Name="res7" Expected="1" Actual="1" />
+      <ExpectedData IsMatched="true" Name="res8" Expected="1" Actual="1" />
+      <ExpectedData IsMatched="true" Name="res9" Expected="6" Actual="6" />
+    </ExpectedResults>
+  </ScriptResult>
+  <ScriptResult FilePath="\data\combinators\comb_bool.js" Succeed="true" Duration="15.624500000000001">
     <ExpectedResults>
       <ExpectedData IsMatched="true" Name="res1" Expected="true" Actual="True" />
       <ExpectedData IsMatched="true" Name="res2" Expected="false" Actual="False" />
@@ -129,7 +212,7 @@
       <ExpectedData IsMatched="true" Name="res13" Expected="true" Actual="True" />
     </ExpectedResults>
   </ScriptResult>
-  <ScriptResult FilePath="\data\combinators\comb_compare.js" Succeed="true" Duration="2">
+  <ScriptResult FilePath="\data\combinators\comb_compare.js" Succeed="true" Duration="0">
     <ExpectedResults>
       <ExpectedData IsMatched="true" Name="res1a1" Expected="true" Actual="True" />
       <ExpectedData IsMatched="true" Name="res1a2" Expected="true" Actual="True" />
@@ -182,44 +265,7 @@
       <ExpectedData IsMatched="true" Name="resEnd" Expected="true" Actual="True" />
     </ExpectedResults>
   </ScriptResult>
-  <ScriptResult FilePath="\data\combinators\comb_bool.js" Succeed="true" Duration="1">
-    <ExpectedResults>
-      <ExpectedData IsMatched="true" Name="res1" Expected="true" Actual="True" />
-      <ExpectedData IsMatched="true" Name="res2" Expected="false" Actual="False" />
-      <ExpectedData IsMatched="true" Name="res3" Expected="true" Actual="True" />
-      <ExpectedData IsMatched="true" Name="res3a" Expected="true" Actual="True" />
-      <ExpectedData IsMatched="true" Name="res3b" Expected="false" Actual="False" />
-      <ExpectedData IsMatched="true" Name="res3c" Expected="false" Actual="False" />
-      <ExpectedData IsMatched="true" Name="res3d" Expected="true" Actual="True" />
-      <ExpectedData IsMatched="true" Name="res4a" Expected="true" Actual="True" />
-      <ExpectedData IsMatched="true" Name="res4b" Expected="false" Actual="False" />
-      <ExpectedData IsMatched="true" Name="res5a" Expected="true" Actual="True" />
-      <ExpectedData IsMatched="true" Name="res5b" Expected="false" Actual="False" />
-      <ExpectedData IsMatched="true" Name="res6a" Expected="3" Actual="3" />
-      <ExpectedData IsMatched="true" Name="res6b" Expected="1" Actual="1" />
-      <ExpectedData IsMatched="true" Name="res7" Expected="1" Actual="1" />
-      <ExpectedData IsMatched="true" Name="res8" Expected="1" Actual="1" />
-      <ExpectedData IsMatched="true" Name="res9" Expected="1" Actual="1" />
-      <ExpectedData IsMatched="true" Name="res10" Expected="1" Actual="1" />
-      <ExpectedData IsMatched="true" Name="res11" Expected="true" Actual="True" />
-      <ExpectedData IsMatched="true" Name="res12" Expected="true" Actual="True" />
-      <ExpectedData IsMatched="true" Name="res13" Expected="true" Actual="True" />
-    </ExpectedResults>
-  </ScriptResult>
-  <ScriptResult FilePath="\data\combinators\comb_aggregate_sum.js" Succeed="true" Duration="91">
-    <ExpectedResults>
-      <ExpectedData IsMatched="true" Name="res1" Expected="6" Actual="6" />
-      <ExpectedData IsMatched="true" Name="res2" Expected="7" Actual="7" />
-      <ExpectedData IsMatched="true" Name="res3" Expected="6" Actual="6" />
-      <ExpectedData IsMatched="true" Name="res4" Expected="6" Actual="6" />
-      <ExpectedData IsMatched="true" Name="res5" Expected="8" Actual="8" />
-      <ExpectedData IsMatched="true" Name="res6" Expected="5" Actual="5" />
-      <ExpectedData IsMatched="true" Name="res7" Expected="1" Actual="1" />
-      <ExpectedData IsMatched="true" Name="res8" Expected="1" Actual="1" />
-      <ExpectedData IsMatched="true" Name="res9" Expected="6" Actual="6" />
-    </ExpectedResults>
-  </ScriptResult>
-  <ScriptResult FilePath="\data\combinators\comb_date.js" Succeed="true" Duration="4">
+  <ScriptResult FilePath="\data\combinators\comb_date.js" Succeed="true" Duration="0">
     <ExpectedResults>
       <ExpectedData IsMatched="true" Name="res1" Expected="6/1/2012" Actual="6/1/2012 12:00:00 AM" />
       <ExpectedData IsMatched="true" Name="res2" Expected="3/11/2012" Actual="3/11/2012 12:00:00 AM" />
@@ -234,7 +280,7 @@
       <ExpectedData IsMatched="true" Name="res12" Expected="4/20/2012" Actual="4/20/2012 12:00:00 AM" />
     </ExpectedResults>
   </ScriptResult>
-  <ScriptResult FilePath="\data\combinators\comb_datenumber.js" Succeed="true" Duration="1">
+  <ScriptResult FilePath="\data\combinators\comb_datenumber.js" Succeed="true" Duration="0">
     <ExpectedResults>
       <ExpectedData IsMatched="true" Name="res1" Expected="6/1/2012" Actual="6/1/2012 12:00:00 AM" />
       <ExpectedData IsMatched="true" Name="res2" Expected="3/11/2012" Actual="3/11/2012 12:00:00 AM" />
@@ -249,7 +295,7 @@
       <ExpectedData IsMatched="true" Name="res12" Expected="4/20/2012" Actual="4/20/2012 12:00:00 AM" />
     </ExpectedResults>
   </ScriptResult>
-  <ScriptResult FilePath="\data\combinators\comb_day.js" Succeed="true" Duration="4">
+  <ScriptResult FilePath="\data\combinators\comb_day.js" Succeed="true" Duration="0">
     <ExpectedResults>
       <ExpectedData IsMatched="true" Name="res1" Expected="Saturday" Actual="Saturday" />
       <ExpectedData IsMatched="true" Name="res2a" Expected="Tuesday" Actual="Tuesday" />
@@ -265,7 +311,112 @@
       <ExpectedData IsMatched="true" Name="resEnd" Expected="Thursday" Actual="Thursday" />
     </ExpectedResults>
   </ScriptResult>
-  <ScriptResult FilePath="\data\combinators\comb_linq.js" Succeed="true" Duration="5">
+  <ScriptResult FilePath="\data\combinators\comb_def.js" Succeed="true" Duration="0">
+    <ExpectedResults>
+      <ExpectedData IsMatched="true" Name="res1a" Expected="2" Actual="2" />
+      <ExpectedData IsMatched="true" Name="res1b" Expected="3" Actual="3" />
+      <ExpectedData IsMatched="true" Name="res1c" Expected="6" Actual="6" />
+      <ExpectedData IsMatched="true" Name="res2a" Expected="3" Actual="3" />
+      <ExpectedData IsMatched="true" Name="res2b" Expected="4" Actual="4" />
+      <ExpectedData IsMatched="true" Name="res2c" Expected="5" Actual="5" />
+      <ExpectedData IsMatched="true" Name="res2d" Expected="6" Actual="6" />
+      <ExpectedData IsMatched="true" Name="res3a" Expected="2" Actual="2" />
+      <ExpectedData IsMatched="true" Name="res3b" Expected="3" Actual="3" />
+      <ExpectedData IsMatched="true" Name="res3c" Expected="4" Actual="4" />
+      <ExpectedData IsMatched="true" Name="res4a" Expected="2" Actual="2" />
+      <ExpectedData IsMatched="true" Name="res4b" Expected="3" Actual="3" />
+      <ExpectedData IsMatched="true" Name="res4c" Expected="4" Actual="4" />
+      <ExpectedData IsMatched="true" Name="res5a" Expected="16" Actual="16" />
+      <ExpectedData IsMatched="true" Name="res6a" Expected="1" Actual="1" />
+      <ExpectedData IsMatched="true" Name="res6b" Expected="1" Actual="1" />
+      <ExpectedData IsMatched="true" Name="res7a" Expected="1" Actual="1" />
+      <ExpectedData IsMatched="true" Name="resEnd" Expected="4" Actual="4" />
+    </ExpectedResults>
+  </ScriptResult>
+  <ScriptResult FilePath="\data\combinators\comb_Email.js" Succeed="true" Duration="15.624500000000001">
+    <ExpectedResults>
+      <ExpectedData IsMatched="true" Name="res1a" Expected="super.man@metrop.com" Actual="super.man@metrop.com" />
+      <ExpectedData IsMatched="true" Name="res1b" Expected="bat_man@gotham.com" Actual="bat_man@gotham.com" />
+      <ExpectedData IsMatched="true" Name="res1ba" Expected="spider.man.2080@marvel.com" Actual="spider.man.2080@marvel.com" />
+      <ExpectedData IsMatched="true" Name="res1c" Expected="a new super.man@metrop.com" Actual="a new super.man@metrop.com" />
+      <ExpectedData IsMatched="true" Name="res1d" Expected="a new bat_man@gotham.com" Actual="a new bat_man@gotham.com" />
+      <ExpectedData IsMatched="true" Name="res1e" Expected="super.man@metrop.com stock" Actual="super.man@metrop.com stock" />
+      <ExpectedData IsMatched="true" Name="res1f" Expected="bat_man@gotham.com stock" Actual="bat_man@gotham.com stock" />
+      <ExpectedData IsMatched="true" Name="res1g" Expected="a new super.man@metrop.com stock" Actual="a new super.man@metrop.com stock" />
+      <ExpectedData IsMatched="true" Name="res1h" Expected="a new bat_man@gotham.com stock" Actual="a new bat_man@gotham.com stock" />
+      <ExpectedData IsMatched="true" Name="res2a" Expected="super.man@metrop.com more" Actual="super.man@metrop.com more" />
+      <ExpectedData IsMatched="true" Name="res2b" Expected="bat_man@gotham.com more" Actual="bat_man@gotham.com more" />
+      <ExpectedData IsMatched="true" Name="res2c" Expected="a new super.man@metrop.com" Actual="a new super.man@metrop.com" />
+      <ExpectedData IsMatched="true" Name="res2d" Expected="a new bat_man@gotham.com" Actual="a new bat_man@gotham.com" />
+      <ExpectedData IsMatched="true" Name="res2e" Expected="super.man@metrop.com stock" Actual="super.man@metrop.com stock" />
+      <ExpectedData IsMatched="true" Name="res2f" Expected="bat_man@gotham.com stock" Actual="bat_man@gotham.com stock" />
+      <ExpectedData IsMatched="true" Name="res2g" Expected="a new super.man@metrop.com stock" Actual="a new super.man@metrop.com stock" />
+      <ExpectedData IsMatched="true" Name="res2h" Expected="a new bat_man@gotham.com stock" Actual="a new bat_man@gotham.com stock" />
+      <ExpectedData IsMatched="true" Name="res2i" Expected="a new stock super.man@metrop.com" Actual="a new stock super.man@metrop.com" />
+      <ExpectedData IsMatched="true" Name="res2j" Expected="a new stock bat_man@gotham.com" Actual="a new stock bat_man@gotham.com" />
+      <ExpectedData IsMatched="true" Name="res3a" Expected="super.man@metrop.com" Actual="super.man@metrop.com" />
+      <ExpectedData IsMatched="true" Name="res3b" Expected="bat_man@gotham.com" Actual="bat_man@gotham.com" />
+      <ExpectedData IsMatched="true" Name="res3c" Expected="spider.man.2080@marvel.com" Actual="spider.man.2080@marvel.com" />
+      <ExpectedData IsMatched="true" Name="res4a" Expected="super.man@metrop.com" Actual="super.man@metrop.com" />
+      <ExpectedData IsMatched="true" Name="res4b" Expected="bat_man@gotham.com" Actual="bat_man@gotham.com" />
+      <ExpectedData IsMatched="true" Name="res4c" Expected="spider.man.2080@marvel.com" Actual="spider.man.2080@marvel.com" />
+      <ExpectedData IsMatched="true" Name="res5a" Expected="super.man@metrop.com3 analytics" Actual="super.man@metrop.com3 analytics" />
+      <ExpectedData IsMatched="true" Name="res5b" Expected="bat_man@gotham.comtrue fluent" Actual="bat_man@gotham.comtrue fluent" />
+      <ExpectedData IsMatched="true" Name="res5c" Expected="spider.man.2080@marvel.comtrue fluent" Actual="spider.man.2080@marvel.comtrue fluent" />
+      <ExpectedData IsMatched="true" Name="res6a" Expected="true" Actual="True" />
+      <ExpectedData IsMatched="true" Name="res6b" Expected="true" Actual="True" />
+      <ExpectedData IsMatched="true" Name="res6c" Expected="true" Actual="True" />
+      <ExpectedData IsMatched="true" Name="res6d" Expected="true" Actual="True" />
+      <ExpectedData IsMatched="true" Name="res6e" Expected="true" Actual="True" />
+      <ExpectedData IsMatched="true" Name="res7a" Expected="true" Actual="True" />
+      <ExpectedData IsMatched="true" Name="res7b" Expected="true" Actual="True" />
+      <ExpectedData IsMatched="true" Name="res7c" Expected="true" Actual="True" />
+      <ExpectedData IsMatched="true" Name="resEnd" Expected="bat_man@gotham.com" Actual="bat_man@gotham.com" />
+    </ExpectedResults>
+  </ScriptResult>
+  <ScriptResult FilePath="\data\combinators\comb_fluent.js" Succeed="true" Duration="0">
+    <ExpectedResults>
+      <ExpectedData IsMatched="true" Name="res1a1" Expected="fluent" Actual="fluent" />
+      <ExpectedData IsMatched="true" Name="res1a2" Expected="script" Actual="script" />
+      <ExpectedData IsMatched="true" Name="res1a3" Expected="${month}/${day}/${year}" Actual="9/12/2012 12:00:00 AM" />
+      <ExpectedData IsMatched="true" Name="res1a4" Expected="true" Actual="True" />
+      <ExpectedData IsMatched="true" Name="res1a5" Expected="fluent" Actual="fluent" />
+      <ExpectedData IsMatched="true" Name="res1a6" Expected="script" Actual="script" />
+      <ExpectedData IsMatched="true" Name="res1a7" Expected="${month}/${day}/${year}" Actual="9/12/2012 12:00:00 AM" />
+      <ExpectedData IsMatched="true" Name="res1a8" Expected="true" Actual="True" />
+      <ExpectedData IsMatched="true" Name="res1a9" Expected="false" Actual="False" />
+      <ExpectedData IsMatched="true" Name="res1a10" Expected="false" Actual="False" />
+      <ExpectedData IsMatched="true" Name="res1a11" Expected="fluent script" Actual="fluent script" />
+      <ExpectedData IsMatched="true" Name="res1a12" Expected="fluent script" Actual="fluent script" />
+      <ExpectedData IsMatched="true" Name="res1a13" Expected="kdog@abc.com" Actual="kdog@abc.com" />
+    </ExpectedResults>
+  </ScriptResult>
+  <ScriptResult FilePath="\data\combinators\comb_fluentfunc.js" Succeed="true" Duration="0">
+    <ExpectedResults>
+      <ExpectedData IsMatched="true" Name="res1a" Expected="2" Actual="2" />
+      <ExpectedData IsMatched="true" Name="res1b" Expected="3" Actual="3" />
+      <ExpectedData IsMatched="true" Name="res1c" Expected="6" Actual="6" />
+      <ExpectedData IsMatched="true" Name="res2a" Expected="3" Actual="3" />
+      <ExpectedData IsMatched="true" Name="res2b" Expected="4" Actual="4" />
+      <ExpectedData IsMatched="true" Name="res2c" Expected="5" Actual="5" />
+      <ExpectedData IsMatched="true" Name="res2d" Expected="6" Actual="6" />
+      <ExpectedData IsMatched="true" Name="res3a" Expected="2" Actual="2" />
+      <ExpectedData IsMatched="true" Name="res3b" Expected="3" Actual="3" />
+      <ExpectedData IsMatched="true" Name="res3c" Expected="4" Actual="4" />
+      <ExpectedData IsMatched="true" Name="res4a" Expected="2" Actual="2" />
+      <ExpectedData IsMatched="true" Name="res4b" Expected="3" Actual="3" />
+      <ExpectedData IsMatched="true" Name="res4c" Expected="4" Actual="4" />
+      <ExpectedData IsMatched="true" Name="res5a" Expected="16" Actual="16" />
+      <ExpectedData IsMatched="true" Name="res6a" Expected="1" Actual="1" />
+      <ExpectedData IsMatched="true" Name="res6b" Expected="1" Actual="1" />
+      <ExpectedData IsMatched="true" Name="res6c" Expected="1" Actual="1" />
+      <ExpectedData IsMatched="true" Name="res6d" Expected="1" Actual="1" />
+      <ExpectedData IsMatched="true" Name="res7a" Expected="1" Actual="1" />
+      <ExpectedData IsMatched="true" Name="res7b" Expected="1" Actual="1" />
+      <ExpectedData IsMatched="true" Name="resEnd" Expected="4" Actual="4" />
+    </ExpectedResults>
+  </ScriptResult>
+  <ScriptResult FilePath="\data\combinators\comb_linq.js" Succeed="true" Duration="15.624500000000001">
     <ExpectedResults>
       <ExpectedData IsMatched="true" Name="res1a" Expected="book 2" Actual="book 2" />
       <ExpectedData IsMatched="true" Name="res1b" Expected="book 2" Actual="book 2" />
@@ -293,7 +444,7 @@
       <ExpectedData IsMatched="true" Name="resEnd" Expected="140" Actual="140" />
     </ExpectedResults>
   </ScriptResult>
-  <ScriptResult FilePath="\data\combinators\comb_money.js" Succeed="true" Duration="1">
+  <ScriptResult FilePath="\data\combinators\comb_money.js" Succeed="true" Duration="0">
     <ExpectedResults>
       <ExpectedData IsMatched="true" Name="res1" Expected="25" Actual="25" />
       <ExpectedData IsMatched="true" Name="res2" Expected="1026" Actual="1026" />
@@ -311,7 +462,7 @@
       <ExpectedData IsMatched="true" Name="resEnd" Expected="850920" Actual="850920" />
     </ExpectedResults>
   </ScriptResult>
-  <ScriptResult FilePath="\data\combinators\comb_records.js" Succeed="true" Duration="8">
+  <ScriptResult FilePath="\data\combinators\comb_records.js" Succeed="true" Duration="0">
     <ExpectedResults>
       <ExpectedData IsMatched="true" Name="res1a" Expected="FluentScript1" Actual="FluentScript1" />
       <ExpectedData IsMatched="true" Name="res1b" Expected="CodeHelix1" Actual="CodeHelix1" />
@@ -341,7 +492,7 @@
       <ExpectedData IsMatched="true" Name="res8h" Expected="new book" Actual="new book" />
     </ExpectedResults>
   </ScriptResult>
-  <ScriptResult FilePath="\data\combinators\comb_run.js" Succeed="true" Duration="2">
+  <ScriptResult FilePath="\data\combinators\comb_run.js" Succeed="true" Duration="0">
     <ExpectedResults>
       <ExpectedData IsMatched="true" Name="res1a1" Expected="1" Actual="1" />
       <ExpectedData IsMatched="true" Name="res1a2" Expected="1" Actual="1" />
@@ -371,7 +522,31 @@
       <ExpectedData IsMatched="true" Name="res7a" Expected="1" Actual="1" />
     </ExpectedResults>
   </ScriptResult>
-  <ScriptResult FilePath="\data\combinators\comb_sort.js" Succeed="true" Duration="6">
+  <ScriptResult FilePath="\data\combinators\comb_set.js" Succeed="true" Duration="0">
+    <ExpectedResults>
+      <ExpectedData IsMatched="true" Name="res1" Expected="true" Actual="True" />
+      <ExpectedData IsMatched="true" Name="res2" Expected="false" Actual="False" />
+      <ExpectedData IsMatched="true" Name="res3" Expected="true" Actual="True" />
+      <ExpectedData IsMatched="true" Name="res3a" Expected="true" Actual="True" />
+      <ExpectedData IsMatched="true" Name="res3b" Expected="false" Actual="False" />
+      <ExpectedData IsMatched="true" Name="res3c" Expected="false" Actual="False" />
+      <ExpectedData IsMatched="true" Name="res3d" Expected="true" Actual="True" />
+      <ExpectedData IsMatched="true" Name="res4a" Expected="true" Actual="True" />
+      <ExpectedData IsMatched="true" Name="res4b" Expected="false" Actual="False" />
+      <ExpectedData IsMatched="true" Name="res5a" Expected="true" Actual="True" />
+      <ExpectedData IsMatched="true" Name="res5b" Expected="false" Actual="False" />
+      <ExpectedData IsMatched="true" Name="res6a" Expected="3" Actual="3" />
+      <ExpectedData IsMatched="true" Name="res6b" Expected="1" Actual="1" />
+      <ExpectedData IsMatched="true" Name="res7" Expected="1" Actual="1" />
+      <ExpectedData IsMatched="true" Name="res8" Expected="1" Actual="1" />
+      <ExpectedData IsMatched="true" Name="res9" Expected="1" Actual="1" />
+      <ExpectedData IsMatched="true" Name="res10" Expected="1" Actual="1" />
+      <ExpectedData IsMatched="true" Name="res11" Expected="true" Actual="True" />
+      <ExpectedData IsMatched="true" Name="res12" Expected="true" Actual="True" />
+      <ExpectedData IsMatched="true" Name="res13" Expected="true" Actual="True" />
+    </ExpectedResults>
+  </ScriptResult>
+  <ScriptResult FilePath="\data\combinators\comb_sort.js" Succeed="true" Duration="0">
     <ExpectedResults>
       <ExpectedData IsMatched="true" Name="res1a" Expected="c#" Actual="c#" />
       <ExpectedData IsMatched="true" Name="res1b" Expected="fluent" Actual="fluent" />
@@ -398,7 +573,7 @@
       <ExpectedData IsMatched="true" Name="resEnd" Expected="c#" Actual="c#" />
     </ExpectedResults>
   </ScriptResult>
-  <ScriptResult FilePath="\data\combinators\comb_time.js" Succeed="true" Duration="3">
+  <ScriptResult FilePath="\data\combinators\comb_time.js" Succeed="true" Duration="0">
     <ExpectedResults>
       <ExpectedData IsMatched="true" Name="res1" Expected="21:45" Actual="21:45:00" />
       <ExpectedData IsMatched="true" Name="res2a" Expected="19" Actual="19" />
@@ -414,7 +589,23 @@
       <ExpectedData IsMatched="true" Name="resEnd" Expected="10:15" Actual="10:15:00" />
     </ExpectedResults>
   </ScriptResult>
-  <ScriptResult FilePath="\data\combinators\comb_uri.js" Succeed="true" Duration="3">
+  <ScriptResult FilePath="\data\combinators\comb_Units.js" Succeed="true" Duration="0">
+    <ExpectedResults>
+      <ExpectedData IsMatched="true" Name="res1a1" Expected="3" Actual="3" />
+      <ExpectedData IsMatched="true" Name="res1a2" Expected="36" Actual="36" />
+      <ExpectedData IsMatched="true" Name="res1a3" Expected="108" Actual="108" />
+      <ExpectedData IsMatched="true" Name="res1a4" Expected="190080" Actual="190080" />
+      <ExpectedData IsMatched="true" Name="res2a" Expected="42" Actual="42" />
+      <ExpectedData IsMatched="true" Name="res2b" Expected="114" Actual="114" />
+      <ExpectedData IsMatched="true" Name="res3a" Expected="36" Actual="36" />
+      <ExpectedData IsMatched="true" Name="res3b" Expected="3" Actual="3" />
+      <ExpectedData IsMatched="true" Name="res3c" Expected="108" Actual="108" />
+      <ExpectedData IsMatched="true" Name="res4a" Expected="36" Actual="36" />
+      <ExpectedData IsMatched="true" Name="res4b" Expected="3" Actual="3" />
+      <ExpectedData IsMatched="true" Name="res4c" Expected="108" Actual="108" />
+    </ExpectedResults>
+  </ScriptResult>
+  <ScriptResult FilePath="\data\combinators\comb_uri.js" Succeed="true" Duration="15.624500000000001">
     <ExpectedResults>
       <ExpectedData IsMatched="true" Name="res1a1" Expected="http://www.yahoo.com" Actual="http://www.yahoo.com" />
       <ExpectedData IsMatched="true" Name="res1a2" Expected="http://kdog.mysite.com" Actual="http://kdog.mysite.com" />
@@ -459,23 +650,7 @@
       <ExpectedData IsMatched="true" Name="resEnd" Expected="http://news.yahoo.com/blogs/sideshow/winged-roller-coaster-swarm-rips-arms-off-crash-183513325.html" Actual="http://news.yahoo.com/blogs/sideshow/winged-roller-coaster-swarm-rips-arms-off-crash-183513325.html" />
     </ExpectedResults>
   </ScriptResult>
-  <ScriptResult FilePath="\data\combinators\Comb_Units.js" Succeed="true" Duration="6">
-    <ExpectedResults>
-      <ExpectedData IsMatched="true" Name="res1a1" Expected="3" Actual="3" />
-      <ExpectedData IsMatched="true" Name="res1a2" Expected="36" Actual="36" />
-      <ExpectedData IsMatched="true" Name="res1a3" Expected="108" Actual="108" />
-      <ExpectedData IsMatched="true" Name="res1a4" Expected="190080" Actual="190080" />
-      <ExpectedData IsMatched="true" Name="res2a" Expected="42" Actual="42" />
-      <ExpectedData IsMatched="true" Name="res2b" Expected="114" Actual="114" />
-      <ExpectedData IsMatched="true" Name="res3a" Expected="36" Actual="36" />
-      <ExpectedData IsMatched="true" Name="res3b" Expected="3" Actual="3" />
-      <ExpectedData IsMatched="true" Name="res3c" Expected="108" Actual="108" />
-      <ExpectedData IsMatched="true" Name="res4a" Expected="36" Actual="36" />
-      <ExpectedData IsMatched="true" Name="res4b" Expected="3" Actual="3" />
-      <ExpectedData IsMatched="true" Name="res4c" Expected="108" Actual="108" />
-    </ExpectedResults>
-  </ScriptResult>
-  <ScriptResult FilePath="\data\combinators\comb_words.js" Succeed="true" Duration="4">
+  <ScriptResult FilePath="\data\combinators\comb_words.js" Succeed="true" Duration="15.624500000000001">
     <ExpectedResults>
       <ExpectedData IsMatched="true" Name="res1a" Expected="MSFT" Actual="MSFT" />
       <ExpectedData IsMatched="true" Name="res1b" Expected="pricing policy" Actual="pricing policy" />
@@ -518,182 +693,7 @@
       <ExpectedData IsMatched="true" Name="resEnd" Expected="pricing policy" Actual="pricing policy" />
     </ExpectedResults>
   </ScriptResult>
-  <ScriptResult FilePath="\data\system\types\sys_function_noparen.js" Succeed="true" Duration="2">
-    <ExpectedResults>
-      <ExpectedData IsMatched="true" Name="res1a" Expected="2" Actual="2" />
-      <ExpectedData IsMatched="true" Name="res1b" Expected="3" Actual="3" />
-      <ExpectedData IsMatched="true" Name="res1c" Expected="6" Actual="6" />
-      <ExpectedData IsMatched="true" Name="res2a" Expected="3" Actual="3" />
-      <ExpectedData IsMatched="true" Name="res2b" Expected="4" Actual="4" />
-      <ExpectedData IsMatched="true" Name="res2c" Expected="5" Actual="5" />
-      <ExpectedData IsMatched="true" Name="res2d" Expected="6" Actual="6" />
-      <ExpectedData IsMatched="true" Name="res3a" Expected="2" Actual="2" />
-      <ExpectedData IsMatched="true" Name="res3b" Expected="3" Actual="3" />
-      <ExpectedData IsMatched="true" Name="res3c" Expected="4" Actual="4" />
-      <ExpectedData IsMatched="true" Name="res4a" Expected="2" Actual="2" />
-      <ExpectedData IsMatched="true" Name="res4b" Expected="3" Actual="3" />
-      <ExpectedData IsMatched="true" Name="res4c" Expected="4" Actual="4" />
-      <ExpectedData IsMatched="true" Name="res5a" Expected="16" Actual="16" />
-      <ExpectedData IsMatched="true" Name="res6a" Expected="1" Actual="1" />
-      <ExpectedData IsMatched="true" Name="res6b" Expected="1" Actual="1" />
-      <ExpectedData IsMatched="true" Name="res7a" Expected="1" Actual="1" />
-      <ExpectedData IsMatched="true" Name="resEnd" Expected="4" Actual="4" />
-    </ExpectedResults>
-  </ScriptResult>
-  <ScriptResult FilePath="\data\system\types\sys_doctags.js" Succeed="true" Duration="6">
-    <ExpectedResults>
-      <ExpectedData IsMatched="true" Name="res1a" Expected="300 IBM 20.55 7/1/2012 12:00:00 AM premium policy" Actual="300 IBM 20.55 7/1/2012 12:00:00 AM premium policy" />
-      <ExpectedData IsMatched="true" Name="res1b" Expected="300 IBM 20.55 7/1/2012 12:00:00 AM premium policy" Actual="300 IBM 20.55 7/1/2012 12:00:00 AM premium policy" />
-    </ExpectedResults>
-  </ScriptResult>
-  <ScriptResult FilePath="\data\system\types\sys_csharpobj.js" Succeed="true" Duration="5">
-    <ExpectedResults>
-      <ExpectedData IsMatched="true" Name="res1a" Expected="fluent" Actual="fluent" />
-      <ExpectedData IsMatched="true" Name="res1b" Expected="script" Actual="script" />
-      <ExpectedData IsMatched="true" Name="res1c" Expected="${month}/${day}/${year}" Actual="5/24/2012 12:00:00 AM" />
-      <ExpectedData IsMatched="true" Name="res1d" Expected="true" Actual="True" />
-      <ExpectedData IsMatched="true" Name="res1e" Expected="2012" Actual="2012" />
-      <ExpectedData IsMatched="true" Name="res1f" Expected="Queens" Actual="Queens" />
-      <ExpectedData IsMatched="true" Name="res1g" Expected="NY" Actual="NY" />
-      <ExpectedData IsMatched="true" Name="res2a" Expected="fluent2" Actual="fluent2" />
-      <ExpectedData IsMatched="true" Name="res2b" Expected="script2" Actual="script2" />
-      <ExpectedData IsMatched="true" Name="res2c" Expected="2/20/1980" Actual="2/20/1980 12:00:00 AM" />
-      <ExpectedData IsMatched="true" Name="res2d" Expected="false" Actual="False" />
-      <ExpectedData IsMatched="true" Name="res2e" Expected="Miami" Actual="Miami" />
-      <ExpectedData IsMatched="true" Name="res2f" Expected="Florida" Actual="Florida" />
-      <ExpectedData IsMatched="true" Name="res3a" Expected="fluent2 script2" Actual="fluent2 script2" />
-      <ExpectedData IsMatched="true" Name="res3b" Expected="kishore red" Actual="kishore red" />
-      <ExpectedData IsMatched="true" Name="res3c" Expected="Miami, Florida USA" Actual="Miami, Florida USA" />
-      <ExpectedData IsMatched="true" Name="res3d" Expected="Miami Florida CountryX" Actual="Miami Florida CountryX" />
-      <ExpectedData IsMatched="true" Name="res3e" Expected="jane, doe, False, 2012, 20.5" Actual="jane, doe, False, 2012, 20.5" />
-      <ExpectedData IsMatched="true" Name="res4a" Expected="home cooked" Actual="home cooked" />
-      <ExpectedData IsMatched="true" Name="res4b" Expected="turkey with gravy" Actual="turkey with gravy" />
-      <ExpectedData IsMatched="true" Name="res4c" Expected="john@bronx.com" Actual="john@bronx.com" />
-      <ExpectedData IsMatched="true" Name="res5a" Expected="john doe" Actual="john doe" />
-    </ExpectedResults>
-  </ScriptResult>
-  <ScriptResult FilePath="\data\system\types\sys_function.js" Succeed="true" Duration="2">
-    <ExpectedResults>
-      <ExpectedData IsMatched="true" Name="res1a" Expected="2" Actual="2" />
-      <ExpectedData IsMatched="true" Name="res1b" Expected="3" Actual="3" />
-      <ExpectedData IsMatched="true" Name="res1c" Expected="6" Actual="6" />
-      <ExpectedData IsMatched="true" Name="res2a" Expected="3" Actual="3" />
-      <ExpectedData IsMatched="true" Name="res2b" Expected="4" Actual="4" />
-      <ExpectedData IsMatched="true" Name="res2c" Expected="5" Actual="5" />
-      <ExpectedData IsMatched="true" Name="res2d" Expected="6" Actual="6" />
-      <ExpectedData IsMatched="true" Name="res3a" Expected="2" Actual="2" />
-      <ExpectedData IsMatched="true" Name="res3b" Expected="3" Actual="3" />
-      <ExpectedData IsMatched="true" Name="res3c" Expected="4" Actual="4" />
-      <ExpectedData IsMatched="true" Name="res4a" Expected="2" Actual="2" />
-      <ExpectedData IsMatched="true" Name="res4b" Expected="3" Actual="3" />
-      <ExpectedData IsMatched="true" Name="res4c" Expected="4" Actual="4" />
-      <ExpectedData IsMatched="true" Name="res5a" Expected="16" Actual="16" />
-      <ExpectedData IsMatched="true" Name="res6a" Expected="1" Actual="1" />
-      <ExpectedData IsMatched="true" Name="res6b" Expected="1" Actual="1" />
-      <ExpectedData IsMatched="true" Name="res7a" Expected="1" Actual="1" />
-      <ExpectedData IsMatched="true" Name="resEnd" Expected="4" Actual="4" />
-    </ExpectedResults>
-  </ScriptResult>
-  <ScriptResult FilePath="\data\system\types\sys_array.js" Succeed="true" Duration="3">
-    <ExpectedResults>
-      <ExpectedData IsMatched="true" Name="res1a" Expected="FluentScript" Actual="FluentScript" />
-      <ExpectedData IsMatched="true" Name="res1b" Expected="CodeHelix" Actual="CodeHelix" />
-      <ExpectedData IsMatched="true" Name="res1c" Expected="100" Actual="100" />
-      <ExpectedData IsMatched="true" Name="res2a" Expected="FluentScript" Actual="FluentScript" />
-      <ExpectedData IsMatched="true" Name="res2b" Expected="CodeHelix" Actual="CodeHelix" />
-      <ExpectedData IsMatched="true" Name="res2c" Expected="FluentScript" Actual="FluentScript" />
-      <ExpectedData IsMatched="true" Name="res2d" Expected="CodeHelix" Actual="CodeHelix" />
-      <ExpectedData IsMatched="true" Name="res3a" Expected="FluentScript1" Actual="FluentScript1" />
-      <ExpectedData IsMatched="true" Name="res3b" Expected="101" Actual="101" />
-      <ExpectedData IsMatched="true" Name="res3c" Expected="FluentScript2" Actual="FluentScript2" />
-      <ExpectedData IsMatched="true" Name="res3d" Expected="102" Actual="102" />
-      <ExpectedData IsMatched="true" Name="res4a" Expected="test" Actual="test" />
-      <ExpectedData IsMatched="true" Name="res4b" Expected="101" Actual="101" />
-      <ExpectedData IsMatched="true" Name="res4c" Expected="102" Actual="102" />
-      <ExpectedData IsMatched="true" Name="res5a" Expected="304" Actual="304" />
-      <ExpectedData IsMatched="true" Name="res6a" Expected="1" Actual="1" />
-      <ExpectedData IsMatched="true" Name="res6b" Expected="1" Actual="1" />
-      <ExpectedData IsMatched="true" Name="res7a" Expected="1" Actual="1" />
-      <ExpectedData IsMatched="true" Name="res8a" Expected="FluentScript" Actual="FluentScript" />
-      <ExpectedData IsMatched="true" Name="res8b" Expected="100" Actual="100" />
-      <ExpectedData IsMatched="true" Name="res8c" Expected="new name" Actual="new name" />
-      <ExpectedData IsMatched="true" Name="res8d" Expected="200" Actual="200" />
-      <ExpectedData IsMatched="true" Name="res8e" Expected="FluentScript1" Actual="FluentScript1" />
-      <ExpectedData IsMatched="true" Name="res8f" Expected="101" Actual="101" />
-      <ExpectedData IsMatched="true" Name="res8g" Expected="new nested name" Actual="new nested name" />
-      <ExpectedData IsMatched="true" Name="res8h" Expected="220" Actual="220" />
-      <ExpectedData IsMatched="true" Name="resEnd" Expected="CodeHelix2" Actual="CodeHelix2" />
-    </ExpectedResults>
-  </ScriptResult>
-  <ScriptResult FilePath="\data\system\types\sys_date.js" Succeed="true" Duration="3">
-    <ExpectedResults>
-      <ExpectedData IsMatched="true" Name="res1a" Expected="2012" Actual="2012" />
-      <ExpectedData IsMatched="true" Name="res1b" Expected="6" Actual="6" />
-      <ExpectedData IsMatched="true" Name="res1c" Expected="11" Actual="11" />
-      <ExpectedData IsMatched="true" Name="res1d" Expected="1" Actual="1" />
-      <ExpectedData IsMatched="true" Name="res1e" Expected="8" Actual="8" />
-      <ExpectedData IsMatched="true" Name="res1f" Expected="30" Actual="30" />
-      <ExpectedData IsMatched="true" Name="res1g" Expected="0" Actual="0" />
-      <ExpectedData IsMatched="true" Name="res1h" Expected="2012" Actual="2012" />
-      <ExpectedData IsMatched="true" Name="res1i" Expected="6" Actual="6" />
-      <ExpectedData IsMatched="true" Name="res1j" Expected="11" Actual="11" />
-      <ExpectedData IsMatched="true" Name="res1k" Expected="1" Actual="1" />
-      <ExpectedData IsMatched="true" Name="res1l" Expected="8" Actual="8" />
-      <ExpectedData IsMatched="true" Name="res1m" Expected="30" Actual="30" />
-      <ExpectedData IsMatched="true" Name="res1n" Expected="0" Actual="0" />
-      <ExpectedData IsMatched="true" Name="res2a" Expected="2013" Actual="2013" />
-      <ExpectedData IsMatched="true" Name="res2b" Expected="7" Actual="7" />
-      <ExpectedData IsMatched="true" Name="res2c" Expected="12" Actual="12" />
-      <ExpectedData IsMatched="true" Name="res2d" Expected="5" Actual="5" />
-      <ExpectedData IsMatched="true" Name="res2e" Expected="9" Actual="9" />
-      <ExpectedData IsMatched="true" Name="res2f" Expected="45" Actual="45" />
-      <ExpectedData IsMatched="true" Name="res2g" Expected="20" Actual="20" />
-    </ExpectedResults>
-  </ScriptResult>
-  <ScriptResult FilePath="\data\system\types\sys_map.js" Succeed="true" Duration="2">
-    <ExpectedResults>
-      <ExpectedData IsMatched="true" Name="res1a" Expected="FluentScript" Actual="FluentScript" />
-      <ExpectedData IsMatched="true" Name="res1b" Expected="CodeHelix" Actual="CodeHelix" />
-      <ExpectedData IsMatched="true" Name="res1c" Expected="100" Actual="100" />
-      <ExpectedData IsMatched="true" Name="res1d" Expected="FluentScript" Actual="FluentScript" />
-      <ExpectedData IsMatched="true" Name="res1e" Expected="CodeHelix" Actual="CodeHelix" />
-      <ExpectedData IsMatched="true" Name="res1f" Expected="100" Actual="100" />
-      <ExpectedData IsMatched="true" Name="res2a" Expected="FluentScript" Actual="FluentScript" />
-      <ExpectedData IsMatched="true" Name="res2b" Expected="CodeHelix" Actual="CodeHelix" />
-      <ExpectedData IsMatched="true" Name="res2c" Expected="FluentScript" Actual="FluentScript" />
-      <ExpectedData IsMatched="true" Name="res2d" Expected="CodeHelix" Actual="CodeHelix" />
-      <ExpectedData IsMatched="true" Name="res3a" Expected="FluentScript1" Actual="FluentScript1" />
-      <ExpectedData IsMatched="true" Name="res3b" Expected="FluentScript1" Actual="FluentScript1" />
-      <ExpectedData IsMatched="true" Name="res3c" Expected="102" Actual="102" />
-      <ExpectedData IsMatched="true" Name="res3d" Expected="102" Actual="102" />
-      <ExpectedData IsMatched="true" Name="res4a" Expected="101" Actual="101" />
-      <ExpectedData IsMatched="true" Name="res4b" Expected="102" Actual="102" />
-      <ExpectedData IsMatched="true" Name="res5a" Expected="304" Actual="304" />
-      <ExpectedData IsMatched="true" Name="res6a" Expected="1" Actual="1" />
-      <ExpectedData IsMatched="true" Name="res6b" Expected="1" Actual="1" />
-      <ExpectedData IsMatched="true" Name="res7a" Expected="1" Actual="1" />
-      <ExpectedData IsMatched="true" Name="res8a" Expected="FluentScript" Actual="FluentScript" />
-      <ExpectedData IsMatched="true" Name="res8b" Expected="100" Actual="100" />
-      <ExpectedData IsMatched="true" Name="res8c" Expected="new name" Actual="new name" />
-      <ExpectedData IsMatched="true" Name="res8d" Expected="200" Actual="200" />
-      <ExpectedData IsMatched="true" Name="res8e" Expected="FluentScript1" Actual="FluentScript1" />
-      <ExpectedData IsMatched="true" Name="res8f" Expected="101" Actual="101" />
-      <ExpectedData IsMatched="true" Name="res8g" Expected="new nested name" Actual="new nested name" />
-      <ExpectedData IsMatched="true" Name="res8h" Expected="220" Actual="220" />
-      <ExpectedData IsMatched="true" Name="resEnd" Expected="CodeHelix2" Actual="CodeHelix2" />
-    </ExpectedResults>
-  </ScriptResult>
-  <ScriptResult FilePath="\data\system\types\sys_string.js" Succeed="true" Duration="6">
-    <ExpectedResults>
-      <ExpectedData IsMatched="true" Name="res1a" Expected="q" Actual="q" />
-      <ExpectedData IsMatched="true" Name="res1b" Expected="10" Actual="10" />
-      <ExpectedData IsMatched="true" Name="res1c" Expected="39" Actual="39" />
-      <ExpectedData IsMatched="true" Name="res1d" Expected="The quick brown cat jumps over the lazy dog" Actual="The quick brown cat jumps over the lazy dog" />
-      <ExpectedData IsMatched="true" Name="res1e" Expected="quick" Actual="quick" />
-      <ExpectedData IsMatched="true" Name="res1f" Expected="quick" Actual="quick" />
-    </ExpectedResults>
-  </ScriptResult>
-  <ScriptResult FilePath="\data\system\expressions\sys_typeof.js" Succeed="true" Duration="4">
+  <ScriptResult FilePath="\data\system\expressions\sys_typeof.js" Succeed="true" Duration="0">
     <ExpectedResults>
       <ExpectedData IsMatched="true" Name="res1a" Expected="string" Actual="string" />
       <ExpectedData IsMatched="true" Name="res1b" Expected="number" Actual="number" />
@@ -702,9 +702,9 @@
       <ExpectedData IsMatched="true" Name="res1e" Expected="boolean" Actual="boolean" />
       <ExpectedData IsMatched="true" Name="res1f" Expected="datetime" Actual="datetime" />
       <ExpectedData IsMatched="true" Name="res1g" Expected="time" Actual="time" />
-      <ExpectedData IsMatched="true" Name="res1h" Expected="object" Actual="object" />
-      <ExpectedData IsMatched="true" Name="res1i" Expected="object" Actual="object" />
-      <ExpectedData IsMatched="true" Name="res1j" Expected="object" Actual="object" />
+      <ExpectedData IsMatched="true" Name="res1h" Expected="object:list" Actual="object:list" />
+      <ExpectedData IsMatched="true" Name="res1i" Expected="object:map" Actual="object:map" />
+      <ExpectedData IsMatched="true" Name="res1j" Expected="object:ComLib.Tools.FluentTester.Samples.Person" Actual="object:ComLib.Tools.FluentTester.Samples.Person" />
       <ExpectedData IsMatched="true" Name="res2a" Expected="type: string name" Actual="type: string name" />
       <ExpectedData IsMatched="true" Name="res2b" Expected="type: number name" Actual="type: number name" />
       <ExpectedData IsMatched="true" Name="res2c" Expected="type: number name" Actual="type: number name" />
@@ -712,8 +712,8 @@
       <ExpectedData IsMatched="true" Name="res2e" Expected="type: boolean name" Actual="type: boolean name" />
       <ExpectedData IsMatched="true" Name="res2f" Expected="type: datetime name" Actual="type: datetime name" />
       <ExpectedData IsMatched="true" Name="res2g" Expected="type: time name" Actual="type: time name" />
-      <ExpectedData IsMatched="true" Name="res2h" Expected="type: object name" Actual="type: object name" />
-      <ExpectedData IsMatched="true" Name="res2i" Expected="type: object name" Actual="type: object name" />
+      <ExpectedData IsMatched="true" Name="res2h" Expected="type: object:list name" Actual="type: object:list name" />
+      <ExpectedData IsMatched="true" Name="res2i" Expected="type: object:map name" Actual="type: object:map name" />
       <ExpectedData IsMatched="true" Name="res3a" Expected="number" Actual="number" />
       <ExpectedData IsMatched="true" Name="res3b" Expected="boolean" Actual="boolean" />
       <ExpectedData IsMatched="true" Name="res3c" Expected="datetime" Actual="datetime" />

@@ -19,6 +19,7 @@ using ComLib.Lang.Tests.Component;
 using ComLib.Lang.Tests.Templating;
 
 using ComLib.Lang;
+using ComLib.Lang.AST;
 using System.Dynamic;
 
 namespace ComLib.Samples

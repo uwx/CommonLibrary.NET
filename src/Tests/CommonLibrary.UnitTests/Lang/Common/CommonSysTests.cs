@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ComLib.Lang;
-using ComLib.Lang.Extensions;
+using ComLib.Lang.Plugins;
 
 namespace ComLib.Lang.Tests.Common
 {

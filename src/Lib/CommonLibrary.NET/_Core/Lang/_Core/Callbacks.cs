@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ComLib.Lang
+namespace ComLib.Lang.Core
 {
     /// <summary>
     /// Used for callbacks to external methods after execution of expressions/statements.

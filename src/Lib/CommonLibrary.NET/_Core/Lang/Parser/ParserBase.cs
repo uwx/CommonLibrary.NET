@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
 using ComLib.Lang.Helpers;
+using ComLib.Lang.Plugins;
+// </lang:using>
 
-namespace ComLib.Lang
+namespace ComLib.Lang.Parsing
 {
     /// <summary>
     /// Base class for the parser

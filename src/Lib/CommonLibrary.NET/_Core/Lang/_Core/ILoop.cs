@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ComLib.Lang
+namespace ComLib.Lang.Core
 {
     /// <summary>
     /// Interface for a loop
@@ -20,24 +20,5 @@ namespace ComLib.Lang
         /// Break the loop.
         /// </summary>
         void Break();
-    }
-
-
-
-    /// <summary>
-    /// Interface for expression that uses parameters. right now "new" and "function".
-    /// </summary>
-    public interface IParameterExpression
-    {
-        /// <summary>
-        /// List of evaluated parameters
-        /// </summary>
-        List<object> ParamList { get; set; }
-
-
-        /// <summary>
-        /// List of expressions representing the parameters.
-        /// </summary>
-        List<Expr> ParamListExpressions { get; set; }
     }
 }

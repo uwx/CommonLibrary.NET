@@ -8,7 +8,8 @@ using NUnit.Framework;
 
 using ComLib;
 using ComLib.Lang;
-using ComLib.Lang.Extensions;
+using ComLib.Lang.Plugins;
+using ComLib.Lang.Types;
 using ComLib.Tests;
 
 using CommonLibrary.Tests.Common;
@@ -283,7 +284,7 @@ namespace ComLib.Lang.Tests.Component
             int level = -1;
             string msg = "";
 
-            Action<int, string, ComLib.Lang.LError> callback = (lev, message, er) => { level = lev; msg = message; };
+            Action<int, string, LError> callback = (lev, message, er) => { level = lev; msg = message; };
             var i = new Interpreter();
             i.Context.Plugins.Register(new LogPlugin(callback));
 

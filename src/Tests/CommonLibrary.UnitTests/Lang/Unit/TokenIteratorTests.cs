@@ -9,6 +9,8 @@ using NUnit.Framework;
 
 using ComLib;
 using ComLib.Lang;
+using ComLib.Lang.Core;
+using ComLib.Lang.Parsing;
 using ComLib.Tests;
 using ComLib.Lang.Tests.Common;
 

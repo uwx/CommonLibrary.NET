@@ -2,9 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang.Helpers;
 
-namespace ComLib.Lang
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Types;
+using ComLib.Lang.Helpers;
+using ComLib.Lang.Parsing;
+// </lang:using>
+
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************

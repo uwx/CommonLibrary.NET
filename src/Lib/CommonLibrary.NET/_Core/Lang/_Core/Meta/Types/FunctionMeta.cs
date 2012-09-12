@@ -6,7 +6,7 @@ using System.Text;
 using ComLib.Lang.Docs;
 
 
-namespace ComLib.Lang
+namespace ComLib.Lang.Core
 {
     /// <summary>
     /// Meta data about function.

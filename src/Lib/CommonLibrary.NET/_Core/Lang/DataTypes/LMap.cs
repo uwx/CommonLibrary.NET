@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ComLib.Lang
+using ComLib.Lang.Parsing;
+
+namespace ComLib.Lang.Types
 {
     /// <summary>
     /// Datatype for map
@@ -15,7 +17,10 @@ namespace ComLib.Lang
         /// Initialize
         /// </summary>
         /// <param name="val">Values of the map</param>
-        public LMap(Dictionary<string, object> val) : this(null, val) { }
+        public LMap(Dictionary<string, object> val) //: this(null, val) 
+        {
+            Raw = val;
+        }
 
 
         /// <summary>

@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang.Extensions;
+using ComLib.Lang.Plugins;
 
 namespace ComLib.Lang
 {    
     /// <summary>
     /// Stores all the combinators.
     /// </summary>
-    public class Plugins 
+    public class RegisteredPlugins 
     {
         // e.g.
         // [ "monday"   ] = [ DayPlugin ]
@@ -43,7 +43,7 @@ namespace ComLib.Lang
         /// <summary>
         /// Initialize plugins.
         /// </summary>
-        public Plugins()
+        public RegisteredPlugins()
         {
             _sysMap = new Dictionary<string, ILangPlugin>();
             _extMap = new Dictionary<string, ILangPlugin>();

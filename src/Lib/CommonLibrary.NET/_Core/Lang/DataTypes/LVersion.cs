@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ComLib.Lang
+namespace ComLib.Lang.Types
 {
     /// <summary>
     /// Used to represent a version number e.g. 0.9.8.7
