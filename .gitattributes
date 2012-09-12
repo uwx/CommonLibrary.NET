@@ -35,13 +35,6 @@ src/Apps/ComLib.Apps.FluentScript/Properties/AssemblyVersion.cs -text
 src/Apps/ComLib.Apps.FluentScript/app.config -text
 src/Apps/ComLib.Apps.FluentScript/scripts/function1.js -text
 src/Apps/ComLib.Apps.FluentScript/scripts/helloworld.js -text
-src/Apps/ComLib.Apps.FluentSharp/FS.cs -text
-src/Apps/ComLib.Apps.FluentSharp/FSArgs.cs -text
-src/Apps/ComLib.Apps.FluentSharp/Properties/AssemblyInfo.cs -text
-src/Apps/ComLib.Apps.FluentSharp/app.config -text
-src/Apps/ComLib.Apps.FluentSharp/config/Dev.config -text
-src/Apps/ComLib.Apps.FluentSharp/config/Prod.config -text
-src/Apps/ComLib.Apps.FluentSharp/config/Qa.config -text
 src/Apps/ComLib.Apps.SampleApp/App.config -text
 src/Apps/ComLib.Apps.SampleApp/ComLib.Apps.SampleApp.csproj -text
 src/Apps/ComLib.Apps.SampleApp/CommonLibrary.SampleApp.csproj -text

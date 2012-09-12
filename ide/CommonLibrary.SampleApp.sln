@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComLib.Tools.FluentTester",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComLib.Tools.HtmlConverter", "..\src\Tools\HtmlConverter\ComLib.Tools.HtmlConverter.csproj", "{4CF2DCFC-4F0A-4236-A539-7B610672A322}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentScript", "..\src\Lib\FluentScript\FluentScript.csproj", "{978AC4F4-5610-4A92-92A9-078D48A4B659}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,16 +95,6 @@ Global
 		{4CF2DCFC-4F0A-4236-A539-7B610672A322}.Release|Mixed Platforms.Build.0 = Release|x86
 		{4CF2DCFC-4F0A-4236-A539-7B610672A322}.Release|x86.ActiveCfg = Release|x86
 		{4CF2DCFC-4F0A-4236-A539-7B610672A322}.Release|x86.Build.0 = Release|x86
-		{978AC4F4-5610-4A92-92A9-078D48A4B659}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{978AC4F4-5610-4A92-92A9-078D48A4B659}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{978AC4F4-5610-4A92-92A9-078D48A4B659}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{978AC4F4-5610-4A92-92A9-078D48A4B659}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{978AC4F4-5610-4A92-92A9-078D48A4B659}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{978AC4F4-5610-4A92-92A9-078D48A4B659}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{978AC4F4-5610-4A92-92A9-078D48A4B659}.Release|Any CPU.Build.0 = Release|Any CPU
-		{978AC4F4-5610-4A92-92A9-078D48A4B659}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{978AC4F4-5610-4A92-92A9-078D48A4B659}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{978AC4F4-5610-4A92-92A9-078D48A4B659}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

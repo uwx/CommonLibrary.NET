@@ -251,7 +251,7 @@
 	<!-- ****************************************************************************************
 		Execute the build
 	*******************************************************************************************-->
-	<target name="Execute" depends="CheckBaseDir">		
+	<target name="Comlib" depends="CheckBaseDir">		
 		<call target="Clean" />	
 		<call target="Version" />
 		<call target="Secure" />
@@ -264,4 +264,13 @@
 		<call target="FS_Package" />
 	</target>
 	
+	
+	<!-- ****************************************************************************************
+		Execute the build
+	*******************************************************************************************-->
+	<target name="FS" depends="CheckBaseDir">		
+		<call target="FS_Setup" />
+		<call target="FS_Compile" />
+		<call target="FS_Package" />
+	</target>
 </project>
