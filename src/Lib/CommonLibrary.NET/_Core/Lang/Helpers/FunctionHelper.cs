@@ -20,6 +20,25 @@ namespace ComLib.Lang.Helpers
     public class FunctionHelper
     {
         /// <summary>
+        /// Whether or not the parametlist of expressions contains a named parameter with the name supplied.
+        /// </summary>
+        /// <param name="paramListExpressions">List of parameter list expressions.</param>
+        /// <param name="paramName">Name of the parameter to search for</param>
+        /// <returns></returns>
+        public static bool HasNamedParameter(List<Expr> paramListExpressions, string paramName)
+        {
+            if (paramListExpressions == null || paramListExpressions.Count == 0)
+                return false;
+
+            foreach (var paramExpr in paramListExpressions)
+                if (paramExpr is NamedParamExpr)
+                    if (((NamedParamExpr)paramExpr).Name == paramName)
+                        return true;
+            return false;
+        }
+
+
+        /// <summary>
         /// Whether or not the name/member combination supplied is a script level function or an external C# function
         /// </summary>
         /// <param name="ctx">Context of script</param>

@@ -170,11 +170,11 @@ namespace ComLib.Lang.Parsing
 
         #region Public methods
         /// <summary>
-        /// Intialize.
+        /// Intializ with script and optional memory object for reruns.
         /// </summary>
         /// <param name="script"></param>
         /// <param name="memory"></param>
-        protected virtual void Init(string script, Memory memory)
+        public virtual void Init(string script, Memory memory)
         {
             _script = script;
             _scriptPath = string.Empty;
@@ -185,6 +185,24 @@ namespace ComLib.Lang.Parsing
             _state = new ParserState();            
             if (_comments != null) _comments.Clear();
             else _comments = new List<Token>();
+        }
+
+
+        /// <summary>
+        /// Collects an unexpected token error and advances to next token.
+        /// </summary>
+        public void CollectError()
+        {
+            // Should not be here if script ended.
+            if (_tokenIt.IsEnded)
+                throw _tokenIt.BuildEndOfScriptException();
+
+            // Store the error.
+            var ex = _tokenIt.BuildSyntaxUnexpectedTokenException();
+            this._parseErrors.Add(ex);
+
+            // Now advance to next token to continue parsing.
+            _tokenIt.Advance();
         }
         #endregion
 

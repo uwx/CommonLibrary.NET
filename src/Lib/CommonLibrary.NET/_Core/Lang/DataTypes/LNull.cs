@@ -9,8 +9,18 @@ namespace ComLib.Lang.Types
     /// <summary>
     /// Class to represent null
     /// </summary>
-    public class LNull
+    public class LNull : LObject
     {
+        /// <summary>
+        /// Initialize
+        /// </summary>
+        public LNull()
+        {
+            this._value = null;
+            this.DataType = typeof(Nullable);
+        }
+
+
         /// <summary>
         /// Singleton instance.
         /// </summary>

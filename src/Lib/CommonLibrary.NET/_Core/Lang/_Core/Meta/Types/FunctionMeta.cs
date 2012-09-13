@@ -27,7 +27,7 @@ namespace ComLib.Lang.Core
         /// <param name="name"></param>
         /// <param name="argNames"></param>
         public FunctionMetaData(string name, List<string> argNames)
-        {
+        {            
             Init(name, argNames);
         }
 
@@ -40,11 +40,12 @@ namespace ComLib.Lang.Core
         public void Init(string name, List<string> argNames)
         {
             this.Name = name;
+            this.Arguments = new List<Arg>();
+            this.ArgumentNames = new Dictionary<string, string>();
+            this.ArgumentsLookup = new Dictionary<string, Arg>();
+
             if (argNames != null && argNames.Count > 0)
             {
-                this.Arguments = new List<Arg>();
-                this.ArgumentNames = new Dictionary<string, string>();
-                this.ArgumentsLookup = new Dictionary<string, Arg>();
                 for(int ndx = 0; ndx < argNames.Count; ndx++)
                 {
                     var argName = argNames[ndx];
@@ -77,6 +78,7 @@ namespace ComLib.Lang.Core
             arg.Required = required;
             arg.Alias = alias;
             arg.Examples = new List<string>() { examples };
+            arg.Index = this.Arguments.Count;
             this.Arguments.Add(arg);
             this.ArgumentsLookup[arg.Name] = arg;
             this.ArgumentsLookup[arg.Alias] = arg;

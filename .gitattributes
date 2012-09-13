@@ -546,6 +546,7 @@ src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/MemberAccessExpr.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/MemberExpr.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/NamedParameterExpr.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/NewExpr.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/ParameterExpr.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/UnaryExpr.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/ValueExpr.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/VariableExpr.cs -text
@@ -615,6 +616,7 @@ src/Lib/CommonLibrary.NET/_Core/Lang/Parser/Terminators.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/TokenIterator.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/Visitor.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Core/AliasTokenPlugin.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Core/CustomFunctionPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Core/LexReplacePlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Core/LineReaderPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Core/TakeoverPlugin.cs -text

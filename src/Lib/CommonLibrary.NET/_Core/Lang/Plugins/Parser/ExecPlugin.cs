@@ -8,6 +8,7 @@ using ComLib.Lang.Core;
 using ComLib.Lang.AST;
 using ComLib.Lang.Types;
 using ComLib.Lang.Parsing;
+using ComLib.Lang.Helpers;
 // </lang:using>
 
 namespace ComLib.Lang.Plugins
@@ -28,21 +29,21 @@ namespace ComLib.Lang.Plugins
 	    print Thank god it's Friday
     </doc:example>
     ***************************************************************************/
-
     /// <summary>
     /// Combinator for handling days of the week.
     /// </summary>
-    public class ExecPlugin : ExprPlugin, ISetupPlugin
+    public class ExecPlugin : CustomFunctionPluginBase
     {
         /// <summary>
         /// Initialize
         /// </summary>
-        public ExecPlugin()
+        public ExecPlugin() 
         {
-            this.StartTokens = new string[] { "exec" };
-            this.IsStatement = true;
-            this.IsEndOfStatementRequired = true;
-            this.IsAutoMatched = true;
+            this.Init("exec");
+            _funcMeta = new FunctionMetaData("exec", null);
+            _funcMeta.AddArg("program", "program to launch", "", "string", true, string.Empty, @"c:\tools\nunit\nunit.exe");
+            _funcMeta.AddArg("workingdir", "working directory to launch in", "in", "string", false, string.Empty, @"c:\tools\nunit\");
+            _funcMeta.AddArg("args", "arguments to the program", "", "list", false, string.Empty, "");
         }
 
 
@@ -72,21 +73,7 @@ namespace ComLib.Lang.Plugins
                     "exec msbuildhome\\msbuild.exe in: 'c:\\myapp\\build' [ 'arg-a', 'arg-b', 'arg-c' ]"
                 };
             }
-        }
-
-
-        /// <summary>
-        /// Setup the exec plugin.
-        /// </summary>
-        /// <param name="ctx"></param>
-        public void Setup(Context ctx)
-        {
-            var func = new FunctionExpr("exec", null);
-            func.Meta.AddArg( "program",    "program to launch",              "",   "string", true,  string.Empty, @"c:\tools\nunit\nunit.exe");
-            func.Meta.AddArg( "workingdir", "working directory to launch in", "in", "string", false, string.Empty, @"c:\tools\nunit\");
-		    func.Meta.AddArg( "args",       "arguments to the program",       "",   "list",   false, string.Empty, "");            
-            ctx.Functions.Register("exec", func);
-        }        
+        }       
 
 
         /// <summary>
@@ -96,10 +83,12 @@ namespace ComLib.Lang.Plugins
         /// <returns></returns>
         public override Expr Parse()
         {
-            _tokenIt.ExpectIdText("exec");
-            var execExpr = new ExecExpr();            
-            var expr = _parser.ParseFuncExpression(null);
-            return null;
+            var expr = new ExecExpr(_funcMeta);
+            base.ParseFunction(expr);
+
+            if (expr.ParamListExpressions.Count == 0)
+                throw _tokenIt.BuildSyntaxExpectedException("exec plugin requires at least 1 parameter");
+            return expr;
         }
     }
 
@@ -108,8 +97,18 @@ namespace ComLib.Lang.Plugins
     /// <summary>
     /// Variable expression data
     /// </summary>
-    public class ExecExpr : Expr
+    public class ExecExpr : ParameterExpr
     {
+        /// <summary>
+        /// Metadata about the function.
+        /// </summary>
+        /// <param name="meta"></param>
+        public ExecExpr(FunctionMetaData meta)
+        {
+            Init(meta);
+        }
+
+
         /// <summary>
         /// Evaluate
         /// </summary>
@@ -118,14 +117,26 @@ namespace ComLib.Lang.Plugins
         {
             var exePath = "";
             var workingDir = "";
-            var failOnError = false;            
-            var args = "";
+            var failOnError = false;
+            LArray args = null;
 
             try
             {
+                this.ResolveParams();
+                exePath = (string)this.GetParamValue(0, false, string.Empty);
+                workingDir = (string)this.GetParamValue(1, true, string.Empty);
+                args = (LArray)this.GetParamValue(2, true, null);
+
+                // Convert the items in the array to strings.
+                var list = args.Raw;
+                var stringArgs = "";
+                foreach (var item in list)
+                    stringArgs += Convert.ToString(item) + " ";
+
                 var p = new System.Diagnostics.Process();
                 p.StartInfo.FileName = exePath;
-                p.StartInfo.Arguments = args;
+                p.StartInfo.Arguments = stringArgs;
+                p.StartInfo.UseShellExecute = false;
                 p.StartInfo.CreateNoWindow = true;
                 p.StartInfo.WorkingDirectory = workingDir;
                 p.Start();

@@ -5,6 +5,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections;
 
+// <lang:using>
+using ComLib.Lang.Types;
+// </lang:using>
 
 namespace ComLib.Lang.AST
 {
@@ -30,6 +33,14 @@ namespace ComLib.Lang.AST
         /// <returns></returns>
         public override object DoEvaluate()
         {
+            if (this.Value.GetType() == typeof(bool))
+                return new LBool((bool)this.Value);
+
+            if (this.Value.GetType() == typeof(double))
+                return new LNumber((bool)this.Value);
+
+            if (this.Value.GetType() == typeof(bool))
+                return new LBool((bool)this.Value);
             return this.Value;
         }
     }

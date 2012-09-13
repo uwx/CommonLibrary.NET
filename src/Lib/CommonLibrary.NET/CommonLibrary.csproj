@@ -506,6 +506,7 @@
     <Compile Include="_Core\Lang\AST\Expressions\ConditionalBlockExpr.cs" />
     <Compile Include="_Core\Lang\AST\Expressions\ConditionExpr.cs" />
     <Compile Include="_Core\Lang\AST\Expressions\ConstantExpr.cs" />
+    <Compile Include="_Core\Lang\AST\Expressions\ParameterExpr.cs" />
     <Compile Include="_Core\Lang\AST\Expressions\DataTypeExpr.cs" />
     <Compile Include="_Core\Lang\AST\Expressions\EvaluatableExpr.cs" />
     <Compile Include="_Core\Lang\AST\Expressions\Expr.cs" />
@@ -534,6 +535,7 @@
     <Compile Include="_Core\Lang\Parser\Core\LangState.cs" />
     <Compile Include="_Core\Lang\Parser\Core\Limits.cs" />
     <Compile Include="_Core\Lang\Parser\IParser.cs" />
+    <Compile Include="_Core\Lang\Plugins\Core\CustomFunctionPlugin.cs" />
     <Compile Include="_Core\Lang\_Core\FunctionLookupResult.cs" />
     <Compile Include="_Core\Lang\Helpers\DocHelper.cs" />
     <Compile Include="_Core\Lang\Helpers\FluentHelper.cs" />

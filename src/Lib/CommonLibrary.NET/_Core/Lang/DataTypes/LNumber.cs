@@ -11,12 +11,23 @@ namespace ComLib.Lang.Types
     public class LNumber : LObject
     {   
         /// <summary>
+        /// Initialize bool value.
+        /// </summary>
+        /// <param name="value"></param>
+        public LNumber(bool value)
+        {
+            _value = value;
+            DataType = typeof(double);
+        }
+
+
+        /// <summary>
         /// Get boolean value.
         /// </summary>
         /// <returns></returns>
-        public bool ToDouble()
+        public double ToDouble()
         {
-            return (bool)_value;
+            return (double)_value;
         }
     }
 }

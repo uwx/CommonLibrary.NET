@@ -278,6 +278,21 @@ namespace ComLib.Lang.Tests.Component
             RunTests(CommonTestCases_Plugins.Version, _testType);
         }
 
+
+        [Test]
+        public void Can_Use_Exec_Plugin()
+        {
+            var script = @"exec program: C:\Dev\Tools\NAnt\9.0\bin\nant.exe,"
+	                   + @"in: C:\Dev\Tests\nanttests,"
+                       + @"args: [ '-buildfile:nanttests.xml', '-D:arg.option=3', 'Execute_A' ]";
+
+            var i = new Interpreter();
+            i.Context.Plugins.Register(new UriPlugin());
+            i.Context.Plugins.Register(new ExecPlugin());
+            //i.Execute(script);
+        }
+
+
         [Test]
         public void Can_Use_Log_Plugin()
         {

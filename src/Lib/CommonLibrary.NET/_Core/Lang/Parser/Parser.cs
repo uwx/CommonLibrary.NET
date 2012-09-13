@@ -166,8 +166,11 @@ namespace ComLib.Lang.Parsing
                 {
                     _tokenIt.Advance();
                 }
-                else if ( nexttoken != Tokens.CommentMLine || nexttoken.Type == TokenTypes.Unknown )
+                else if (nexttoken != Tokens.CommentMLine || nexttoken.Type == TokenTypes.Unknown)
+                {
+                    CollectError();
                     throw _tokenIt.BuildSyntaxUnexpectedTokenException();
+                }
                 if (stmt != null)
                 {
                     // 1. Assign the symbol scope for this statement.
@@ -1078,7 +1081,7 @@ namespace ComLib.Lang.Parsing
                 FunctionMetaData meta = null;
                 if(_context.Functions.Contains(fname))
                     meta = _context.Functions.GetByName(fname).Meta;
-                FluentHelper.ParseFuncParameters(funcExp.ParamListExpressions, _tokenIt, expectParenthesis, !expectParenthesis, this, meta);
+                FluentHelper.ParseFuncParameters(funcExp.ParamListExpressions, _tokenIt, this, expectParenthesis, !expectParenthesis, meta);
             }            
             _state.FunctionCall--;
             return funcExp;

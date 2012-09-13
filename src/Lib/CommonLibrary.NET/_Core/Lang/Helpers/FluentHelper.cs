@@ -118,7 +118,7 @@ namespace ComLib.Lang.Helpers
         /// <param name="meta">The function meta for checking parameters</param>
         /// <param name="expectParenthesis">Whether or not to expect parenthis to designate the start of the parameters.</param>
         /// <param name="enableNewLineAsEnd">Whether or not to treat a newline as end</param>
-        public static void ParseFuncParameters(List<Expr> args, TokenIterator tokenIt, bool expectParenthesis, bool enableNewLineAsEnd, Parser parser, FunctionMetaData meta)
+        public static void ParseFuncParameters(List<Expr> args, TokenIterator tokenIt, Parser parser, bool expectParenthesis, bool enableNewLineAsEnd, FunctionMetaData meta)
         {
             int totalParameters = 0;
             if (tokenIt.NextToken.Token == Tokens.LeftParenthesis)
@@ -147,11 +147,14 @@ namespace ComLib.Lang.Helpers
                 var peek = tokenIt.Peek().Token;
 
                 var isVar = parser.Context.Symbols.Contains(token.Text);
-                
+                var isParamNameMatch = hasMetaArguments && meta.ArgumentsLookup.ContainsKey(token.Text);
+                var isKeywordParamName = token.Kind == TokenKind.Keyword && isParamNameMatch;
+
                 // CASE 1: Named params for external c# object method calls                
                 // CASE 2: Named params for internal script functions ( where we have access to its param metadata )
-                if ( (meta == null && token.Kind == TokenKind.Ident && peek == Tokens.Colon ) ||
-                     (hasMetaArguments && token.Kind == TokenKind.Ident && meta.ArgumentsLookup.ContainsKey(token.Text) && !isVar))
+                if (   (meta == null && token.Kind == TokenKind.Ident && peek == Tokens.Colon ) 
+                    || (token.Kind == TokenKind.Ident && isParamNameMatch && !isVar) 
+                    || (isKeywordParamName && !isVar ) )
                 {         
                     string paramName = token.Text;
                     tokenIt.Advance();

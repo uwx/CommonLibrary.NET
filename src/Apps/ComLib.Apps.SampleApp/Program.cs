@@ -45,8 +45,6 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            var result1 = Convert.ChangeType("2.0", typeof(double), null);
-            var result2 = Convert.ChangeType("8/15/2012", typeof(DateTime), null);
             Combinator_Tests();
             TestVersion();
             FluentTests();
@@ -61,6 +59,9 @@ namespace ComLib.Samples
 
         static void TestVersion()
         {
+            var result1 = Convert.ChangeType("2.0", typeof(double), null);
+            var result2 = Convert.ChangeType("8/15/2012", typeof(DateTime), null);
+            
             Version v = new Version("0.9.8");
             Console.WriteLine(v.ToString());
         }
@@ -304,9 +305,9 @@ namespace ComLib.Samples
 
         static void Combinator_Tests()
         {
+            Combinator_Core_Tests();
             Combinator_System_Tests();
             Combinator_Integration_Failures();
-            Combinator_Core_Tests();
             Combinator_Integration_Tests();
             FluentTests();
             
@@ -391,6 +392,7 @@ namespace ComLib.Samples
         {            
             var c = new Plugin_Component_Positives();
 
+            c.Can_Use_Exec_Plugin();
             c.Can_Use_IO_Plugin();
             c.Can_Use_Fail_Plugin();
             c.Can_Use_Version_Plugin();
