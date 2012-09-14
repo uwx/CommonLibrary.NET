@@ -45,11 +45,11 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
+            Lang_Script_Tests();
             Combinator_Tests();
             TestVersion();
             FluentTests();
             Semantic_Tests();
-            Lang_Script_Tests();
             System_Control_Flow();
             Lang_Type_Tests(); 
             UnitTests();
@@ -580,6 +580,8 @@ namespace ComLib.Samples
             var tmem = new Script_Tests_Memory();
             var tcs = new Script_Tests_CSharp_Integration();
             var tcb = new Script_Tests_Blocks();
+
+            ta.Can_Do_Single_Assignment_Constant_Expressions();
 
             tcb.Can_Use_Non_Nested_BlockStatements();
                 

@@ -17,7 +17,7 @@ namespace ComLib.Lang.Docs
         /// </summary>
         public DocTags()
         {
-            Args = new List<Arg>();
+            Args = new List<ArgAttribute>();
             Examples = new List<Example>();
         }
 
@@ -31,7 +31,7 @@ namespace ComLib.Lang.Docs
         /// <summary>
         /// List of all the argument doc tags.
         /// </summary>
-        public List<Arg> Args { get; set; }
+        public List<ArgAttribute> Args { get; set; }
 
 
         /// <summary>

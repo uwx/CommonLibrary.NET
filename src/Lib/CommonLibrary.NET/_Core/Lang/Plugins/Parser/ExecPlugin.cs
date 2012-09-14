@@ -41,9 +41,9 @@ namespace ComLib.Lang.Plugins
         {
             this.Init("exec");
             _funcMeta = new FunctionMetaData("exec", null);
-            _funcMeta.AddArg("program", "program to launch", "", "string", true, string.Empty, @"c:\tools\nunit\nunit.exe");
-            _funcMeta.AddArg("workingdir", "working directory to launch in", "in", "string", false, string.Empty, @"c:\tools\nunit\");
-            _funcMeta.AddArg("args", "arguments to the program", "", "list", false, string.Empty, "");
+            _funcMeta.AddArg("program",   "string",  true,  "",   string.Empty, @"c:\tools\nunit\nunit.exe", "program to launch");
+            _funcMeta.AddArg("workingdir", "string", false, "in", string.Empty, @"c:\tools\nunit\", "working directory to launch in");
+            _funcMeta.AddArg("args",       "list",   false, "",   string.Empty, "", "arguments to the program");
         }
 
 

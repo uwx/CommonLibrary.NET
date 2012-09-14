@@ -35,6 +35,18 @@ namespace ComLib.Lang.Tests.Unit
     }
 
 
+    [TestFixture]
+    public class Lang_LString2_Tests
+    {
+        [Test]
+        public void Can_Do_String_Length()
+        {
+            // Place holder test
+            var t = new LString2("", "");
+        }
+    }
+
+
 
     [TestFixture]
     public class Lang_LDate_Tests : Lang_Type_Tests
