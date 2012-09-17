@@ -531,6 +531,8 @@
     <Compile Include="_Core\Lang\Parser\Core\Limits.cs" />
     <Compile Include="_Core\Lang\Parser\IParser.cs" />
     <Compile Include="_Core\Lang\Plugins\Core\CustomFunctionPlugin.cs" />
+    <Compile Include="_Core\Lang\Types\Javascript\LJSArrayMethods.cs" />
+    <Compile Include="_Core\Lang\Types\Javascript\LJSDateMethods.cs" />
     <Compile Include="_Core\Lang\Types\LString2.cs" />
     <Compile Include="_Core\Lang\Types\LArray.cs" />
     <Compile Include="_Core\Lang\Types\LBaseType.cs" />
@@ -546,6 +548,7 @@
     <Compile Include="_Core\Lang\Types\LString.cs" />
     <Compile Include="_Core\Lang\Types\LUnit.cs" />
     <Compile Include="_Core\Lang\Types\LVersion.cs" />
+    <Compile Include="_Core\Lang\Types\Javascript\LJSStringMethods.cs" />
     <Compile Include="_Core\Lang\Types\Units.cs" />
     <Compile Include="_Core\Lang\_Core\FunctionLookupResult.cs" />
     <Compile Include="_Core\Lang\Helpers\DocHelper.cs" />

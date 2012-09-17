@@ -70,8 +70,9 @@ namespace ComLib.Lang.AST
         /// <summary>
         /// Gets a parameter value if available or the default value otherwise. Index out of bounds will throw an error.
         /// </summary>
-        /// <param name="index"></param>
-        /// <param name="defaultValue"></param>
+        /// <param name="index">index position of the parameter</param>
+        /// <param name="allowDefaultValue">Whether or not to enable using the default value.</param>
+        /// <param name="defaultValue">A default value to use if the parameter is not available.</param>
         /// <returns></returns>
         protected object GetParamValue(int index, bool allowDefaultValue, object defaultValue)
         {

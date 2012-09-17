@@ -420,7 +420,6 @@ namespace ComLib.Lang.Parsing
         /// <summary>
         /// Executes all setup plugins.
         /// </summary>
-        /// <param name="i"></param>
         /// <param name="ctx"></param>
         public void ExecuteSetupPlugins(Context ctx)
         {

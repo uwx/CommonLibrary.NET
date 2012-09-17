@@ -97,10 +97,10 @@ namespace ComLib.Lang.Parsing
         /// <param name="functionName">The name of the function to call.</param>
         /// <param name="paramListExpressions">List of parameters as expressions to evaluate first to actual values</param>
         /// <param name="paramVals">List to store the resolved paramter expressions. ( these will be resolved if paramListExpressions is supplied and resolveParams is true. If 
-        /// resolveParams is false, the list is assumed to have the values for the paramters to the function.
+        /// resolveParams is false, the list is assumed to have the values for the paramters to the function.</param>
         /// <param name="resolveParams">Whether or not to resolve the list of parameter expression objects</param>
         /// <returns></returns>
-        public object CallByName(string functionName, List<Expr> paramListExpressions, List<object> paramVals, bool resolveParams)// FunctionCallExpr exp)
+        public object CallByName(string functionName, List<Expr> paramListExpressions, List<object> paramVals, bool resolveParams)
         {
             var function = GetByName(functionName);
             if(resolveParams)

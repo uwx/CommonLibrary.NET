@@ -66,7 +66,7 @@ namespace ComLib.Lang.Types
         /// Creates functionmetadata object with the supplied inputs.
         /// </summary>
         /// <param name="name">The name of the function</param>
-        /// <param name="implementationMethod">The method that implements the funcion in this host language.</param>
+        /// <param name="implementationMethod">The method that implements the funcion in the methods implementation class.</param>
         /// <param name="returnType">The return values type</param>
         /// <param name="description">Description of the function.</param>
         /// <returns></returns>
@@ -79,9 +79,10 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Adds a new property
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="implementationMethod"></param>
-        /// <param name="?"></param>
+        /// <param name="name">Name of the property</param>
+        /// <param name="implementationMethod">The method implementing this property in the methods implementation class</param>
+        /// <param name="returnType">The return type of the property</param>
+        /// <param name="description">A description of the property</param>
         public void AddProperty(string name, string implementationMethod, Type returnType, string description)
         {
             this.AddMethodInfo(MemberTypes.Property, name, implementationMethod, returnType, description);
@@ -157,8 +158,9 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Sets the property value for the specified propertyname.
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="propName"></param>
+        /// <param name="type">The object to set the property value on</param>
+        /// <param name="propName">The name of the property</param>
+        /// <param name="val">The value to set on the property</param>
         /// <returns></returns>
         public virtual void SetProperty(LObject type, string propName, object val)
         {
@@ -195,6 +197,7 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Creates functionmetadata object with the supplied inputs.
         /// </summary>
+        /// <param name="memberType">What type of member e.g. property,function.</param>
         /// <param name="name">The name of the function</param>
         /// <param name="implementationMethod">The method that implements the funcion in this host language.</param>
         /// <param name="returnType">The return values type</param>

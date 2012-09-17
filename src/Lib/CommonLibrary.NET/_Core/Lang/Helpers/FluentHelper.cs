@@ -40,8 +40,7 @@ namespace ComLib.Lang.Helpers
         /// <summary>
         /// Finds a matching script function name from the list of strings representing identifiers.
         /// </summary>
-        /// <param name="symbols">Symbol Scope</param>
-        /// <param name="funcs">The list of external functions.</param>
+        /// <param name="ctx">The context of the script</param>
         /// <param name="ids">List of strings representing identifier tokens</param>
         /// <returns></returns>
         public static FunctionLookupResult MatchFunctionName(Context ctx, List<Tuple<string,int>> ids)

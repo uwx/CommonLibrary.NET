@@ -61,7 +61,6 @@ namespace ComLib.Lang.Plugins
         /// <summary>
         /// Executes further Registration actions
         /// </summary>
-        /// <param name="i">The instance of the interpreter</param>
         /// <param name="ctx">The context of the interperter</param>
         public override void Setup(Context ctx)
         {

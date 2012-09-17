@@ -50,5 +50,69 @@ namespace ComLib.Apps.FluentSharp
         /// The plugin group to register. e.g. "sys", "all", "explicit:var,if"
         /// </summary>
         public string PluginGroup { get; set; }
+
+
+        /// <summary>
+        /// Gets the help text for the args.
+        /// </summary
+        /// <returns></returns>
+        public string ToHelpString()
+        {
+            var args = new List<List<object>>()
+            {
+                                    // name         required    
+                new List<object>(){ "file",         "REQUIRED",      "string",     @"c:\tests\file.js",    "The path to the fluentscript file" },
+                new List<object>(){ "logfolder",    "optional",      "string",     @"c:\fs\logs",          "The log folder of fluentscript for any error" },
+                new List<object>(){ "outfolder",    "optional",      "string",     @"c:\fs\out",           "The output folder to write out the processed template file if script is a template" },
+                new List<object>(){ "tokenize",     "optional",      "bool",       @"true",                "Whether or not to print out the tokens in the script rather than executing script" },
+                new List<object>(){ "istemplate",   "optional",      "bool",       @"true",                "Whether or not the script file is a template like asp.net aspx files" },
+                new List<object>(){ "plugins",      "optional",      "string",     @"sys | all",           "The plugin group to use" }
+            };
+            var text = "\r\nFLUENTSCRIPT command line arguments:\r\n\r\n";
+            foreach (var argInfo in args)
+            {
+                text += string.Format(" {0}\r\n\t{1}\r\n\t{2} - {3}\r\n\texample: {4}\r\n\r\n", argInfo[0].ToString(), argInfo[4].ToString(), argInfo[1].ToString(), argInfo[2].ToString(), argInfo[3].ToString());
+            }             
+            return text;
+        }
+
+
+        /// <summary>
+        /// The version.
+        /// </summary>
+        /// <returns></returns>
+        public string ToVersion() { return "0.9.8.8 Beta"; }
+
+
+        /// <summary>
+        /// Examples
+        /// </summary>
+        /// <returns></returns>
+        public string ToExamples()
+        {
+            var eg = Environment.NewLine + "fs file:c:\\fs\\samples\\helloworld.js"
+                   + Environment.NewLine + "fs file:\\samples\\helloworld.js  \t tokenize:true"
+                   + Environment.NewLine + "fs file:\\samples\\helloworld.js  \t plugins:all"
+                   + Environment.NewLine + "fs file:\\samples\\helloworld.jst \t istemplate:true";
+            return eg + "\r\n\r\n";
+        }
+
+
+        /// <summary>
+        /// THe full help text.
+        /// </summary>
+        /// <returns></returns>
+        public string ToFullHelpText()
+        {
+            var text = ToHelpString();
+            var examples = ToExamples();
+            var finalText = text + "\r\n\r\nVERSION:\t" + ToVersion() + "\r\n\r\n\r\nEXAMPLES:\r\n\r\n" + examples;
+            finalText += "\r\nMORE INFO:\r\n\r\nCompany : CodeHelixSolutions Inc."
+                      + Environment.NewLine + "Site    : www.codehelixsolutions.com"
+                      + Environment.NewLine + "Demo    : www.fluentscript.com"
+                      + Environment.NewLine + "Docs    : http://fluentscript.codeplex.com/documentation"
+                      + Environment.NewLine;
+            return finalText;
+        }
     }
 }

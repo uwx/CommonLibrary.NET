@@ -48,6 +48,14 @@ namespace ComLib.Apps.FluentSharp
         /// </summary>
         public BoolMsgItem  Execute()
         {
+            // Check if asking for help.
+            if (IsHelp())
+            {
+                var sample = new FSArgs();
+                Console.Write(sample.ToFullHelpText());
+                return new BoolMsgItem(true, string.Empty, 0);
+            }
+
             // 1. Load settings from config file
             LoadSettings();
 
@@ -140,6 +148,7 @@ namespace ComLib.Apps.FluentSharp
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Unable to execute. Some settings/inputs have errors:");
             Console.WriteLine(result.Message);
+            Console.WriteLine("Type 'fs help' for more information");
             Console.ResetColor();
         }
 
@@ -172,8 +181,21 @@ namespace ComLib.Apps.FluentSharp
             // 3. CASE 3: Execute the script.
             else
             {
+                Console.WriteLine();
                 i.Execute(script);
+                Console.WriteLine();
             }
+        }
+
+
+        private bool IsHelp()
+        {
+            if (_cmdArgs.Length == 0) return false;
+            var first = _cmdArgs[0].ToLower();
+
+            if (first == "?" || first.Contains("help"))
+                return true;
+            return false;
         }
     }
 }

@@ -92,7 +92,7 @@ namespace ComLib.Lang.Plugins
         /// <summary>
         /// Whether or not this uri plugin can handle the current token.
         /// </summary>
-        /// <param name="current"></param>
+        /// <param name="token"></param>
         /// <returns></returns>
         public override bool CanHandle(Token token)
         {

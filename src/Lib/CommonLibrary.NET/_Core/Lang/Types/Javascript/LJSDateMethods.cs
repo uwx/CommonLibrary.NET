@@ -15,20 +15,20 @@ namespace ComLib.Lang.Types
     /// <summary>
     /// Array type.
     /// </summary>
-    public class LDate : LBaseType
+    public class LJSDateMethods : LBaseType
     {
         private static Dictionary<string, Func<DateTime, object>> _getMethods;
-        private static Dictionary<string, Action<LDate, ArgsFetcher>> _setMethods;
-        private static Dictionary<string, Func<LDate, string>> _toMethods;
+        private static Dictionary<string, Action<LJSDateMethods, ArgsFetcher>> _setMethods;
+        private static Dictionary<string, Func<LJSDateMethods, string>> _toMethods;
 
         /// <summary>
         /// Initialize
         /// </summary>
-        static LDate()
+        static LJSDateMethods()
         {
             _getMethods = new Dictionary<string, Func<DateTime, object>>();
-            _setMethods = new Dictionary<string, Action<LDate, ArgsFetcher>>();
-            _toMethods = new Dictionary<string, Func<LDate, string>>();
+            _setMethods = new Dictionary<string, Action<LJSDateMethods, ArgsFetcher>>();
+            _toMethods = new Dictionary<string, Func<LJSDateMethods, string>>();
             //_methods["getTime"                 ] = (date) => date.ToUniversalTime().
             //_methods["getTimezoneOffset"       ] = (date) => date.
             _getMethods["getDate"] = (date) => date.Day;
@@ -139,7 +139,7 @@ namespace ComLib.Lang.Types
         /// Initialize
         /// </summary>
         /// <param name="varName"></param>
-        public LDate(string varName) : this(null, varName)
+        public LJSDateMethods(string varName) : this(null, varName)
         {            
         }
 
@@ -149,7 +149,7 @@ namespace ComLib.Lang.Types
         /// </summary>
         /// <param name="context"></param>
         /// <param name="varName"></param>
-        public LDate(Context context, string varName)
+        public LJSDateMethods(Context context, string varName)
         {
             _context = context;
             _varName = varName;
@@ -162,7 +162,7 @@ namespace ComLib.Lang.Types
         /// <param name="context">Context of the script</param>
         /// <param name="varName">Name of the variable.</param>
         /// <param name="date">Date value</param>
-        public LDate(Context context, string varName, DateTime date)
+        public LJSDateMethods(Context context, string varName, DateTime date)
         {
             _context = context;
             _varName = varName;
