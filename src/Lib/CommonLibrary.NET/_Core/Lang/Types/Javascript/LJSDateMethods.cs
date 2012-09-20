@@ -15,63 +15,83 @@ namespace ComLib.Lang.Types
     /// <summary>
     /// Array type.
     /// </summary>
-    public class LJSDateMethods : LBaseType
+    public class LJSDateMethods : LTypeMethods
     {
-        private static Dictionary<string, Func<DateTime, object>> _getMethods;
-        private static Dictionary<string, Action<LJSDateMethods, ArgsFetcher>> _setMethods;
-        private static Dictionary<string, Func<LJSDateMethods, string>> _toMethods;
-
         /// <summary>
         /// Initialize
         /// </summary>
-        static LJSDateMethods()
+        public override void Init()
         {
-            _getMethods = new Dictionary<string, Func<DateTime, object>>();
-            _setMethods = new Dictionary<string, Action<LJSDateMethods, ArgsFetcher>>();
-            _toMethods = new Dictionary<string, Func<LJSDateMethods, string>>();
-            //_methods["getTime"                 ] = (date) => date.ToUniversalTime().
-            //_methods["getTimezoneOffset"       ] = (date) => date.
-            _getMethods["getDate"] = (date) => date.Day;
-            _getMethods["getDay"] = (date) => (int)date.DayOfWeek;
-            _getMethods["getFullYear"] = (date) => date.Year;
-            _getMethods["getHours"] = (date) => date.Hour;
-            _getMethods["getMilliseconds"] = (date) => date.Millisecond;
-            _getMethods["getMinutes"] = (date) => date.Minute;
-            _getMethods["getMonth"] = (date) => date.Month;
-            _getMethods["getSeconds"] = (date) => date.Second;
-            _getMethods["getUTCDate"] = (date) => date.ToUniversalTime().Day;
-            _getMethods["getUTCDay"] = (date) => (int)date.ToUniversalTime().DayOfWeek;
-            _getMethods["getUTCFullYear"] = (date) => date.ToUniversalTime().Year;
-            _getMethods["getUTCHours"] = (date) => date.ToUniversalTime().Hour;
-            _getMethods["getUTCMilliseconds"] = (date) => date.ToUniversalTime().Millisecond;
-            _getMethods["getUTCMinutes"] = (date) => date.ToUniversalTime().Minute;
-            _getMethods["getUTCMonth"] = (date) => date.ToUniversalTime().Month;
-            _getMethods["getUTCSeconds"] = (date) => date.ToUniversalTime().Second;
+            this.AddMethod("getDate", 			"GetDate", 				typeof(double), "Returns the day of the month (from 1-31)");
+            this.AddMethod("getDay", 	 		"GetDay", 				typeof(double), "Returns the day of the week (from 0-6)");
+            this.AddMethod("getFullYear", 		"GetFullYear", 			typeof(double), "Returns the year (four digits)");
+            this.AddMethod("getHours", 			"GetHours", 			typeof(double), "Returns the hour (from 0-23)");
+            this.AddMethod("getMilliseconds", 	"GetMilliseconds", 		typeof(double), "Returns the milliseconds (from 0-999)");
+            this.AddMethod("getMinutes", 		"GetMinutes", 			typeof(double), "Returns the minutes (from 0-59)");
+            this.AddMethod("getMonth", 			"GetMonth", 			typeof(double), "Returns the month (from 0-11)");
+            this.AddMethod("getSeconds", 		"GetSeconds", 		 	typeof(double), "Returns the seconds (from 0-59)");
+            this.AddMethod("getTime", 			"GetTime", 			 	typeof(double), "Returns the number of milliseconds since midnight Jan 1 1970");
+            this.AddMethod("getTimezoneOffset", "GetTimezoneOffset", 	typeof(double), "Returns the time difference between UTC time and local time in minutes");
+            this.AddMethod("getUTCDate", 		"GetUTCDate", 			typeof(double), "Returns the day of the month according to universal time (from 1-31)");
+            this.AddMethod("getUTCDay", 		"GetUTCDay",			typeof(double), "Returns the day of the week according to universal time (from 0-6)");
+            this.AddMethod("getUTCFullYear", 	"GetUTCFullYear", 		typeof(double), "Returns the year according to universal time (four digits)");
+            this.AddMethod("getUTCHours", 		"GetUTCHours", 			typeof(double), "Returns the hour according to universal time (from 0-23)");
+            this.AddMethod("getUTCMilliseconds","GetUTCMilliseconds", 	typeof(double), "Returns the milliseconds according to universal time (from 0-999)");
+            this.AddMethod("getUTCMinutes", 	"GetUTCMinutes", 		typeof(double), "Returns the minutes according to universal time (from 0-59)");
+            this.AddMethod("getUTCMonth", 		"GetUTCMonth", 			typeof(double), "Returns the month according to universal time (from 0-11)");
+            this.AddMethod("getUTCSeconds", 	"GetUTCSeconds", 		typeof(double), "Returns the seconds according to universal time (from 0-59)");
 
-            _setMethods["setDate"] = (date, fetcher) => date.SetDate(DateTimeKind.Local, fetcher);
-            _setMethods["setFullYear"] = (date, fetcher) => date.SetYear(DateTimeKind.Local, fetcher);
-            _setMethods["setHours"] = (date, fetcher) => date.SetHours(DateTimeKind.Local, fetcher);
-            _setMethods["setMilliseconds"] = (date, fetcher) => date.SetMilliseconds(DateTimeKind.Local, fetcher);
-            _setMethods["setMinutes"] = (date, fetcher) => date.SetMinutes(DateTimeKind.Local, fetcher);
-            _setMethods["setMonth"] = (date, fetcher) => date.SetMonth(DateTimeKind.Local, fetcher);
-            _setMethods["setSeconds"] = (date, fetcher) => date.SetSeconds(DateTimeKind.Local, fetcher);
-            //_setMethods["setTime"       ]     = (date, fetcher) =>  date.SetYear(DateTimeKind.Local);
-            _setMethods["setUTCDate"] = (date, fetcher) => date.SetDate(DateTimeKind.Utc, fetcher);
-            _setMethods["setUTCFullYear"] = (date, fetcher) => date.SetYear(DateTimeKind.Utc, fetcher);
-            _setMethods["setUTCHours"] = (date, fetcher) => date.SetHours(DateTimeKind.Utc, fetcher);
-            _setMethods["setUTCMilliseconds"] = (date, fetcher) => date.SetMilliseconds(DateTimeKind.Utc, fetcher);
-            _setMethods["setUTCMinutes"] = (date, fetcher) => date.SetMinutes(DateTimeKind.Utc, fetcher);
-            _setMethods["setUTCMonth"] = (date, fetcher) => date.SetMonth(DateTimeKind.Utc, fetcher);
-            _setMethods["setUTCSeconds"] = (date, fetcher) => date.SetSeconds(DateTimeKind.Utc, fetcher);
-
-            _toMethods["toDateString"] = (date) => date.Raw.ToString("ddd MMM dd yyyy");
-            _toMethods["toLocaleDateString"] = (date) => date.Raw.ToLocalTime().ToString("ddd MMM dd yyyy");
-            _toMethods["toLocaleTimeString"] = (date) => date.Raw.ToLocalTime().ToString("hh mm ss");
-            _toMethods["toLocaleString"] = (date) => date.Raw.ToLocalTime().ToString("ddd MMM dd yyyy hh mm ss");
-            _toMethods["toString"] = (date) => date.Raw.ToString("ddd MMM dd yyyy hh mm ss");
-            _toMethods["toTimeString"] = (date) => date.Raw.ToString("hh mm ss");
-            _toMethods["toUTCString"] = (date) => date.Raw.ToUniversalTime().ToString("ddd MMM dd yyyy hh mm ss");
+            this.AddMethod("setDate", 			"SetDate", 				null,           "Sets the day of the month of a date object");
+            this.AddMethod("setFullYear", 		"SetFullYear", 			null,           "Sets the year (four digits) of a date object");
+            this.AddMethod("setHours", 			"SetHours", 			null,           "Sets the hour of a date object");
+            this.AddMethod("setMilliseconds", 	"SetMilliseconds", 		null,           "Sets the milliseconds of a date object");
+            this.AddMethod("setMinutes", 		"SetMinutes", 			null,           "Set the minutes of a date object");
+            this.AddMethod("setMonth", 			"SetMonth", 			null,           "Sets the month of a date object");
+            this.AddMethod("setSeconds", 		"SetSeconds", 			null,           "Sets the seconds of a date object");
+            this.AddMethod("setTime", 			"SetTime", 				null,           "Sets a date and time by adding or subtracting a specified number of milliseconds to/from midnight January 1, 1970");
+            this.AddMethod("setUTCDate", 		"SetUTCDate", 			null,           "Sets the day of the month of a date object, according to universal time");
+            this.AddMethod("setUTCFullYear", 	"SetUTCFullYear", 		null,           "Sets the year of a date object, according to universal time (four digits)");
+            this.AddMethod("setUTCHours", 		"SetUTCHours", 			null,           "Sets the hour of a date object, according to universal time");
+            this.AddMethod("setUTCMilliseconds","SetUTCMilliseconds", 	null,           "Sets the milliseconds of a date object, according to universal time");
+            this.AddMethod("setUTCMinutes", 	"SetUTCMinutes", 		null,           "Set the minutes of a date object, according to universal time");
+            this.AddMethod("setUTCMonth", 		"SetUTCMonth", 			null,           "Sets the month of a date object, according to universal time");
+            this.AddMethod("setUTCSeconds", 	"SetUTCSeconds", 		null,           "Set the seconds of a date object, according to universal time");
         }
+
+
+        /// <summary>
+        /// The raw datetime.
+        /// </summary>
+        public DateTime Raw;
+
+
+        #region Javascript API methods
+        internal int      GetDate              (DateTime date) { return date.Day;                                                      }      	
+        internal int      GetDay               (DateTime date) { return (int)date.DayOfWeek;                                           }
+        internal int      GetFullYear          (DateTime date) { return date.Year;                                                     }
+        internal int      GetHours             (DateTime date) { return date.Hour;                                                     }
+        internal int      GetMilliseconds      (DateTime date) { return date.Millisecond;                                              }
+        internal int      GetMinutes           (DateTime date) { return date.Minute;		                                           }
+        internal int      GetMonth             (DateTime date) { return date.Month;                                                    }
+        internal int      GetSeconds           (DateTime date) { return date.Second;                                                   }
+        internal int      GetUTCDate           (DateTime date) { return date.ToUniversalTime().Day;                                    }
+        internal int      GetUTCDay            (DateTime date) { return (int)date.ToUniversalTime().DayOfWeek;                         }
+        internal int      GetUTCFullYear       (DateTime date) { return date.ToUniversalTime().Year;                                   }
+        internal int      GetUTCHours          (DateTime date) { return date.ToUniversalTime().Hour;                                   }
+        internal int      GetUTCMilliseconds   (DateTime date) { return date.ToUniversalTime().Millisecond;                            }  
+        internal int      GetUTCMinutes        (DateTime date) { return date.ToUniversalTime().Minute;                                 }
+        internal int      GetUTCMonth          (DateTime date) { return date.ToUniversalTime().Month;                                  }
+        internal int      GetUTCSeconds        (DateTime date) { return date.ToUniversalTime().Second;                                 }
+        internal string   ToDateString         (DateTime date) { return date.ToString("ddd MMM dd yyyy");                              }
+        internal string   ToLocaleDateString   (DateTime date) { return date.ToLocalTime().ToString("ddd MMM dd yyyy");                }
+        internal string   ToLocaleTimeString   (DateTime date) { return date.ToLocalTime().ToString("hh mm ss");                       }
+        internal string   ToLocaleString       (DateTime date) { return date.ToLocalTime().ToString("ddd MMM dd yyyy hh mm ss");       }
+        internal string   ToString             (DateTime date) { return date.ToString("ddd MMM dd yyyy hh mm ss");                     }
+        internal string   ToTimeString         (DateTime date) { return date.ToString("hh mm ss");                                     }
+        internal string   ToUTCString          (DateTime date) { return date.ToUniversalTime().ToString("ddd MMM dd yyyy hh mm ss");   }
+
+
+
 
 
         /// <summary>
@@ -79,9 +99,9 @@ namespace ComLib.Lang.Types
         /// </summary>
         /// <returns></returns>
         public static bool CanCreateFrom(int paramCount)
-        {            
+        {
             if (paramCount != 0 && paramCount != 1 && paramCount != 3 && paramCount != 6)
-                return false;            
+                return false;
             return true;
         }
 
@@ -99,7 +119,7 @@ namespace ComLib.Lang.Types
             }
 
             DateTime result = DateTime.MinValue;
-            
+
             // Case 1: From string
             if (parameters.Length == 1 && parameters[0] is string)
             {
@@ -114,9 +134,9 @@ namespace ComLib.Lang.Types
                 result = new DateTime(d.Ticks);
                 return result;
             }
-            
+
             // Convert all parameters to int            
-            int[] args = new int[parameters.Length];            
+            int[] args = new int[parameters.Length];
             for (int ndx = 0; ndx < parameters.Length; ndx++)
             {
                 args[ndx] = Convert.ToInt32(parameters[ndx]);
@@ -131,189 +151,98 @@ namespace ComLib.Lang.Types
                 return new DateTime(args[0], args[1], args[2], args[3], args[4], args[5]);
 
             // TODO: Need to handle this better.
-            return DateTime.MinValue;    
+            return DateTime.MinValue;
         }
+
         
-        
-        /// <summary>
-        /// Initialize
-        /// </summary>
-        /// <param name="varName"></param>
-        public LJSDateMethods(string varName) : this(null, varName)
-        {            
-        }
-
-
-        /// <summary>
-        /// Initialize
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="varName"></param>
-        public LJSDateMethods(Context context, string varName)
+        private void SetFullYear(DateTime date, int year, int month, int day)
         {
-            _context = context;
-            _varName = varName;
+            SetDateTime(date, DateTimeKind.Local, year, month, day);
         }
 
 
-        /// <summary>
-        /// Initialize
-        /// </summary>
-        /// <param name="context">Context of the script</param>
-        /// <param name="varName">Name of the variable.</param>
-        /// <param name="date">Date value</param>
-        public LJSDateMethods(Context context, string varName, DateTime date)
+        private void SetMonth(DateTime date, DateTimeKind kind, int month, int day)
         {
-            _context = context;
-            _varName = varName;
-            Raw = date;
+            SetDateTime(date, DateTimeKind.Local, -1, month, day);
         }
 
 
-        /// <summary>
-        /// The raw datetime.
-        /// </summary>
-        public DateTime Raw;
-
-
-        /// <summary>
-        /// Whether or not this type supports the supplied property
-        /// </summary>
-        /// <param name="methodname"></param>
-        /// <returns></returns>
-        public override bool HasProperty(string methodname)
+        private void SetDate(DateTime date, DateTimeKind kind, int day)
         {
-            return false;
+            SetDateTime(date, DateTimeKind.Local, -1, -1, day);
         }
 
 
-        /// <summary>
-        /// Whether or not this type supports the supplied method
-        /// </summary>
-        /// <param name="methodname"></param>
-        /// <returns></returns>
-        public override bool HasMethod(string methodname)
+        private void SetHours(DateTime date, DateTimeKind kind, int hours, int minutes, int seconds, int milliseconds)
         {
-            return _getMethods.ContainsKey(methodname) || _setMethods.ContainsKey(methodname);
+            SetDateTime(date, DateTimeKind.Local, -1, -1, -1, hours, minutes, seconds, milliseconds);
         }
 
 
-        /// <summary>
-        /// Calls the method
-        /// </summary>
-        /// <param name="methodname"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        public override object ExecuteMethod(string methodname, object[] args)
+        private void SetMinutes(DateTime date, DateTimeKind kind, int minutes, int seconds, int milliseconds)
         {
-            object result = null;
-            var fetcher = new ArgsFetcher(args);
-            if (_getMethods.ContainsKey(methodname))
-            {
-                result = _getMethods[methodname](Raw);
-                return result;
-            }
-            else if (_setMethods.ContainsKey(methodname))
-            {
-                _setMethods[methodname](this, fetcher);
-                result = _context.Memory.Get<object>(_varName);
-            }
-            else if (_toMethods.ContainsKey(methodname))
-            {
-                result = _toMethods[methodname](this);
-            }
-            else
-                throw new LangException("Method not supported", "Method name : " + methodname + "is not supported for datetime", string.Empty, 0);
-            return result;
+            SetDateTime(date, DateTimeKind.Local, -1, -1, -1, -1, minutes, seconds, milliseconds);
         }
 
 
-        #region API methods
-        internal int      GetDate              (DateTime date) { return Raw.Day;                                                      }      	
-        internal int      GetDay               (DateTime date) { return (int)Raw.DayOfWeek;                                           }
-        internal int      GetFullYear          (DateTime date) { return Raw.Year;                                                     }
-        internal int      GetHours             (DateTime date) { return Raw.Hour;                                                     }
-        internal int      GetMilliseconds      (DateTime date) { return Raw.Millisecond;                                              }
-        internal int      GetMinutes           (DateTime date) { return Raw.Minute;		                                            }
-        internal int      GetMonth             (DateTime date) { return Raw.Month;                                                    }
-        internal int      GetSeconds           (DateTime date) { return Raw.Second;                                                   }
-        internal int      GetUTCDate           (DateTime date) { return Raw.ToUniversalTime().Day;                                    }
-        internal int      GetUTCDay            (DateTime date) { return (int)Raw.ToUniversalTime().DayOfWeek;                         }
-        internal int      GetUTCFullYear       (DateTime date) { return Raw.ToUniversalTime().Year;                                   }
-        internal int      GetUTCHours          (DateTime date) { return Raw.ToUniversalTime().Hour;                                   }
-        internal int      GetUTCMilliseconds   (DateTime date) { return Raw.ToUniversalTime().Millisecond;                            }  
-        internal int      GetUTCMinutes        (DateTime date) { return Raw.ToUniversalTime().Minute;                                 }
-        internal int      GetUTCMonth          (DateTime date) { return Raw.ToUniversalTime().Month;                                  }
-        internal int      GetUTCSeconds        (DateTime date) { return Raw.ToUniversalTime().Second;                                 }
-        internal string   ToDateString         (DateTime date) { return Raw.ToString("ddd MMM dd yyyy");                              }
-        internal string   ToLocaleDateString   (DateTime date) { return Raw.ToLocalTime().ToString("ddd MMM dd yyyy");                }
-        internal string   ToLocaleTimeString   (DateTime date) { return Raw.ToLocalTime().ToString("hh mm ss");                       }
-        internal string   ToLocaleString       (DateTime date) { return Raw.ToLocalTime().ToString("ddd MMM dd yyyy hh mm ss");       }
-        internal string   ToString             (DateTime date) { return Raw.ToString("ddd MMM dd yyyy hh mm ss");                     }
-        internal string   ToTimeString         (DateTime date) { return Raw.ToString("hh mm ss");                                     }
-        internal string   ToUTCString          (DateTime date) { return Raw.ToUniversalTime().ToString("ddd MMM dd yyyy hh mm ss");   }
-
-
-        private void SetYear(DateTimeKind kind, ArgsFetcher fetcher)
+        private void SetSeconds(DateTime date, DateTimeKind kind, int seconds, int milliseconds)
         {
-            SetDateTime(kind, 
-                        year:  fetcher.Get<int>(0),
-                        month: fetcher.Get<int>(1, Raw.Month),
-                        day:   fetcher.Get<int>(2, Raw.Day));
+            SetDateTime(date, DateTimeKind.Local, -1, -1, -1, -1, -1, seconds, milliseconds);
         }
 
 
-        private void SetMonth(DateTimeKind kind, ArgsFetcher fetcher)
+        private void SetMilliseconds(DateTime date, DateTimeKind kind, int milliseconds)
         {
-            SetDateTime(kind, 
-                        month: fetcher.Get<int>(0), 
-                        day: fetcher.Get<int>(1, Raw.Day));
+            SetDateTime(date, DateTimeKind.Local, -1, -1, -1, -1, -1, -1, milliseconds);
         }
 
 
-        private void SetDate(DateTimeKind kind, ArgsFetcher fetcher)
+        private void SetUTCFullYear(DateTime date, int year, int month, int day)
         {
-            SetDateTime(kind, day: fetcher.Get<int>(0));
+            SetDateTime(date, DateTimeKind.Utc, year, month, day);
         }
 
 
-        private void SetHours(DateTimeKind kind, ArgsFetcher fetcher)
+        private void SetUTCMonth(DateTime date, DateTimeKind kind, int month, int day)
         {
-            SetDateTime(kind,
-                        hour: fetcher.Get<int>(0),
-                        minute: fetcher.Get<int>(1, Raw.Minute),
-                        second: fetcher.Get<int>(2, Raw.Second),
-                        millisecond: fetcher.Get<int>(3, Raw.Millisecond));
+            SetDateTime(date, DateTimeKind.Utc, -1, month, day);
         }
 
 
-        private void SetMinutes(DateTimeKind kind, ArgsFetcher fetcher)
+        private void SetUTCDate(DateTime date, DateTimeKind kind, int day)
         {
-            SetDateTime(kind,
-                        minute: fetcher.Get<int>(0),
-                        second: fetcher.Get<int>(1, Raw.Second),
-                        millisecond: fetcher.Get<int>(2, Raw.Millisecond));
+            SetDateTime(date, DateTimeKind.Utc, -1, -1, day);
         }
 
 
-        private void SetSeconds(DateTimeKind kind, ArgsFetcher fetcher)
+        private void SetUTCHours(DateTime date, DateTimeKind kind, int hours, int minutes, int seconds, int milliseconds)
         {
-            SetDateTime(kind,
-                        second: fetcher.Get<int>(0),
-                        millisecond: fetcher.Get<int>(1, Raw.Millisecond));
+            SetDateTime(date, DateTimeKind.Utc, -1, -1, -1, hours, minutes, seconds, milliseconds);
         }
 
 
-        private void SetMilliseconds(DateTimeKind kind, ArgsFetcher fetcher)
+        private void SetUTCMinutes(DateTime date, DateTimeKind kind, int minutes, int seconds, int milliseconds)
         {
-            SetDateTime(kind, millisecond: fetcher.Get<int>(0));
+            SetDateTime(date, DateTimeKind.Utc, -1, -1, -1, -1, minutes, seconds, milliseconds);
         }
 
 
-        private void SetDateTime(DateTimeKind kind, int year = -1, int month = -1, int day = -1,
+        private void SetUTCSeconds(DateTime date, DateTimeKind kind, int seconds, int milliseconds)
+        {
+            SetDateTime(date, DateTimeKind.Utc, -1, -1, -1, -1, -1, seconds, milliseconds);
+        }
+
+
+        private void SetUTCMilliseconds(DateTime date, DateTimeKind kind, int milliseconds)
+        {
+            SetDateTime(date, DateTimeKind.Utc, -1, -1, -1, -1, -1, -1, milliseconds);
+        }
+
+
+        private static void SetDateTime(DateTime target, DateTimeKind kind, int year = -1, int month = -1, int day = -1,
             int hour = -1, int minute = -1, int second = -1, int millisecond = -1)
         {
-            DateTime dt = kind == DateTimeKind.Utc ? Raw.ToUniversalTime() : Raw;
+            DateTime dt = kind == DateTimeKind.Utc ? target.ToUniversalTime() : target;
             year = year == -1 ? dt.Year : year;
             month = month == -1 ? dt.Month : month;
             day = day == -1 ? dt.Day : day;
@@ -323,7 +252,7 @@ namespace ComLib.Lang.Types
             millisecond = millisecond == -1 ? dt.Millisecond : millisecond;
 
             var finalDateTime = new DateTime(year, month, day, hour, minute, second, millisecond, kind);
-            _context.Memory.SetValue(_varName, finalDateTime);
+            //_context.Memory.SetValue(_varName, finalDateTime);
         }
         #endregion
     }
