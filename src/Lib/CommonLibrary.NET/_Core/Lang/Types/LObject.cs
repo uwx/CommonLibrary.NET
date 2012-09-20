@@ -31,9 +31,9 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Value of the type.
         /// </summary>
-        public virtual object Value
+        public virtual object ToValue()
         {
-            get { return _value; }
+            return _value;
         }
     }
 }

@@ -41,22 +41,23 @@ namespace ComLib.Lang.Types
             this.AddMethod("toLowerCase",  "ToLowerCase",  typeof(string),  "Converts a string to lowercase letters" );
             this.AddMethod("toUpperCase",  "ToUpperCase",  typeof(string),  "Converts a string to uppercase letters" );
             this.AddMethod("valueOf",      "ToString",     typeof(string),  "Returns the primitive value of a String object" );
-            this.AddProperty("length",     "Length",       typeof(double),  "Returns the length of the string");
+            this.AddProperty(true, false,  "length",     "Length",       typeof(double),  "Returns the length of the string");
 
             // Associate the arguments for each declared function.
-            this.AddArg("charAt", 		"index",       "number", true,  "", 0,    "0 | 4",        "An integer representing the index of the character you want to return");
-            this.AddArg("concat", 		"items",       "list",   true,  "", null, "'abc', 'def'", "The strings to be joined");
-            this.AddArg("indexOf", 		"pattern",     "string", true,  "", null, "abc",          "The string pattern to search for");
-            this.AddArg("indexOf", 		"start",       "number", false, "", 0,    "0 | 5",        "The starting position of the search");
-            this.AddArg("lastIndexOf", 	"searchvalue", "string", true,  "", null, "abc",          "The string to search for");
-            this.AddArg("lastIndexOf", 	"start",       "number", false, "", 0,    "0 | 4",        "The position where to start the search. If omitted, the default value is the length of the string");
-            this.AddArg("replace", 		"searchvalue", "string", true,  "", "",   "abc",          "The value, or regular expression, that will be replaced by the new value");
-            this.AddArg("replace", 		"newvalue",    "string", true,  "", "",   "bbb",          "The value to replace the searchvalue with");
-            this.AddArg("search", 		"searchvalue", "string", true,  "", "",   "abc",          "The value, or regular expression, to search for.");
-            this.AddArg("substr", 		"start",	   "number", true,  "", 0,    "0 | 4",        "The postition where to start the extraction. First character is at index 0");
-            this.AddArg("substr", 		"length",      "number", false, "", "",   "5 | 10",       "The number of characters to extract. If omitted, it extracts the rest of the string" );
-            this.AddArg("substring", 	"from",	       "number", true,  "", 0,    "0 | 4",        "The index where to start the extraction. First character is at index 0");
-            this.AddArg("substring", 	"to",          "number", false, "", "",   "5 | 10",       "The index where to stop the extraction. If omitted, it extracts the rest of the string");
+            //          Method name,    Param name,    Type,     Required   Alias,  Default,    Example         Description
+            this.AddArg("charAt",       "index",       "number", true,      "",     0,          "0 | 4",        "An integer representing the index of the character you want to return");
+            this.AddArg("concat", 		"items",       "params", true,      "",     null,       "'abc', 'def'", "The strings to be joined");
+            this.AddArg("indexOf", 		"pattern",     "string", true,      "",     null,       "abc",          "The string pattern to search for");
+            this.AddArg("indexOf", 		"start",       "number", false,     "",     0,          "0 | 5",        "The starting position of the search");
+            this.AddArg("lastIndexOf", 	"searchvalue", "string", true,      "",     null,       "abc",          "The string to search for");
+            this.AddArg("lastIndexOf", 	"start",       "number", false,     "",     -1,         "0 | 4",        "The position where to start the search. If omitted, the default value is the length of the string");
+            this.AddArg("replace", 		"searchvalue", "string", true,      "",     "",         "abc",          "The value, or regular expression, that will be replaced by the new value");
+            this.AddArg("replace", 		"newvalue",    "string", true,      "",     "",         "bbb",          "The value to replace the searchvalue with");
+            this.AddArg("search", 		"searchvalue", "string", true,      "",     "",         "abc",          "The value, or regular expression, to search for.");
+            this.AddArg("substr", 		"start",	   "number", true,      "",     0,          "0 | 4",        "The postition where to start the extraction. First character is at index 0");
+            this.AddArg("substr", 		"length",      "number", false,     "",     "",         "5 | 10",       "The number of characters to extract. If omitted, it extracts the rest of the string" );
+            this.AddArg("substring", 	"from",	       "number", true,      "",     0,          "0 | 4",        "The index where to start the extraction. First character is at index 0");
+            this.AddArg("substring", 	"to",          "number", false,     "",     "",         "5 | 10",       "The index where to stop the extraction. If omitted, it extracts the rest of the string");
         }
 
 
@@ -67,9 +68,8 @@ namespace ComLib.Lang.Types
         /// <param name="target">The target value to apply this method on</param>
         /// <param name="args"></param>
         /// <returns></returns>
-        public string CharAt(string target, ArgsFetcher args)
+        public string CharAt(string target, int ndx)
         {
-            int ndx = args.Get<int>(0);
             if (ndx < 0) return string.Empty;
             if (ndx >= target.Length) return string.Empty;
             return target[ndx].ToString();
@@ -82,7 +82,7 @@ namespace ComLib.Lang.Types
         /// <param name="target">The target value to apply this method on</param>
         /// <param name="strings">The list of strings to join</param>
         /// <returns></returns>
-        public string Concat(string target, params object[] strings)
+        public string Concat(string target, object[] strings)
         {
             var result = new StringBuilder();
             result.Append(target);
@@ -117,7 +117,8 @@ namespace ComLib.Lang.Types
             if (start == -1)
                 return target.LastIndexOf(searchString);
 
-            return target.LastIndexOf(searchString, start);
+            var result =  target.LastIndexOf(searchString, start);
+            return result;
         }
 
 

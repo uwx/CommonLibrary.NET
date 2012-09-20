@@ -41,7 +41,7 @@ namespace ComLib.Lang.Types
         /// Get boolean value.
         /// </summary>
         /// <returns></returns>
-        public string ToValue()
+        public override object ToValue()
         {
             return this.Raw;
         }

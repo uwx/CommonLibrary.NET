@@ -20,34 +20,39 @@ namespace ComLib.Lang.Types
         public override void Init()
         {
             // Create the methods associated with this type.
-            this.AddMethod("concat",       "Concat",       typeof(string),  "Joins two or more strings, and returns a copy of the joined strings" );
-            this.AddMethod("indexOf",      "IndexOf",      typeof(double),  "Returns the position of the first found occurrence of a specified value in a string" );
-            this.AddMethod("join",         "join",         typeof(double),  "Returns the position of the last found occurrence of a specified value in a string");
-            this.AddMethod("pop",          "CharAt",       typeof(string),  "Searches for a match between a regular expression and a string, and returns the matches" );
-            this.AddMethod("push",         "Replace",      typeof(string),  "Searches for a match between a substring (or regular expression) and a string, and replaces the matched substring with a new substring" );
-            this.AddMethod("reverse",      "Search",       typeof(string),  "Searches for a match between a regular expression and a string, and returns the position of the match" );
-            this.AddMethod("shift",        "CharAt",       typeof(string),  "Extracts a part of a string and returns a new string" );
-            this.AddMethod("slice",        "CharAt",       typeof(string),  "Splits a string into an array of substrings" );
-            this.AddMethod("sort",         "Substr",       typeof(string),  "Extracts the characters from a string, beginning at a specified start position, and through the specified number of character" );
-            this.AddMethod("splice",       "Substring",    typeof(string),  "Extracts the characters from a string, between two specified indices" );
-            this.AddMethod("unshift",      "ToLowerCase",  typeof(string),  "Converts a string to lowercase letters" );
-            this.AddMethod("valueOf",      "ToString",     typeof(string),  "Returns the primitive value of a String object" );
-            this.AddProperty("length",     "Length",       typeof(double),  "Returns the length of the string");
+            this.AddMethod("concat", 		"Concat", 		typeof(LArray),		"Joins two or more arrays, and returns a copy of the joined arrays" );
+            this.AddMethod("indexOf", 		"IndexOf", 		typeof(double),		"Search the array for an element and returns it's position" );
+            this.AddMethod("join", 			"Join", 		typeof(LArray),		"Joins all elements of an array into a string" );
+            this.AddMethod("lastIndexOf", 	"LastIndexOf",	typeof(double),		"Search the array for an element, starting at the end, and returns it's position" );
+            this.AddMethod("pop", 			"Pop", 			typeof(object),		"Removes the last element of an array, and returns that element" );
+            this.AddMethod("push", 			"Push", 		typeof(double),		"Adds new elements to the end of an array, and returns the new length" );
+            this.AddMethod("reverse", 		"Reverse", 		typeof(LArray),		"Reverses the order of the elements in an array" );
+            this.AddMethod("shift", 		"Shift", 		typeof(object),		"Removes the first element of an array, and returns that element" );
+            this.AddMethod("slice", 		"Slice", 		typeof(LArray),		"Selects a part of an array, and returns the new array" );
+            this.AddMethod("sort", 			"Sort", 		typeof(LArray),		"Sorts the elements of an array" );
+            this.AddMethod("splice", 		"Splice", 		typeof(LArray),		"Adds/Removes elements from an array" );
+            this.AddMethod("toString", 		"ToString", 	typeof(string),		"Converts an array to a string, and returns the result" );
+            this.AddMethod("unshift", 		"Unshift", 		typeof(double),		"Adds new elements to the beginning of an array, and returns the new length" );
+            this.AddMethod("valueOf", 		"ValueOf", 		typeof(object),		"Returns the primitive value of an array" );
+            this.AddProperty(true, true,    "length",      "Length",       typeof(double),     "Sets or returns the number of elements in an array");
 
             // Associate the arguments for each declared function.
-            this.AddArg("charAt", 		"index",       "number", true,  "", 0,    "0 | 4",        "An integer representing the index of the character you want to return");
-            this.AddArg("concat", 		"items",       "list",   true,  "", null, "'abc', 'def'", "The strings to be joined");
-            this.AddArg("indexOf", 		"pattern",     "string", true,  "", null, "abc",          "The string pattern to search for");
-            this.AddArg("indexOf", 		"start",       "number", false, "", 0,    "0 | 5",        "The starting position of the search");
-            this.AddArg("lastIndexOf", 	"searchvalue", "string", true,  "", null, "abc",          "The string to search for");
-            this.AddArg("lastIndexOf", 	"start",       "number", false, "", 0,    "0 | 4",        "The position where to start the search. If omitted, the default value is the length of the string");
-            this.AddArg("replace", 		"searchvalue", "string", true,  "", "",   "abc",          "The value, or regular expression, that will be replaced by the new value");
-            this.AddArg("replace", 		"newvalue",    "string", true,  "", "",   "bbb",          "The value to replace the searchvalue with");
-            this.AddArg("search", 		"searchvalue", "string", true,  "", "",   "abc",          "The value, or regular expression, to search for.");
-            this.AddArg("substr", 		"start",	   "number", true,  "", 0,    "0 | 4",        "The postition where to start the extraction. First character is at index 0");
-            this.AddArg("substr", 		"length",      "number", false, "", "",   "5 | 10",       "The number of characters to extract. If omitted, it extracts the rest of the string" );
-            this.AddArg("substring", 	"from",	       "number", true,  "", 0,    "0 | 4",        "The index where to start the extraction. First character is at index 0");
-            this.AddArg("substring", 	"to",          "number", false, "", "",   "5 | 10",       "The index where to stop the extraction. If omitted, it extracts the rest of the string");
+            //          Method name,    Param name,    Type,     Required   Alias,  Default,    Example         Description
+            this.AddArg("concat", 		"items",       "list",     true,      "",     null,       "'abc', 'def'", "The arrays to be joined");
+            this.AddArg("indexOf", 		"item",        "object",   true,      "",     null,       "abc",          "The item to search for");
+            this.AddArg("indexOf",      "start",       "number",   false,     "",     0,          "0 | 5",        "Where to start the search. Negative values will start at the given position counting from the end, and search to the end");
+            this.AddArg("join",         "separator",   "string",   false,     "",     ",",        "abc",          "The separator to be used. If omitted, the elements are separated with a comma");
+            this.AddArg("lastIndexOf",  "item",        "object",   true,      "",     null,       "abc",          "The item to search for");
+            this.AddArg("lastIndexOf", 	"start",       "number",   false,     "",     0,          "0 | 4",        "Where to start the search. Negative values will start at the given position counting from the end, and search to the beginning");
+            this.AddArg("push",         "items",       "list",     true,      "",     null,       "abc",          "The items(s) to add to the array");
+            this.AddArg("slice",        "start",       "number",   true,      "",     null,       "0",            "An integer that specifies where to start the selection (The first element has an index of 0). Use negative numbers to select from the end of an array");
+            this.AddArg("slice",        "end",         "number",   false,     "",     null,       "1",            "An integer that specifies where to end the selection. If omitted, all elements from the start position and to the end of the array will be selected. Use negative numbers to select from the end of an array");
+            this.AddArg("sort",         "sortfunction","function", false,     "",     "",         "",             "The function that defines the sort order");
+            this.AddArg("splice",       "index",       "number",   true,      "",     null,       "1",            "An integer that specifies at what position to add/remove items, Use negative values to specify the position from the end of the array");
+            this.AddArg("splice",       "howmany",     "number",   true,      "",     null,       "2",            "The number of items to be removed. If set to 0, no items will be removed");
+            this.AddArg("splice",       "items",       "list",     false,     "",     null,       "2,3,4",        "The new item(s) to be added to the array");            
+            this.AddArg("unshift", 		"items",       "list",     true,      "",     null,       "'abc', 'def'", "The item(s) to add to the beginning of the array");
+            
         }
 
 

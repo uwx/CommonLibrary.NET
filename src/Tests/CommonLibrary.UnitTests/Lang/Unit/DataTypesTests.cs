@@ -32,17 +32,52 @@ namespace ComLib.Lang.Tests.Unit
             exp.Ctx = ctx;
             return exp;
         }
+
+
+
     }
 
 
     [TestFixture]
-    public class Lang_LString2_Tests
+    public class Lang_LString2_Tests : Lang_Type_Tests
     {
         [Test]
-        public void Can_Do_String_Length()
+        public void Can_Test_Methods()
         {
-            // Place holder test
-            var t = new LString2("", "");
+            var lsMethods = new LJSStringMethods();
+            lsMethods.Init();
+
+            Assert.AreEqual("u",                lsMethods.CharAt("fluent_script", 2));
+            Assert.AreEqual("fluent_script",    lsMethods.Concat("fluent", new []{ "_", "script"}));
+            Assert.AreEqual(6,                  lsMethods.IndexOf("fluent_script", "_script", 0));
+            Assert.AreEqual(6,                  lsMethods.LastIndexOf("fluent_script", "_script", -1));
+            Assert.AreEqual(13,                 lsMethods.Length("fluent_script"));
+            Assert.AreEqual("fluent_fluent",    lsMethods.Replace("fluent_script", "script", "fluent"));
+            Assert.AreEqual(7,                  lsMethods.Search("fluent_script", "script"));
+            Assert.AreEqual("_sc",              lsMethods.Substr("fluent_script", 6, 3));
+            Assert.AreEqual("_sc",              lsMethods.Substring("fluent_script", 6, 8));
+            Assert.AreEqual("fluent_script",    lsMethods.ToLowerCase("Fluent_script"));
+            Assert.AreEqual("FLUENT_SCRIPT",    lsMethods.ToUpperCase("Fluent_script"));
+        }
+
+
+        [Test]
+        public void Can_Call_Execute()
+        {
+            var lsMethods = new LJSStringMethods();
+            lsMethods.Init();
+            var ls = new LString2("abc", "fluent");
+            Assert.AreEqual("u",                lsMethods.ExecuteMethod(new LString2("abc", "fluent"),          "charAt"     , new object[] { 2     }));
+            Assert.AreEqual("fluent_script",    lsMethods.ExecuteMethod(new LString2("abc", "fluent"),          "concat"     , new object[] { "_", "script"}));
+            Assert.AreEqual(6,                  lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "indexOf"    , new object[] { "_script", 0           }));
+            Assert.AreEqual(6,                  lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "lastIndexOf", new object[] { "_script", -1          }));
+            Assert.AreEqual(13,                 lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "length"     , null));
+            Assert.AreEqual("fluent_fluent",    lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "replace"    , new object[] { "script", "fluent"     }));
+            Assert.AreEqual(7,                  lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "search"     , new object[] { "script"               }));
+            Assert.AreEqual("_sc",              lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "substr"     , new object[] { 6, 3                   }));
+            Assert.AreEqual("_sc",              lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "substring"  , new object[] { 6, 8                   }));
+            Assert.AreEqual("fluent_script",    lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "toLowerCase", null ));
+            Assert.AreEqual("FLUENT_SCRIPT",    lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "toUpperCase", null ));
         }
     }
 

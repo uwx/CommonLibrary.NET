@@ -15,7 +15,7 @@ namespace ComLib.Lang.Types
     /// Base class for methods on types.
     /// </summary>
     public class LTypeMethods
-    {
+    {        
         /// <summary>
         /// A mapping between the method for the datatype in the language to the 
         /// implemented method in this host language.
@@ -38,6 +38,18 @@ namespace ComLib.Lang.Types
             /// The function metadata for the language types method.
             /// </summary>
             public FunctionMetaData FuncDef;
+
+
+            /// <summary>
+            /// Whether or not this supports a getter property if this is a property
+            /// </summary>
+            public bool AllowGet;
+
+
+            /// <summary>
+            /// Whether or not this supports a setter property if this is a property
+            /// </summary>
+            public bool AllowSet;
         }
 
 
@@ -71,7 +83,7 @@ namespace ComLib.Lang.Types
         /// <param name="description">Description of the function.</param>
         /// <returns></returns>
         public FunctionMetaData AddMethod(string name, string implementationMethod, Type returnType, string description)
-        {
+        {            
             return this.AddMethodInfo(MemberTypes.Method, name, implementationMethod, returnType, description);
         }
 
@@ -83,8 +95,8 @@ namespace ComLib.Lang.Types
         /// <param name="implementationMethod">The method implementing this property in the methods implementation class</param>
         /// <param name="returnType">The return type of the property</param>
         /// <param name="description">A description of the property</param>
-        public void AddProperty(string name, string implementationMethod, Type returnType, string description)
-        {
+        public void AddProperty(bool allowGet, bool allowSet, string name, string implementationMethod, Type returnType, string description)
+        {            
             this.AddMethodInfo(MemberTypes.Property, name, implementationMethod, returnType, description);
         }
 
@@ -165,7 +177,41 @@ namespace ComLib.Lang.Types
         public virtual void SetProperty(LObject type, string propName, object val)
         {
         }
-        
+
+
+
+        /// <summary>
+        /// Validates the method call.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="methodName"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public virtual ComLib.Lang.Core.BoolMsgObj ValidateCall(LObject type, string methodName, object[] parameters)
+        {
+            // 1. Valid method/member name?
+            if (!this._methodMap.ContainsKey(methodName))
+                return new BoolMsgObj(type, false, "The method name : " + methodName + " does not exist for this type");
+
+            // 2. Valid method parameters?
+            var mappedMethod = _methodMap[methodName];
+            var funcDef = mappedMethod.FuncDef;
+            var ndx = 0;
+            var isValid = true;
+            var message = string.Empty;
+            foreach (var arg in funcDef.Arguments)
+            {
+                if (arg.Required && ndx >= parameters.Length)
+                {
+                    isValid = false;
+                    message = "Required argument : " + arg.Name + " was not supplied";
+                    break;
+                }
+                var param = parameters[ndx];
+                ndx++;
+            }
+            return new BoolMsgObj(type, isValid, message);
+        }
 
 
         /// <summary>
@@ -183,13 +229,56 @@ namespace ComLib.Lang.Types
             // total required = 
             var funcDef = mappedMethod.FuncDef;
             int total = funcDef.GetTotalRequiredArgs();
-            object[] methodArgs = null;
+            var methodArgs = new List<object>();
 
+            methodArgs.Add(type.ToValue());
+
+            // TODO: Figure out the total required args when AddArg is called.
             if (total > 0)
             {
-            }
+                var ndx = 0;
+                var totalParamsGiven = parameters.Length;
+
+                // Go through all the argument definitions.
+                foreach(var arg in funcDef.Arguments)
+                {
+                    var isRequired = arg.Required;
+                    // 1. Required and provided?
+                    if (isRequired && ndx < parameters.Length)
+                    {
+                        // Positional arg.
+                        if (arg.Type != "params")
+                        {
+                            var param = parameters[ndx];
+                            methodArgs.Add(param);
+                        }
+                        // End of list arguments.
+                        else
+                        {
+                            var remainder = new List<object>();
+                            while (ndx < totalParamsGiven)
+                            {
+                                remainder.Add(parameters[ndx]);
+                                ndx++;
+                            }
+                            methodArgs.Add(remainder.ToArray());
+                        }
+                    }
+                    // 2. Not required but supplied.
+                    else if (!isRequired && ndx < parameters.Length)
+                        methodArgs.Add(parameters[ndx]);
+
+                    // 3. Not required but there is a default.
+                    else if (!isRequired && arg.DefaultValue != null && ndx >= parameters.Length)
+                        methodArgs.Add(arg.DefaultValue);
+                    ndx++;
+                }                    
+            }  
+          
+            
+            var methodParams = methodArgs.ToArray();
             var method = this.GetType().GetMethod(mappedMethod.HostLanguageMethod);
-            object result = method.Invoke(this, methodArgs);
+            object result = method.Invoke(this, methodParams);
             return result;
         }
 
@@ -206,13 +295,14 @@ namespace ComLib.Lang.Types
         private FunctionMetaData AddMethodInfo(MemberTypes memberType, string name, string implementationMethod, Type returnType, string description)
         {
             var funcdef = new FunctionMetaData(name, null);
+            funcdef.Doc = new Docs.DocTags();
             funcdef.ReturnType = returnType;
             funcdef.Doc.Summary = description;
 
             var mappedMethod = new MappedMethod();
             mappedMethod.DataTypeMethod = name;
             mappedMethod.HostLanguageMethod = implementationMethod;
-            mappedMethod.FuncDef = funcdef;
+            mappedMethod.FuncDef = funcdef;              
             _methodMap[name] = mappedMethod;
 
             _allMembersMap[name] = memberType;
