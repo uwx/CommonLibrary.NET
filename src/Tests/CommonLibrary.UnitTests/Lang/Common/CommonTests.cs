@@ -597,8 +597,27 @@ namespace ComLib.Lang.Tests.Common
                 //TestCase("result", typeof(TimeSpan), 	Sort_ts, 	Sort_funclist  + "\r\n sort book in getbooks3()[0] by book.pubtime asc   	;\r\n result = books[0].pubtime"),
             }
         };
-        
-        
+
+
+        /// <summary>
+        /// Test cases for the typeof plugin
+        /// </summary>
+        public static TestCases StringLiteral = new TestCases()
+        {
+            Name = "StringLiteral Plugin",
+            RequiredPlugins = new[] { typeof(StringLiteralPlugin) },
+            Positive = new List<Tuple<string, Type, object, string>>()
+            {
+                TestCase("result", typeof(string), "fluentscript",  "var result = :fluentscript"),
+                TestCase("result", typeof(string), "user01",        "var result = :user01"),
+                TestCase("result", typeof(string), "user02",        "var items = [ :user01, :user02 ];         var result = items[1]"),
+                TestCase("result", typeof(string), "user02",        "var items = { u1: :user01, u2: :user02 }; var result = items.u2"),
+                TestCase("result", typeof(string), 1,               "var result = 0;  if ( :user01 == 'user01' ) result = 1"),
+                TestCase("result", typeof(string), "user_name doe",   "function abc( text ) { return text + ' doe'; } var result = abc( :user_name )")
+            }
+        }; 
+
+
         /// <summary>
         /// Test cases for the typeof plugin
         /// </summary>

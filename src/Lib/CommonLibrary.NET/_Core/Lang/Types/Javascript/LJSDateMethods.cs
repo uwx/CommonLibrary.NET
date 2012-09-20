@@ -92,8 +92,6 @@ namespace ComLib.Lang.Types
 
 
 
-
-
         /// <summary>
         /// Can create from the paramelist expressions supplied.
         /// </summary>

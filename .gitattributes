@@ -657,6 +657,7 @@ src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/RunPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/SetPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/SortPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/StepPlugin.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/StringLiteralPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/SuffixPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/SwapPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/TimePlugin.cs -text

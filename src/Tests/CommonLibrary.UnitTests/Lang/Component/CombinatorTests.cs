@@ -238,6 +238,13 @@ namespace ComLib.Lang.Tests.Component
 
 
         [Test]
+        public void Can_Use_StringLiteral_Plugin()
+        {
+            RunTests(CommonTestCases_Plugins.StringLiteral, _testType);
+        }
+
+
+        [Test]
         public void Can_Use_Time_Plugin()
         {
             RunTests(CommonTestCases_Plugins.Time, _testType);

@@ -117,26 +117,6 @@ namespace ComLib.Lang.Tests.Unit
             lsMethods.Indexer_Set(access2, 1, "k");
             Assert.AreEqual("k", lsMethods.Indexer_Get(access2, 1));
         }
-
-
-        [Test]
-        public void Can_Call_Execute()
-        {
-            var lsMethods = new LJSStringMethods();
-            lsMethods.Init();
-            var ls = new LString2("abc", "fluent");
-            Assert.AreEqual("u",                lsMethods.ExecuteMethod(new LString2("abc", "fluent"),          "charAt"     , new object[] { 2     }));
-            Assert.AreEqual("fluent_script",    lsMethods.ExecuteMethod(new LString2("abc", "fluent"),          "concat"     , new object[] { "_", "script"}));
-            Assert.AreEqual(6,                  lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "indexOf"    , new object[] { "_script", 0           }));
-            Assert.AreEqual(6,                  lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "lastIndexOf", new object[] { "_script", -1          }));
-            Assert.AreEqual(13,                 lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "length"     , null));
-            Assert.AreEqual("fluent_fluent",    lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "replace"    , new object[] { "script", "fluent"     }));
-            Assert.AreEqual(7,                  lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "search"     , new object[] { "script"               }));
-            Assert.AreEqual("_sc",              lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "substr"     , new object[] { 6, 3                   }));
-            Assert.AreEqual("_sc",              lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "substring"  , new object[] { 6, 8                   }));
-            Assert.AreEqual("fluent_script",    lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "toLowerCase", null ));
-            Assert.AreEqual("FLUENT_SCRIPT",    lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "toUpperCase", null ));
-        }
     }
 
 

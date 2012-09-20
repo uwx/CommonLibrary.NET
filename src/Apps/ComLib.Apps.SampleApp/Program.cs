@@ -22,6 +22,8 @@ using ComLib.Lang;
 using ComLib.Lang.AST;
 using System.Dynamic;
 
+using System.Linq.Expressions;
+
 namespace ComLib.Samples
 {
     public class Complex
@@ -45,15 +47,24 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            Lang_Script_Tests();
             Combinator_Tests();
+            UnitTests();
+            ExpressionTest();
+            Lang_Script_Tests();
             TestVersion();
             FluentTests();
             Semantic_Tests();
             System_Control_Flow();
             Lang_Type_Tests(); 
-            UnitTests();
             
+        }
+
+
+        static void ExpressionTest()
+        {
+            var e = Expression.Add(Expression.Constant(2), Expression.Constant("a"));
+            
+            var r = e.Reduce();
         }
 
 
@@ -209,6 +220,13 @@ namespace ComLib.Samples
 
         static void UnitTests()
         {
+            var ltJS = new Lang_LString2_Tests();
+            ltJS.Can_Test_Methods();
+            ltJS.Can_Call_Execute();
+
+            var ltJSa = new Lang_LArray2_Tests();
+            ltJSa.Can_Test_Methods();
+
             var lexTests = new Lexer_Tests();
             lexTests.Can_Read_String(); 
             lexTests.Can_Read_Interpolated_Tokens();
@@ -392,6 +410,7 @@ namespace ComLib.Samples
         {            
             var c = new Plugin_Component_Positives();
 
+            c.Can_Use_StringLiteral_Plugin();
             c.Can_Use_Exec_Plugin();
             c.Can_Use_IO_Plugin();
             c.Can_Use_Fail_Plugin();

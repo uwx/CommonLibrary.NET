@@ -112,6 +112,7 @@ namespace ComLib.Lang.Parsing
             _extMap["Set"]      	   =  new SetPlugin();
             _extMap["Sort"]      	   =  new SortPlugin();
             _extMap["Step"]            =  new StepPlugin();
+            _extMap["StringLiteral"]   =  new StringLiteralPlugin();
             _extMap["Suffix"]      	   =  new SuffixPlugin();
             _extMap["Swap"]      	   =  new SwapPlugin();
             _extMap["Time"]      	   =  new TimePlugin();
@@ -264,7 +265,7 @@ namespace ComLib.Lang.Parsing
         public void RegisterCustomByType(Type pluginType)
         {
             var name = pluginType.Name.Replace("Plugin", "");
-            if (_extMap.ContainsKey(name))
+            //if (_extMap.ContainsKey(name))
                 Register(_extMap[name]);            
         }
 

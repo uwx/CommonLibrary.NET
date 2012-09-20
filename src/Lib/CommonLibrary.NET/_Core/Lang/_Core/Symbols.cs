@@ -371,6 +371,24 @@ namespace ComLib.Lang.Core
 
 
     /// <summary>
+    /// Module level symbols.
+    /// </summary>
+    public class SymbolsModule : SymbolsBase
+    {
+        /// <summary>
+        /// Initialize
+        /// </summary>
+        /// <param name="name">The name of the symbol scope</param>
+        public SymbolsModule(string name)
+            : base(name, null)
+        {
+
+        }
+    }
+
+
+
+    /// <summary>
     /// Symbol table for functions
     /// </summary>
     public class SymbolsNested : SymbolsBase

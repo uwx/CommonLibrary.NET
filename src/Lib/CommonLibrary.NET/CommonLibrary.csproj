@@ -531,6 +531,7 @@
     <Compile Include="_Core\Lang\Parser\Core\Limits.cs" />
     <Compile Include="_Core\Lang\Parser\IParser.cs" />
     <Compile Include="_Core\Lang\Plugins\Core\CustomFunctionPlugin.cs" />
+    <Compile Include="_Core\Lang\Plugins\Parser\StringLiteralPlugin.cs" />
     <Compile Include="_Core\Lang\Types\Javascript\LJSArrayMethods.cs" />
     <Compile Include="_Core\Lang\Types\Javascript\LJSDateMethods.cs" />
     <Compile Include="_Core\Lang\Types\LString2.cs" />
