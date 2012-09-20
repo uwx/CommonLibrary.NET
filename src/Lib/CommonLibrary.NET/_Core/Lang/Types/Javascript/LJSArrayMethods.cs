@@ -58,12 +58,269 @@ namespace ComLib.Lang.Types
 
         #region Javascript API methods
         /// <summary>
+        /// Lenght of the array.
+        /// </summary>
+        /// <param name="target">The target list to apply this method on.</param>
+        public int Length(LArray target)
+        {
+            return target.Raw.Count;
+        }
+
+
+        /// <summary>
+        /// Joins two or more arrays, and returns a copy of the joined arrays
+        /// </summary>
+        /// <param name="target">The target list to apply this method on.</param>
+        /// <param name="arrays">Array of arrays to add</param>
+        /// <returns>A copy of joined array</returns>
+        public LArray Concat(LArray target, params object[] arrays)
+        {
+            if (arrays == null || arrays.Length == 0) return target;
+
+            var copy = new List<object>();
+            AddRange(copy, target.Raw);
+            for (int ndx = 0; ndx < arrays.Length; ndx++)
+            {
+                object item = arrays[ndx];
+                IList array = (item is LArray) ? ((LArray)item).Raw : (IList)item;
+                AddRange(copy, array);
+            }
+            return new LArray(copy);
+        }
+
+
+        /// <summary>
+        /// Joins two or more arrays, and returns a copy of the joined arrays
+        /// </summary>
+        /// <param name="target">The target list to apply this method on.</param>
+        /// <param name="item">The item to search for</param>
+        /// <param name="start">The starting position of  the search.</param>
+        /// <returns>A copy of joined array</returns>
+        public int IndexOf(LArray target, object item, int start)
+        {
+            var foundPos = -1;
+            var list = target.Raw;
+            var total = list.Count;
+            for(var ndx = start; ndx < total; ndx++)
+            {
+                var itemAt = list[ndx];
+                if (itemAt == item)
+                {
+                    foundPos = ndx;
+                    break;
+                }
+            }
+            return foundPos;
+        }
+
+
+        /// <summary>
+        /// Joins all elements of an array into a string
+        /// </summary>
+        /// <param name="target">The target list to apply this method on.</param>
+        /// <param name="separator">The separator to use for joining the elements.</param>
+        /// <returns></returns>
+        public object Join(LArray target, string separator = ",")
+        {
+            if (target == null || target.Raw.Count == 0) return string.Empty;
+
+            var buffer = new StringBuilder();
+
+            var list = target.Raw;
+            var total = list.Count;
+            
+            buffer.Append(target[0].ToString());
+            if (total > 1)
+            {
+                for (int ndx = 1; ndx < list.Count; ndx++)
+                {
+                    buffer.Append(separator + list[ndx].ToString());
+                }
+            }
+            string result = buffer.ToString();
+            return result;
+        }
+
+
+        /// <summary>
+        /// Joins two or more arrays, and returns a copy of the joined arrays
+        /// </summary>
+        /// <param name="target">The target list to apply this method on.</param>
+        /// <param name="item">The item to search for</param>
+        /// <param name="start">The starting position of  the search.</param>
+        /// <returns>A copy of joined array</returns>
+        public int LastIndexOf(LArray target, object item, int start)
+        {
+            var foundPos = -1;
+            var list = target.Raw;
+            var total = list.Count;
+            for(var ndx = start; ndx < total; ndx++)
+            {
+                var itemAt = list[ndx];
+                if (itemAt == item)
+                {
+                    foundPos = ndx;
+                }
+            }
+            return foundPos;
+        }
+
+
+        /// <summary>
+        /// Removes the last element of an array, and returns that element
+        /// </summary>
+        /// <param name="target">The target list to apply this method on.</param>
+        /// <returns>The removed element</returns>
+        public object Pop(LArray target)
+        {
+            var index = target.Raw.Count - 1;
+            object toRemove = target.Raw[index];
+            target.Raw.RemoveAt(index);
+            return toRemove;
+        }
+
+
+        /// <summary>
+        /// Adds new elements to the end of an array, and returns the new length
+        /// </summary>
+        /// <param name="target">The target list to apply this method on.</param>
+        /// <param name="elements">The elements to add</param>
+        /// <returns>The new length</returns>
+        public int Push(LArray target, params object[] elements)
+        {
+            if (elements == null || elements.Length == 0) return 0;
+
+            // Add
+            var list = target.Raw;
+            foreach (object elem in elements)
+                list.Add(elem);
+
+            return list.Count;
+        }
+
+
+        /// <summary>
+        /// Reverses the order of the elements in an array
+        /// </summary>
+        /// <param name="target">The target list to apply this method on.</param>
+        /// <returns></returns>
+        public LArray Reverse(LArray target)
+        {
+            var list = target.Raw;
+            int length = list.Count;
+            if (length == 0 || length == 1) return null;
+
+            // 2 or more.
+            int highIndex = length - 1;
+            int stopIndex = length / 2;
+            if (length % 2 == 0)
+                stopIndex--;
+            for (int lowIndex = 0; lowIndex <= stopIndex; lowIndex++)
+            {
+                object tmp = list[lowIndex];
+                list[lowIndex] = list[highIndex];
+                list[highIndex] = tmp;
+                highIndex--;
+            }
+            return target;
+        }
+
+
+        /// <summary>
+        /// Removes the first element of an array, and returns that element
+        /// </summary>
+        /// <param name="target">The target list to apply this method on.</param>
+        /// <returns>The first element</returns>
+        public object Shift(LArray target)
+        {
+            if (target.Raw.Count == 0) return null;
+            object item = target[0];
+            target.Raw.RemoveAt(0);
+            return item;
+        }
+
+
+        /// <summary>
+        /// Selects a part of an array, and returns the new array
+        /// </summary>
+        /// <param name="target">The target list to apply this method on.</param>
+        /// <param name="start">The start of the selection</param>
+        /// <param name="end">The end of the selection, if not supplied, selects all elements from start to end of the array</param>
+        /// <returns>A new array</returns>
+        public LArray Slice(LArray target, int start, int end)
+        {
+            List<object> items = new List<object>();
+            if (end == -1)
+                end = target.Raw.Count;
+            for (var ndx = start; ndx < end; ndx++)
+                items.Add(target.Raw[ndx]);
+            return new LArray(null, items);
+        }
+
+
+        /// <summary>
+        /// Adds/Removes elements from an array
+        /// </summary>
+        /// <param name="target">The target list to apply this method on.</param>
+        /// <param name="index">The index position to add/remove</param>
+        /// <param name="howmany">How many elements to remove, if 0 no elements are removed</param>
+        /// <param name="elements">Optional: The elements to add</param>
+        /// <returns></returns>
+        public LArray Splice(LArray target, int index, int howmany, params object[] elements)
+        {
+            List<object> removed = null;
+            if (howmany > 0)
+            {
+                removed = new List<object>();
+                for (int ndxRemove = index; ndxRemove < (index + howmany); ndxRemove++)
+                {
+                    removed.Add(target[ndxRemove]);
+                }
+                RemoveRange(target.Raw, index, howmany);
+            }
+            if (elements != null && elements.Length > 0 )
+            {
+                int lastIndex = index;
+                for (int ndx = 0; ndx < elements.Length; ndx++)
+                {
+                    object objToAdd = elements[ndx];
+                    target.Raw.Insert(lastIndex, objToAdd);
+                    lastIndex++;
+                }
+            }
+            return new LArray(removed);
+        }
+        
+
+        /// <summary>
+        /// Adds new elements to the beginning of an array, and returns the new length
+        /// </summary>
+        /// <param name="target">The target list to apply this method on.</param>
+        /// <param name="elements">The elements to add.</param>
+        /// <returns>The new length</returns>
+        public int UnShift(LArray target, params object[] elements)
+        {
+            if (target.Raw == null) return 0;
+            if (elements == null || elements.Length == 0) return target.Raw.Count;
+            for (int ndx = 0; ndx < elements.Length; ndx++)
+            {
+                object val = elements[ndx];
+                target.Raw.Insert(0, val);
+            }
+            return target.Raw.Count;
+        }
+        #endregion
+
+
+
+        #region Helpers
+        /// <summary>
         /// Adds all the items from the send array into the first array(target)
         /// </summary>
         /// <param name="target"></param>
         /// <param name="array"></param>
         /// <returns></returns>
-        public object AddRange(IList target, IList array)
+        protected object AddRange(IList target, IList array)
         {
             if (array == null) return target;
             if (array.Count == 0) return target;
@@ -81,7 +338,7 @@ namespace ComLib.Lang.Types
         /// <param name="start">The starting index position in the list to remove items from.</param>
         /// <param name="howmany">How many items to remove</param>
         /// <returns></returns>
-        public object RemoveRange(IList target, int start, int howmany)
+        protected object RemoveRange(IList target, int start, int howmany)
         {
             if (target == null) return target;
             if (target.Count == 0) return target;
@@ -95,16 +352,6 @@ namespace ComLib.Lang.Types
             return target;
         }
 
-        
-        /// <summary>
-        /// Lenght of the array.
-        /// </summary>
-        /// <param name="target">The target list to apply this method on.</param>
-        public int Length(IList target)
-        {
-            return target.Count;
-        }
-
 
         /// <summary>
         /// Get / set value by index.
@@ -112,11 +359,12 @@ namespace ComLib.Lang.Types
         /// <param name="target">The target list to apply this method on.</param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public object IndexerGet(IList target, int index)
+        public object Indexer_Get(LArray target, int index)
         {
-            if (target == null || target.Count == 0) return null;
-            if (index < 0 || index >= target.Count) throw new IndexOutOfRangeException("Index : " + index);
-            return target[index];
+            if (target == null || target.Raw == null || target.Raw.Count == 0) return LNull.Instance;
+            var list = target.Raw;
+            if (index < 0 || index >= list.Count) throw new IndexOutOfRangeException("Index : " + index);
+            return list[index];
         }
 
 
@@ -127,235 +375,13 @@ namespace ComLib.Lang.Types
         /// <param name="index">The index position to set the value at</param>
         /// <param name="value">The vlaue to set</param>
         /// <returns></returns>
-        public void IndexerSet(IList target, int index, object value)
+        public void Indexer_Set(LArray target, int index, object value)
         {
-            if (target == null || target.Count == 0) 
-                return;
-
-            if (index < 0 || index >= target.Count) throw new IndexOutOfRangeException("Index : " + index);
-            target[index] = value;
-         
-        }
-
-
-        /// <summary>
-        /// Joins two or more arrays, and returns a copy of the joined arrays
-        /// </summary>
-        /// <param name="target">The target list to apply this method on.</param>
-        /// <param name="arrays">Array of arrays to add</param>
-        /// <returns>A copy of joined array</returns>
-        public object Concat(IList target, params object[] arrays)
-        {
-            if (arrays == null || arrays.Length == 0) return target;
-
-            for (int ndx = 0; ndx < arrays.Length; ndx++)
-            {
-                object item = arrays[ndx];
-                LArray array = (item is LArray) ? (LArray)item : ConvertToLArray(item);
-                AddRange(target, array.Raw);
-            }
-            return this;
-        }
-
-
-        /// <summary>
-        /// Joins all elements of an array into a string
-        /// </summary>
-        /// <param name="target">The target list to apply this method on.</param>
-        /// <param name="separator">The separator to use for joining the elements.</param>
-        /// <returns></returns>
-        public object Join(IList target, string separator = ",")
-        {
-            if (target == null || target.Count == 0) return string.Empty;
-
-            var buffer = new StringBuilder();
-
-            buffer.Append(target[0].ToString());
-            if (target.Count > 1)
-            {
-                for (int ndx = 1; ndx < target.Count; ndx++)
-                {
-                    buffer.Append(separator + target[ndx].ToString());
-                }
-            }
-            string result = buffer.ToString();
-            return result;
-        }
-
-
-        /// <summary>
-        /// Removes the last element of an array, and returns that element
-        /// </summary>
-        /// <param name="target">The target list to apply this method on.</param>
-        /// <returns>The removed element</returns>
-        public object Pop(IList target)
-        {
-            object toRemove = target[target.Count - 1];
-            target.RemoveAt(target.Count - 1);
-            return toRemove;
-        }
-
-
-        /// <summary>
-        /// Adds new elements to the end of an array, and returns the new length
-        /// </summary>
-        /// <param name="target">The target list to apply this method on.</param>
-        /// <param name="elements">The elements to add</param>
-        /// <returns>The new length</returns>
-        public object Push(IList target, params object[] elements)
-        {
-            if (elements == null || elements.Length == 0) return null;
-
-            // Add
-            foreach (object elem in elements)
-                target.Add(elem);
-
-            return target.Count;
-        }
-
-
-        /// <summary>
-        /// Reverses the order of the elements in an array
-        /// </summary>
-        /// <param name="target">The target list to apply this method on.</param>
-        /// <returns></returns>
-        public object Reverse(IList target)
-        {
-            int length = target.Count;
-            if (length == 0 || length == 1) return null;
-
-            // 2 or more.
-            int highIndex = length - 1;
-            int stopIndex = length / 2;
-            if (length % 2 == 0)
-                stopIndex--;
-            for (int lowIndex = 0; lowIndex <= stopIndex; lowIndex++)
-            {
-                object tmp = target[lowIndex];
-                target[lowIndex] = target[highIndex];
-                target[highIndex] = tmp;
-                highIndex--;
-            }
-            return this;
-        }
-
-
-        /// <summary>
-        /// Removes the first element of an array, and returns that element
-        /// </summary>
-        /// <param name="target">The target list to apply this method on.</param>
-        /// <returns>The first element</returns>
-        public object Shift(IList target)
-        {
-            if (target.Count == 0) return null;
-            object item = target[0];
-            target.RemoveAt(0);
-            return item;
-        }
-
-
-        /// <summary>
-        /// Selects a part of an array, and returns the new array
-        /// </summary>
-        /// <param name="target">The target list to apply this method on.</param>
-        /// <param name="start">The start of the selection</param>
-        /// <param name="end">The end of the selection, if not supplied, selects all elements from start to end of the array</param>
-        /// <returns>A new array</returns>
-        public object Slice(IList target, int start, int end)
-        {
-            List<object> items = new List<object>();
-            for (var ndx = start; ndx <= end; ndx++)
-                items.Add(target[ndx]);
-            return new LArray(null, items);
-        }
-
-
-        /// <summary>
-        /// Adds/Removes elements from an array
-        /// </summary>
-        /// <param name="target">The target list to apply this method on.</param>
-        /// <param name="index">The index position to add/remove</param>
-        /// <param name="howmany">How many elements to remove, if 0 no elements are removed</param>
-        /// <param name="elements">Optional: The elements to add</param>
-        /// <returns></returns>
-        public object Splice(IList target, int index, int howmany, params object[] elements)
-        {
-            List<object> removed = null;
-            if (howmany > 0)
-            {
-                removed = new List<object>();
-                for (int ndxRemove = index; ndxRemove < (index + howmany); ndxRemove++)
-                {
-                    removed.Add(target[ndxRemove]);
-                }
-                RemoveRange(target, index, howmany);
-            }
-            if (elements != null && elements.Length > 0 )
-            {
-                int lastIndex = index;
-                for (int ndx = 0; ndx < elements.Length; ndx++)
-                {
-                    object objToAdd = elements[ndx];
-                    target.Insert(lastIndex, objToAdd);
-                    lastIndex++;
-                }
-            }
-            return new LArray(removed);
-        }
-        
-
-        /// <summary>
-        /// Adds new elements to the beginning of an array, and returns the new length
-        /// </summary>
-        /// <param name="target">The target list to apply this method on.</param>
-        /// <param name="elements">The elements to add.</param>
-        /// <returns>The new length</returns>
-        public object UnShift(IList target, params object[] elements)
-        {
-            if (elements == null || elements.Length == 0) return null;
-            for (int ndx = 0; ndx < elements.Length; ndx++)
-            {
-                object val = elements[ndx];
-                target.Insert(0, val);
-            }
-            return target.Count;
-        }
-
-
-        /// <summary>
-        /// Gets the element at the specified position
-        /// </summary>
-        /// <param name="target">The target list to apply this method on.</param>
-        /// <param name="ndx">The index position to get</param>
-        /// <returns>Element at position</returns>
-        public object GetByIndex(IList target, int ndx)
-        {
-            if (ndx < 0 || ndx >= target.Count)
-                throw new IndexOutOfRangeException("Index out of bounds " + ndx);
-
-            // TO_DO:
-            return target[ndx];
-        }
-
-
-        /// <summary>
-        /// Sets the element at the specified position
-        /// </summary>
-        /// <param name="target">The target list to apply this method on.</param>
-        /// <param name="ndx">The index position to set</param>
-        /// <param name="val">The value to set</param>
-        /// <returns>The object being set</returns>
-        public object SetByIndex(IList target, int ndx, object val)
-        {
-            target[ndx] = val;
-            return val;
+            if (target == null || target.Raw == null || target.Raw.Count == 0) return;
+            var list = target.Raw;
+            if (index < 0 || index >= list.Count) throw new IndexOutOfRangeException("Index : " + index);
+            list[index] = value;
         }
         #endregion
-
-
-        private LArray ConvertToLArray(object list)
-        {
-            return list as LArray;
-        }
     }
 }

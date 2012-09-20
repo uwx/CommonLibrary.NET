@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
@@ -32,10 +33,112 @@ namespace ComLib.Lang.Tests.Unit
             exp.Ctx = ctx;
             return exp;
         }
-
-
-
     }
+
+
+
+    [TestFixture]
+    public class Lang_LArray2_Tests : Lang_Type_Tests
+    {
+        private LArray BuildTestArray1()
+        {
+            return new LArray(new List<object>() { "a", "b", "c", "d" });
+        }
+
+
+        private LArray BuildTestArray2()
+        {
+            return new LArray(new List<object>() { "a", "b", "c", "d", "b" });
+        }
+
+
+        private void CheckArray(LArray larray, int newLength, object[] expectedItems)
+        {
+            var array = larray.Raw;
+            Assert.AreEqual(array.Count, newLength);
+            var ndx = 0;
+            foreach (var item in array)
+            {
+                var expected = expectedItems[ndx];
+                Assert.AreEqual(expected, item);
+                ndx++;
+            }
+        }
+
+
+        [Test]
+        public void Can_Test_Methods()
+        {
+            var lsMethods = new LJSArrayMethods();
+            lsMethods.Init();
+                       
+            // Concat
+            var concat1 = BuildTestArray1();
+            CheckArray(lsMethods.Concat(concat1, new List<object>() { "e", "f" }), 6, new object []{ "a", "b", "c", "d", "e", "f" });
+            Assert.AreEqual(concat1.Raw.Count, 4);
+
+            // Index of
+            Assert.AreEqual(2, lsMethods.IndexOf(BuildTestArray1(), "c", 0));
+            Assert.AreEqual(4, lsMethods.IndexOf(BuildTestArray2(), "b", 2));
+            
+            // Join
+            Assert.AreEqual("a,b,c,d", lsMethods.Join(BuildTestArray1()));
+
+            // Last index of
+            Assert.AreEqual(4, lsMethods.LastIndexOf(BuildTestArray2(), "b", 0));
+            Assert.AreEqual(4, lsMethods.LastIndexOf(BuildTestArray2(), "b", 2));
+
+            // Pop
+            Assert.AreEqual("d", lsMethods.Pop(BuildTestArray1()));
+            
+            // Push
+            var a1 = BuildTestArray1();
+            lsMethods.Push(a1, "e", "f");
+            CheckArray(a1, 6, new object[]{"a", "b", "c", "d", "e", "f"});
+
+            // Reverse
+            CheckArray(lsMethods.Reverse(BuildTestArray1()), 4, new object[] { "d", "c", "b", "a" });
+
+            // Shift
+            Assert.AreEqual("a", lsMethods.Shift(BuildTestArray1()));
+
+            // Slice
+            CheckArray(lsMethods.Slice(BuildTestArray1(), 1, -1), 3, new object[] { "b", "c", "d" });
+            
+            // Sort ?? TODO: how to pass in lambda?
+
+            // Splice
+            CheckArray(lsMethods.Splice(BuildTestArray1(), 1, 2, new object[] { "e", "f" }), 2, new object[]{ "b", "c"});
+
+            var access1 = BuildTestArray1();
+            Assert.AreEqual("b", lsMethods.Indexer_Get(access1, 1));
+
+            var access2 = BuildTestArray1();
+            lsMethods.Indexer_Set(access2, 1, "k");
+            Assert.AreEqual("k", lsMethods.Indexer_Get(access2, 1));
+        }
+
+
+        [Test]
+        public void Can_Call_Execute()
+        {
+            var lsMethods = new LJSStringMethods();
+            lsMethods.Init();
+            var ls = new LString2("abc", "fluent");
+            Assert.AreEqual("u",                lsMethods.ExecuteMethod(new LString2("abc", "fluent"),          "charAt"     , new object[] { 2     }));
+            Assert.AreEqual("fluent_script",    lsMethods.ExecuteMethod(new LString2("abc", "fluent"),          "concat"     , new object[] { "_", "script"}));
+            Assert.AreEqual(6,                  lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "indexOf"    , new object[] { "_script", 0           }));
+            Assert.AreEqual(6,                  lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "lastIndexOf", new object[] { "_script", -1          }));
+            Assert.AreEqual(13,                 lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "length"     , null));
+            Assert.AreEqual("fluent_fluent",    lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "replace"    , new object[] { "script", "fluent"     }));
+            Assert.AreEqual(7,                  lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "search"     , new object[] { "script"               }));
+            Assert.AreEqual("_sc",              lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "substr"     , new object[] { 6, 3                   }));
+            Assert.AreEqual("_sc",              lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "substring"  , new object[] { 6, 8                   }));
+            Assert.AreEqual("fluent_script",    lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "toLowerCase", null ));
+            Assert.AreEqual("FLUENT_SCRIPT",    lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "toUpperCase", null ));
+        }
+    }
+
 
 
     [TestFixture]
