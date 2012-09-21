@@ -529,6 +529,8 @@
     <Compile Include="_Core\Lang\Parser\Core\Context.cs" />
     <Compile Include="_Core\Lang\Parser\Core\LangState.cs" />
     <Compile Include="_Core\Lang\Parser\Core\Limits.cs" />
+    <Compile Include="_Core\Lang\Parser\Phases\Phases.cs" />
+    <Compile Include="_Core\Lang\Parser\Phases\SemactsPhase.cs" />
     <Compile Include="_Core\Lang\Parser\IParser.cs" />
     <Compile Include="_Core\Lang\Plugins\Core\CustomFunctionPlugin.cs" />
     <Compile Include="_Core\Lang\Plugins\Parser\StringLiteralPlugin.cs" />

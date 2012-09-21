@@ -47,8 +47,8 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            Combinator_Tests();
             UnitTests();
+            Combinator_Tests();
             ExpressionTest();
             Lang_Script_Tests();
             TestVersion();
@@ -221,6 +221,10 @@ namespace ComLib.Samples
         static void UnitTests()
         {
             var ltJS = new Lang_LString2_Tests();
+
+            var ltd = new Lang_LDate2_Tests();
+            ltd.Can_Do_Date_GetMethod();
+            
             ltJS.Can_Test_Methods();
             ltJS.Can_Call_Execute();
 

@@ -136,6 +136,16 @@ namespace ComLib.Lang.Types
         
         
         /// <summary>
+        /// Initialize with date.
+        /// </summary>
+        /// <param name="date"></param>
+        public LDate(DateTime date)
+        {
+            Raw = date;
+        }
+
+
+        /// <summary>
         /// Initialize
         /// </summary>
         /// <param name="varName"></param>

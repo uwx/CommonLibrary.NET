@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using System.Text.RegularExpressions;
 
-// <lang:using>
-using ComLib.Lang.Core;
-using ComLib.Lang.Helpers;
-using ComLib.Lang.Parsing;
-// </lang:using>
 
 
 namespace ComLib.Lang.Types
@@ -25,39 +17,39 @@ namespace ComLib.Lang.Types
         public override void Init()
         {
             // Create the methods associated with this type.
-            this.AddMethod("charAt",       "CharAt",       typeof(string),  "Returns the character at the specified index" );
-            this.AddMethod("charCodeAt",   "CharAt",       typeof(string),  "Returns the Unicode of the character at the specified index" );
-            this.AddMethod("concat",       "Concat",       typeof(string),  "Joins two or more strings, and returns a copy of the joined strings" );
-            this.AddMethod("fromCharCode", "CharAt",       typeof(string),  "Converts Unicode values to characters" );
-            this.AddMethod("indexOf",      "IndexOf",      typeof(double),  "Returns the position of the first found occurrence of a specified value in a string" );
-            this.AddMethod("lastIndexOf",  "LastIndexOf",  typeof(double),  "Returns the position of the last found occurrence of a specified value in a string");
-            this.AddMethod("match",        "CharAt",       typeof(string),  "Searches for a match between a regular expression and a string, and returns the matches" );
-            this.AddMethod("replace",      "Replace",      typeof(string),  "Searches for a match between a substring (or regular expression) and a string, and replaces the matched substring with a new substring" );
-            this.AddMethod("search",       "Search",       typeof(string),  "Searches for a match between a regular expression and a string, and returns the position of the match" );
-            this.AddMethod("slice",        "CharAt",       typeof(string),  "Extracts a part of a string and returns a new string" );
-            this.AddMethod("split",        "CharAt",       typeof(string),  "Splits a string into an array of substrings" );
-            this.AddMethod("substr",       "Substr",       typeof(string),  "Extracts the characters from a string, beginning at a specified start position, and through the specified number of character" );
-            this.AddMethod("substring",    "Substring",    typeof(string),  "Extracts the characters from a string, between two specified indices" );
-            this.AddMethod("toLowerCase",  "ToLowerCase",  typeof(string),  "Converts a string to lowercase letters" );
-            this.AddMethod("toUpperCase",  "ToUpperCase",  typeof(string),  "Converts a string to uppercase letters" );
-            this.AddMethod("valueOf",      "ToString",     typeof(string),  "Returns the primitive value of a String object" );
-            this.AddProperty(true, false,  "length",     "Length",       typeof(double),  "Returns the length of the string");
+            AddMethod("charAt",       "CharAt",       typeof(string),  "Returns the character at the specified index" );
+            AddMethod("charCodeAt",   "CharAt",       typeof(string),  "Returns the Unicode of the character at the specified index" );
+            AddMethod("concat",       "Concat",       typeof(string),  "Joins two or more strings, and returns a copy of the joined strings" );
+            AddMethod("fromCharCode", "CharAt",       typeof(string),  "Converts Unicode values to characters" );
+            AddMethod("indexOf",      "IndexOf",      typeof(double),  "Returns the position of the first found occurrence of a specified value in a string" );
+            AddMethod("lastIndexOf",  "LastIndexOf",  typeof(double),  "Returns the position of the last found occurrence of a specified value in a string");
+            AddMethod("match",        "CharAt",       typeof(string),  "Searches for a match between a regular expression and a string, and returns the matches" );
+            AddMethod("replace",      "Replace",      typeof(string),  "Searches for a match between a substring (or regular expression) and a string, and replaces the matched substring with a new substring" );
+            AddMethod("search",       "Search",       typeof(string),  "Searches for a match between a regular expression and a string, and returns the position of the match" );
+            AddMethod("slice",        "CharAt",       typeof(string),  "Extracts a part of a string and returns a new string" );
+            AddMethod("split",        "CharAt",       typeof(string),  "Splits a string into an array of substrings" );
+            AddMethod("substr",       "Substr",       typeof(string),  "Extracts the characters from a string, beginning at a specified start position, and through the specified number of character" );
+            AddMethod("substring",    "Substring",    typeof(string),  "Extracts the characters from a string, between two specified indices" );
+            AddMethod("toLowerCase",  "ToLowerCase",  typeof(string),  "Converts a string to lowercase letters" );
+            AddMethod("toUpperCase",  "ToUpperCase",  typeof(string),  "Converts a string to uppercase letters" );
+            AddMethod("valueOf",      "ToString",     typeof(string),  "Returns the primitive value of a String object" );
+            AddProperty(true, false,  "length",     "Length",       typeof(double),  "Returns the length of the string");
 
             // Associate the arguments for each declared function.
             //          Method name,    Param name,    Type,     Required   Alias,  Default,    Example         Description
-            this.AddArg("charAt",       "index",       "number", true,      "",     0,          "0 | 4",        "An integer representing the index of the character you want to return");
-            this.AddArg("concat", 		"items",       "params", true,      "",     null,       "'abc', 'def'", "The strings to be joined");
-            this.AddArg("indexOf", 		"pattern",     "string", true,      "",     null,       "abc",          "The string pattern to search for");
-            this.AddArg("indexOf", 		"start",       "number", false,     "",     0,          "0 | 5",        "The starting position of the search");
-            this.AddArg("lastIndexOf", 	"searchvalue", "string", true,      "",     null,       "abc",          "The string to search for");
-            this.AddArg("lastIndexOf", 	"start",       "number", false,     "",     -1,         "0 | 4",        "The position where to start the search. If omitted, the default value is the length of the string");
-            this.AddArg("replace", 		"searchvalue", "string", true,      "",     "",         "abc",          "The value, or regular expression, that will be replaced by the new value");
-            this.AddArg("replace", 		"newvalue",    "string", true,      "",     "",         "bbb",          "The value to replace the searchvalue with");
-            this.AddArg("search", 		"searchvalue", "string", true,      "",     "",         "abc",          "The value, or regular expression, to search for.");
-            this.AddArg("substr", 		"start",	   "number", true,      "",     0,          "0 | 4",        "The postition where to start the extraction. First character is at index 0");
-            this.AddArg("substr", 		"length",      "number", false,     "",     "",         "5 | 10",       "The number of characters to extract. If omitted, it extracts the rest of the string" );
-            this.AddArg("substring", 	"from",	       "number", true,      "",     0,          "0 | 4",        "The index where to start the extraction. First character is at index 0");
-            this.AddArg("substring", 	"to",          "number", false,     "",     "",         "5 | 10",       "The index where to stop the extraction. If omitted, it extracts the rest of the string");
+            AddArg("charAt",       "index",       "number", true,      "",     0,          "0 | 4",        "An integer representing the index of the character you want to return");
+            AddArg("concat", 		"items",       "params", true,      "",     null,       "'abc', 'def'", "The strings to be joined");
+            AddArg("indexOf", 		"pattern",     "string", true,      "",     null,       "abc",          "The string pattern to search for");
+            AddArg("indexOf", 		"start",       "number", false,     "",     0,          "0 | 5",        "The starting position of the search");
+            AddArg("lastIndexOf", 	"searchvalue", "string", true,      "",     null,       "abc",          "The string to search for");
+            AddArg("lastIndexOf", 	"start",       "number", false,     "",     -1,         "0 | 4",        "The position where to start the search. If omitted, the default value is the length of the string");
+            AddArg("replace", 		"searchvalue", "string", true,      "",     "",         "abc",          "The value, or regular expression, that will be replaced by the new value");
+            AddArg("replace", 		"newvalue",    "string", true,      "",     "",         "bbb",          "The value to replace the searchvalue with");
+            AddArg("search", 		"searchvalue", "string", true,      "",     "",         "abc",          "The value, or regular expression, to search for.");
+            AddArg("substr", 		"start",	   "number", true,      "",     0,          "0 | 4",        "The postition where to start the extraction. First character is at index 0");
+            AddArg("substr", 		"length",      "number", false,     "",     "",         "5 | 10",       "The number of characters to extract. If omitted, it extracts the rest of the string" );
+            AddArg("substring", 	"from",	       "number", true,      "",     0,          "0 | 4",        "The index where to start the extraction. First character is at index 0");
+            AddArg("substring", 	"to",          "number", false,     "",     "",         "5 | 10",       "The index where to stop the extraction. If omitted, it extracts the rest of the string");
         }
 
 
@@ -66,7 +58,7 @@ namespace ComLib.Lang.Types
         /// Returns the character at the specified index
         /// </summary>
         /// <param name="target">The target value to apply this method on</param>
-        /// <param name="args"></param>
+        /// <param name="ndx">The index of the character to get</param>
         /// <returns></returns>
         public string CharAt(string target, int ndx)
         {
@@ -100,7 +92,9 @@ namespace ComLib.Lang.Types
         /// <param name="start">The starting position to start the search.</param>
         /// <returns></returns>
         public int IndexOf(string target, string searchString, int start = 0)
-        {   
+        {
+            if (string.IsNullOrEmpty(target)) return -1;
+            if (string.IsNullOrEmpty(searchString)) return -1;
             return target.IndexOf(searchString, start);
         }
 
@@ -114,8 +108,9 @@ namespace ComLib.Lang.Types
         /// <returns></returns>
         public int LastIndexOf(string target, string searchString, int start)
         {
-            if (start == -1)
-                return target.LastIndexOf(searchString);
+            if (string.IsNullOrEmpty(target)) return -1;
+            if (string.IsNullOrEmpty(searchString)) return -1;
+            if (start == -1) return target.LastIndexOf(searchString);
 
             var result =  target.LastIndexOf(searchString, start);
             return result;

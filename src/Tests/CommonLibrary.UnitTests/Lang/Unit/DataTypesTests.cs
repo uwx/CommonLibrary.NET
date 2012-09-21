@@ -1,15 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using System.Reflection;
-using System.Resources;
 using NUnit.Framework;
 
 
-using ComLib;
-using ComLib.Lang;
 using ComLib.Lang.Core;
 using ComLib.Lang.Types;
 using ComLib.Lang.Parsing;
@@ -111,11 +104,11 @@ namespace ComLib.Lang.Tests.Unit
             CheckArray(lsMethods.Splice(BuildTestArray1(), 1, 2, new object[] { "e", "f" }), 2, new object[]{ "b", "c"});
 
             var access1 = BuildTestArray1();
-            Assert.AreEqual("b", lsMethods.Indexer_Get(access1, 1));
+            Assert.AreEqual("b", lsMethods.IndexerGet(access1, 1));
 
             var access2 = BuildTestArray1();
-            lsMethods.Indexer_Set(access2, 1, "k");
-            Assert.AreEqual("k", lsMethods.Indexer_Get(access2, 1));
+            lsMethods.IndexerSet(access2, 1, "k");
+            Assert.AreEqual("k", lsMethods.IndexerGet(access2, 1));
         }
     }
 
@@ -161,6 +154,63 @@ namespace ComLib.Lang.Tests.Unit
             Assert.AreEqual("_sc",              lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "substring"  , new object[] { 6, 8                   }));
             Assert.AreEqual("fluent_script",    lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "toLowerCase", null ));
             Assert.AreEqual("FLUENT_SCRIPT",    lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "toUpperCase", null ));
+        }
+    }
+
+
+    [TestFixture]
+    public class Lang_LDate2_Tests : Lang_Type_Tests
+    {
+        [Test]
+        public void Can_Do_Date_GetMethods()
+        {
+            var lsmethods = new LJSDateMethods();
+            lsmethods.Init();
+
+            var date = DateTime.Now;
+            var dutc = date.ToUniversalTime();
+            Assert.AreEqual( date.Day,            lsmethods.GetDate             ( new LDate(date))); 
+            Assert.AreEqual( (int)date.DayOfWeek, lsmethods.GetDay              ( new LDate(date))); 
+            Assert.AreEqual( date.Year,           lsmethods.GetFullYear         ( new LDate(date))); 
+            Assert.AreEqual( date.Hour,           lsmethods.GetHours            ( new LDate(date))); 
+            Assert.AreEqual( date.Millisecond,    lsmethods.GetMilliseconds     ( new LDate(date))); 
+            Assert.AreEqual( date.Minute,         lsmethods.GetMinutes          ( new LDate(date))); 
+            Assert.AreEqual( date.Month,          lsmethods.GetMonth            ( new LDate(date))); 
+            Assert.AreEqual( date.Second,         lsmethods.GetSeconds          ( new LDate(date)));
+ 
+            Assert.AreEqual( dutc.Day,            lsmethods.GetUtcDate          ( new LDate(dutc))); 
+            Assert.AreEqual( (int)dutc.DayOfWeek, lsmethods.GetUtcDay           ( new LDate(dutc))); 
+            Assert.AreEqual( dutc.Year,           lsmethods.GetUtcFullYear      ( new LDate(dutc))); 
+            Assert.AreEqual( dutc.Hour,           lsmethods.GetUtcHours         ( new LDate(dutc))); 
+            Assert.AreEqual( dutc.Millisecond,    lsmethods.GetUtcMilliseconds  ( new LDate(dutc))); 
+            Assert.AreEqual( dutc.Minute,         lsmethods.GetUtcMinutes       ( new LDate(dutc))); 
+            Assert.AreEqual( dutc.Month,          lsmethods.GetUtcMonth         ( new LDate(dutc)));
+            Assert.AreEqual( dutc.Second,         lsmethods.GetUtcSeconds       ( new LDate(date)));
+        }
+
+        [Test]
+        public void Can_Do_Date_SetMethods()
+        {
+            var lsmethods = new LJSDateMethods();
+            lsmethods.Init();
+
+            var date = DateTime.Now;
+            var dutc = date.ToUniversalTime();
+            Assert.AreEqual( date.Day,            lsmethods.SetDate             ( new LDate(date))); 
+            Assert.AreEqual( date.Year,           lsmethods.SetFullYear         ( new LDate(date))); 
+            Assert.AreEqual( date.Hour,           lsmethods.SetHours            ( new LDate(date))); 
+            Assert.AreEqual( date.Millisecond,    lsmethods.SetMilliseconds     ( new LDate(date))); 
+            Assert.AreEqual( date.Minute,         lsmethods.SetMinutes          ( new LDate(date))); 
+            Assert.AreEqual( date.Month,          lsmethods.SetMonth            ( new LDate(date))); 
+            Assert.AreEqual( date.Second,         lsmethods.SetSeconds          ( new LDate(date)));
+ 
+            Assert.AreEqual( dutc.Day,            lsmethods.SetUtcDate          ( new LDate(dutc))); 
+            Assert.AreEqual( dutc.Year,           lsmethods.SetUtcFullYear      ( new LDate(dutc))); 
+            Assert.AreEqual( dutc.Hour,           lsmethods.SetUtcHours         ( new LDate(dutc))); 
+            Assert.AreEqual( dutc.Millisecond,    lsmethods.SetUtcMilliseconds  ( new LDate(dutc))); 
+            Assert.AreEqual( dutc.Minute,         lsmethods.SetUtcMinutes       ( new LDate(dutc))); 
+            Assert.AreEqual( dutc.Month,          lsmethods.SetUtcMonth         ( new LDate(dutc)));
+            Assert.AreEqual( dutc.Second,         lsmethods.SetUtcSeconds       ( new LDate(date)));
         }
     }
 
