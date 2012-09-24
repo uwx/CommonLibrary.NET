@@ -158,7 +158,7 @@ namespace ComLib.Lang.Types
 
 
         /// <summary>
-        /// Sets the full year on the date.
+        /// Sets the month on the date.
         /// </summary>
         /// <param name="date">The LDate to set</param>
         /// <param name="month">The month to set</param>
@@ -170,7 +170,7 @@ namespace ComLib.Lang.Types
 
 
         /// <summary>
-        /// Sets the full year on the date.
+        /// Sets the day of the month on the date
         /// </summary>
         /// <param name="date">The LDate to set</param>
         /// <param name="day">The day of the month to set</param>
@@ -181,7 +181,7 @@ namespace ComLib.Lang.Types
 
 
         /// <summary>
-        /// Sets the full time
+        /// Sets the hours of the date
         /// </summary>
         /// <param name="date">The LDate to set</param>
         /// <param name="hours">The hours to set</param>
@@ -195,7 +195,7 @@ namespace ComLib.Lang.Types
 
 
         /// <summary>
-        /// Sets the full year on the date.
+        /// Sets the minutes on the date
         /// </summary>
         /// <param name="date">The LDate to set</param>
         /// <param name="minutes">The minutes to set</param>
@@ -208,7 +208,7 @@ namespace ComLib.Lang.Types
 
 
         /// <summary>
-        /// Sets the full year on the date.
+        /// Sets the seconds on the date
         /// </summary>
         /// <param name="date">The LDate to set</param>
         /// <param name="seconds">The seconds to set</param>
@@ -220,7 +220,7 @@ namespace ComLib.Lang.Types
 
 
         /// <summary>
-        /// Sets the full year on the date.
+        /// Sets the milliseconds on the date
         /// </summary>
         /// <param name="date">The LDate to set</param>
         /// <param name="milliseconds">The milliseconds to set</param>
@@ -244,7 +244,7 @@ namespace ComLib.Lang.Types
 
 
         /// <summary>
-        /// Sets the full year on the date.
+        /// Sets the month on the date.
         /// </summary>
         /// <param name="date">The LDate to set</param>
         /// <param name="month">The month to set</param>
@@ -256,7 +256,7 @@ namespace ComLib.Lang.Types
 
 
         /// <summary>
-        /// Sets the full year on the date.
+        /// Sets the day of the month on the date.
         /// </summary>
         /// <param name="date">The LDate to set</param>
         /// <param name="day">The day of the month to set</param>
@@ -267,7 +267,7 @@ namespace ComLib.Lang.Types
 
 
         /// <summary>
-        /// Sets the full year on the date.
+        /// Sets the hours on the date.
         /// </summary>
         /// <param name="date">The LDate to set</param>
         /// <param name="hours">The hours to set</param>
@@ -281,7 +281,7 @@ namespace ComLib.Lang.Types
 
 
         /// <summary>
-        /// Sets the full year on the date.
+        /// Sets the minutes on the date.
         /// </summary>
         /// <param name="date">The LDate to set</param>
         /// <param name="minutes">The minutes to set</param>
@@ -294,7 +294,7 @@ namespace ComLib.Lang.Types
 
 
         /// <summary>
-        /// Sets the full year on the date.
+        /// Sets the seconds on the date.
         /// </summary>
         /// <param name="date">The LDate to set</param>
         /// <param name="seconds">The seconds to set</param>
@@ -306,7 +306,7 @@ namespace ComLib.Lang.Types
 
 
         /// <summary>
-        /// Sets the full year on the date.
+        /// Sets the milliseconds on the date.
         /// </summary>
         /// <param name="date">The LDate to set</param>
         /// <param name="milliseconds">The milliseconds to set</param>

@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 
 namespace ComLib.Lang.Types
 {
     /// <summary>
     /// Used to represent a version number e.g. 0.9.8.7
     /// </summary>
-    public class LVersion
+    public class LVersion : LObject
     {
         /// <summary>
         /// Initialize

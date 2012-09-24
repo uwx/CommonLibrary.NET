@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 // <lang:using>
 using ComLib.Lang.Core;
 using ComLib.Lang.AST;
 using ComLib.Lang.Parsing;
+using ComLib.Lang.Types;
 // </lang:using>
+
 
 namespace ComLib.Lang.Helpers
 {
@@ -17,11 +17,27 @@ namespace ComLib.Lang.Helpers
     public class LangHelper
     {
         /// <summary>
+        /// Whether or not the object supplied is a basic fluentscript/languge type that extends from LObject
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static bool IsBasicLangType(object obj)
+        {
+            if (obj == null) 
+                throw new ArgumentNullException("obj");
+
+            if (obj is LObject)
+                return true;
+            return false;
+        }
+
+
+        /// <summary>
         /// Whether or not the type supplied is a basic type.
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static bool IsBasicType(object obj)
+        public static bool IsBasicTypeCSharpType(object obj)
         {
             if (obj == null) throw new ArgumentNullException("obj");
 

@@ -223,7 +223,8 @@ namespace ComLib.Samples
             var ltJS = new Lang_LString2_Tests();
 
             var ltd = new Lang_LDate2_Tests();
-            ltd.Can_Do_Date_GetMethod();
+            ltd.Can_Do_Date_SetMethods();
+            ltd.Can_Do_Date_GetMethods();
             
             ltJS.Can_Test_Methods();
             ltJS.Can_Call_Execute();

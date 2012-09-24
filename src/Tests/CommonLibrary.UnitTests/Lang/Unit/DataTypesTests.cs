@@ -188,29 +188,55 @@ namespace ComLib.Lang.Tests.Unit
             Assert.AreEqual( dutc.Second,         lsmethods.GetUtcSeconds       ( new LDate(date)));
         }
 
+
+        [Test]
+        public void Can_Do_Date_SetMethods_Via_Execute()
+        {
+            var lsmethods = new LJSDateMethods();
+            lsmethods.Init();
+
+            var testdate = new DateTime(2012, 9, 15, 10, 30, 00);
+            var l = new LDate(testdate);
+
+            
+            l.Raw = testdate; Check( 2013,  (ld) => ld.Raw.Year,           l,  (ldate) => lsmethods.ExecuteMethod(ldate, "setFullYear",     new []{ 2013, 4, 1 })); 
+            l.Raw = testdate; Check( 4,     (ld) => ld.Raw.Month,          l,  (ldate) => lsmethods.ExecuteMethod(ldate, "setFullYear",     new []{ 2013, 4, 1 })); 
+            l.Raw = testdate; Check( 1,     (ld) => ld.Raw.Day,            l,  (ldate) => lsmethods.ExecuteMethod(ldate, "setFullYear",     new []{ 2013, 4, 1 })); 
+            l.Raw = testdate; Check( 4,     (ld) => ld.Raw.Month,          l,  (ldate) => lsmethods.ExecuteMethod(ldate, "setMonth",        new []{ 4, 1 }));
+            l.Raw = testdate; Check( 1,     (ld) => ld.Raw.Day,            l,  (ldate) => lsmethods.ExecuteMethod(ldate, "setDate",         new []{ 1 }));
+            l.Raw = testdate; Check( 4,     (ld) => ld.Raw.Hour,           l,  (ldate) => lsmethods.ExecuteMethod(ldate, "setHours",        new []{ 4, 30, 1, 150 })); 
+            l.Raw = testdate; Check( 30,    (ld) => ld.Raw.Minute,         l,  (ldate) => lsmethods.ExecuteMethod(ldate, "setMinutes",      new []{ 30, 1, 150 })); 
+            l.Raw = testdate; Check( 1,     (ld) => ld.Raw.Second,         l,  (ldate) => lsmethods.ExecuteMethod(ldate, "setSeconds",      new []{ 1, 150 }));
+            l.Raw = testdate; Check( 150,   (ld) => ld.Raw.Millisecond,    l,  (ldate) => lsmethods.ExecuteMethod(ldate, "setMilliseconds", new []{ 150 })); 
+        }
+
+
         [Test]
         public void Can_Do_Date_SetMethods()
         {
             var lsmethods = new LJSDateMethods();
             lsmethods.Init();
 
-            var date = DateTime.Now;
-            var dutc = date.ToUniversalTime();
-            Assert.AreEqual( date.Day,            lsmethods.SetDate             ( new LDate(date))); 
-            Assert.AreEqual( date.Year,           lsmethods.SetFullYear         ( new LDate(date))); 
-            Assert.AreEqual( date.Hour,           lsmethods.SetHours            ( new LDate(date))); 
-            Assert.AreEqual( date.Millisecond,    lsmethods.SetMilliseconds     ( new LDate(date))); 
-            Assert.AreEqual( date.Minute,         lsmethods.SetMinutes          ( new LDate(date))); 
-            Assert.AreEqual( date.Month,          lsmethods.SetMonth            ( new LDate(date))); 
-            Assert.AreEqual( date.Second,         lsmethods.SetSeconds          ( new LDate(date)));
- 
-            Assert.AreEqual( dutc.Day,            lsmethods.SetUtcDate          ( new LDate(dutc))); 
-            Assert.AreEqual( dutc.Year,           lsmethods.SetUtcFullYear      ( new LDate(dutc))); 
-            Assert.AreEqual( dutc.Hour,           lsmethods.SetUtcHours         ( new LDate(dutc))); 
-            Assert.AreEqual( dutc.Millisecond,    lsmethods.SetUtcMilliseconds  ( new LDate(dutc))); 
-            Assert.AreEqual( dutc.Minute,         lsmethods.SetUtcMinutes       ( new LDate(dutc))); 
-            Assert.AreEqual( dutc.Month,          lsmethods.SetUtcMonth         ( new LDate(dutc)));
-            Assert.AreEqual( dutc.Second,         lsmethods.SetUtcSeconds       ( new LDate(date)));
+            var testdate = new DateTime(2012, 9, 15, 10, 30, 00);
+            var l = new LDate(testdate);
+
+            
+            l.Raw = testdate; Check( 2013,  (ld) => ld.Raw.Year,           l,  (ldate) => lsmethods.SetFullYear         ( ldate, 2013, 4, 1 )); 
+            l.Raw = testdate; Check( 4,     (ld) => ld.Raw.Month,          l,  (ldate) => lsmethods.SetFullYear         ( ldate, 2013, 4, 1 )); 
+            l.Raw = testdate; Check( 1,     (ld) => ld.Raw.Day,            l,  (ldate) => lsmethods.SetFullYear         ( ldate, 2013, 4, 1 )); 
+            l.Raw = testdate; Check( 4,     (ld) => ld.Raw.Month,          l,  (ldate) => lsmethods.SetMonth            ( ldate, 4, 1 ));
+            l.Raw = testdate; Check( 1,     (ld) => ld.Raw.Day,            l,  (ldate) => lsmethods.SetDate             ( ldate, 1 ));
+            l.Raw = testdate; Check( 4,     (ld) => ld.Raw.Hour,           l,  (ldate) => lsmethods.SetHours            ( ldate, 4, 30, 1, 150 )); 
+            l.Raw = testdate; Check( 30,    (ld) => ld.Raw.Minute,         l,  (ldate) => lsmethods.SetMinutes          ( ldate, 30, 1, 150 )); 
+            l.Raw = testdate; Check( 1,     (ld) => ld.Raw.Second,         l,  (ldate) => lsmethods.SetSeconds          ( ldate, 1, 150 ));
+            l.Raw = testdate; Check( 150,   (ld) => ld.Raw.Millisecond,    l,  (ldate) => lsmethods.SetMilliseconds     ( ldate, 150 )); 
+        }
+
+        private void Check(int expected, Func<LDate, int> callbackForActual, LDate l, Action<LDate> callback)
+        {
+            callback(l);
+            var actual = callbackForActual(l);
+            Assert.AreEqual(expected, actual);
         }
     }
 

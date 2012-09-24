@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿
 
 namespace ComLib.Lang.Types
 {
@@ -14,7 +11,7 @@ namespace ComLib.Lang.Types
         /// Initialize bool value.
         /// </summary>
         /// <param name="value"></param>
-        public LNumber(bool value)
+        public LNumber(double value)
         {
             _value = value;
             DataType = typeof(double);

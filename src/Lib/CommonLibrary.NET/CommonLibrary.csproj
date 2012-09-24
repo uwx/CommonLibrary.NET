@@ -536,7 +536,6 @@
     <Compile Include="_Core\Lang\Plugins\Parser\StringLiteralPlugin.cs" />
     <Compile Include="_Core\Lang\Types\Javascript\LJSArrayMethods.cs" />
     <Compile Include="_Core\Lang\Types\Javascript\LJSDateMethods.cs" />
-    <Compile Include="_Core\Lang\Types\LString2.cs" />
     <Compile Include="_Core\Lang\Types\LArray.cs" />
     <Compile Include="_Core\Lang\Types\LBaseType.cs" />
     <Compile Include="_Core\Lang\Types\LBool.cs" />
