@@ -234,7 +234,7 @@ namespace ComLib.Lang.Plugins
                     results.Add(val);
                 }
             }
-            return new LArray(this.Ctx, results);
+            return new LArray(results);
         }
     }
 }

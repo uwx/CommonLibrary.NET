@@ -273,4 +273,13 @@
 		<call target="FS_Compile" />
 		<call target="FS_Package" />
 	</target>
+	
+	
+	<target name="FSExe">		
+		<zip zipfile="C:\dev\business\CommonLibrary.NET\CommonLibraryNet_LATEST\tests\FluentScript_0.9.8.8_exe.zip">
+		    <fileset basedir="C:\dev\business\CommonLibrary.NET\CommonLibraryNet_LATEST\tests\Fluentscript_0.9.8.8_exe">
+		        <include name="**/*" />
+		    </fileset>
+		</zip>	
+	</target>
 </project>

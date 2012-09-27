@@ -102,12 +102,16 @@ namespace ComLib.Lang.Helpers
             // 1. DateTime
             if (type == typeof(DateTime))
             {
-                result = new LDate(ctx, varname, (DateTime)obj).ExecuteMethod(memberName, paramList.ToArray());
+                var ltype = new LDate(varname, (DateTime)obj);
+                var methods = ctx.Methods.Get(typeof(LString));
+                result = methods.ExecuteMethod(ltype, memberName, paramList.ToArray());
             }
             // 2. String
             else if (type == typeof(string))
             {
-                result = new LString(ctx, varname, (string)obj).ExecuteMethod(memberName, paramList.ToArray());
+                var ltype = new LString(varname, (string)obj);
+                var methods = ctx.Methods.Get(typeof(LString));
+                result = methods.ExecuteMethod(ltype, memberName, paramList.ToArray());
             }
             // 3. Method info supplied
             else if (methodInfo != null)

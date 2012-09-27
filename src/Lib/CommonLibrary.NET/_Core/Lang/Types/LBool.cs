@@ -22,7 +22,7 @@ namespace ComLib.Lang.Types
         /// Get boolean value.
         /// </summary>
         /// <returns></returns>
-        public bool ToValue()
+        public bool ToBool()
         {
             return (bool)_value;
         }

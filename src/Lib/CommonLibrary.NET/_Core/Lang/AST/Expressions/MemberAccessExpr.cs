@@ -90,9 +90,6 @@ namespace ComLib.Lang.AST
     /// </summary>
     public class MemberAccessExpr : MemberExpr
     {
-        private static LDate _dateTypeForMethodCheck = new LDate(null);
-
-
         /// <summary>
         /// Initialize
         /// </summary>
@@ -163,40 +160,25 @@ namespace ComLib.Lang.AST
             bool isCoreType = IsCoreType(obj);
             if ( isCoreType )
             {
-                // 1. Map or Array
-                if (obj is LMap)
-                {
-                    // 2. Non-Assignment - Validate property exists.
-                    if (!((LMap)obj).HasProperty(MemberName)) 
-                        throw this.BuildRunTimeException("Property does not exist : '" + MemberName + "'"); 
+                // Get the methods implementation LTypeMethods for this basic type 
+                // e.g. string,  date,  time,  array , map
+                // e.g. LString  LDate, LTime, LArray, LMap
+                var typeMethods = Ctx.Methods.Get(type);
                 
-                    return new MemberAccess(MemberMode.CustObjMethodInstance) { Name = type.Name, DataType = type, Instance = obj, MemberName = MemberName };
-                }
-                if (obj is LArray)
-                {
-                    MemberName = LArray.MapMethod(MemberName);
-                    return GetInstanceMemberAccess(obj);
-                }
-                // Case 2a: string.Method
-                if (obj is string)
-                {
-                    return new MemberAccess(MemberMode.CustObjMethodInstance) { Name = type.Name, DataType = type, Instance = obj, MemberName = MemberName };
-                }
-                // Case 2b: date.Method
-                if (obj is DateTime)
-                {
-                    if (_dateTypeForMethodCheck.HasMethod(MemberName) || _dateTypeForMethodCheck.HasProperty(MemberName))
-                        return new MemberAccess(MemberMode.CustObjMethodInstance) { Name = variableName, DataType = typeof(LDate), Instance = obj, MemberName = MemberName };
-                    
-                    var prop = typeof(DateTime).GetProperty(MemberName);
-                    if(prop != null)
-                        return new MemberAccess(MemberMode.CustObjMethodInstance) { Name = type.Name, DataType = type, Instance = obj, MemberName = MemberName, Property = prop };
+                // 1. Check that the member exists.
+                if (!typeMethods.HasMember(null, MemberName))
+                    throw BuildRunTimeException("Property or Member : " + MemberName + " does not exist");
 
+                // 2. Property ?
+                if (typeMethods.HasProperty(null, MemberName))
                     return new MemberAccess(MemberMode.CustObjMethodInstance) { Name = type.Name, DataType = type, Instance = obj, MemberName = MemberName };
-                }
+
+                // 3. Method ?
+                if (typeMethods.HasMethod(null, MemberName))
+                    return new MemberAccess(MemberMode.CustObjMethodInstance) { Name = type.Name, DataType = type, Instance = obj, MemberName = MemberName };
             }
 
-            // CASE 3: Custom object type
+            // CASE 4: Custom object type
             var member = GetInstanceMemberAccess(obj);
             return member;
         }

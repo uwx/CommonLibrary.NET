@@ -296,7 +296,7 @@ namespace ComLib.Lang.Plugins
                     Ctx.Limits.CheckStringLength(this, result);
 
                     // Case 3: Set property "user.name" = <expression>;
-                    MemberAccess member = this.VarExp.Evaluate() as MemberAccess;
+                    var member = this.VarExp.Evaluate() as MemberAccess;
                     if (member.Property != null)
                     {                        
                         member.Property.SetValue(member.Instance, result, null);
@@ -304,6 +304,7 @@ namespace ComLib.Lang.Plugins
                     // Case 4: Set map "user.name" = <expression>; // { name: 'kishore' }
                     else if (member.DataType == typeof(LMap))
                     {
+                        //Ctx.Methods.Get(typeof(LMap)).SetProperty((LMap)member.Instance, member.MemberName, result);
                         ((LMap)member.Instance).SetValue(member.MemberName, result);
                     }
                 }
@@ -324,6 +325,7 @@ namespace ComLib.Lang.Plugins
                     }
                     else if (obj is LArray)
                     {
+                        //Ctx.Methods.Get(typeof(LArray)).SetProperty((LMap)member.Instance, member.MemberName, result);
                         ((LArray)obj).SetByIndex(ndx, result);
                     }
                     else

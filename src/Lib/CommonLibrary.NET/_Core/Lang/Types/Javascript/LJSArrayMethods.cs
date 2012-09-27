@@ -14,8 +14,10 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Initialize
         /// </summary>
-        public override void Init()
+        public LJSArrayMethods()
         {
+            DataType = typeof(LArray);
+
             // Create the methods associated with this type.
             AddMethod("concat", 		"Concat", 		typeof(LArray),		"Joins two or more arrays, and returns a copy of the joined arrays" );
             AddMethod("indexOf", 		"IndexOf", 		typeof(double),		"Search the array for an element and returns it's position" );
@@ -125,7 +127,7 @@ namespace ComLib.Lang.Types
             var list = target.Raw;
             var total = list.Count;
             
-            buffer.Append(target[0]);
+            buffer.Append(list[0]);
             if (total > 1)
             {
                 for (int ndx = 1; ndx < list.Count; ndx++)
@@ -230,7 +232,7 @@ namespace ComLib.Lang.Types
         public object Shift(LArray target)
         {
             if (target.Raw.Count == 0) return null;
-            object item = target[0];
+            object item = target.Raw[0];
             target.Raw.RemoveAt(0);
             return item;
         }
@@ -270,7 +272,7 @@ namespace ComLib.Lang.Types
                 removed = new List<object>();
                 for (int ndxRemove = index; ndxRemove < (index + howmany); ndxRemove++)
                 {
-                    removed.Add(target[ndxRemove]);
+                    removed.Add(target.Raw[ndxRemove]);
                 }
                 RemoveRange(target.Raw, index, howmany);
             }

@@ -33,6 +33,7 @@ namespace ComLib.Lang.Parsing
             Callbacks = new Callbacks();
             State = new LangState(stack);
             Units = new Units();
+            Methods = new RegisteredMethods();
             Plugins.Init();            
         }
 
@@ -65,6 +66,12 @@ namespace ComLib.Lang.Parsing
         /// Registered custom words that can be used in the script.
         /// </summary>
         public RegisteredWords Words;
+
+
+        /// <summary>
+        /// Map of all the registered methods.
+        /// </summary>
+        public RegisteredMethods Methods;
 
 
         /// <summary>

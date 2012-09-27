@@ -40,13 +40,37 @@ namespace ComLib.Lang.Parsing
 
 
         #region Public API
-        /*
-            TODO:
-            - fluent call - 4 parts
-            - order by for linq
-            - scanner performance improvements
-            - lexer line tracking
-        */
+        /// <summary>
+        /// Initializes the parser with the script and setups various components.
+        /// </summary>
+        /// <param name="script"></param>
+        /// <param name="memory"></param>
+        public override void Init(string script, Memory memory)
+        {
+            // NOTE: Maybe move this setup code elsewhere ????
+
+            // 1. Initalize data members
+            base.Init(script, memory);
+
+            // 2. Register default methods if not present.
+            Context.Methods.RegisterIfNotPresent(typeof(LArray), new LJSArrayMethods());
+            Context.Methods.RegisterIfNotPresent(typeof(LDate), new LJSDateMethods());
+            Context.Methods.RegisterIfNotPresent(typeof(LString), new LJSStringMethods());
+
+            // 2. Convert script to sequence of tokens.
+            Tokenize();
+
+            // 3. Initialize the combinators.
+            _context.Plugins.RegisterAllSystem();
+            _context.Plugins.ForEach<IExprPlugin>(plugin => plugin.Init(this, _tokenIt));
+            _context.Plugins.ForEach<ITokenPlugin>(plugin => plugin.Init(this, _tokenIt));
+            _context.Plugins.ExecuteSetupPlugins(_context);
+
+            // 4. Move to first token
+            _tokenIt.Advance();
+        }
+
+
         /// <summary>
         /// Parses the script into statements and expressions.
         /// </summary>
@@ -54,20 +78,7 @@ namespace ComLib.Lang.Parsing
         /// <param name="memory">Memory scope object</param>
         public List<Expr> Parse(string script, Memory memory = null)
         {
-            // 1. Initalize data members
             Init(script, memory);
-
-            // 2. Convert script to sequence of tokens.
-            Tokenize();
-
-            // 3. Initialize the combinators.
-            _context.Plugins.RegisterAllSystem();
-            _context.Plugins.ForEach<IExprPlugin>(plugin =>  plugin.Init(this, _tokenIt));
-            _context.Plugins.ForEach<ITokenPlugin>(plugin => plugin.Init(this, _tokenIt));
-            _context.Plugins.ExecuteSetupPlugins(_context);
-            
-            // 4. Move to first token
-            _tokenIt.Advance();
 
             while (true)
             {

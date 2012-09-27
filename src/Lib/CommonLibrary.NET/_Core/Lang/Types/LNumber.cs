@@ -22,7 +22,7 @@ namespace ComLib.Lang.Types
         /// Get boolean value.
         /// </summary>
         /// <returns></returns>
-        public double ToValue()
+        public double ToNumber()
         {
             return (double)_value;
         }

@@ -11,8 +11,10 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Initialize
         /// </summary>
-        public override void Init()
+        public LJSDateMethods()
         {
+            DataType = typeof(LDate);
+
             AddMethod("getDate", 			"GetDate", 				typeof(double), "Returns the day of the month (from 1-31)");
             AddMethod("getDay", 	 		"GetDay", 				typeof(double), "Returns the day of the week (from 0-6)");
             AddMethod("getFullYear", 		"GetFullYear", 			typeof(double), "Returns the year (four digits)");

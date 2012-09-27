@@ -683,8 +683,10 @@ src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/System/WhilePlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Templating/ITemplateEngine.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Templating/TemplateEngineDefault.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Templating/Templater.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Types/ITypeMethods.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/Javascript/LJSArrayMethods.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/Javascript/LJSDateMethods.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Types/Javascript/LJSMapMethods.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/Javascript/LJSStringMethods.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LArray.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LBaseType.cs -text
@@ -699,8 +701,10 @@ src/Lib/CommonLibrary.NET/_Core/Lang/Types/LNumber.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LObject.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LString.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LString2.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Types/LTypeMethods.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LUnit.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LVersion.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Types/RegisteredMethods.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/Units.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/_Core/AstNode.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/_Core/BoolMsgObj.cs -text

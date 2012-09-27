@@ -14,8 +14,10 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Initialize
         /// </summary>
-        public override void Init()
+        public LJSStringMethods()
         {
+            DataType = typeof(LString);
+
             // Create the methods associated with this type.
             AddMethod("charAt",       "CharAt",       typeof(string),  "Returns the character at the specified index" );
             AddMethod("charCodeAt",   "CharAt",       typeof(string),  "Returns the Unicode of the character at the specified index" );
