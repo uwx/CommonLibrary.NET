@@ -126,10 +126,12 @@ namespace ComLib.Lang.AST
             if (memberAccess.DataType == typeof(LMap))
             {
                 // 2. Non-Assignment - Validate property exists.
-                if (!((LMap)memberAccess.Instance).HasProperty(MemberName)) 
+                var lmap = memberAccess.Instance as LMap;
+                var methods = this.Ctx.Methods.Get(typeof(LMap));
+                if(!methods.HasProperty(lmap, MemberName))
                     throw this.BuildRunTimeException("Property does not exist : '" + MemberName + "'"); 
                 
-                return ((LMap)memberAccess.Instance).ExecuteMethod(MemberName, null);
+                return methods.ExecuteMethod(lmap, "Get_" + MemberName, null);
             }           
             return memberAccess;
         }

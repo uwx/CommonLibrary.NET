@@ -326,6 +326,7 @@ namespace ComLib.Lang.Plugins
                     else if (obj is LArray)
                     {
                         //Ctx.Methods.Get(typeof(LArray)).SetProperty((LMap)member.Instance, member.MemberName, result);
+                        var methods = Ctx.Methods.Get(typeof(LArray));
                         ((LArray)obj).SetByIndex(ndx, result);
                     }
                     else
