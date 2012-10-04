@@ -1,5 +1,7 @@
 ﻿using System;
 
+using ComLib.Lang.Core;
+
 
 namespace ComLib.Lang.Types
 {
@@ -25,6 +27,23 @@ namespace ComLib.Lang.Types
         /// </summary>
         public Type DataType;
 
+
+        /// <summary>
+        /// The value of the type.
+        /// </summary>
+        public readonly int TypeVal { get; set; }
+
+
+        /// <summary>
+        /// Whether or not this is a basic type e.g. bool, date.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsBasicType()
+        {
+            return this.TypeVal >= TypeConstants.Bool 
+                && this.TypeVal <= TypeConstants.Time;
+        }
+        
 
         /// <summary>
         /// Value of the type.

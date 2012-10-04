@@ -710,6 +710,7 @@ src/Lib/CommonLibrary.NET/_Core/Lang/_Core/AstNode.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/_Core/BoolMsgObj.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/_Core/CallStack.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/_Core/Callbacks.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/_Core/Constants.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/_Core/Context.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/_Core/FunctionLookupResult.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/_Core/IAstWalk.cs -text
