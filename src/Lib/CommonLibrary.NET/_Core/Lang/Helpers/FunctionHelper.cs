@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Reflection;
 
 // <lang:using>
 using ComLib.Lang.Core;
 using ComLib.Lang.AST;
 using ComLib.Lang.Types;
-using ComLib.Lang.Helpers;
 using ComLib.Lang.Parsing;
 // </lang:using>
 
@@ -18,26 +15,7 @@ namespace ComLib.Lang.Helpers
     /// Helper class for calling functions in the script.
     /// </summary>
     public class FunctionHelper
-    {
-        /// <summary>
-        /// Whether or not the parametlist of expressions contains a named parameter with the name supplied.
-        /// </summary>
-        /// <param name="paramListExpressions">List of parameter list expressions.</param>
-        /// <param name="paramName">Name of the parameter to search for</param>
-        /// <returns></returns>
-        public static bool HasNamedParameter(List<Expr> paramListExpressions, string paramName)
-        {
-            if (paramListExpressions == null || paramListExpressions.Count == 0)
-                return false;
-
-            foreach (var paramExpr in paramListExpressions)
-                if (paramExpr is NamedParamExpr)
-                    if (((NamedParamExpr)paramExpr).Name == paramName)
-                        return true;
-            return false;
-        }
-
-
+    {   
         /// <summary>
         /// Whether or not the name/member combination supplied is a script level function or an external C# function
         /// </summary>
@@ -93,7 +71,7 @@ namespace ComLib.Lang.Helpers
         {
             // 1. Resolve the parameters.
             if(methodInfo == null)
-                FunctionHelper.ResolveParameters(paramListExpressions, paramList);
+                ParamHelper.ResolveParameters(paramListExpressions, paramList);
 
             object result = null;
             if (type == null && obj != null)
@@ -132,50 +110,6 @@ namespace ComLib.Lang.Helpers
             }
             return result;
         }
-
-
-        /// <summary>
-        /// Resolve the parameters in the function call.
-        /// </summary>
-        public static void ResolveParameters(List<Expr> paramListExpressions, List<object> paramList)
-        {
-            if (paramListExpressions == null || paramListExpressions.Count == 0)
-                return;
-
-            paramList.Clear();
-            foreach (var exp in paramListExpressions)
-            {
-                object val = exp.Evaluate();
-                paramList.Add(val);
-            }
-        }
-
-
-        /// <summary>
-        /// Resolve the parameters in the function call.
-        /// </summary>
-        public static void ResolveParametersForScriptFunction(FunctionMetaData meta, List<Expr> paramListExpressions, List<object> paramList)
-        {
-            int totalParams = meta.Arguments == null ? 0 : meta.Arguments.Count;
-            ResolveParameters(totalParams, paramListExpressions, paramList, 
-                namedParam => meta.ArgumentsLookup[namedParam.Name].Index);
-        }
-
-
-        /// <summary>
-        /// Resolve the parameters in the function call.
-        /// </summary>
-        public static void ResolveParametersForMethodCall(MethodInfo method, List<Expr> paramListExpressions, List<object> paramList)
-        {
-            var parameters = method.GetParameters();
-            if (parameters == null || parameters.Length == 0) return;
-
-            // Convert parameters to map.
-            var map = parameters.ToDictionary(p => p.Name);
-
-            ResolveParameters(parameters.Length, paramListExpressions, paramList,
-                namedParam => map[namedParam.Name].Position);
-        }  
 
 
         /// <summary>
@@ -236,84 +170,7 @@ namespace ComLib.Lang.Helpers
                     val = paramList[0].ToString();
             }
             return val;
-        }
-
-
-        /// <summary>
-        /// Converts arguments from one type to another type that is required by the method call.
-        /// </summary>
-        /// <param name="args"></param>
-        /// <param name="method">The method for which the parameters need to be converted</param>
-        public static void ConvertArgs(List<object> args, MethodInfo method)
-        {
-            var parameters = method.GetParameters();
-            if (parameters == null || parameters.Length == 0) return;
-
-            // For each param
-            for (int ndx = 0; ndx < parameters.Length; ndx++)
-            {
-                var param = parameters[ndx];
-                object sourceArg = args[ndx];
-
-                // types match ? continue to next one.
-                if (sourceArg.GetType() == param.ParameterType)
-                    continue;
-
-                // 1. Double to Int32
-                if (sourceArg.GetType() == typeof(double) && param.ParameterType == typeof(int))
-                    args[ndx] = Convert.ToInt32(sourceArg);
-
-                // 2. Double to Int32
-                if (sourceArg.GetType() == typeof(double) && param.ParameterType == typeof(long))
-                    args[ndx] = Convert.ToInt64(sourceArg);
-
-                // 3. LDate to datetime
-                else if (sourceArg is LDate)
-                    args[ndx] = ((LDate)sourceArg).Raw;
-
-                // 4. Null
-                else if (sourceArg == LNull.Instance)                
-                    args[ndx] = GetDefaultValue(param.ParameterType);
-
-                // 5. LArray
-                else if ((sourceArg is LArray || sourceArg is List<object>) && param.ParameterType.IsGenericType)
-                {
-                    if (sourceArg is LArray) sourceArg = ((LArray)sourceArg).Raw;
-                    var gentype = param.ParameterType.GetGenericTypeDefinition();
-                    if (gentype == typeof(List<>) || gentype == typeof(IList<>))
-                    {
-                        args[ndx] = ConvertToTypedList((List<object>)sourceArg, param.ParameterType);
-                    }
-                }
-            }
-        }
-
-
-        /// <summary>
-        /// Converts from c# datatypes to fluentscript datatypes.
-        /// </summary>
-        /// <param name="args"></param>
-        public static void ConvertToFluentScriptTypes(List<object> args)
-        {
-            if (args == null || args.Count == 0)
-                return;
-
-            // Convert types from c# types fluentscript compatible types.
-            for (int ndx = 0; ndx < args.Count; ndx++)
-            {
-                var val = args[ndx];
-                if (val == null)
-                    args[ndx] = LNull.Instance;
-                else if (val.GetType() == typeof(int))
-                    args[ndx] = Convert.ToDouble(val);
-                else if (val.GetType() == typeof(List<object>))
-                    args[ndx] = new LArray((List<object>)val);
-                else if (val.GetType() == typeof(Dictionary<string, object>))
-                    args[ndx] = new LMap((Dictionary<string, object>)val);
-
-                // TODO: Need to handle other types such as List<T>, Dictionary<string, T> etc.
-            }
-        }        
+        } 
 
 
         /// <summary>
@@ -330,10 +187,10 @@ namespace ComLib.Lang.Helpers
         private static object MethodCall(Context ctx, object obj, Type datatype, MethodInfo methodInfo, List<Expr> paramListExpressions, List<object> paramList, bool resolveParams = true)
         {
             // 1. Convert language expressions to values.
-            if (resolveParams) ResolveParametersForMethodCall(methodInfo, paramListExpressions, paramList);
+            if (resolveParams) ParamHelper.ResolveParametersForMethodCall(methodInfo, paramListExpressions, paramList);
 
             // 2. Convert internal language types to c# code method types.
-            ConvertArgs(paramList, methodInfo);
+            TypeHelper.ConvertArgs(paramList, methodInfo);
 
             // 3. Now get args as an array for method calling.
             object[] args = paramList.ToArray();
@@ -346,106 +203,6 @@ namespace ComLib.Lang.Helpers
             }
             object result = methodInfo.Invoke(obj, args);
             return result;
-        }
-
-
-        /// <summary>
-        /// Converts the source to the target list type by creating a new instance of the list and populating it.
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="targetListType"></param>
-        /// <returns></returns>
-        static object ConvertToTypedList(IList<object> source, Type targetListType)
-        {
-            var t = targetListType; // targetListType.GetType();
-            var dt = targetListType.GetGenericTypeDefinition();
-            var targetType = dt.MakeGenericType(t.GetGenericArguments()[0]);
-            var targetList = Activator.CreateInstance(targetType);
-            System.Collections.IList l = targetList as System.Collections.IList;
-            foreach (var item in source) l.Add(item);
-            return targetList;
-        }
-
-
-        /// <summary>
-        /// Converts the source to the target list type by creating a new instance of the list and populating it.
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="targetListType"></param>
-        /// <returns></returns>
-        static object ConvertToTypedDictionary(IDictionary<string, object> source, Type targetListType)
-        {
-            var t = targetListType; // targetListType.GetType();
-            var dt = targetListType.GetGenericTypeDefinition();
-            var targetType = dt.MakeGenericType(t.GetGenericArguments()[0], t.GetGenericArguments()[1]);
-            var targetDict = Activator.CreateInstance(targetType);
-            System.Collections.IDictionary l = targetDict as System.Collections.IDictionary;
-            foreach (var item in source) l.Add(item.Key, item.Value);
-            return targetDict;
-        }
-
-
-        private static void ResolveParameters(int totalParams, List<Expr> paramListExpressions, List<object> paramList, Func<NamedParamExpr, int> indexLookup)
-        {
-            if (paramListExpressions == null || paramListExpressions.Count == 0)
-                return;
-
-            paramList.Clear();
-            bool hasNamedParams = false;
-            foreach (var param in paramListExpressions)
-                if (param is NamedParamExpr)
-                    hasNamedParams = true;
-
-            // If there are no named params. Simply evaluate and return.
-            if (!hasNamedParams)
-            {
-                foreach (var exp in paramListExpressions)
-                {
-                    object val = exp.Evaluate();
-                    paramList.Add(val);
-                }
-                
-                return;
-            }
-
-            // 1. Set all args to null. [null, null, null, null, null]
-            for (int ndx = 0; ndx < totalParams; ndx++)
-                paramList.Add(null);
-
-            // 2. Now go through each argument and replace the nulls with actual argument values.
-            // Each null should be replaced at the correct index.
-            // [true, 20.68, new Date(2012, 8, 10), null, 'fluentscript']
-            for (int ndx = 0; ndx < paramListExpressions.Count; ndx++)
-            {
-                var exp = paramListExpressions[ndx];
-
-                // 3. Named arg? Evaluate and put its value into the appropriate index of the args list.           
-                if (exp is NamedParamExpr)
-                {
-                    var namedParam = exp as NamedParamExpr;
-                    object val = namedParam.Evaluate();
-                    int argIndex = indexLookup(namedParam);
-                    paramList[argIndex] = val;
-                }
-                else
-                {
-                    // 4. Expect the position of non-named args should be valid.
-                    // TODO: Semantic analysis is required here once Lint check feature is added.
-                    object val = exp.Evaluate();
-                    paramList[ndx] = val;
-                }
-            }
-        }
-
-
-        private static object GetDefaultValue(Type type)
-        {
-            if (type == typeof(int)) return 0;
-            if (type == typeof(bool)) return false;
-            if (type == typeof(double)) return 0.0;
-            if (type == typeof(DateTime)) return DateTime.MinValue;
-            if (type == typeof(TimeSpan)) return TimeSpan.MinValue;
-            return null;
         }
     }
 }

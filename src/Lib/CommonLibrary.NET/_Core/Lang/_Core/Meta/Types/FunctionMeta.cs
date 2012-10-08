@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using ComLib.Lang.Docs;
+using ComLib.Lang.Types;
 
 
 namespace ComLib.Lang.Core
@@ -146,7 +145,7 @@ namespace ComLib.Lang.Core
         /// <summary>
         /// The return type of the function.
         /// </summary>
-        public Type ReturnType { get; set; }
+        public LType ReturnType { get; set; }
 
 
         /// <summary>

@@ -16,7 +16,7 @@ namespace ComLib.Lang.Types
         /// </summary>
         public LJSMapMethods()
         {
-            DataType = typeof(LMap);
+            DataType = new LMap();
             AddProperty(true, true,     "length",       "Length",           typeof(double),     "Sets or returns the number of elements in an array");
         }
 
@@ -27,7 +27,7 @@ namespace ComLib.Lang.Types
         /// <param name="type">The data type to check for the member</param>
         /// <param name="memberName">The name of the member to check for.</param>
         /// <returns></returns>
-        public virtual bool HasMember(LObject type, string memberName)
+        public virtual bool HasMember(LTypeValue type, string memberName)
         {
             return HasProperty(type, memberName);
         }
@@ -39,7 +39,7 @@ namespace ComLib.Lang.Types
         /// <param name="type">The data type to check for the method</param>
         /// <param name="methodName">The name of the method to check for.</param>
         /// <returns></returns>
-        public virtual bool HasMethod(LObject type, string methodName)
+        public virtual bool HasMethod(LTypeValue type, string methodName)
         {
             return HasProperty(type, methodName);
         }
@@ -51,12 +51,12 @@ namespace ComLib.Lang.Types
         /// <param name="type">The data type to check for the property</param>
         /// <param name="propertyName">The name of the property</param>
         /// <returns></returns>
-        public virtual bool HasProperty(LObject type, string propertyName)
-        {            
-            var target = type as LMap;
-            if (target == null) return false;
+        public virtual bool HasProperty(LTypeValue target, string propertyName)
+        {
+            var map = target.Result as IDictionary;
+            if (map == null) return false;
 
-            return target.Raw.ContainsKey(propertyName);
+            return map.Contains(propertyName);
         }
 
 
@@ -67,9 +67,10 @@ namespace ComLib.Lang.Types
         /// Lenght of the array.
         /// </summary>
         /// <param name="target">The target list to apply this method on.</param>
-        public int Length(LMap target)
+        public int Length(LTypeValue target)
         {
-            return target.Raw.Count;
+            var map = target.Result as IDictionary;
+            return map.Count;
         }
         #endregion
 
@@ -82,7 +83,7 @@ namespace ComLib.Lang.Types
         /// <param name="target">The target list to apply this method on.</param>
         /// <param name="key">The name of the map key/property to get</param>
         /// <returns></returns>
-        public T IndexerGetAs<T>(LMap target, string name)
+        public T IndexerGetAs<T>(LTypeValue target, string name)
         {
             object result = IndexerGet(target, name);
             T returnVal = (T)result;
@@ -96,10 +97,11 @@ namespace ComLib.Lang.Types
         /// <param name="target">The target list to apply this method on.</param>
         /// <param name="key">The name of the map key/property to get</param>
         /// <returns></returns>
-        public object IndexerGet(LMap target, string key)
+        public object IndexerGet(LTypeValue target, string key)
         {
-            if (target == null || target.Raw == null || target.Raw.Count == 0) return LNull.Instance;
-            var map = target.Raw;
+            if (target == null ) return LNull.NullResult;
+            var map = target.Result as IDictionary;
+            if (map == null || map.Count == 0) return LNull.NullResult;
             if (string.IsNullOrEmpty(key)) throw new IndexOutOfRangeException("Property does not exist : " + key);
             return map[key];
         }
@@ -112,11 +114,11 @@ namespace ComLib.Lang.Types
         /// <param name="key">The name of the map key/property to set</param>
         /// <param name="value">The vlaue to set</param>
         /// <returns></returns>
-        public void IndexerSet(LMap target, string key, object value)
+        public void IndexerSet(LTypeValue target, string key, object value)
         {
-            if (target == null || target.Raw == null || target.Raw.Count == 0) return;
-            var list = target.Raw;
-            var map = target.Raw;
+            if (target == null ) return;
+            var map = target.Result as IDictionary;
+            if (map == null) return;
             if (string.IsNullOrEmpty(key)) throw new IndexOutOfRangeException("Property does not exist : " + key);
             map[key] = value;
         }

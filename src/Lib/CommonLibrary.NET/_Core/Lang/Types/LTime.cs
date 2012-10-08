@@ -1,22 +1,22 @@
-﻿
+﻿using System;
 
 using ComLib.Lang.Core;
 
 namespace ComLib.Lang.Types
 {
     /// <summary>
-    /// Boolean datatype.
+    /// Array type.
     /// </summary>
-    public class LNumber : LObject
-    {   
+    public class LTime : LObject
+    {
         /// <summary>
-        /// Initialize
+        /// Initialize.
         /// </summary>
-        public LNumber()
+        public LTime()
         {
-            this.Name = "number";
-            this.FullName = "sys.number";
-            this.TypeVal = TypeConstants.Number;
+            this.Name = "time";
+            this.FullName = "sys.time";
+            this.TypeVal = TypeConstants.Time;
         }
 
 
@@ -26,13 +26,13 @@ namespace ComLib.Lang.Types
         public override void SetupConversionMatrix()
         {
             this.AddConversionTo(TypeConstants.Array,     TypeConversionMode.NotSupported);
-            this.AddConversionTo(TypeConstants.Bool,      TypeConversionMode.Supported);
-            this.AddConversionTo(TypeConstants.Date,      TypeConversionMode.RunTimeCheck);
+            this.AddConversionTo(TypeConstants.Bool,      TypeConversionMode.NotSupported);
+            this.AddConversionTo(TypeConstants.Date,      TypeConversionMode.Supported);
             this.AddConversionTo(TypeConstants.Map,       TypeConversionMode.NotSupported);
-            this.AddConversionTo(TypeConstants.Number,    TypeConversionMode.SameType);
+            this.AddConversionTo(TypeConstants.Number,    TypeConversionMode.Supported);
             this.AddConversionTo(TypeConstants.Null,      TypeConversionMode.Supported);
             this.AddConversionTo(TypeConstants.String,    TypeConversionMode.Supported);
-            this.AddConversionTo(TypeConstants.Time,      TypeConversionMode.RunTimeCheck);
+            this.AddConversionTo(TypeConstants.Time,      TypeConversionMode.SameType);
         }
     }
 }

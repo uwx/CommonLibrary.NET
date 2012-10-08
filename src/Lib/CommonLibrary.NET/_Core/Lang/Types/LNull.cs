@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿
+using ComLib.Lang.Core;
 
 namespace ComLib.Lang.Types
 {
@@ -16,8 +14,18 @@ namespace ComLib.Lang.Types
         /// </summary>
         public LNull()
         {
-            this._value = null;
-            this.DataType = typeof(Nullable);
+            this.Name = "null";
+            this.FullName = "sys.null";
+            this.TypeVal = TypeConstants.Null;
+        }
+
+
+        /// <summary>
+        /// Sets up the matrix of possible conversions from one type to another type.
+        /// </summary>
+        public override void SetupConversionMatrix()
+        {
+            this.SetDefaultConversionMatrix(TypeConversionMode.NotSupported);
         }
 
 
@@ -25,5 +33,11 @@ namespace ComLib.Lang.Types
         /// Singleton instance.
         /// </summary>
         public static readonly LNull Instance = new LNull();
+
+
+        /// <summary>
+        /// Used for null values returned from ast evaulations.
+        /// </summary>
+        public static LTypeValue NullResult = new LTypeValue(null, new LNull());
     }
 }

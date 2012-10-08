@@ -577,7 +577,9 @@ src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/FluentHelper.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/FunctionHelper.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/LangHelper.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/LangUtils.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/ParamHelper.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/TimeTypeHelper.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/TypeHelper.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Integration/ExternalFunctions.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Integration/Plugins.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Integration/RegisteredFunctions.cs -text
@@ -691,6 +693,7 @@ src/Lib/CommonLibrary.NET/_Core/Lang/Types/Javascript/LJSStringMethods.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LArray.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LBaseType.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LBool.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Types/LClass.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LDate.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LError.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LFunction.cs -text
@@ -699,9 +702,12 @@ src/Lib/CommonLibrary.NET/_Core/Lang/Types/LMethodsBase.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LNull.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LNumber.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LObject.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Types/LResult.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LString.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LString2.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Types/LTime.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LTypeMethods.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Types/LTypesLookup.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LUnit.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LVersion.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/RegisteredMethods.cs -text

@@ -16,7 +16,7 @@ namespace ComLib.Lang.Types
         /// </summary>
         public LJSStringMethods()
         {
-            DataType = typeof(LString);
+            DataType = new LString();
 
             // Create the methods associated with this type.
             AddMethod("charAt",       "CharAt",       typeof(string),  "Returns the character at the specified index" );

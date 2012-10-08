@@ -1,6 +1,8 @@
 ﻿
 
 
+using ComLib.Lang.Core;
+
 namespace ComLib.Lang.Types
 {
     /// <summary>
@@ -8,43 +10,30 @@ namespace ComLib.Lang.Types
     /// </summary>
     public class LString : LObject
     {
-        
-
         /// <summary>
         /// Initialize
         /// </summary>
-        /// <param name="val">The raw string value</param>
-        public LString(string val) : this(null, val)
+        public LString()
         {
+            this.Name = "string";
+            this.FullName = "sys.string";
+            this.TypeVal = TypeConstants.String;
         }
 
 
         /// <summary>
-        /// Initialize
+        /// Sets up the matrix of possible conversions from one type to another type.
         /// </summary>
-        /// <param name="val">Value of the string</param>
-        /// <param name="varName">Name of the variable</param>
-        public LString(string varName, string val)
+        public override void SetupConversionMatrix()
         {
-            _varName = varName;
-            DataType = typeof(string);
-            Raw = val;
-        }
-
-
-        /// <summary>
-        /// The raw string value.
-        /// </summary>
-        public string Raw;
-
-
-        /// <summary>
-        /// Get boolean value.
-        /// </summary>
-        /// <returns></returns>
-        public override object ToValue()
-        {
-            return this.Raw;
+            this.AddConversionTo(TypeConstants.Array,     TypeConversionMode.NotSupported);
+            this.AddConversionTo(TypeConstants.Bool,      TypeConversionMode.RunTimeCheck);
+            this.AddConversionTo(TypeConstants.Date,      TypeConversionMode.RunTimeCheck);
+            this.AddConversionTo(TypeConstants.Map,       TypeConversionMode.NotSupported);
+            this.AddConversionTo(TypeConstants.Number,    TypeConversionMode.RunTimeCheck);
+            this.AddConversionTo(TypeConstants.Null,      TypeConversionMode.Supported);
+            this.AddConversionTo(TypeConstants.String,    TypeConversionMode.SameType);
+            this.AddConversionTo(TypeConstants.Time,      TypeConversionMode.RunTimeCheck);
         }
     }
 }

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace ComLib.Lang.Core
 {
     /// <summary>
     /// Type constants.
     /// </summary>
-    public const class TypeConstants
+    public class TypeConstants
     {
         /// <summary>
         /// Any type - used to represent all types
@@ -67,6 +63,49 @@ namespace ComLib.Lang.Core
         /// <summary>
         /// Map type
         /// </summary>
-        public const int Map      = 9;            
+        public const int Map      = 9;
+
+
+        /// <summary>
+        /// Function type.
+        /// </summary>
+        public const int Function = 10;
+
+
+        /// <summary>
+        /// Represents an external class in c# being used
+        /// </summary>
+        public const int LClass   = 11;
+    }
+
+
+
+    /// <summary>
+    /// Flags to indicate if conversion from one type to another type is supported.
+    /// </summary>
+    public class TypeConversionMode
+    {
+        /// <summary>
+        /// Type conversion fully supported
+        /// </summary>
+        public const int Supported = 0;
+
+
+        /// <summary>
+        /// Type conversion not supported
+        /// </summary>
+        public const int NotSupported = 1;
+
+
+        /// <summary>
+        /// Represents same type between source/destination. 
+        /// </summary>
+        public const int SameType = 2;
+
+
+        /// <summary>
+        /// Partially supported. e.g. may require some run-time type checking.
+        /// </summary>
+        public const int RunTimeCheck = 3;
     }
 }

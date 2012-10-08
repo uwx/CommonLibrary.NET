@@ -70,7 +70,7 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// The datatype this methods class supports.
         /// </summary>
-        public Type DataType { get; set; }
+        public LType DataType { get; set; }
 
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace ComLib.Lang.Types
         /// <param name="type">The data type to check for the member</param>
         /// <param name="memberName">The name of the member to check for.</param>
         /// <returns></returns>
-        public virtual bool HasMember(LObject type, string memberName)
+        public virtual bool HasMember(LTypeValue type, string memberName)
         {
             return _allMembersMap.ContainsKey(memberName);
         }
@@ -143,7 +143,7 @@ namespace ComLib.Lang.Types
         /// <param name="type">The data type to check for the method</param>
         /// <param name="methodName">The name of the method to check for.</param>
         /// <returns></returns>
-        public virtual bool HasMethod(LObject type, string methodName)
+        public virtual bool HasMethod(LTypeValue type, string methodName)
         {
             if (!_allMembersMap.ContainsKey(methodName)) return false;
             var member = _allMembersMap[methodName];
@@ -157,7 +157,7 @@ namespace ComLib.Lang.Types
         /// <param name="type">The data type to check for the property</param>
         /// <param name="propertyName">The name of the property</param>
         /// <returns></returns>
-        public virtual bool HasProperty(LObject type, string propertyName)
+        public virtual bool HasProperty(LTypeValue type, string propertyName)
         {
             if (!_allMembersMap.ContainsKey(propertyName)) return false;
             var member = _allMembersMap[propertyName];
@@ -197,7 +197,7 @@ namespace ComLib.Lang.Types
         /// <param name="methodName"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public virtual ComLib.Lang.Core.BoolMsgObj ValidateCall(LObject type, string methodName, object[] parameters)
+        public virtual ComLib.Lang.Core.BoolMsgObj ValidateCall(LTypeValue type, string methodName, object[] parameters)
         {
             // 1. Valid method/member name?
             if (!this._methodMap.ContainsKey(methodName))
@@ -231,7 +231,7 @@ namespace ComLib.Lang.Types
         /// <param name="methodName">The method name</param>
         /// <param name="parameters">The parameters to the method.</param>
         /// <returns></returns>
-        public virtual object ExecuteMethod(LObject type, string methodName, object[] parameters)
+        public virtual object ExecuteMethod(LTypeValue type, string methodName, object[] parameters)
         {
             var mappedMethod = _methodMap[methodName];
             var args = new ArgsFetcher(parameters);
@@ -241,7 +241,7 @@ namespace ComLib.Lang.Types
             int total = funcDef.GetTotalRequiredArgs();
             var methodArgs = new List<object>();
 
-            methodArgs.Add(type.ToValue());
+            methodArgs.Add(type.Result);
 
             // TODO: Figure out the total required args when AddArg is called.
             if (total > 0)

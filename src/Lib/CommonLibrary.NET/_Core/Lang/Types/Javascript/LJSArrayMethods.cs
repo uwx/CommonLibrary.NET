@@ -16,7 +16,7 @@ namespace ComLib.Lang.Types
         /// </summary>
         public LJSArrayMethods()
         {
-            DataType = typeof(LArray);
+            DataType = new LArray();
 
             // Create the methods associated with this type.
             AddMethod("concat", 		"Concat", 		typeof(LArray),		"Joins two or more arrays, and returns a copy of the joined arrays" );
@@ -59,9 +59,10 @@ namespace ComLib.Lang.Types
         /// Lenght of the array.
         /// </summary>
         /// <param name="target">The target list to apply this method on.</param>
-        public int Length(LArray target)
+        public int Length(LTypeValue target)
         {
-            return target.Raw.Count;
+            var list = target.Result as List<object>;
+            return list.Count;
         }
 
 
@@ -71,19 +72,21 @@ namespace ComLib.Lang.Types
         /// <param name="target">The target list to apply this method on.</param>
         /// <param name="arrays">Array of arrays to add</param>
         /// <returns>A copy of joined array</returns>
-        public LArray Concat(LArray target, params object[] arrays)
+        public LTypeValue Concat(LTypeValue target, params object[] arrays)
         {
             if (arrays == null || arrays.Length == 0) return target;
 
+            var list = target.Result as List<object>;
+            
             var copy = new List<object>();
-            AddRange(copy, target.Raw);
+            AddRange(copy, list);
             for (var ndx = 0; ndx < arrays.Length; ndx++)
             {
                 object item = arrays[ndx];
-                IList array = (item is LArray) ? ((LArray)item).Raw : (IList)item;
+                IList array = (IList)item;
                 AddRange(copy, array);
             }
-            return new LArray(copy);
+            return new LTypeValue(copy, LTypesLookup.ArrayType);
         }
 
 
@@ -94,10 +97,11 @@ namespace ComLib.Lang.Types
         /// <param name="item">The item to search for</param>
         /// <param name="start">The starting position of  the search.</param>
         /// <returns>A copy of joined array</returns>
-        public int IndexOf(LArray target, object item, int start)
+        public int IndexOf(LTypeValue target, object item, int start)
         {
+            var list = target.Result as List<object>;
+            
             var foundPos = -1;
-            var list = target.Raw;
             var total = list.Count;
             for(var ndx = start; ndx < total; ndx++)
             {
@@ -118,13 +122,13 @@ namespace ComLib.Lang.Types
         /// <param name="target">The target list to apply this method on.</param>
         /// <param name="separator">The separator to use for joining the elements.</param>
         /// <returns></returns>
-        public object Join(LArray target, string separator = ",")
+        public object Join(LTypeValue target, string separator = ",")
         {
-            if (target == null || target.Raw.Count == 0) return string.Empty;
+            var list = target.Result as List<object>;
+
+            if (list == null || list.Count == 0) return string.Empty;
 
             var buffer = new StringBuilder();
-
-            var list = target.Raw;
             var total = list.Count;
             
             buffer.Append(list[0]);
@@ -147,10 +151,11 @@ namespace ComLib.Lang.Types
         /// <param name="item">The item to search for</param>
         /// <param name="start">The starting position of  the search.</param>
         /// <returns>A copy of joined array</returns>
-        public int LastIndexOf(LArray target, object item, int start)
+        public int LastIndexOf(LTypeValue target, object item, int start)
         {
+            var list = target.Result as List<object>;
+
             var foundPos = -1;
-            var list = target.Raw;
             var total = list.Count;
             for(var ndx = start; ndx < total; ndx++)
             {
@@ -169,11 +174,12 @@ namespace ComLib.Lang.Types
         /// </summary>
         /// <param name="target">The target list to apply this method on.</param>
         /// <returns>The removed element</returns>
-        public object Pop(LArray target)
+        public object Pop(LTypeValue target)
         {
-            var index = target.Raw.Count - 1;
-            object toRemove = target.Raw[index];
-            target.Raw.RemoveAt(index);
+            var list = target.Result as List<object>;
+            var index = list.Count - 1;
+            object toRemove = list[index];
+            list.RemoveAt(index);
             return toRemove;
         }
 
@@ -184,12 +190,12 @@ namespace ComLib.Lang.Types
         /// <param name="target">The target list to apply this method on.</param>
         /// <param name="elements">The elements to add</param>
         /// <returns>The new length</returns>
-        public int Push(LArray target, params object[] elements)
+        public int Push(LTypeValue target, params object[] elements)
         {
             if (elements == null || elements.Length == 0) return 0;
 
             // Add
-            var list = target.Raw;
+            var list = target.Result as List<object>;
             foreach (object elem in elements)
                 list.Add(elem);
 
@@ -202,9 +208,9 @@ namespace ComLib.Lang.Types
         /// </summary>
         /// <param name="target">The target list to apply this method on.</param>
         /// <returns></returns>
-        public LArray Reverse(LArray target)
+        public LTypeValue Reverse(LTypeValue target)
         {
-            var list = target.Raw;
+            var list = target.Result as List<object>;
             int length = list.Count;
             if (length == 0 || length == 1) return null;
 
@@ -229,11 +235,12 @@ namespace ComLib.Lang.Types
         /// </summary>
         /// <param name="target">The target list to apply this method on.</param>
         /// <returns>The first element</returns>
-        public object Shift(LArray target)
+        public object Shift(LTypeValue target)
         {
-            if (target.Raw.Count == 0) return null;
-            object item = target.Raw[0];
-            target.Raw.RemoveAt(0);
+            var list = target.Result as List<object>;
+            if (list.Count == 0) return null;
+            object item = list[0];
+            list.RemoveAt(0);
             return item;
         }
 
@@ -245,14 +252,15 @@ namespace ComLib.Lang.Types
         /// <param name="start">The start of the selection</param>
         /// <param name="end">The end of the selection, if not supplied, selects all elements from start to end of the array</param>
         /// <returns>A new array</returns>
-        public LArray Slice(LArray target, int start, int end)
+        public LTypeValue Slice(LTypeValue target, int start, int end)
         {
+            var list = target.Result as List<object>;
             var items = new List<object>();
             if (end == -1)
-                end = target.Raw.Count;
+                end = list.Count;
             for (var ndx = start; ndx < end; ndx++)
-                items.Add(target.Raw[ndx]);
-            return new LArray(null, items);
+                items.Add(list[ndx]);
+            return new LTypeValue(items, LTypesLookup.ArrayType);
         }
 
 
@@ -264,17 +272,18 @@ namespace ComLib.Lang.Types
         /// <param name="howmany">How many elements to remove, if 0 no elements are removed</param>
         /// <param name="elements">Optional: The elements to add</param>
         /// <returns></returns>
-        public LArray Splice(LArray target, int index, int howmany, params object[] elements)
+        public LTypeValue Splice(LTypeValue target, int index, int howmany, params object[] elements)
         {
+            var list = target.Result as List<object>;
             List<object> removed = null;
             if (howmany > 0)
             {
                 removed = new List<object>();
                 for (int ndxRemove = index; ndxRemove < (index + howmany); ndxRemove++)
                 {
-                    removed.Add(target.Raw[ndxRemove]);
+                    removed.Add(list[ndxRemove]);
                 }
-                RemoveRange(target.Raw, index, howmany);
+                RemoveRange(list, index, howmany);
             }
             if (elements != null && elements.Length > 0 )
             {
@@ -282,11 +291,11 @@ namespace ComLib.Lang.Types
                 for (var ndx = 0; ndx < elements.Length; ndx++)
                 {
                     object objToAdd = elements[ndx];
-                    target.Raw.Insert(lastIndex, objToAdd);
+                    list.Insert(lastIndex, objToAdd);
                     lastIndex++;
                 }
             }
-            return new LArray(removed);
+            return new LTypeValue(removed, LTypesLookup.ArrayType);
         }
         
 
@@ -296,16 +305,17 @@ namespace ComLib.Lang.Types
         /// <param name="target">The target list to apply this method on.</param>
         /// <param name="elements">The elements to add.</param>
         /// <returns>The new length</returns>
-        public int UnShift(LArray target, params object[] elements)
+        public int UnShift(LTypeValue target, params object[] elements)
         {
-            if (target.Raw == null) return 0;
-            if (elements == null || elements.Length == 0) return target.Raw.Count;
+            var list = target.Result as List<object>;
+            if (list == null) return 0;
+            if (elements == null || elements.Length == 0) return list.Count;
             for (var ndx = 0; ndx < elements.Length; ndx++)
             {
                 object val = elements[ndx];
-                target.Raw.Insert(0, val);
+                list.Insert(0, val);
             }
-            return target.Raw.Count;
+            return list.Count;
         }
         #endregion
 
@@ -357,10 +367,12 @@ namespace ComLib.Lang.Types
         /// <param name="target">The target list to apply this method on.</param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public object IndexerGet(LArray target, int index)
+        public object IndexerGet(LTypeValue target, int index)
         {
-            if (target == null || target.Raw == null || target.Raw.Count == 0) return LNull.Instance;
-            var list = target.Raw;
+            if (target == null) return LNull.NullResult;
+            var list = target.Result as List<object>;
+            if (list == null || list.Count == 0) return LNull.NullResult;
+
             if (index < 0 || index >= list.Count) throw new IndexOutOfRangeException("Index : " + index);
             return list[index];
         }
@@ -373,10 +385,12 @@ namespace ComLib.Lang.Types
         /// <param name="index">The index position to set the value at</param>
         /// <param name="value">The vlaue to set</param>
         /// <returns></returns>
-        public void IndexerSet(LArray target, int index, object value)
+        public void IndexerSet(LTypeValue target, int index, object value)
         {
-            if (target == null || target.Raw == null || target.Raw.Count == 0) return;
-            var list = target.Raw;
+            if (target == null) return;
+            var list = target.Result as List<object>;
+            if (list == null || list.Count == 0) return;
+
             if (index < 0 || index >= list.Count) throw new IndexOutOfRangeException("Index : " + index);
             list[index] = value;
         }

@@ -525,12 +525,18 @@
     <Compile Include="_Core\Lang\AST\Expressions\VariableExpr.cs" />
     <Compile Include="_Core\Lang\AST\Expressions\IParameterExpression.cs" />
     <Compile Include="_Core\Lang\Helpers\LangUtils.cs" />
+    <Compile Include="_Core\Lang\Helpers\ParamHelper.cs" />
+    <Compile Include="_Core\Lang\Helpers\TypeHelper.cs" />
     <Compile Include="_Core\Lang\Parser\Core\Callbacks.cs" />
     <Compile Include="_Core\Lang\Parser\Core\Context.cs" />
     <Compile Include="_Core\Lang\Parser\Core\LangState.cs" />
     <Compile Include="_Core\Lang\Parser\Core\Limits.cs" />
+    <Compile Include="_Core\Lang\Types\LClass.cs" />
+    <Compile Include="_Core\Lang\Types\LResult.cs" />
+    <Compile Include="_Core\Lang\Types\LTime.cs" />
     <Compile Include="_Core\Lang\Types\LTypeMethods.cs" />
     <Compile Include="_Core\Lang\Types\Javascript\LJSMapMethods.cs" />
+    <Compile Include="_Core\Lang\Types\LTypesLookup.cs" />
     <Compile Include="_Core\Lang\Types\RegisteredMethods.cs" />
     <Compile Include="_Core\Lang\Parser\IParser.cs" />
     <Compile Include="_Core\Lang\Plugins\Core\CustomFunctionPlugin.cs" />
@@ -553,6 +559,7 @@
     <Compile Include="_Core\Lang\Types\LVersion.cs" />
     <Compile Include="_Core\Lang\Types\Javascript\LJSStringMethods.cs" />
     <Compile Include="_Core\Lang\Types\Units.cs" />
+    <Compile Include="_Core\Lang\_Core\Constants.cs" />
     <Compile Include="_Core\Lang\_Core\FunctionLookupResult.cs" />
     <Compile Include="_Core\Lang\Helpers\DocHelper.cs" />
     <Compile Include="_Core\Lang\Helpers\FluentHelper.cs" />

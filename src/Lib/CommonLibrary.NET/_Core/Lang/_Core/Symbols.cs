@@ -57,7 +57,7 @@ namespace ComLib.Lang.Core
         /// <summary>
         /// Datatype of the symbol ( not used for now since fluentscript is a dynamic language.
         /// </summary>
-        public Type DataType { get; set; }
+        public LType DataType { get; set; }
 
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace ComLib.Lang.Core
             Name = meta.Name;
             Meta = meta;
             Category = SymbolConstants.Func;
-            DataType = typeof(LFunction);
+            DataType = new LFunction();
         }
 
 
@@ -168,7 +168,7 @@ namespace ComLib.Lang.Core
         /// </summary>
         /// <param name="name">Name of the variable</param>
         /// <param name="type">Type of the variable</param>
-        void DefineVariable(string name, Type type);
+        void DefineVariable(string name, LType type);
 
 
         /// <summary>
@@ -236,7 +236,7 @@ namespace ComLib.Lang.Core
         /// <param name="name">Name of the varaible</param>
         public virtual void DefineVariable(string name)
         {
-            Symbols[name] = new SymbolType() { Name = name, Category = SymbolConstants.Var,  DataType = typeof(object) };
+            this.Symbols[name] = new SymbolType() { Name = name, Category = SymbolConstants.Var,  DataType = new LObject() };
         }
 
 
@@ -245,9 +245,9 @@ namespace ComLib.Lang.Core
         /// </summary>
         /// <param name="name">Name of the varaible</param>
         /// <param name="type">The type of the variable</param>
-        public virtual void DefineVariable(string name, Type type)
+        public virtual void DefineVariable(string name, LType type)
         {
-            Symbols[name] = new SymbolType() { Name = name, Category = SymbolConstants.Var, DataTypeName = type.Name, DataType = type };
+            this.Symbols[name] = new SymbolType() { Name = name, Category = SymbolConstants.Var, DataTypeName = type.Name, DataType = type };
         }
 
 
@@ -258,11 +258,11 @@ namespace ComLib.Lang.Core
         /// <param name="totalNumberOfArgs">The total number of arguments</param>
         /// <param name="argNames">The names of the arguments</param>
         /// <param name="returnType">The return type of the function</param>
-        public virtual void DefineFunction(string name, int totalNumberOfArgs, string[] argNames, Type returnType)
+        public virtual void DefineFunction(string name, int totalNumberOfArgs, string[] argNames, LType returnType)
         {
             var meta = new FunctionMetaData(name, argNames.ToList());
             meta.ReturnType = returnType;
-            Symbols[name] = new SymbolTypeFunc(meta);
+            this.Symbols[name] = new SymbolTypeFunc(meta);
         }
 
 
@@ -271,8 +271,8 @@ namespace ComLib.Lang.Core
         /// </summary>
         /// <param name="func">The function metadata</param>
         public virtual void DefineFunction(FunctionMetaData func)
-        {            
-            Symbols[func.Name] = new SymbolTypeFunc(func);
+        {
+            this.Symbols[func.Name] = new SymbolTypeFunc(func);
         }
 
 
@@ -283,8 +283,8 @@ namespace ComLib.Lang.Core
         /// <param name="alias">The alias</param>
         public virtual void DefineAlias(string existingName, string alias)
         {
-            var symType = Symbols[existingName];
-            Symbols[alias] = symType;
+            var symType = this.Symbols[existingName];
+            this.Symbols[alias] = symType;
         }
 
 
@@ -299,7 +299,7 @@ namespace ComLib.Lang.Core
             {                
                 throw new ArgumentException("Constant value not supplied for : " + name);
             }
-            Symbols[name] = new SymbolTypeConst() { Name = name, Category = SymbolConstants.Const, DataType = value.GetType(), Value = value };
+            this.Symbols[name] = new SymbolTypeConst() { Name = name, Category = SymbolConstants.Const, DataType = LTypesLookup.ObjectType, Value = value };
         }
 
 
@@ -310,7 +310,7 @@ namespace ComLib.Lang.Core
         /// <returns></returns>
         public virtual bool Contains(string name)
         {
-            return Symbols.ContainsKey(name);
+            return this.Symbols.ContainsKey(name);
         }
 
 
@@ -321,7 +321,7 @@ namespace ComLib.Lang.Core
         /// <returns></returns>
         public virtual SymbolType GetSymbol(string name)
         {
-            if (Symbols.ContainsKey(name))
+            if (this.Symbols.ContainsKey(name))
                 return Symbols[name];
 
             return null;
@@ -335,7 +335,7 @@ namespace ComLib.Lang.Core
         /// <returns></returns>
         public virtual T GetSymbol<T>(string name) where T: class
         {
-            object sym = GetSymbol(name);
+            object sym = this.GetSymbol(name);
             if (sym == null)
                 return default(T);
 

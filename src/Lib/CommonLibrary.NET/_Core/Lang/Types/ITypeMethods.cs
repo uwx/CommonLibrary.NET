@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
+using ComLib.Lang.Core;
 
 namespace ComLib.Lang.Types
 {
@@ -13,7 +12,7 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// The datatype this methods class supports.
         /// </summary>
-        Type DataType { get; }
+        LType DataType { get; }
 
 
         /// <summary>
@@ -22,7 +21,7 @@ namespace ComLib.Lang.Types
         /// <param name="type">The data type to check for the member</param>
         /// <param name="memberName">The name of the member to check for.</param>
         /// <returns></returns>
-        bool HasMember(LObject type, string memberName);
+        bool HasMember(LTypeValue type, string memberName);
 
 
         /// <summary>
@@ -31,7 +30,7 @@ namespace ComLib.Lang.Types
         /// <param name="type">The data type to check for the method</param>
         /// <param name="methodName">The name of the method to check for.</param>
         /// <returns></returns>
-        bool HasMethod(LObject type, string methodName);
+        bool HasMethod(LTypeValue type, string methodName);
 
 
         /// <summary>
@@ -40,7 +39,7 @@ namespace ComLib.Lang.Types
         /// <param name="type">The data type to check for the property</param>
         /// <param name="propertyName">The name of the property</param>
         /// <returns></returns>
-        bool HasProperty(LObject type, string propertyName);
+        bool HasProperty(LTypeValue type, string propertyName);
 
  
         /// <summary>
@@ -50,7 +49,7 @@ namespace ComLib.Lang.Types
         /// <param name="methodName"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        ComLib.Lang.Core.BoolMsgObj ValidateCall(LObject type, string methodName, object[] parameters);
+        BoolMsgObj ValidateCall(LTypeValue type, string methodName, object[] parameters);
 
 
         /// <summary>
@@ -60,6 +59,6 @@ namespace ComLib.Lang.Types
         /// <param name="methodName">The method name</param>
         /// <param name="parameters">The parameters to the method.</param>
         /// <returns></returns>
-        object ExecuteMethod(LObject type, string methodName, object[] parameters);
+        object ExecuteMethod(LTypeValue type, string methodName, object[] parameters);
     }
 }

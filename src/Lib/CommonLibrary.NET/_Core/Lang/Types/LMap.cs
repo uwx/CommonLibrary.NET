@@ -1,7 +1,6 @@
 ﻿
-using System.Collections.Generic;
+using ComLib.Lang.Core;
 
-using ComLib.Lang.Parsing;
 
 namespace ComLib.Lang.Types
 {
@@ -14,16 +13,22 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Initialize
         /// </summary>
-        /// <param name="val">Values of the map</param>
-        public LMap(Dictionary<string, object> val) //: this(null, val) 
+        public LMap()
         {
-            Raw = val;
+            this.Name = "map";
+            this.FullName = "sys.map";
+            this.TypeVal = TypeConstants.Map;
+            // Dictionary<string, object>
         }
 
 
         /// <summary>
-        /// Raw value
+        /// Sets up the matrix of possible conversions from one type to another type.
         /// </summary>
-        public Dictionary<string, object> Raw;
+        public override void SetupConversionMatrix()
+        {
+            this.SetDefaultConversionMatrix(TypeConversionMode.NotSupported);
+            this.AddConversionTo(TypeConstants.Map,   TypeConversionMode.SameType);
+        }
     }
 }

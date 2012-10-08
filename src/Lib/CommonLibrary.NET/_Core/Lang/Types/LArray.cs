@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using ComLib.Lang.Core;
 
 
 namespace ComLib.Lang.Types
@@ -12,27 +13,22 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Initialize
         /// </summary>
-        /// <param name="val">Value of the string</param>
-        public LArray(List<object> val) : this(null, val) 
+        public LArray()
         {
+            this.Name = "array";
+            this.FullName = "sys.array";
+            this.TypeVal = TypeConstants.Array;
+            // List<object>
         }
 
 
         /// <summary>
-        /// Initialize
+        /// Sets up the matrix of possible conversions from one type to another type.
         /// </summary>
-        /// <param name="varName">Name of this variable</param>
-        /// <param name="val">Value of the string</param>
-        public LArray(string varName, List<object> val) 
+        public override void SetupConversionMatrix()
         {
-            _value = val;
-            Raw = val;
+            this.SetDefaultConversionMatrix(TypeConversionMode.NotSupported);
+            this.AddConversionTo(TypeConstants.Array,   TypeConversionMode.SameType);
         }
-
-
-        /// <summary>
-        /// Raw value
-        /// </summary>
-        public List<object> Raw;
     }
 }

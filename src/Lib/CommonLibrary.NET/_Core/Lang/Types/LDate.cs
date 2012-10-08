@@ -1,5 +1,6 @@
 ﻿using System;
 
+using ComLib.Lang.Core;
 
 namespace ComLib.Lang.Types
 {
@@ -67,33 +68,32 @@ namespace ComLib.Lang.Types
             // TODO: Need to handle this better.
             return DateTime.MinValue;    
         }
-        
-        
-        /// <summary>
-        /// Initialize with date.
-        /// </summary>
-        /// <param name="date"></param>
-        public LDate(DateTime date)
-        {
-            Raw = date;
-        }
 
 
         /// <summary>
         /// Initialize with date.
         /// </summary>
-        /// <param name="varname">The name of the variable</param>
-        /// <param name="date">The raw datetime value</param>
-        public LDate(string varname, DateTime date)
+        public LDate()
         {
-            _value = varname;
-            Raw = date;
+            this.Name = "datetime";
+            this.FullName = "sys.datetime";
+            this.TypeVal = TypeConstants.Date;
         }
 
 
         /// <summary>
-        /// The raw datetime.
+        /// Sets up the matrix of possible conversions from one type to another type.
         /// </summary>
-        public DateTime Raw;
+        public override void SetupConversionMatrix()
+        {
+            this.AddConversionTo(TypeConstants.Array,     TypeConversionMode.NotSupported);
+            this.AddConversionTo(TypeConstants.Bool,      TypeConversionMode.NotSupported);
+            this.AddConversionTo(TypeConstants.Date,      TypeConversionMode.SameType);
+            this.AddConversionTo(TypeConstants.Map,       TypeConversionMode.NotSupported);
+            this.AddConversionTo(TypeConstants.Number,    TypeConversionMode.Supported);
+            this.AddConversionTo(TypeConstants.Null,      TypeConversionMode.NotSupported);
+            this.AddConversionTo(TypeConstants.String,    TypeConversionMode.Supported);
+            this.AddConversionTo(TypeConstants.Time,      TypeConversionMode.Supported);
+        }
     }
 }

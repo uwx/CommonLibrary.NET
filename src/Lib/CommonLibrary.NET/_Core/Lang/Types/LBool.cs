@@ -1,4 +1,4 @@
-﻿
+﻿using ComLib.Lang.Core;
 
 namespace ComLib.Lang.Types
 {
@@ -10,21 +10,27 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Initialize bool value.
         /// </summary>
-        /// <param name="value"></param>
-        public LBool(bool value)
+        public LBool()
         {
-            _value = value;
-            DataType = typeof(bool);
+            this.Name = "bool";
+            this.FullName = "sys.bool";
+            this.TypeVal = TypeConstants.Bool;
         }
 
 
         /// <summary>
-        /// Get boolean value.
+        /// Sets up the matrix of possible conversions from one type to another type.
         /// </summary>
-        /// <returns></returns>
-        public bool ToBool()
+        public override void SetupConversionMatrix()
         {
-            return (bool)_value;
+            this.AddConversionTo(TypeConstants.Array,     TypeConversionMode.NotSupported);
+            this.AddConversionTo(TypeConstants.Bool,      TypeConversionMode.SameType);
+            this.AddConversionTo(TypeConstants.Date,      TypeConversionMode.NotSupported);
+            this.AddConversionTo(TypeConstants.Map,       TypeConversionMode.NotSupported);
+            this.AddConversionTo(TypeConstants.Number,    TypeConversionMode.Supported);
+            this.AddConversionTo(TypeConstants.Null,      TypeConversionMode.Supported);
+            this.AddConversionTo(TypeConstants.String,    TypeConversionMode.Supported);
+            this.AddConversionTo(TypeConstants.Time,      TypeConversionMode.NotSupported);
         }
     }
 }

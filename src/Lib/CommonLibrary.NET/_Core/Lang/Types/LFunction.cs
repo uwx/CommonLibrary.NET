@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ComLib.Lang.Core;
 
 namespace ComLib.Lang.Types
 {
@@ -10,5 +11,23 @@ namespace ComLib.Lang.Types
     /// </summary>
     public class LFunction : LObject
     {
+        /// <summary>
+        /// Initialize
+        /// </summary>
+        public LFunction()
+        {
+            this.Name = "function";
+            this.FullName = "sys.function";
+            this.TypeVal = TypeConstants.Function;
+        }
+
+
+        /// <summary>
+        /// Sets up the matrix of possible conversions from one type to another type.
+        /// </summary>
+        public override void SetupConversionMatrix()
+        {
+            this.SetDefautlConversionMatrix(TypeConversionMode.NotSupported);
+        }
     }
 }
