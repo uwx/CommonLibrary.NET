@@ -1,7 +1,7 @@
-﻿using System;
+﻿#pragma warning disable 1591
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 
 namespace ComLib.Lang.Core
 {
@@ -824,6 +824,7 @@ namespace ComLib.Lang.Core
         /// Creates an interpolated token from the information supplied
         /// </summary>
         /// <param name="text">The text representing the token</param>
+        /// <param name="tokens">The tokens making up the interpolated token.</param>
         /// <returns></returns>
         public static Token ToInterpolated(string text, List<TokenData> tokens)
         {

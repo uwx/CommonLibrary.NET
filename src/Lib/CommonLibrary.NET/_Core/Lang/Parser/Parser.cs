@@ -53,9 +53,9 @@ namespace ComLib.Lang.Parsing
             base.Init(script, memory);
 
             // 2. Register default methods if not present.
-            Context.Methods.RegisterIfNotPresent(typeof(LArray), new LJSArrayMethods());
-            Context.Methods.RegisterIfNotPresent(typeof(LDate), new LJSDateMethods());
-            Context.Methods.RegisterIfNotPresent(typeof(LString), new LJSStringMethods());
+            Context.Methods.RegisterIfNotPresent(LTypes.Array,  new LJSArrayMethods());
+            Context.Methods.RegisterIfNotPresent(LTypes.Date,   new LJSDateMethods());
+            Context.Methods.RegisterIfNotPresent(LTypes.String, new LJSStringMethods());
 
             // 2. Convert script to sequence of tokens.
             Tokenize();

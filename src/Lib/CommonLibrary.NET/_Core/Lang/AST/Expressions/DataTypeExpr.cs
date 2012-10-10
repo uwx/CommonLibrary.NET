@@ -52,14 +52,14 @@ namespace ComLib.Lang.AST
             // Case 1: array type
             if (_arrayExpressions != null)
             {
-                List<object> items = new List<object>();
+                var items = new List<object>();
 
                 foreach (var exp in _arrayExpressions)
                 {
                     object result = exp == null ? null : exp.Evaluate();
                     items.Add(result);
                 }
-                LArray array = new LArray(items);
+                var array = new LTypeValue(items, LTypes.Array);
                 return array;
             }
 
@@ -71,7 +71,7 @@ namespace ComLib.Lang.AST
                 object result = expression == null ? null : expression.Evaluate();
                 dictionary[pair.Item1] = result;
             }
-            var map = new LMap(dictionary);
+            var map = new LTypeValue(dictionary, LTypes.Array);
             return map;
         }
 

@@ -85,11 +85,11 @@ namespace ComLib.Lang.AST
                 else if (ndxVal is string)
                 {
                     string memberName = ndxVal as string;
-                    var lmap = ListObject as LMap;
-                    var methods = this.Ctx.Methods.Get(typeof(LMap));
-                    if (!methods.HasProperty(lmap, memberName))
+                    var methods = this.Ctx.Methods.Get(LTypes.Map);
+                    var ltypeval = new LTypeValue(ListObject, LTypes.Map);
+                    if (!methods.HasProperty(ltypeval, memberName))
                         throw this.BuildRunTimeException("Property does not exist : '" + memberName + "'");
-                    return methods.ExecuteMethod(lmap, "Get_" + memberName, null);
+                    return methods.ExecuteMethod(ltypeval, "Get_" + memberName, null);
                 }       
             }
             if (ndxVal is int || ndxVal is double)

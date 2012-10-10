@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Reflection;
 
 // <lang:using>
 using ComLib.Lang.Core;
+using ComLib.Lang.Helpers;
 using ComLib.Lang.Types;
 // </lang:using>
 
@@ -123,15 +125,16 @@ namespace ComLib.Lang.AST
             {
                 return memberAccess.Property.GetValue(memberAccess.Instance, null);
             }
-            if (memberAccess.DataType == typeof(LMap))
+            if (memberAccess.DataType == typeof(IDictionary))
             {
                 // 2. Non-Assignment - Validate property exists.
-                var lmap = memberAccess.Instance as LMap;
-                var methods = this.Ctx.Methods.Get(typeof(LMap));
-                if(!methods.HasProperty(lmap, MemberName))
+                var lmap = memberAccess.Instance;
+                var methods = this.Ctx.Methods.Get(LTypes.Map);
+                var ltypeval = new LTypeValue(lmap, LTypes.Map);
+                if(!methods.HasProperty(ltypeval, MemberName))
                     throw this.BuildRunTimeException("Property does not exist : '" + MemberName + "'"); 
                 
-                return methods.ExecuteMethod(lmap, "Get_" + MemberName, null);
+                return methods.ExecuteMethod(ltypeval, "Get_" + MemberName, null);
             }           
             return memberAccess;
         }
@@ -139,8 +142,7 @@ namespace ComLib.Lang.AST
 
         private MemberAccess GetMemberAccess()
         {
-            Type type = null;
-            bool isVariableExp = VariableExp is VariableExpr;
+             bool isVariableExp = VariableExp is VariableExpr;
             string variableName = isVariableExp ? ((VariableExpr)VariableExp).Name : string.Empty;
             
             // CASE 1: External function call "user.create"
@@ -155,29 +157,30 @@ namespace ComLib.Lang.AST
                     return GetStaticMemberAccess(result.Item as Type);
             }
 
-            object obj = VariableExp.Evaluate();
-            type = obj.GetType();
+            var obj = VariableExp.Evaluate() as LTypeValue;
+            var type = obj.Type;
 
             // Case 3: LDate, LArray, String,
-            bool isCoreType = IsCoreType(obj);
+            bool isCoreType = obj.Type.IsBasicType();
             if ( isCoreType )
             {
                 // Get the methods implementation LTypeMethods for this basic type 
                 // e.g. string,  date,  time,  array , map
                 // e.g. LString  LDate, LTime, LArray, LMap
                 var typeMethods = Ctx.Methods.Get(type);
-                
+                var hostType = LangTypeHelper.ConvertToHostLangType(type);
+
                 // 1. Check that the member exists.
                 if (!typeMethods.HasMember(null, MemberName))
                     throw BuildRunTimeException("Property or Member : " + MemberName + " does not exist");
 
                 // 2. Property ?
                 if (typeMethods.HasProperty(null, MemberName))
-                    return new MemberAccess(MemberMode.CustObjMethodInstance) { Name = type.Name, DataType = type, Instance = obj, MemberName = MemberName };
+                    return new MemberAccess(MemberMode.CustObjMethodInstance) { Name = type.Name, DataType = hostType, Instance = obj, MemberName = MemberName };
 
                 // 3. Method ?
                 if (typeMethods.HasMethod(null, MemberName))
-                    return new MemberAccess(MemberMode.CustObjMethodInstance) { Name = type.Name, DataType = type, Instance = obj, MemberName = MemberName };
+                    return new MemberAccess(MemberMode.CustObjMethodInstance) { Name = type.Name, DataType = hostType, Instance = obj, MemberName = MemberName };
             }
 
             // CASE 4: Custom object type

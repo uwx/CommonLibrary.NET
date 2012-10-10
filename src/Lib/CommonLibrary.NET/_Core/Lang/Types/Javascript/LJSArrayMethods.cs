@@ -86,7 +86,7 @@ namespace ComLib.Lang.Types
                 IList array = (IList)item;
                 AddRange(copy, array);
             }
-            return new LTypeValue(copy, LTypesLookup.ArrayType);
+            return new LTypeValue(copy, LTypes.Array);
         }
 
 
@@ -295,7 +295,7 @@ namespace ComLib.Lang.Types
                     lastIndex++;
                 }
             }
-            return new LTypeValue(removed, LTypesLookup.ArrayType);
+            return new LTypeValue(removed, LTypes.Array);
         }
         
 

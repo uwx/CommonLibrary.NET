@@ -80,16 +80,16 @@ namespace ComLib.Lang.Helpers
             // 1. DateTime
             if (type == typeof(DateTime))
             {
-                var ltype = new LDate(varname, (DateTime)obj);
-                var methods = ctx.Methods.Get(typeof(LString));
-                result = methods.ExecuteMethod(ltype, memberName, paramList.ToArray());
+                var methods = ctx.Methods.Get(LTypes.Date);
+                var ltypeval = new LTypeValue(obj, LTypes.Date);
+                result = methods.ExecuteMethod(ltypeval, memberName, paramList.ToArray());
             }
             // 2. String
             else if (type == typeof(string))
             {
-                var ltype = new LString(varname, (string)obj);
-                var methods = ctx.Methods.Get(typeof(LString));
-                result = methods.ExecuteMethod(ltype, memberName, paramList.ToArray());
+                var methods = ctx.Methods.Get(LTypes.String);
+                var ltypeval = new LTypeValue(obj, LTypes.Date);
+                result = methods.ExecuteMethod(ltypeval, memberName, paramList.ToArray());
             }
             // 3. Method info supplied
             else if (methodInfo != null)

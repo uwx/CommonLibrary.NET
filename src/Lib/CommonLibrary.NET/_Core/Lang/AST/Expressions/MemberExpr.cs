@@ -73,21 +73,6 @@ namespace ComLib.Lang.AST
 
 
         /// <summary>
-        /// Whether or not the object is a core fluentscript type.
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        protected bool IsCoreType(object obj)
-        {
-            if (obj is LMap) return true;
-            if (obj is LArray) return true;
-            if (obj is DateTime) return true;
-            if (obj is string) return true;
-            return false;
-        }
-
-
-        /// <summary>
         /// Whether or not this member
         /// </summary>
         /// <param name="obj"></param>

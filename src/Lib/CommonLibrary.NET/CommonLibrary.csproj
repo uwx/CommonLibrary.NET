@@ -536,6 +536,7 @@
     <Compile Include="_Core\Lang\Types\LTime.cs" />
     <Compile Include="_Core\Lang\Types\LTypeMethods.cs" />
     <Compile Include="_Core\Lang\Types\Javascript\LJSMapMethods.cs" />
+    <Compile Include="_Core\Lang\Types\LTypes.cs" />
     <Compile Include="_Core\Lang\Types\LTypesLookup.cs" />
     <Compile Include="_Core\Lang\Types\RegisteredMethods.cs" />
     <Compile Include="_Core\Lang\Parser\IParser.cs" />

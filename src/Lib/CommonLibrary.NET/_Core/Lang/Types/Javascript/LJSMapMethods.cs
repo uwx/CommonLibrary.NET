@@ -27,7 +27,7 @@ namespace ComLib.Lang.Types
         /// <param name="type">The data type to check for the member</param>
         /// <param name="memberName">The name of the member to check for.</param>
         /// <returns></returns>
-        public virtual bool HasMember(LTypeValue type, string memberName)
+        public override bool HasMember(LTypeValue type, string memberName)
         {
             return HasProperty(type, memberName);
         }
@@ -39,7 +39,7 @@ namespace ComLib.Lang.Types
         /// <param name="type">The data type to check for the method</param>
         /// <param name="methodName">The name of the method to check for.</param>
         /// <returns></returns>
-        public virtual bool HasMethod(LTypeValue type, string methodName)
+        public override bool HasMethod(LTypeValue type, string methodName)
         {
             return HasProperty(type, methodName);
         }
@@ -51,7 +51,7 @@ namespace ComLib.Lang.Types
         /// <param name="type">The data type to check for the property</param>
         /// <param name="propertyName">The name of the property</param>
         /// <returns></returns>
-        public virtual bool HasProperty(LTypeValue target, string propertyName)
+        public override bool HasProperty(LTypeValue target, string propertyName)
         {
             var map = target.Result as IDictionary;
             if (map == null) return false;

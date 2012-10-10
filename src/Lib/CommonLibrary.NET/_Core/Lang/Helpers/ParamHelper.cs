@@ -5,7 +5,6 @@ using System.Reflection;
 
 using ComLib.Lang.AST;
 using ComLib.Lang.Core;
-using ComLib.Lang.Types;
 
 
 namespace ComLib.Lang.Helpers
@@ -130,8 +129,8 @@ namespace ComLib.Lang.Helpers
             if (parameters == null || parameters.Length == 0) return;
 
             // Convert parameters to map.
-            var map = parameters.ToDictionary(p => p.Name);
-
+            var map = System.Linq.Enumerable.ToDictionary(parameters, p => p.Name);
+            
             ResolveParameters(parameters.Length, paramListExpressions, paramList,
                 namedParam => map[namedParam.Name].Position);
         }

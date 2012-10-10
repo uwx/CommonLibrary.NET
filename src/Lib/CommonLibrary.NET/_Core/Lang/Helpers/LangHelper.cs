@@ -17,6 +17,40 @@ namespace ComLib.Lang.Helpers
     public class LangHelper
     {
         /// <summary>
+        /// Converts a list of items to a dictionary with the items.
+        /// </summary>
+        /// <typeparam name="T">Type of items to use.</typeparam>
+        /// <param name="items">List of items.</param>
+        /// <returns>Converted list as dictionary.</returns>
+        public static IDictionary<T, T> ToDictionary<T>(IList<T> items)
+        {
+            var dict = new Dictionary<T, T>();
+            foreach (T item in items)
+            {
+                dict[item] = item;
+            }
+            return dict;
+        }
+
+
+        /// <summary>
+        /// Converts a list of items to a dictionary with the items.
+        /// </summary>
+        /// <typeparam name="T">Type of items to use.</typeparam>
+        /// <param name="items">List of items.</param>
+        /// <returns>Converted list as dictionary.</returns>
+        public static IDictionary<T, T> ToDictionaryFiltered<T>(IList<T> items )
+        {
+            var dict = new Dictionary<T, T>();
+            foreach (T item in items)
+            {
+                dict[item] = item;
+            }
+            return dict;
+        }
+
+
+        /// <summary>
         /// Executes the statements.
         /// </summary>
         /// <param name="statements"></param>
