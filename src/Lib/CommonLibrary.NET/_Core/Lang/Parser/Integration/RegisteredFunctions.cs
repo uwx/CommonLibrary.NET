@@ -111,7 +111,7 @@ namespace ComLib.Lang.Parsing
             if (function.HasReturnValue)
                 result = function.ReturnValue;
             else
-                result = LNull.Instance;
+                result = LNullType.Instance;
             return result;
         }
     }

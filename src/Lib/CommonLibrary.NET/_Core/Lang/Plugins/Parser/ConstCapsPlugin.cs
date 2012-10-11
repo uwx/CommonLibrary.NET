@@ -220,7 +220,7 @@ namespace ComLib.Lang.Plugins
                 object val = pair.Value.Evaluate();
                 this.Ctx.Memory.SetValue(pair.Key, val);
             }
-            return LNull.Instance;
+            return LNullType.Instance;
         }
     }
 }

@@ -59,7 +59,7 @@ namespace ComLib.Lang.AST
         public override object  DoEvaluate()
         {
             LangHelper.Evaluate(this._statements, this.Parent);
-            return LNull.Instance;
+            return LNullType.Instance;
         }
 
 
@@ -68,7 +68,7 @@ namespace ComLib.Lang.AST
         /// </summary>
         protected virtual object ExecuteBlock()
         {
-            object result = LNull.Instance;
+            object result = LNullType.Instance;
             try
             {
                 OnBlockEnter();

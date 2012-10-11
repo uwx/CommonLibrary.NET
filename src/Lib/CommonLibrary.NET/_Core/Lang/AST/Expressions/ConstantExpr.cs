@@ -30,16 +30,16 @@ namespace ComLib.Lang.AST
         {
             /*
             if (this.Value.GetType() == typeof(string))
-                return new LString((string)this.Value);
+                return new LStringType((string)this.Value);
 
             if (this.Value.GetType() == typeof(double))
-                return new LNumber((double)this.Value);
+                return new LNumberType((double)this.Value);
 
             if (this.Value.GetType() == typeof(bool))
-                return new LBool((bool)this.Value);
+                return new LBoolType((bool)this.Value);
 
             if (this.Value.GetType() == typeof(DateTime))
-                return new LDate((DateTime) this.Value);
+                return new LDateType((DateTime) this.Value);
             */
             return this.Value;
         }

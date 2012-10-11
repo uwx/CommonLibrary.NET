@@ -16,7 +16,7 @@ namespace ComLib.Lang.Types
         /// </summary>
         public LJSMapMethods()
         {
-            DataType = new LMap();
+            DataType = new LMapType();
             AddProperty(true, true,     "length",       "Length",           typeof(double),     "Sets or returns the number of elements in an array");
         }
 
@@ -99,9 +99,9 @@ namespace ComLib.Lang.Types
         /// <returns></returns>
         public object IndexerGet(LTypeValue target, string key)
         {
-            if (target == null ) return LNull.NullResult;
+            if (target == null ) return LNullType.NullResult;
             var map = target.Result as IDictionary;
-            if (map == null || map.Count == 0) return LNull.NullResult;
+            if (map == null || map.Count == 0) return LNullType.NullResult;
             if (string.IsNullOrEmpty(key)) throw new IndexOutOfRangeException("Property does not exist : " + key);
             return map[key];
         }

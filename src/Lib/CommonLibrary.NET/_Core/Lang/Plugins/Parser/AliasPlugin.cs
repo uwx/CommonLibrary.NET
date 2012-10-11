@@ -138,7 +138,7 @@ namespace ComLib.Lang.Plugins
         /// </summary>
         public override object DoEvaluate()
         {
-            return LNull.Instance;
+            return LNullType.Instance;
             // This is executed during parse phase.
             // But this statement exists so it can be represented in the AST.
 

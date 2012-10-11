@@ -61,7 +61,7 @@ namespace ComLib.Lang.AST
             }
             if (string.Compare(TypeName, "Date", StringComparison.InvariantCultureIgnoreCase) == 0)
             {
-                DateTime result = LDate.CreateFrom(constructorArgs);
+                DateTime result = LDateType.CreateFrom(constructorArgs);
                 return result;
             }
             else if (string.Compare(TypeName, "Time", StringComparison.InvariantCultureIgnoreCase) == 0)

@@ -134,7 +134,7 @@ namespace ComLib.Lang.Plugins
             var obj = _exp.Evaluate();
             object result = null;
             if (obj == null)
-                return typeof(LNull);
+                return typeof(LNullType);
 
             if (obj is string) result = "string";
             else if (obj is DateTime) result = "datetime";
@@ -142,8 +142,8 @@ namespace ComLib.Lang.Plugins
             else if (obj is bool) result = "boolean";
             else if (obj is int || obj is long) result = "number";
             else if (obj is float || obj is double || obj is decimal) result = "number";
-            else if (obj is LArray) result = "object:list";
-            else if (obj is LMap) result = "object:map";
+            else if (obj is LArrayType) result = "object:list";
+            else if (obj is LMapType) result = "object:map";
             else
             {
                 var fullname = obj.GetType().FullName;

@@ -332,7 +332,7 @@ namespace ComLib.Lang.Parsing
                 else if (token.IsLiteralAny())
                 {
                     exp = token == Tokens.Null
-                        ? new ConstantExpr(LNull.Instance)
+                        ? new ConstantExpr(LNullType.Instance)
                         : new ConstantExpr(token.Value);
                     _state.ExpressionCount++;
                     var expPosix = ParsePostfix(exp, enablePlugins, hasTokenReplacePlugins);
@@ -440,7 +440,7 @@ namespace ComLib.Lang.Parsing
                 if (token.IsLiteralAny())
                 {
                     exp = token == Tokens.Null
-                        ? new ConstantExpr(LNull.Instance)
+                        ? new ConstantExpr(LNullType.Instance)
                         : new ConstantExpr(token.Value);
                     exp.Ctx = _context;
                     _state.ExpressionCount++;

@@ -5,14 +5,38 @@ using ComLib.Lang.Core;
 namespace ComLib.Lang.Types
 {
     /// <summary>
+    /// Used to store a timespan value.
+    /// </summary>
+    public class LTime : LObjectValue
+    {
+        /// <summary>
+        /// Initialize
+        /// </summary>
+        /// <param name="val"></param>
+        public LTime(TimeSpan val)
+        {
+            this.Value = val;
+            this.Type = LTypes.Time;
+        }
+
+
+        /// <summary>
+        /// The raw type value.
+        /// </summary>
+        public TimeSpan Value;
+    }
+
+
+
+    /// <summary>
     /// Array type.
     /// </summary>
-    public class LTime : LObject
+    public class LTimeType : LObjectType
     {
         /// <summary>
         /// Initialize.
         /// </summary>
-        public LTime()
+        public LTimeType()
         {
             this.Name = "time";
             this.FullName = "sys.time";

@@ -6,7 +6,7 @@ namespace ComLib.Lang.Types
     /// <summary>
     /// Used to represent a version number e.g. 0.9.8.7
     /// </summary>
-    public class LVersion : LObject
+    public class LVersion : LObjectType
     {
         /// <summary>
         /// Initialize

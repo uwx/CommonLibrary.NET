@@ -160,13 +160,13 @@ namespace ComLib.Lang.AST
             var obj = VariableExp.Evaluate() as LTypeValue;
             var type = obj.Type;
 
-            // Case 3: LDate, LArray, String,
+            // Case 3: LDateType, LArrayType, String,
             bool isCoreType = obj.Type.IsBasicType();
             if ( isCoreType )
             {
                 // Get the methods implementation LTypeMethods for this basic type 
                 // e.g. string,  date,  time,  array , map
-                // e.g. LString  LDate, LTime, LArray, LMap
+                // e.g. LStringType  LDateType, LTimeType, LArrayType, LMapType
                 var typeMethods = Ctx.Methods.Get(type);
                 var hostType = LangTypeHelper.ConvertToHostLangType(type);
 

@@ -88,7 +88,7 @@ namespace ComLib.Lang.AST
                 result = CompareTimes((TimeSpan)left, (TimeSpan)right, Op);
 
             // 1 or both null
-            else if (left == LNull.Instance || right == LNull.Instance)
+            else if (left == LNullType.Instance || right == LNullType.Instance)
                 result = CompareNull(left, right, Op);
             
             // Day of week ?
@@ -106,11 +106,11 @@ namespace ComLib.Lang.AST
         private static bool CompareNull(object left, object right, Operator op)
         {
             // Both null
-            if (left == LNull.Instance && right == LNull.Instance && op == Operator.EqualEqual) return true;
-            if (left == LNull.Instance && right == LNull.Instance && op == Operator.NotEqual) return false;
+            if (left == LNullType.Instance && right == LNullType.Instance && op == Operator.EqualEqual) return true;
+            if (left == LNullType.Instance && right == LNullType.Instance && op == Operator.NotEqual) return false;
             // Both not null
-            if (left != LNull.Instance && right != LNull.Instance && op == Operator.EqualEqual) return left == right;
-            if (left != LNull.Instance && right != LNull.Instance && op == Operator.NotEqual) return left != right;
+            if (left != LNullType.Instance && right != LNullType.Instance && op == Operator.EqualEqual) return left == right;
+            if (left != LNullType.Instance && right != LNullType.Instance && op == Operator.NotEqual) return left != right;
             // Check for one
             if (op == Operator.NotEqual) return true;
 

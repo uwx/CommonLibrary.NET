@@ -10,60 +10,60 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Single instance of the array type for resusability
         /// </summary>
-        public static LType Array = new LArray();
+        public static LType Array = new LArrayType();
 
 
         /// <summary>
         /// Single instance of the bool type for resusability
         /// </summary>
-        public static LType Bool = new LBool();
+        public static LType Bool = new LBoolType();
 
 
         /// <summary>
         /// Single instance of the date type for resusability
         /// </summary>
-        public static LType Date = new LDate();
+        public static LType Date = new LDateType();
 
 
         /// <summary>
         /// Single instance of the function type for resusability
         /// </summary>
-        public static LType Function = new LFunction();
+        public static LType Function = new LFunctionType();
 
 
         /// <summary>
         /// Single instanceo of the Map type for resusability
         /// </summary>
-        public static LType Map = new LMap();
+        public static LType Map = new LMapType();
 
 
         /// <summary>
         /// Single instance of the Null type for resusability
         /// </summary>
-        public static LType Null = new LNull();
+        public static LType Null = new LNullType();
 
 
         /// <summary>
         /// Single instance of the number type for resusability
         /// </summary>
-        public static LType Number = new LNumber();
+        public static LType Number = new LNumberType();
 
 
         /// <summary>
         /// Single instance of the string type for reusability
         /// </summary>
-        public static LType String = new LString();
+        public static LType String = new LStringType();
 
 
         /// <summary>
         /// Signle instance of the time type for reusability
         /// </summary>
-        public static LType Time = new LTime();
+        public static LType Time = new LTimeType();
 
 
         /// <summary>
         /// Object type.
         /// </summary>
-        public static LType Object = new LObject(); 
+        public static LType Object = new LObjectType(); 
     }
 }

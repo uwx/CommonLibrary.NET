@@ -63,8 +63,8 @@ namespace ComLib.Lang.Core
                 if (val.GetType() == typeof(string))
                     addVal = ((string)variable.Value).Length;
             }
-            variable.IsInitialized = val != LNull.Instance && val != null;
-            variable.DataType = val != null ? val.GetType() : typeof(LNull);
+            variable.IsInitialized = val != LNullType.Instance && val != null;
+            variable.DataType = val != null ? val.GetType() : typeof(LNullType);
             this[name] = variable;
 
             // Case 1: Adding new string value.

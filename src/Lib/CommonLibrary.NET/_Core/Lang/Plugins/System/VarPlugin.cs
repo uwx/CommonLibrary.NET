@@ -267,7 +267,7 @@ namespace ComLib.Lang.Plugins
                     // Case 1: var result;
                     if (this.ValueExp == null)
                     {
-                        this.Ctx.Memory.SetValue(varname, LNull.Instance, _isDeclaration);
+                        this.Ctx.Memory.SetValue(varname, LNullType.Instance, _isDeclaration);
                     }
                     else
                     {
@@ -299,9 +299,9 @@ namespace ComLib.Lang.Plugins
                         member.Property.SetValue(member.Instance, result, null);
                     }
                     // Case 4: Set map "user.name" = <expression>; // { name: 'kishore' }
-                    else if (member.DataType == typeof(LMap))
+                    else if (member.DataType == typeof(LMapType))
                     {
-                        //Ctx.Methods.Get(typeof(LMap)).SetProperty((LMap)member.Instance, member.MemberName, result);
+                        //Ctx.Methods.Get(typeof(LMapType)).SetProperty((LMapType)member.Instance, member.MemberName, result);
                         var methods = Ctx.Methods.Get(LTypes.Map);
                         var ltypeval = new LTypeValue(member.Instance, LTypes.Map);
                         methods.SetByStringMember(ltypeval, member.MemberName, expval);
@@ -322,9 +322,9 @@ namespace ComLib.Lang.Plugins
                     {
                         obj.GetType().GetMethod("SetValue", new Type[] { typeof(int) }).Invoke(obj, new object[] { result, ndx });
                     }
-                    else if (obj is LArray)
+                    else if (obj is LArrayType)
                     {
-                        //Ctx.Methods.Get(typeof(LArray)).SetProperty((LMap)member.Instance, member.MemberName, result);                        
+                        //Ctx.Methods.Get(typeof(LArrayType)).SetProperty((LMapType)member.Instance, member.MemberName, result);                        
                         var methods = Ctx.Methods.Get(LTypes.Array);                      
                         methods.SetByNumericIndex(ltypeval, ndx);
                     }
@@ -334,7 +334,7 @@ namespace ComLib.Lang.Plugins
                     }
                 }
             }
-            return LNull.Instance;
+            return LNullType.Instance;
         }
     }
 }

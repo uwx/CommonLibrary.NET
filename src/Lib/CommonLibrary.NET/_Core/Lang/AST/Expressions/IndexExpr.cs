@@ -96,7 +96,7 @@ namespace ComLib.Lang.AST
             {
                 return new Tuple<object, int>(ListObject, Convert.ToInt32(ndxVal));
             }
-            return new Tuple<LMap, string>((LMap)ListObject, (string)ndxVal);          
+            return new Tuple<LMapType, string>((LMapType)ListObject, (string)ndxVal);          
         }
 
 
@@ -109,8 +109,8 @@ namespace ComLib.Lang.AST
             {
                 method = ListObject.GetType().GetMethod("GetValue", new Type[] { typeof(int) });
             }
-            // 2. LArray
-            else if (ListObject is LArray)
+            // 2. LArrayType
+            else if (ListObject is LArrayType)
             {
                 method = ListObject.GetType().GetMethod("GetByIndex");
             }

@@ -130,7 +130,7 @@ namespace ComLib.Lang.AST
                 _errorCount++;
                 throw;
             }
-            return LNull.Instance;
+            return LNullType.Instance;
         }
 
 

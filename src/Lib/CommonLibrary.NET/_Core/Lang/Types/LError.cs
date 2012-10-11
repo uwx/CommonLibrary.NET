@@ -10,7 +10,7 @@ namespace ComLib.Lang.Types
     /// <summary>
     /// Error class for exceptions in the language.
     /// </summary>
-    public class LError : LObject
+    public class LError : LObjectType
     {
         /// <summary>
         /// Name of the message

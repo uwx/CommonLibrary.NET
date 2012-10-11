@@ -16,20 +16,20 @@ namespace ComLib.Lang.Types
         /// </summary>
         public LJSArrayMethods()
         {
-            DataType = new LArray();
+            DataType = new LArrayType();
 
             // Create the methods associated with this type.
-            AddMethod("concat", 		"Concat", 		typeof(LArray),		"Joins two or more arrays, and returns a copy of the joined arrays" );
+            AddMethod("concat", 		"Concat", 		typeof(LArrayType),		"Joins two or more arrays, and returns a copy of the joined arrays" );
             AddMethod("indexOf", 		"IndexOf", 		typeof(double),		"Search the array for an element and returns it's position" );
-            AddMethod("join", 			"Join", 		typeof(LArray),		"Joins all elements of an array into a string" );
+            AddMethod("join", 			"Join", 		typeof(LArrayType),		"Joins all elements of an array into a string" );
             AddMethod("lastIndexOf", 	"LastIndexOf",	typeof(double),		"Search the array for an element, starting at the end, and returns it's position" );
             AddMethod("pop", 			"Pop", 			typeof(object),		"Removes the last element of an array, and returns that element" );
             AddMethod("push", 			"Push", 		typeof(double),		"Adds new elements to the end of an array, and returns the new length" );
-            AddMethod("reverse", 		"Reverse", 		typeof(LArray),		"Reverses the order of the elements in an array" );
+            AddMethod("reverse", 		"Reverse", 		typeof(LArrayType),		"Reverses the order of the elements in an array" );
             AddMethod("shift", 		    "Shift", 		typeof(object),		"Removes the first element of an array, and returns that element" );
-            AddMethod("slice", 		    "Slice", 		typeof(LArray),		"Selects a part of an array, and returns the new array" );
-            AddMethod("sort", 			"Sort", 		typeof(LArray),		"Sorts the elements of an array" );
-            AddMethod("splice", 		"Splice", 		typeof(LArray),		"Adds/Removes elements from an array" );
+            AddMethod("slice", 		    "Slice", 		typeof(LArrayType),		"Selects a part of an array, and returns the new array" );
+            AddMethod("sort", 			"Sort", 		typeof(LArrayType),		"Sorts the elements of an array" );
+            AddMethod("splice", 		"Splice", 		typeof(LArrayType),		"Adds/Removes elements from an array" );
             AddMethod("toString", 		"ToString", 	typeof(string),		"Converts an array to a string, and returns the result" );
             AddMethod("unshift", 		"Unshift", 		typeof(double),		"Adds new elements to the beginning of an array, and returns the new length" );
             AddMethod("valueOf", 		"ValueOf", 		typeof(object),		"Returns the primitive value of an array" );
@@ -348,8 +348,8 @@ namespace ComLib.Lang.Types
         /// <returns></returns>
         protected object RemoveRange(IList target, int start, int howmany)
         {
-            if (target == null) return LNull.Instance;
-            if (target.Count == 0) return LNull.Instance;
+            if (target == null) return LNullType.Instance;
+            if (target.Count == 0) return LNullType.Instance;
             var totalRemoved = 0;
             while (totalRemoved < howmany)
             {
@@ -369,9 +369,9 @@ namespace ComLib.Lang.Types
         /// <returns></returns>
         public object IndexerGet(LTypeValue target, int index)
         {
-            if (target == null) return LNull.NullResult;
+            if (target == null) return LNullType.NullResult;
             var list = target.Result as List<object>;
-            if (list == null || list.Count == 0) return LNull.NullResult;
+            if (list == null || list.Count == 0) return LNullType.NullResult;
 
             if (index < 0 || index >= list.Count) throw new IndexOutOfRangeException("Index : " + index);
             return list[index];

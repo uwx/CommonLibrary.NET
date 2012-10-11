@@ -42,7 +42,7 @@ namespace ComLib.Lang.Helpers
         /// <returns></returns>
         public static LType ConvertToLangTypeClass(Type hostLangType)
         {
-            var type = new LObject();
+            var type = new LObjectType();
             type.Name = hostLangType.Name;
             type.FullName = hostLangType.FullName;
             type.TypeVal = TypeConstants.LClass;
@@ -85,7 +85,7 @@ namespace ComLib.Lang.Helpers
             {
                 var val = args[ndx];
                 if (val == null)
-                    args[ndx] = LNull.NullResult;
+                    args[ndx] = LNullType.NullResult;
                 else if (val.GetType() == typeof(int))
                     args[ndx] = new LTypeValue(Convert.ToDouble(val), LTypes.Number);
                 else if (val.GetType() == typeof(double))
@@ -177,7 +177,7 @@ namespace ComLib.Lang.Helpers
                 else if (sourceArg.Type == LTypes.Null)
                     sourceArg.Result = LangTypeHelper.GetDefaultValue(param.ParameterType);
 
-                // 4. LArray
+                // 4. LArrayType
                 else if (sourceArg.Type == LTypes.Array && param.ParameterType.IsGenericType)
                 {
                     var gentype = param.ParameterType.GetGenericTypeDefinition();

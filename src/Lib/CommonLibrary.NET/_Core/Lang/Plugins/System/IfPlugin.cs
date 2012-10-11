@@ -145,7 +145,7 @@ namespace ComLib.Lang.Plugins
             {
                 Else.Evaluate();
             }
-            return LNull.Instance;
+            return LNullType.Instance;
         }
     }    
 }

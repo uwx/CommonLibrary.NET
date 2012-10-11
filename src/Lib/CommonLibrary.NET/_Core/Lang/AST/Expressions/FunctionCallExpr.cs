@@ -92,7 +92,7 @@ namespace ComLib.Lang.AST
                 result = FunctionHelper.FunctionCall(Ctx, maccess.FullMemberName as string, this);
             }
             // CASE 4: string method call or date method call
-            else if (maccess.DataType == typeof(string) || maccess.DataType == typeof(LDate))
+            else if (maccess.DataType == typeof(string) || maccess.DataType == typeof(LDateType))
             {
                 result = FunctionHelper.MemberCall(Ctx, maccess.Instance.GetType(), maccess.Instance, maccess.Name, maccess.MemberName, null, this.ParamListExpressions, this.ParamList);
             }
@@ -110,7 +110,7 @@ namespace ComLib.Lang.AST
         private bool IsMemberCall(MemberAccess maccess)
         {
             if (maccess.IsInternalExternalFunctionCall()
-                || maccess.DataType == typeof(string) || maccess.DataType == typeof(LDate)
+                || maccess.DataType == typeof(string) || maccess.DataType == typeof(LDateType)
                 || maccess.Mode == MemberMode.CustObjMethodInstance || maccess.Mode == MemberMode.CustObjMethodStatic
               )
                 return true;

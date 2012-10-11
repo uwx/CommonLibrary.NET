@@ -9,12 +9,12 @@ namespace ComLib.Lang.Types
     /// <summary>
     /// function in script
     /// </summary>
-    public class LFunction : LObject
+    public class LFunctionType : LObjectType
     {
         /// <summary>
         /// Initialize
         /// </summary>
-        public LFunction()
+        public LFunctionType()
         {
             this.Name = "function";
             this.FullName = "sys.function";

@@ -187,7 +187,7 @@ namespace ComLib.Lang
         /// Call a fluent script function from c#.
         /// </summary>
         /// <param name="functionName">The name of the function to call</param>
-        /// <param name="convertApplicableTypes">Whether or not to convert applicable c# types to fluentscript types, eg. ints and longs to double, List(object) to LArray and Dictionary(string, object) to LMap</param>
+        /// <param name="convertApplicableTypes">Whether or not to convert applicable c# types to fluentscript types, eg. ints and longs to double, List(object) to LArrayType and Dictionary(string, object) to LMapType</param>
         /// <param name="args"></param>
         public object Call(string functionName, bool convertApplicableTypes, params object[] args)
         {

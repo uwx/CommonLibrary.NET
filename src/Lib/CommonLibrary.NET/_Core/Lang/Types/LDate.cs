@@ -5,9 +5,33 @@ using ComLib.Lang.Core;
 namespace ComLib.Lang.Types
 {
     /// <summary>
+    /// Used to store a bool value.
+    /// </summary>
+    public class LDate : LObjectValue
+    {
+        /// <summary>
+        /// Initialize
+        /// </summary>
+        /// <param name="val"></param>
+        public LDate(DateTime val)
+        {
+            this.Value = val;
+            this.Type = LTypes.Date;
+        }
+
+
+        /// <summary>
+        /// The raw type value.
+        /// </summary>
+        public DateTime Value;
+    }
+
+
+
+    /// <summary>
     /// Array type.
     /// </summary>
-    public class LDate : LObject
+    public class LDateType : LObjectType
     {
         /// <summary>
         /// Can create from the paramelist expressions supplied.
@@ -73,7 +97,7 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Initialize with date.
         /// </summary>
-        public LDate()
+        public LDateType()
         {
             this.Name = "datetime";
             this.FullName = "sys.datetime";

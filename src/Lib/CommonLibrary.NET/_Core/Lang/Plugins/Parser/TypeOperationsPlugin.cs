@@ -330,7 +330,7 @@ namespace ComLib.Lang.Plugins
         {
             var val = _exp.Evaluate();
             if (val == null)
-                return LNull.Instance;
+                return LNullType.Instance;
 
             var result = false;
             if (     _destinationType == "string" ) result = val.GetType() == typeof(string)  ;
@@ -338,8 +338,8 @@ namespace ComLib.Lang.Plugins
             else if (_destinationType == "bool"   ) result = val.GetType() == typeof(bool)    ;
             else if (_destinationType == "date"   ) result = val.GetType() == typeof(DateTime);
             else if (_destinationType == "time"   ) result = val.GetType() == typeof(TimeSpan);
-            else if (_destinationType == "list"   ) result = val.GetType() == typeof(LArray)  ;
-            else if (_destinationType == "map"    ) result = val.GetType() == typeof(LMap)    ;
+            else if (_destinationType == "list"   ) result = val.GetType() == typeof(LArrayType)  ;
+            else if (_destinationType == "map"    ) result = val.GetType() == typeof(LMapType)    ;
             return result;
         }
 
@@ -356,7 +356,7 @@ namespace ComLib.Lang.Plugins
             try
             {
                 var result = DoConvertValue(_destinationType, val, false);
-                if(result != LNull.Instance)
+                if(result != LNullType.Instance)
                     canConvert = true;
             }
             catch (Exception)
@@ -374,7 +374,7 @@ namespace ComLib.Lang.Plugins
         {
             var val = _exp.Evaluate();
             if (val == null)
-                return LNull.Instance;
+                return LNullType.Instance;
             var result = DoConvertValue(_destinationType, val, true);
             return result;
         }
@@ -387,11 +387,11 @@ namespace ComLib.Lang.Plugins
             var key = sourceType + "-" + destinationType;
 
             // 1. Check if conversion even exists
-            if (!_conversionLookup.ContainsKey(key)) return LNull.Instance;
+            if (!_conversionLookup.ContainsKey(key)) return LNullType.Instance;
 
             // 2. Get the conversion and check it source can be converted to dest.
             var spec = _conversionLookup[key];
-            if (!spec.CanChange) return LNull.Instance;
+            if (!spec.CanChange) return LNullType.Instance;
 
             // 3a. See if there can be a direct conversion.
             if (spec.ConvertMode == CONVERT_MODE_DIRECT)
@@ -430,8 +430,8 @@ namespace ComLib.Lang.Plugins
             if( val.GetType() == typeof(bool)     ) return "bool";
             if( val.GetType() == typeof(DateTime) ) return "date";
             if( val.GetType() == typeof(TimeSpan) ) return "time";
-            if( val.GetType() == typeof(LArray)   ) return "list";
-            if( val.GetType() == typeof(LMap)     ) return "map";
+            if( val.GetType() == typeof(LArrayType)   ) return "list";
+            if( val.GetType() == typeof(LMapType)     ) return "map";
             return "unknown";
         }
 
@@ -458,7 +458,7 @@ namespace ComLib.Lang.Plugins
             string txt = ((string)val).ToLower();
             var result = TimeTypeHelper.ParseTime(txt);
             if (!result.Item2)
-                return LNull.Instance;
+                return LNullType.Instance;
             return result.Item1;
         }
         private static object Convert_String_To_Bool(ConvertSpec spec, object val)

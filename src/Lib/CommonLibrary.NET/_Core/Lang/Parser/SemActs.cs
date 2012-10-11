@@ -303,7 +303,7 @@ namespace ComLib.Lang.Parsing
             // 1. Check # params to Date 
             if (string.Compare(typeName, "Date", StringComparison.InvariantCultureIgnoreCase) == 0)
             {
-                if (!LDate.CanCreateFrom(exp.ParamListExpressions.Count))
+                if (!LDateType.CanCreateFrom(exp.ParamListExpressions.Count))
                     AddError("Unexpected number of inputs when creating date", exp);
             }
             // 2. Check # params to Time

@@ -161,7 +161,7 @@ namespace ComLib.Lang.AST
                 return false;
             if (result.GetType() == typeof(bool))
                 return !((bool)result);
-            if (result == LNull.Instance)
+            if (result == LNullType.Instance)
                 return true;
 
             return false;

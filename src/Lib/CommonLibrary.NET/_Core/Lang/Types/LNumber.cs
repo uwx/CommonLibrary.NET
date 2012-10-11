@@ -5,14 +5,38 @@ using ComLib.Lang.Core;
 namespace ComLib.Lang.Types
 {
     /// <summary>
+    /// Used to store a number value.
+    /// </summary>
+    public class LNumber : LObjectValue
+    {
+        /// <summary>
+        /// Initialize
+        /// </summary>
+        /// <param name="val"></param>
+        public LNumber(double val)
+        {
+            this.Value = val;
+            this.Type = LTypes.Number;
+        }
+
+
+        /// <summary>
+        /// The raw type value.
+        /// </summary>
+        public double Value;
+    }
+
+
+
+    /// <summary>
     /// Boolean datatype.
     /// </summary>
-    public class LNumber : LObject
+    public class LNumberType : LObjectType
     {   
         /// <summary>
         /// Initialize
         /// </summary>
-        public LNumber()
+        public LNumberType()
         {
             this.Name = "number";
             this.FullName = "sys.number";

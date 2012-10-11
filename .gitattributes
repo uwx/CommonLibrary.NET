@@ -707,6 +707,7 @@ src/Lib/CommonLibrary.NET/_Core/Lang/Types/LString.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LString2.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LTime.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LTypeMethods.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Types/LTypeValue.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LTypes.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LTypesLookup.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LUnit.cs -text

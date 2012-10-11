@@ -95,7 +95,7 @@ namespace ComLib.Lang.Core
             Name = meta.Name;
             Meta = meta;
             Category = SymbolConstants.Func;
-            DataType = new LFunction();
+            DataType = new LFunctionType();
         }
 
 
@@ -236,7 +236,7 @@ namespace ComLib.Lang.Core
         /// <param name="name">Name of the varaible</param>
         public virtual void DefineVariable(string name)
         {
-            this.Symbols[name] = new SymbolType() { Name = name, Category = SymbolConstants.Var,  DataType = new LObject() };
+            this.Symbols[name] = new SymbolType() { Name = name, Category = SymbolConstants.Var,  DataType = new LObjectType() };
         }
 
 

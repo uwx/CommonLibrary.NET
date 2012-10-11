@@ -7,7 +7,7 @@ namespace ComLib.Lang.Types
     /// <summary>
     /// Array type.
     /// </summary>
-    public class LClass : LObject
+    public class LClass : LObjectType
     {
         /// <summary>
         /// Used for now since fluentscript doesn't support classes.

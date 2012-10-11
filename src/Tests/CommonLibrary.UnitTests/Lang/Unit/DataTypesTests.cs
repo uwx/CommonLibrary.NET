@@ -12,7 +12,7 @@ using ComLib.Lang.Tests.Common;
 
 namespace ComLib.Lang.Tests.Unit
 {
-
+    /*
     public class Lang_Type_Tests
     {
         public FunctionCallExpr BuildFuncCallExpr(Context ctx, string varName, string memName, List<object> args)
@@ -29,7 +29,7 @@ namespace ComLib.Lang.Tests.Unit
     }
 
 
-
+    
     [TestFixture]
     public class Lang_LArray2_Tests : Lang_Type_Tests
     {
@@ -111,7 +111,7 @@ namespace ComLib.Lang.Tests.Unit
             Assert.AreEqual("k", lsMethods.IndexerGet(access2, 1));
         }
     }
-
+    
 
 
     [TestFixture]
@@ -560,4 +560,5 @@ namespace ComLib.Lang.Tests.Unit
             Assert.AreEqual(2, map.Length);
         }
     }
+     * */
 }

@@ -7,14 +7,30 @@ using ComLib.Lang.Core;
 namespace ComLib.Lang.Types
 {
     /// <summary>
-    /// LObject class that all types extend from.
+    /// Used to store/wrap a value of either a basic type or instance of a class.
     /// </summary>
-    public class LObject : LType
+    public class LObjectValue
+    {
+        /// <summary>
+        /// The data type of this value.
+        /// </summary>
+        public LType Type;
+    }
+    
+
+    
+
+
+
+    /// <summary>
+    /// LObjectType class that all types extend from.
+    /// </summary>
+    public class LObjectType : LType
     {
         /// <summary>
         /// Initialize
         /// </summary>
-        public LObject()
+        public LObjectType()
         {
             this.Name = "object";
             this.FullName = "sys.object";

@@ -171,7 +171,7 @@ namespace ComLib.Lang.Types
         /// <param name="type"></param>
         /// <param name="propName"></param>
         /// <returns></returns>
-        public virtual object GetProperty(LObject type, string propName)
+        public virtual object GetProperty(LObjectType type, string propName)
         {
             return null;
         }
@@ -184,7 +184,7 @@ namespace ComLib.Lang.Types
         /// <param name="propName">The name of the property</param>
         /// <param name="val">The value to set on the property</param>
         /// <returns></returns>
-        public virtual void SetProperty(LObject type, string propName, object val)
+        public virtual void SetProperty(LObjectType type, string propName, object val)
         {
         }
 

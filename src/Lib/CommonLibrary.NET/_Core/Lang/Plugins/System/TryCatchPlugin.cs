@@ -177,7 +177,7 @@ namespace ComLib.Lang.Plugins
                 // Pop the catch scope in case there was an error.
                 if (!catchScopePopped) Ctx.Memory.Remove(ErrorName);
             }
-            return LNull.Instance;
+            return LNullType.Instance;
         }
     }    
 }

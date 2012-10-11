@@ -13,7 +13,7 @@ namespace ComLib.Lang.Types
         /// </summary>
         public LJSDateMethods()
         {
-            DataType = new LDate();
+            DataType = new LDateType();
 
             AddMethod("getDate", 			"GetDate", 				typeof(double), "Returns the day of the month (from 1-31)");
             AddMethod("getDay", 	 		"GetDay", 				typeof(double), "Returns the day of the week (from 0-6)");
@@ -149,7 +149,7 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Sets the full year on the date.
         /// </summary>
-        /// <param name="date">The LDate to set</param>
+        /// <param name="date">The LDateType to set</param>
         /// <param name="year">The year to set</param>
         /// <param name="month">The month to set</param>
         /// <param name="day">The day of the month to set</param>
@@ -162,7 +162,7 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Sets the month on the date.
         /// </summary>
-        /// <param name="date">The LDate to set</param>
+        /// <param name="date">The LDateType to set</param>
         /// <param name="month">The month to set</param>
         /// <param name="day">The day of the month to set</param>
         public void SetMonth(LTypeValue date, int month, int day)
@@ -174,7 +174,7 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Sets the day of the month on the date
         /// </summary>
-        /// <param name="date">The LDate to set</param>
+        /// <param name="date">The LDateType to set</param>
         /// <param name="day">The day of the month to set</param>
         public void SetDate(LTypeValue date, int day)
         {
@@ -185,7 +185,7 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Sets the hours of the date
         /// </summary>
-        /// <param name="date">The LDate to set</param>
+        /// <param name="date">The LDateType to set</param>
         /// <param name="hours">The hours to set</param>
         /// <param name="minutes">The minutes to set</param>
         /// <param name="seconds">The seconds to set</param>
@@ -199,7 +199,7 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Sets the minutes on the date
         /// </summary>
-        /// <param name="date">The LDate to set</param>
+        /// <param name="date">The LDateType to set</param>
         /// <param name="minutes">The minutes to set</param>
         /// <param name="seconds">The seconds to set</param>
         /// <param name="milliseconds">The milliseconds to set</param>
@@ -212,7 +212,7 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Sets the seconds on the date
         /// </summary>
-        /// <param name="date">The LDate to set</param>
+        /// <param name="date">The LDateType to set</param>
         /// <param name="seconds">The seconds to set</param>
         /// <param name="milliseconds">The milliseconds to set</param>
         public void SetSeconds(LTypeValue date, int seconds, int milliseconds)
@@ -224,7 +224,7 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Sets the milliseconds on the date
         /// </summary>
-        /// <param name="date">The LDate to set</param>
+        /// <param name="date">The LDateType to set</param>
         /// <param name="milliseconds">The milliseconds to set</param>
         public void SetMilliseconds(LTypeValue date, int milliseconds)
         {
@@ -235,7 +235,7 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Sets the full year on the date.
         /// </summary>
-        /// <param name="date">The LDate to set</param>
+        /// <param name="date">The LDateType to set</param>
         /// <param name="year">The year to set</param>
         /// <param name="month">The month to set</param>
         /// <param name="day">The day of the month to set</param>
@@ -248,7 +248,7 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Sets the month on the date.
         /// </summary>
-        /// <param name="date">The LDate to set</param>
+        /// <param name="date">The LDateType to set</param>
         /// <param name="month">The month to set</param>
         /// <param name="day">The day of the month to set</param>
         public void SetUtcMonth(LTypeValue date, int month, int day)
@@ -260,7 +260,7 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Sets the day of the month on the date.
         /// </summary>
-        /// <param name="date">The LDate to set</param>
+        /// <param name="date">The LDateType to set</param>
         /// <param name="day">The day of the month to set</param>
         public void SetUtcDate(LTypeValue date, int day)
         {
@@ -271,7 +271,7 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Sets the hours on the date.
         /// </summary>
-        /// <param name="date">The LDate to set</param>
+        /// <param name="date">The LDateType to set</param>
         /// <param name="hours">The hours to set</param>
         /// <param name="minutes">The minutes to set</param>
         /// <param name="seconds">The seconds to set</param>
@@ -285,7 +285,7 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Sets the minutes on the date.
         /// </summary>
-        /// <param name="date">The LDate to set</param>
+        /// <param name="date">The LDateType to set</param>
         /// <param name="minutes">The minutes to set</param>
         /// <param name="seconds">The seconds to set</param>
         /// <param name="milliseconds">The milliseconds to set</param>
@@ -298,7 +298,7 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Sets the seconds on the date.
         /// </summary>
-        /// <param name="date">The LDate to set</param>
+        /// <param name="date">The LDateType to set</param>
         /// <param name="seconds">The seconds to set</param>
         /// <param name="milliseconds">The milliseconds to set</param>
         public void SetUtcSeconds(LTypeValue date, int seconds, int milliseconds)
@@ -310,7 +310,7 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Sets the milliseconds on the date.
         /// </summary>
-        /// <param name="date">The LDate to set</param>
+        /// <param name="date">The LDateType to set</param>
         /// <param name="milliseconds">The milliseconds to set</param>
         public void SetUtcMilliseconds(LTypeValue date, int milliseconds)
         {

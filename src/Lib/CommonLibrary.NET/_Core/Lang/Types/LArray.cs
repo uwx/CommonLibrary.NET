@@ -6,14 +6,37 @@ using ComLib.Lang.Core;
 namespace ComLib.Lang.Types
 {
     /// <summary>
-    /// Array datatype
+    /// Used to store a array
     /// </summary>
-    public class LArray : LObject
+    public class LArray : LObjectValue
     {
         /// <summary>
         /// Initialize
         /// </summary>
-        public LArray()
+        /// <param name="val"></param>
+        public LArray(List<object> val)
+        {
+            this.Value = val;
+            this.Type = LTypes.Array;
+        }
+
+
+        /// <summary>
+        /// The raw type value.
+        /// </summary>
+        public List<object> Value;
+    }
+
+
+    /// <summary>
+    /// Array datatype
+    /// </summary>
+    public class LArrayType : LObjectType
+    {
+        /// <summary>
+        /// Initialize
+        /// </summary>
+        public LArrayType()
         {
             this.Name = "array";
             this.FullName = "sys.array";

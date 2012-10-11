@@ -118,14 +118,14 @@ namespace ComLib.Lang.Plugins
             var exePath = "";
             var workingDir = "";
             var failOnError = false;
-            LArray args = null;
+            LArrayType args = null;
 
             try
             {
                 this.ResolveParams();
                 exePath = (string)this.GetParamValue(0, false, string.Empty);
                 workingDir = (string)this.GetParamValue(1, true, string.Empty);
-                args = (LArray)this.GetParamValue(2, true, null);
+                args = (LArrayType)this.GetParamValue(2, true, null);
 
                 // Convert the items in the array to strings.
                 // TODO: type-changes
@@ -152,7 +152,7 @@ namespace ComLib.Lang.Plugins
                     throw BuildRunTimeException(error);
                 }
             }
-            return LNull.Instance;
+            return LNullType.Instance;
         }
     }
 }

@@ -211,7 +211,7 @@ namespace ComLib.Lang.Plugins
                 Increment.Evaluate();
                 _continueRunning = Condition.EvaluateAs<bool>();
             }
-            return LNull.Instance;
+            return LNullType.Instance;
         }
     } 
 
@@ -292,7 +292,7 @@ namespace ComLib.Lang.Plugins
                 // Increment.
                 _continueRunning = enumerator.MoveNext();
             }
-            return LNull.Instance;
+            return LNullType.Instance;
         }
     }    
 }

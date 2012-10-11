@@ -3,16 +3,31 @@ using ComLib.Lang.Core;
 
 namespace ComLib.Lang.Types
 {
-
     /// <summary>
-    /// Class to represent null
+    /// Used to store a bool value.
     /// </summary>
-    public class LNull : LObject
+    public class LNull : LObjectValue
     {
         /// <summary>
         /// Initialize
         /// </summary>
         public LNull()
+        {
+            this.Type = LTypes.Null;
+        }
+    }
+
+
+    
+    /// <summary>
+    /// Class to represent null
+    /// </summary>
+    public class LNullType : LObjectType
+    {
+        /// <summary>
+        /// Initialize
+        /// </summary>
+        public LNullType()
         {
             this.Name = "null";
             this.FullName = "sys.null";
@@ -32,12 +47,12 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Singleton instance.
         /// </summary>
-        public static readonly LNull Instance = new LNull();
+        public static readonly LNullType Instance = new LNullType();
 
 
         /// <summary>
         /// Used for null values returned from ast evaulations.
         /// </summary>
-        public static LTypeValue NullResult = new LTypeValue(null, new LNull());
+        public static LTypeValue NullResult = new LTypeValue(null, new LNullType());
     }
 }
