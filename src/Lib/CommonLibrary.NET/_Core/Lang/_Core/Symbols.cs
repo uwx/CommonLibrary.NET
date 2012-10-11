@@ -299,7 +299,7 @@ namespace ComLib.Lang.Core
             {                
                 throw new ArgumentException("Constant value not supplied for : " + name);
             }
-            this.Symbols[name] = new SymbolTypeConst() { Name = name, Category = SymbolConstants.Const, DataType = LTypesLookup.ObjectType, Value = value };
+            this.Symbols[name] = new SymbolTypeConst() { Name = name, Category = SymbolConstants.Const, DataType = LTypes.Object, Value = value };
         }
 
 

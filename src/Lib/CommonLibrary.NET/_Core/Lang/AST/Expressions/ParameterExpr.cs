@@ -63,7 +63,7 @@ namespace ComLib.Lang.AST
         /// </summary>
         protected void ResolveParams()
         {
-            FunctionHelper.ResolveParametersForScriptFunction(_fmeta, this.ParamListExpressions, this.ParamList);
+            ParamHelper.ResolveParametersForScriptFunction(_fmeta, this.ParamListExpressions, this.ParamList);
         }
 
 

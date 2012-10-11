@@ -312,7 +312,7 @@ namespace ComLib.Lang.Plugins
             }
 
             // 1. Resolve the parameters.
-            FunctionHelper.ResolveParameters(ParamListExpressions, ParamList);
+            ParamHelper.ResolveParameters(ParamListExpressions, ParamList);
             
             if (Mode == "log")
             {

@@ -168,8 +168,8 @@ namespace ComLib.Lang.AST
             // NOTE: Any extra arguments will be part of the implicit "arguments" array.
             if(!hasParameterNamedArguments)
             {
-                var array = new LArray(this.ArgumentValues);
-                Ctx.Memory.SetValue("arguments", array);
+                var typeval = new LTypeValue(this.ArgumentValues, LTypes.Array);
+                Ctx.Memory.SetValue("arguments", typeval);
             }
         }
 

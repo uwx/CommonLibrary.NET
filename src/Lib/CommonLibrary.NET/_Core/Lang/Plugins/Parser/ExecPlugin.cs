@@ -128,7 +128,9 @@ namespace ComLib.Lang.Plugins
                 args = (LArray)this.GetParamValue(2, true, null);
 
                 // Convert the items in the array to strings.
-                var list = args.Raw;
+                // TODO: type-changes
+                //var list = args.Raw;
+                var list = new List<object>();
                 var stringArgs = "";
                 foreach (var item in list)
                     stringArgs += Convert.ToString(item) + " ";

@@ -190,7 +190,7 @@ namespace ComLib.Lang.Helpers
             if (resolveParams) ParamHelper.ResolveParametersForMethodCall(methodInfo, paramListExpressions, paramList);
 
             // 2. Convert internal language types to c# code method types.
-            TypeHelper.ConvertArgs(paramList, methodInfo);
+            LangTypeHelper.ConvertArgs(paramList, methodInfo);
 
             // 3. Now get args as an array for method calling.
             object[] args = paramList.ToArray();

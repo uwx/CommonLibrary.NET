@@ -260,7 +260,7 @@ namespace ComLib.Lang.Types
                 end = list.Count;
             for (var ndx = start; ndx < end; ndx++)
                 items.Add(list[ndx]);
-            return new LTypeValue(items, LTypesLookup.ArrayType);
+            return new LTypeValue(items, LTypes.Array);
         }
 
 

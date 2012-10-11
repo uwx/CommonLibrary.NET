@@ -193,7 +193,7 @@ namespace ComLib.Lang
         {
             var argsList = args.ToList<object>();
             if(convertApplicableTypes)
-                FunctionHelper.ConvertToFluentScriptTypes(argsList);
+                LangTypeHelper.ConvertToLangTypeValues(argsList);
             var result = _context.Functions.CallByName(functionName, null, argsList, false);
             return result;
         }

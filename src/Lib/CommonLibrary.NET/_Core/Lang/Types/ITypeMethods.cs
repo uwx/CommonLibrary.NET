@@ -60,5 +60,21 @@ namespace ComLib.Lang.Types
         /// <param name="parameters">The parameters to the method.</param>
         /// <returns></returns>
         object ExecuteMethod(LTypeValue type, string methodName, object[] parameters);
+
+
+        /// <summary>
+        /// Set a value by the index.
+        /// </summary>
+        /// <param name="typeval"></param>
+        /// <param name="ndx"></param>
+        void SetByNumericIndex(LTypeValue typeval, int ndx);
+
+
+        /// <summary>
+        /// Set a value by the index.
+        /// </summary>
+        /// <param name="typeval"></param>
+        /// <param name="ndx"></param>
+        void SetByStringMember(LTypeValue typeval, string member, LTypeValue val);
     }
 }

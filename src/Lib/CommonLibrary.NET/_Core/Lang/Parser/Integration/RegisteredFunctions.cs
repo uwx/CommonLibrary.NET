@@ -104,7 +104,7 @@ namespace ComLib.Lang.Parsing
         {
             var function = GetByName(functionName);
             if(resolveParams)
-                FunctionHelper.ResolveParametersForScriptFunction(function.Meta, paramListExpressions, paramVals);
+                ParamHelper.ResolveParametersForScriptFunction(function.Meta, paramListExpressions, paramVals);
             function.ArgumentValues = paramVals;
             function.Evaluate();
             object result = null;

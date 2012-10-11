@@ -224,6 +224,27 @@ namespace ComLib.Lang.Types
         }
 
 
+
+        /// <summary>
+        /// Set a value by the index.
+        /// </summary>
+        /// <param name="typeval"></param>
+        /// <param name="ndx"></param>
+        public virtual void SetByNumericIndex(LTypeValue typeval, int ndx)
+        {
+        }
+
+
+        /// <summary>
+        /// Set a value by the index.
+        /// </summary>
+        /// <param name="typeval"></param>
+        /// <param name="ndx"></param>
+        public virtual void SetByStringMember(LTypeValue typeval, string member, LTypeValue val)
+        {
+        }
+
+
         /// <summary>
         /// Executes the method supplied on the the type.
         /// </summary>
@@ -306,7 +327,9 @@ namespace ComLib.Lang.Types
         {
             var funcdef = new FunctionMetaData(name, null);
             funcdef.Doc = new Docs.DocTags();
-            funcdef.ReturnType = returnType;
+
+            // Todo: 
+            funcdef.ReturnType = LangTypeHelper.ConvertToLangType(returnType);
             funcdef.Doc.Summary = description;
 
             var mappedMethod = new MappedMethod();

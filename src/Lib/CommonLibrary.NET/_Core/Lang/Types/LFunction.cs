@@ -27,7 +27,7 @@ namespace ComLib.Lang.Types
         /// </summary>
         public override void SetupConversionMatrix()
         {
-            this.SetDefautlConversionMatrix(TypeConversionMode.NotSupported);
+            this.SetDefaultConversionMatrix(TypeConversionMode.NotSupported);
         }
     }
 }

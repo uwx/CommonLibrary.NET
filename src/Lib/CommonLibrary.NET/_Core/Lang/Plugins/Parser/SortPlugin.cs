@@ -201,8 +201,8 @@ namespace ComLib.Lang.Plugins
         /// <returns></returns>
         public override object Evaluate()
         {
-            var array = _source.Evaluate();
-            List<object> items = (array as LArray).Raw;
+            var array = _source.Evaluate() as LTypeValue;
+            var items = array.Result as List<object>;
 
             // 1. Basic datatypes string, bool, number, date.
             if (!(_filter is MemberAccessExpr))

@@ -251,13 +251,11 @@ namespace ComLib.Lang.Plugins
 
             // for(user in users)
             // Push scope for var name 
-            object source = Ctx.Memory.Get<object>(_sourceName);
+            var source = Ctx.Memory.Get<object>(_sourceName) as LTypeValue;
 
             IEnumerator enumerator = null;
-            if (source is LArray) enumerator = ((LArray)source).Raw.GetEnumerator();
-            else if (source is IList) enumerator = ((IList)source).GetEnumerator();
-            else if (source is Array) enumerator = ((Array)source).GetEnumerator();
-            else if (source is LMap) enumerator = ((LMap)source).Raw.GetEnumerator();
+            if (source.Type == LTypes.Array) enumerator = ((IList)source.Result).GetEnumerator();
+            else if (source.Type == LTypes.Map) enumerator = ((IDictionary)source.Result).GetEnumerator();
 
             _continueRunning = enumerator.MoveNext();
 

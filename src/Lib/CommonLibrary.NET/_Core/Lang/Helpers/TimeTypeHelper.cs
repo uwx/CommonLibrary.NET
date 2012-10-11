@@ -40,7 +40,7 @@ namespace ComLib.Lang.Helpers
                 throw new ArgumentException("Incorrect number of inputs for creating time");
 
             // Convert object into ints
-            int[] timeArgs = LangHelper.ConvertToInts(args);
+            int[] timeArgs = LangTypeHelper.ConvertToInts(args);
             int len = args.Length;
 
             // 1. 0 args = new TimeSpan()

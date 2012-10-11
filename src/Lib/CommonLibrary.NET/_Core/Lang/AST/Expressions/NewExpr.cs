@@ -56,7 +56,7 @@ namespace ComLib.Lang.AST
             if (ParamListExpressions != null && ParamListExpressions.Count > 0)
             {
                 ParamList = new List<object>();
-                FunctionHelper.ResolveParameters(ParamListExpressions, ParamList);
+                ParamHelper.ResolveParameters(ParamListExpressions, ParamList);
                 constructorArgs = ParamList.ToArray();
             }
             if (string.Compare(TypeName, "Date", StringComparison.InvariantCultureIgnoreCase) == 0)

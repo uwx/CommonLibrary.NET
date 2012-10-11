@@ -104,7 +104,7 @@ namespace ComLib.Lang.Parsing
         public object Call(string name, FunctionCallExpr exp)
         {
             var callback = GetByName(name);
-            FunctionHelper.ResolveParameters(exp.ParamListExpressions, exp.ParamList);
+            ParamHelper.ResolveParameters(exp.ParamListExpressions, exp.ParamList);
             object result = callback(exp);
             return result;
         }

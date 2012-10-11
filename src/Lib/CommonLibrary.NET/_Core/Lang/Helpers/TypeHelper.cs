@@ -2,7 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+
 using ComLib.Lang.Types;
+using ComLib.Lang.Core;
+
 
 namespace ComLib.Lang.Helpers
 {
@@ -29,6 +32,21 @@ namespace ComLib.Lang.Helpers
             if (hostLangType == typeof(IDictionary)) return LTypes.Map;
             
             return LTypes.Object;
+        }
+
+
+        /// <summary>
+        /// Converts to host language type to a fluentscript type.
+        /// </summary>
+        /// <param name="hostLangType"></param>
+        /// <returns></returns>
+        public static LType ConvertToLangTypeClass(Type hostLangType)
+        {
+            var type = new LObject();
+            type.Name = hostLangType.Name;
+            type.FullName = hostLangType.FullName;
+            type.TypeVal = TypeConstants.LClass;
+            return type;
         }
 
 

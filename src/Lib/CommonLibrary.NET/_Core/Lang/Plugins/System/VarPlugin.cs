@@ -6,6 +6,7 @@ using ComLib.Lang.Core;
 using ComLib.Lang.AST;
 using ComLib.Lang.Types;
 using ComLib.Lang.Parsing;
+using ComLib.Lang.Helpers;
 // </lang:using>
 
 namespace ComLib.Lang.Plugins
@@ -180,7 +181,8 @@ namespace ComLib.Lang.Plugins
                         if (this.Ctx.Types.Contains(newExp.TypeName))
                         {
                             var type = this.Ctx.Types.Get(newExp.TypeName);
-                            this.Ctx.Symbols.Current.DefineVariable(name, type);
+                            var ltype = LangTypeHelper.ConvertToLangTypeClass(type);
+                            this.Ctx.Symbols.Current.DefineVariable(name, ltype);
                             registeredTypeVar = true;
                         }
                     }
@@ -285,7 +287,7 @@ namespace ComLib.Lang.Plugins
                 // CASE 3 - 4 : Member access via class / map                    
                 else if (this.VarExp is MemberAccessExpr)
                 {
-                    result = this.ValueExp.Evaluate();
+                    var expval = this.ValueExp.Evaluate() as LTypeValue;
 
                     // CHECK_LIMIT:
                     Ctx.Limits.CheckStringLength(this, result);
@@ -300,13 +302,15 @@ namespace ComLib.Lang.Plugins
                     else if (member.DataType == typeof(LMap))
                     {
                         //Ctx.Methods.Get(typeof(LMap)).SetProperty((LMap)member.Instance, member.MemberName, result);
-                        ((LMap)member.Instance).SetValue(member.MemberName, result);
+                        var methods = Ctx.Methods.Get(LTypes.Map);
+                        var ltypeval = new LTypeValue(member.Instance, LTypes.Map);
+                        methods.SetByStringMember(ltypeval, member.MemberName, expval);
                     }
                 }
                 // Case 5: Set index value "users[0]" = <expression>;
                 else if (this.VarExp is IndexExpr)
                 {
-                    result = this.ValueExp.Evaluate();
+                    var ltypeval = this.ValueExp.Evaluate() as LTypeValue;
 
                     // CHECK_LIMIT:
                     Ctx.Limits.CheckStringLength(this, result);
@@ -320,9 +324,9 @@ namespace ComLib.Lang.Plugins
                     }
                     else if (obj is LArray)
                     {
-                        //Ctx.Methods.Get(typeof(LArray)).SetProperty((LMap)member.Instance, member.MemberName, result);
-                        var methods = Ctx.Methods.Get(typeof(LArray));
-                        ((LArray)obj).SetByIndex(ndx, result);
+                        //Ctx.Methods.Get(typeof(LArray)).SetProperty((LMap)member.Instance, member.MemberName, result);                        
+                        var methods = Ctx.Methods.Get(LTypes.Array);                      
+                        methods.SetByNumericIndex(ltypeval, ndx);
                     }
                     else
                     {

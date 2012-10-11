@@ -158,14 +158,12 @@ namespace ComLib.Lang.Plugins
         /// <returns></returns>
         public override object Evaluate()
         {
-            object dataSource = _source.Evaluate();
+            var dataSource = _source.Evaluate() as LTypeValue;
             List<object> items = null;
 
             // Get the right type of list.
-            if (dataSource is LArray)
-                items = ((LArray)dataSource).Raw;
-            else if (dataSource is List<object>)
-                items = dataSource as List<object>;
+            if (dataSource.Type == LTypes.Array)
+                items = dataSource.Result as List<object>;
             else
                 throw new NotSupportedException(_aggregateType + " not supported for list type of " + dataSource.GetType());
 
