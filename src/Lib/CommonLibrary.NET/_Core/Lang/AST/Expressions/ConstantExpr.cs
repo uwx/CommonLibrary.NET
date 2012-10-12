@@ -2,6 +2,7 @@
 
 // <lang:using>
 using ComLib.Lang.Types;
+using ComLib.Lang.Helpers;
 // </lang:using>
 
 namespace ComLib.Lang.AST
@@ -28,20 +29,8 @@ namespace ComLib.Lang.AST
         /// <returns></returns>
         public override object DoEvaluate()
         {
-            /*
-            if (this.Value.GetType() == typeof(string))
-                return new LStringType((string)this.Value);
-
-            if (this.Value.GetType() == typeof(double))
-                return new LNumberType((double)this.Value);
-
-            if (this.Value.GetType() == typeof(bool))
-                return new LBoolType((bool)this.Value);
-
-            if (this.Value.GetType() == typeof(DateTime))
-                return new LDateType((DateTime) this.Value);
-            */
-            return this.Value;
+            var ltype = LangTypeHelper.ConvertToLangValue(this.Value);
+            return ltype;
         }
     }
 }

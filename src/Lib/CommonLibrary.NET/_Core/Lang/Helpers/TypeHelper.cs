@@ -15,6 +15,31 @@ namespace ComLib.Lang.Helpers
     public class LangTypeHelper
     {
         /// <summary>
+        /// Converts from c# datatypes to fluentscript datatypes inside
+        /// </summary>
+        /// <param name="val"></param>
+        public static LObjectValue ConvertToLangValue(object val)
+        {
+            if (val.GetType() == typeof(int))       
+                return new LNumber(Convert.ToDouble(val));
+            
+            if (val.GetType() == typeof(double))
+                return new LNumber((double)val);
+            
+            if (val.GetType() == typeof(string))
+                return new LString((string)val);
+
+            if (val.GetType() == typeof(DateTime))
+                return new LDate((DateTime)val);
+
+            if (val.GetType() == typeof(TimeSpan))
+                return new LTime((TimeSpan)val);
+
+            return new LBool((bool)val);
+        }
+
+        
+        /// <summary>
         /// Converts a Type object from the host language to a fluentscript type.
         /// </summary>
         /// <param name="hostLangType"></param>

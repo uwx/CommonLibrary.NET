@@ -24,6 +24,16 @@ namespace ComLib.Lang.Types
         /// The raw type value.
         /// </summary>
         public DateTime Value;
+
+
+        /// <summary>
+        /// Gets the value of this object.
+        /// </summary>
+        /// <returns></returns>
+        public override object GetValue()
+        {
+            return this.Value;
+        }
     }
 
 

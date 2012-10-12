@@ -15,6 +15,16 @@ namespace ComLib.Lang.Types
         /// The data type of this value.
         /// </summary>
         public LType Type;
+
+
+        /// <summary>
+        /// Gets the value of this object.
+        /// </summary>
+        /// <returns></returns>
+        public virtual object GetValue()
+        {
+            return null;
+        }
     }
     
 

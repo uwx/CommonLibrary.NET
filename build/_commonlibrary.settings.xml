@@ -1,7 +1,7 @@
 <project xmlns="http://nant.sf.net/release/0.85-rc3/nant.xsd" default="">
 
 	<!-- APPLICATION   level -->		 							 
-	<property name="app.base.dir" value="C:\DEV\lib\CommonLibrary.NET\CommonLibrary.Net_LATEST"/>
+	<property name="app.base.dir" value="C:\DEV\business\CommonLibrary.NET\CommonLibraryNet_LATEST"/>
 	<property name="app.source.dir" value="${app.base.dir}\src"/>
 	<property name="app.publish.dir" value="${app.base.dir}\dist"/>
 	<property name="app.test.dir" value="Src\Tests"/>
