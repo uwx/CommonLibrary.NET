@@ -267,7 +267,7 @@ namespace ComLib.Lang.Plugins
                     // Case 1: var result;
                     if (this.ValueExp == null)
                     {
-                        this.Ctx.Memory.SetValue(varname, LNullType.Instance, _isDeclaration);
+                        this.Ctx.Memory.SetValue(varname, LNull.Instance, _isDeclaration);
                     }
                     else
                     {

@@ -8,7 +8,7 @@ namespace ComLib.Lang.Types
     /// <summary>
     /// Used to store a string value.
     /// </summary>
-    public class LString : LObjectValue
+    public class LString : LObject
     {
         /// <summary>
         /// Initialize

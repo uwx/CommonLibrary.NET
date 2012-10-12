@@ -1,12 +1,13 @@
 ﻿using System;
 
+using ComLib.Lang.Core;
 
 namespace ComLib.Lang.Types
 {
     /// <summary>
     /// Units class for lenght, weight, temperatur, currency etc.
     /// </summary>
-    public class LUnit
+    public class LUnit : LObject
     {
         /// <summary>
         /// The value of the unit in base terms e.g. 1 inch is the base for length etc.
@@ -64,6 +65,39 @@ namespace ComLib.Lang.Types
             // Check for matching groups e.g. length + length or weight + weight.
             if (u1.Group != u2.Group)
                 throw new ArgumentException("Can not add units " + u1.Group + " to " + u2.Group);
+        }
+    }
+
+
+    /// <summary>
+    /// Array type.
+    /// </summary>
+    public class LUnitType : LObjectType
+    {
+        /// <summary>
+        /// Initialize.
+        /// </summary>
+        public LUnitType()
+        {
+            this.Name = "unit";
+            this.FullName = "sys.unit";
+            this.TypeVal = TypeConstants.Time;
+        }
+
+
+        /// <summary>
+        /// Sets up the matrix of possible conversions from one type to another type.
+        /// </summary>
+        public override void SetupConversionMatrix()
+        {
+            this.AddConversionTo(TypeConstants.Array, TypeConversionMode.NotSupported);
+            this.AddConversionTo(TypeConstants.Bool, TypeConversionMode.NotSupported);
+            this.AddConversionTo(TypeConstants.Date, TypeConversionMode.Supported);
+            this.AddConversionTo(TypeConstants.Map, TypeConversionMode.NotSupported);
+            this.AddConversionTo(TypeConstants.Number, TypeConversionMode.Supported);
+            this.AddConversionTo(TypeConstants.Null, TypeConversionMode.Supported);
+            this.AddConversionTo(TypeConstants.String, TypeConversionMode.Supported);
+            this.AddConversionTo(TypeConstants.Time, TypeConversionMode.SameType);
         }
     }
 }

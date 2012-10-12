@@ -9,7 +9,7 @@ namespace ComLib.Lang.Types
     /// <summary>
     /// Used to store/wrap a value of either a basic type or instance of a class.
     /// </summary>
-    public class LObjectValue
+    public class LObject
     {
         /// <summary>
         /// The data type of this value.

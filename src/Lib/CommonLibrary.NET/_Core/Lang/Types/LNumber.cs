@@ -7,7 +7,7 @@ namespace ComLib.Lang.Types
     /// <summary>
     /// Used to store a number value.
     /// </summary>
-    public class LNumber : LObjectValue
+    public class LNumber : LObject
     {
         /// <summary>
         /// Initialize

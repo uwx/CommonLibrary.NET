@@ -5,7 +5,7 @@ namespace ComLib.Lang.Types
     /// <summary>
     /// Used to store a bool value.
     /// </summary>
-    public class LBool : LObjectValue
+    public class LBool : LObject
     {
         /// <summary>
         /// Initialize

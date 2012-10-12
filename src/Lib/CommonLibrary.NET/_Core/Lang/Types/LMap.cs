@@ -8,7 +8,7 @@ namespace ComLib.Lang.Types
     /// <summary>
     /// Used to store a array
     /// </summary>
-    public class LMap : LObjectValue
+    public class LMap : LObject
     {
         /// <summary>
         /// Initialize

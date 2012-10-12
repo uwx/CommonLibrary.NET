@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Collections;
+﻿
 
 // <lang:using>
 using ComLib.Lang.Core;
+using ComLib.Lang.Helpers;
 using ComLib.Lang.Types;
 // </lang:using>
 
@@ -55,163 +51,43 @@ namespace ComLib.Lang.AST
         /// <returns></returns>
         public override object DoEvaluate()
         {
-            bool result = false;
-            object left = Left.Evaluate();
-            object right = Right.Evaluate();
+            object result = null;
+            var left =  (LObject)Left.Evaluate();
+            var right = (LObject)Right.Evaluate();
 
-            if (left is int || left is long)
-                left = Convert.ToDouble(left);
-            if (right is int || left is long)
-                right = Convert.ToDouble(right);
             
             // Both double
-            if (left is double && right is double)
-                result = CompareNumbers((double)left, (double)right, Op);
-
-            else if (left is int && right is int)
-                result = CompareNumbers(Convert.ToDouble(left), Convert.ToDouble(right), Op);
+            if (left.Type == LTypes.Number && right.Type == LTypes.Number)
+                result = EvalHelper.CompareNumbers(this, (LNumber)left, (LNumber)right, Op);
 
             // Both strings
-            else if (left is string && right is string)
-                result = CompareStrings((string)left, (string)right, Op);
+            else if (left.Type == LTypes.String && right.Type == LTypes.String)
+                result = EvalHelper.CompareStrings(this, (LString)left, (LString)right, Op);
 
             // Both bools
-            else if (left is bool && right is bool)
-                result = CompareNumbers(Convert.ToDouble(left), Convert.ToDouble(right), Op);
+            else if (left.Type == LTypes.Bool && right.Type == LTypes.Bool)
+                result = EvalHelper.CompareBools(this, (LBool)left, (LBool)right, Op);
 
             // Both dates
-            else if (left is DateTime && right is DateTime)
-                result = CompareDates((DateTime)left, (DateTime)right, Op);
+            else if (left.Type == LTypes.Date && right.Type == LTypes.Date)
+                result = EvalHelper.CompareDates(this, (LDate)left, (LDate)right, Op);
 
             // Both Timespans
-            else if (left is TimeSpan && right is TimeSpan)
-                result = CompareTimes((TimeSpan)left, (TimeSpan)right, Op);
+            else if (left.Type == LTypes.Time && right.Type == LTypes.Time)
+                result = EvalHelper.CompareTimes(this, (LTime)left, (LTime)right, Op);
 
             // 1 or both null
-            else if (left == LNullType.Instance || right == LNullType.Instance)
-                result = CompareNull(left, right, Op);
+            else if (left == LNull.Instance || right == LNull.Instance)
+                result = EvalHelper.CompareNull(left, right, Op);
             
             // Day of week ?
-            else if (left is DayOfWeek || right is DayOfWeek)
-                result = CompareDays(left, right, Op);
+            else if (left.Type == LTypes.DayOfWeek || right.Type == LTypes.DayOfWeek)
+                result = EvalHelper.CompareDays(this, left, right, Op);
 
             // Day of week ?
-            else if (left is LUnit || right is LUnit)
-                result = CompareUnits((LUnit)left, (LUnit)right, Op);
+            else if (left.Type == LTypes.Unit || right.Type == LTypes.Unit)
+                result = EvalHelper.CompareUnits(this, (LUnit)left, (LUnit)right, Op);
 
-            return result;
-        }
-
-
-        private static bool CompareNull(object left, object right, Operator op)
-        {
-            // Both null
-            if (left == LNullType.Instance && right == LNullType.Instance && op == Operator.EqualEqual) return true;
-            if (left == LNullType.Instance && right == LNullType.Instance && op == Operator.NotEqual) return false;
-            // Both not null
-            if (left != LNullType.Instance && right != LNullType.Instance && op == Operator.EqualEqual) return left == right;
-            if (left != LNullType.Instance && right != LNullType.Instance && op == Operator.NotEqual) return left != right;
-            // Check for one
-            if (op == Operator.NotEqual) return true;
-
-            return false;
-        }
-
-
-        private static bool CompareNumbers(double left, double right, Operator op)
-        {
-            if (op == Operator.LessThan) return left < right;
-            if (op == Operator.LessThanEqual) return left <= right;
-            if (op == Operator.MoreThan) return left > right;            
-            if (op == Operator.MoreThanEqual) return left >= right;            
-            if (op == Operator.EqualEqual) return left == right;            
-            if (op == Operator.NotEqual) return left != right;            
-            return false;
-        }
-
-
-        private static bool CompareStrings(string left, string right, Operator op)
-        {
-            if (op == Operator.EqualEqual) return left == right;            
-            if (op == Operator.NotEqual)   return left != right;            
-            int compareResult = string.Compare(left, right);
-            if (op == Operator.LessThan)      return compareResult == -1;
-            if (op == Operator.LessThanEqual) return compareResult != 1;            
-            if (op == Operator.MoreThan)      return compareResult == 1;
-            if (op == Operator.MoreThanEqual) return compareResult != -1;
-
-            return false;
-        }
-
-
-        private static bool CompareDates(DateTime left, DateTime right, Operator op)
-        {
-             if (op == Operator.LessThan)      return left < right;            
-            if (op == Operator.LessThanEqual) return left <= right;
-            if (op == Operator.MoreThan)      return left > right;
-            if (op == Operator.MoreThanEqual) return left >= right;
-            if (op == Operator.EqualEqual)    return left == right;            
-            if (op == Operator.NotEqual)      return left != right;            
-            return false;
-        }
-
-
-        private static bool CompareTimes(TimeSpan left, TimeSpan right, Operator op)
-        {
-            if (op == Operator.LessThan) return left < right;
-            if (op == Operator.LessThanEqual) return left <= right;
-            if (op == Operator.MoreThan) return left > right;
-            if (op == Operator.MoreThanEqual) return left >= right;
-            if (op == Operator.EqualEqual) return left == right;
-            if (op == Operator.NotEqual) return left != right;
-            return false;
-        }
-
-
-        private static bool CompareUnits(LUnit left, LUnit right, Operator op)
-        {
-            if (op == Operator.LessThan) return left.BaseValue < right.BaseValue;
-            if (op == Operator.LessThanEqual) return left.BaseValue <= right.BaseValue;
-            if (op == Operator.MoreThan) return left.BaseValue > right.BaseValue;
-            if (op == Operator.MoreThanEqual) return left.BaseValue >= right.BaseValue;
-            if (op == Operator.EqualEqual) return left.BaseValue == right.BaseValue;
-            if (op == Operator.NotEqual) return left.BaseValue != right.BaseValue;
-            return false;
-        }
-
-
-        private static bool CompareDays(object left, object right, Operator op)
-        {
-            bool result = false;
-            // Dates vs DayOfWeek
-            if ((left is DateTime && right is DayOfWeek))
-            {
-                int leftDay = (int)((DateTime)left).DayOfWeek;
-                int rightDay = (int)((DayOfWeek)right);
-                result = CompareNumbers(leftDay, rightDay, op);
-            }
-            else if ((left is DayOfWeek && right is DateTime))
-            {
-                int leftDay = (int)((DayOfWeek)left);
-                int rightDay = (int)((DateTime)right).DayOfWeek;
-                result = CompareNumbers(leftDay, rightDay, op);
-            }
-            else if ((left is double && right is DayOfWeek))
-            {
-                int rightDay = (int)((DayOfWeek)right);
-                result = CompareNumbers((double)left, rightDay, op);
-            }
-            else if ((left is DayOfWeek && right is double))
-            {
-                int leftDay = (int)((DayOfWeek)left);
-                result = CompareNumbers(leftDay, (double)right, op);
-            }
-            else if (left is DayOfWeek && right is DayOfWeek)
-            {
-                int leftDay = (int)((DayOfWeek)left);
-                int rightDay = (int)((DayOfWeek)right);
-                result = CompareNumbers(leftDay, rightDay, op);
-            }
             return result;
         }
     }    

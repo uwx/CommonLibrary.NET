@@ -26,14 +26,31 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("name", typeof(object), LNull.Instance,  "var name;"),
-                new Tuple<string,Type, object, string>("name", typeof(string), "kishore",       "var name = 'kishore';"),
-                new Tuple<string,Type, object, string>("name", typeof(string), "kishore",       "var name = \"kishore\";"),
-                new Tuple<string,Type, object, string>("age", typeof(double),   32,             "var age = 32;"),
-                new Tuple<string,Type, object, string>("isActive", typeof(bool), true,          "var isActive = true;"),
-                new Tuple<string,Type, object, string>("isActive", typeof(bool), false,         "var isActive = false;"),
+                TestCase("name",     typeof(object),    LNull.Instance,  "var name;"),
+                TestCase("name",     typeof(string),    "kishore",       "var name = 'kishore';"),
+                TestCase("name",     typeof(string),    "kishore",       "var name = \"kishore\";"),
+                TestCase("age",      typeof(double),    32,              "var age = 32;"),
+                TestCase("age",      typeof(double),    3.2,             "var age = 3.2;"),
+                TestCase("isActive", typeof(bool),      true,            "var isActive = true;"),
+                TestCase("isActive", typeof(bool),      false,           "var isActive = false;"),
             };
             Parse(statements, replaceSemicolonsWithNewLines: true);
+        }
+
+
+        [Test]
+        public void Can_Do_Single_Assignment_Constant_Math_Expressions()
+        {
+            var statements = new List<Tuple<string, Type, object, string>>()
+            {
+                TestCase("result", typeof(double), 8,  "var result = 4 * 2;"),
+                TestCase("result", typeof(double), 3,  "var result = 6 / 2;"),
+                TestCase("result", typeof(double), 6,  "var result = 4 + 2;"),
+                TestCase("result", typeof(double), 2,  "var result = 4 - 2;"),
+                TestCase("result", typeof(double), 1,  "var result = 5 % 2;")
+                
+            };
+            Parse(statements);
         }
 
 
@@ -66,20 +83,7 @@ namespace ComLib.Lang.Tests.Integration.System
         }
 
 
-        [Test]
-        public void Can_Do_Single_Assignment_Constant_Math_Expressions()
-        {
-            var statements = new List<Tuple<string, Type, object, string>>()
-            {
-                new Tuple<string,Type, object, string>("result", typeof(double), 8,  "var result = 4 * 2;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 3,  "var result = 6 / 2;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 6,  "var result = 4 + 2;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 2,  "var result = 4 - 2;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1,  "var result = 5 % 2;")
-                
-            };
-            Parse(statements);
-        }
+        
 
 
         [Test]
@@ -98,12 +102,12 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 10,  "var result = 4 + 2 * 3;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 7,   "var result = 4 + 2 * 3 / 2;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 10,  "var result = 4 * 2 + 8 / 4;"),            
-                new Tuple<string,Type, object, string>("result", typeof(double), 6,   "var result = 4 * 8 / 8 + 2;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 4,   "var result = 4 - 2 + 8 / 4;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 2,   "var result = 6 - 2 * 8 / 4;"),
+                TestCase("result", typeof(double), 10,  "var result = 4 + 2 * 3;"),
+                TestCase("result", typeof(double), 7,   "var result = 4 + 2 * 3 / 2;"),
+                TestCase("result", typeof(double), 10,  "var result = 4 * 2 + 8 / 4;"),            
+                TestCase("result", typeof(double), 6,   "var result = 4 * 8 / 8 + 2;"),
+                TestCase("result", typeof(double), 4,   "var result = 4 - 2 + 8 / 4;"),
+                TestCase("result", typeof(double), 2,   "var result = 6 - 2 * 8 / 4;"),
             };
             Parse(statements);
         }
@@ -114,14 +118,14 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 18,  "var result = (3 + 5 * 3);"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 18,  "var result = (4 + 2) * 3;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 12,  "var result = (4 + 2) * (4 / 2);"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 10,  "var result = 4 * (2 + 8) / 4;"),            
-                new Tuple<string,Type, object, string>("result", typeof(double), 6,   "var result = 4 * (8 / 8) + 2;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), -1,  "var result = 4 - (2 + 8) / 2;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 8,   "var result = (6 - 2) * 8 / 4;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool),   true,"var result = (6 - 2) > 4 || ( 1 > 2 || 4 > 3 );"),
+                TestCase("result", typeof(double), 18,  "var result = (3 + 5 * 3);"),
+                TestCase("result", typeof(double), 18,  "var result = (4 + 2) * 3;"),
+                TestCase("result", typeof(double), 12,  "var result = (4 + 2) * (4 / 2);"),
+                TestCase("result", typeof(double), 10,  "var result = 4 * (2 + 8) / 4;"),            
+                TestCase("result", typeof(double), 6,   "var result = 4 * (8 / 8) + 2;"),
+                TestCase("result", typeof(double), -1,  "var result = 4 - (2 + 8) / 2;"),
+                TestCase("result", typeof(double), 8,   "var result = (6 - 2) * 8 / 4;"),
+                TestCase("result", typeof(bool),   true,"var result = (6 - 2) > 4 || ( 1 > 2 || 4 > 3 );"),
             };
             Parse(statements);
         }
@@ -132,14 +136,14 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(string), "comlibext",   "var result = 'comlib' + 'ext';"),
-                new Tuple<string,Type, object, string>("result", typeof(string), "comlib2",     "var result = 'comlib' + 2;"),
-                new Tuple<string,Type, object, string>("result", typeof(string), "3comlib",     "var result = 3 + 'comlib';"),
-                new Tuple<string,Type, object, string>("result", typeof(string), "comlibtrue",  "var result = 'comlib' + true;"),
-                new Tuple<string,Type, object, string>("result", typeof(string), "comlibfalse", "var result = 'comlib' + false;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 2,             "var result = 2 + false;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 3,             "var result = 2 + true;" ),
-                new Tuple<string,Type, object, string>("result", typeof(double), "comlibnet4.5","var result = 'comlib' + 'net' + 4.5;" ),
+                TestCase("result", typeof(string), "comlibext",   "var result = 'comlib' + 'ext';"),
+                TestCase("result", typeof(string), "comlib2",     "var result = 'comlib' + 2;"),
+                TestCase("result", typeof(string), "3comlib",     "var result = 3 + 'comlib';"),
+                TestCase("result", typeof(string), "comlibtrue",  "var result = 'comlib' + true;"),
+                TestCase("result", typeof(string), "comlibfalse", "var result = 'comlib' + false;"),
+                TestCase("result", typeof(double), 2,             "var result = 2 + false;"),
+                TestCase("result", typeof(double), 3,             "var result = 2 + true;" ),
+                TestCase("result", typeof(double), "comlibnet4.5","var result = 'comlib' + 'net' + 4.5;" ),
                 
             };
             Parse(statements);
@@ -173,33 +177,33 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(bool), true,  "var result = 1 >  2 || 3 < 4;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true,  "var result = 1 >= 2 || 3 < 4;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true,  "var result = 4 <  2 || 3 < 4;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true,  "var result = 4 <= 2 || 3 < 4;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true,  "var result = 2 != 2 || 3 < 4;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true,  "var result = 2 == 4 || 3 < 4;"),
+                TestCase("result", typeof(bool), true,  "var result = 1 >  2 || 3 < 4;"),
+                TestCase("result", typeof(bool), true,  "var result = 1 >= 2 || 3 < 4;"),
+                TestCase("result", typeof(bool), true,  "var result = 4 <  2 || 3 < 4;"),
+                TestCase("result", typeof(bool), true,  "var result = 4 <= 2 || 3 < 4;"),
+                TestCase("result", typeof(bool), true,  "var result = 2 != 2 || 3 < 4;"),
+                TestCase("result", typeof(bool), true,  "var result = 2 == 4 || 3 < 4;"),
 
-                new Tuple<string,Type, object, string>("result", typeof(bool), false, "var result = 1 >  2 || 3 > 4;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), false, "var result = 1 >= 2 || 3 > 4;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), false, "var result = 4 <  2 || 3 > 4;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), false, "var result = 4 <= 2 || 3 > 4;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), false, "var result = 2 != 2 || 3 > 4;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), false, "var result = 2 == 4 || 3 > 4;"),
+                TestCase("result", typeof(bool), false, "var result = 1 >  2 || 3 > 4;"),
+                TestCase("result", typeof(bool), false, "var result = 1 >= 2 || 3 > 4;"),
+                TestCase("result", typeof(bool), false, "var result = 4 <  2 || 3 > 4;"),
+                TestCase("result", typeof(bool), false, "var result = 4 <= 2 || 3 > 4;"),
+                TestCase("result", typeof(bool), false, "var result = 2 != 2 || 3 > 4;"),
+                TestCase("result", typeof(bool), false, "var result = 2 == 4 || 3 > 4;"),
 
-                new Tuple<string,Type, object, string>("result", typeof(bool), true,  "var result = 1 <  2 && 3 < 4;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true,  "var result = 1 <= 2 && 3 < 4;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true,  "var result = 4 >= 2 && 3 < 4;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true,  "var result = 1 <= 2 && 3 < 4;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true,  "var result = 2 == 2 && 3 < 4;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true,  "var result = 2 != 4 && 3 < 4;"),
+                TestCase("result", typeof(bool), true,  "var result = 1 <  2 && 3 < 4;"),
+                TestCase("result", typeof(bool), true,  "var result = 1 <= 2 && 3 < 4;"),
+                TestCase("result", typeof(bool), true,  "var result = 4 >= 2 && 3 < 4;"),
+                TestCase("result", typeof(bool), true,  "var result = 1 <= 2 && 3 < 4;"),
+                TestCase("result", typeof(bool), true,  "var result = 2 == 2 && 3 < 4;"),
+                TestCase("result", typeof(bool), true,  "var result = 2 != 4 && 3 < 4;"),
 
-                new Tuple<string,Type, object, string>("result", typeof(bool), false, "var result = 1 <  2 && 3 == 4;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), false, "var result = 1 <= 2 && 3 == 4;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), false, "var result = 4 >= 2 && 3 == 4;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), false, "var result = 4 <= 2 && 3 == 4;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), false, "var result = 2 == 2 && 3 == 4;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), false, "var result = 2 <  4 && 3 == 4;")
+                TestCase("result", typeof(bool), false, "var result = 1 <  2 && 3 == 4;"),
+                TestCase("result", typeof(bool), false, "var result = 1 <= 2 && 3 == 4;"),
+                TestCase("result", typeof(bool), false, "var result = 4 >= 2 && 3 == 4;"),
+                TestCase("result", typeof(bool), false, "var result = 4 <= 2 && 3 == 4;"),
+                TestCase("result", typeof(bool), false, "var result = 2 == 2 && 3 == 4;"),
+                TestCase("result", typeof(bool), false, "var result = 2 <  4 && 3 == 4;")
             };
             Parse(statements);
         }
@@ -210,12 +214,12 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result2", typeof(string), "kishore", "var result = 'kishore'; var result2 = result;"),
-                new Tuple<string,Type, object, string>("result2", typeof(double), 8,         "var result = 4; var result2 = result * 2;"),
-                new Tuple<string,Type, object, string>("result2", typeof(double), 3,         "var result = 6; var result2 = result / 2;"),
-                new Tuple<string,Type, object, string>("result2", typeof(double), 6,         "var result = 4; var result2 = result + 2;"),
-                new Tuple<string,Type, object, string>("result2", typeof(double), 2,         "var result = 4; var result2 = result - 2;"),
-                new Tuple<string,Type, object, string>("result2", typeof(double), 1,         "var result = 5; var result2 = result % 2;"),
+                TestCase("result2", typeof(string), "kishore", "var result = 'kishore'; var result2 = result;"),
+                TestCase("result2", typeof(double), 8,         "var result = 4; var result2 = result * 2;"),
+                TestCase("result2", typeof(double), 3,         "var result = 6; var result2 = result / 2;"),
+                TestCase("result2", typeof(double), 6,         "var result = 4; var result2 = result + 2;"),
+                TestCase("result2", typeof(double), 2,         "var result = 4; var result2 = result - 2;"),
+                TestCase("result2", typeof(double), 1,         "var result = 5; var result2 = result % 2;"),
             };
             Parse(statements);
         }
@@ -228,18 +232,18 @@ namespace ComLib.Lang.Tests.Integration.System
             {
                 // var age = 20; age += 2
                 // var a = 2; a += 2
-                new Tuple<string,Type, object, string>("result", typeof(double), 4, "var result = 2; result += 2; "),
-                new Tuple<string,Type, object, string>("result", typeof(double), 22, "var result = 20; result += 2"),
-                new Tuple<string,Type, object, string>("result", typeof(bool),   false, "var result = 1; result = !result; "),                
-                new Tuple<string,Type, object, string>("result", typeof(string), 3, "var result = 2; result++; "),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 2; result--; "),                
-                new Tuple<string,Type, object, string>("result", typeof(double), 0, "var result = 2; result -= 2; "),
-                new Tuple<string,Type, object, string>("result", typeof(double), 6, "var result = 2; result *= 3; "),
-                new Tuple<string,Type, object, string>("result", typeof(double), 3, "var result = 6; result /= 2; "),
-                new Tuple<string,Type, object, string>("result", typeof(bool),   false, "var result = true; result = !result; "),
-                new Tuple<string,Type, object, string>("result", typeof(bool),   true,  "var result = false; result = !result; "),
-                new Tuple<string,Type, object, string>("result", typeof(bool),   false, "var result = 'abc'; result = !result; "),
-                new Tuple<string,Type, object, string>("result", typeof(string), "abcdef", "var result = 'abc'; result += 'def'; "),
+                TestCase("result", typeof(double), 4, "var result = 2; result += 2; "),
+                TestCase("result", typeof(double), 22, "var result = 20; result += 2"),
+                TestCase("result", typeof(bool),   false, "var result = 1; result = !result; "),                
+                TestCase("result", typeof(string), 3, "var result = 2; result++; "),
+                TestCase("result", typeof(double), 1, "var result = 2; result--; "),                
+                TestCase("result", typeof(double), 0, "var result = 2; result -= 2; "),
+                TestCase("result", typeof(double), 6, "var result = 2; result *= 3; "),
+                TestCase("result", typeof(double), 3, "var result = 6; result /= 2; "),
+                TestCase("result", typeof(bool),   false, "var result = true; result = !result; "),
+                TestCase("result", typeof(bool),   true,  "var result = false; result = !result; "),
+                TestCase("result", typeof(bool),   false, "var result = 'abc'; result = !result; "),
+                TestCase("result", typeof(string), "abcdef", "var result = 'abc'; result += 'def'; "),
             };
             Parse(statements);
         }
@@ -557,8 +561,8 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 4, "var result = 1; while( result < 4 ){ result++; }"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 4; while( result > 1 ){ result--; }")
+                TestCase("result", typeof(double), 4, "var result = 1; while( result < 4 ){ result++; }"),
+                TestCase("result", typeof(double), 1, "var result = 4; while( result > 1 ){ result--; }")
             };
             Parse(statements);
         }
@@ -577,7 +581,7 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 4, "var result = 1; for(var ndx = 0; ndx < 5; ndx++) { result = ndx; }")                
+                TestCase("result", typeof(double), 4, "var result = 1; for(var ndx = 0; ndx < 5; ndx++) { result = ndx; }")                
             };
             Parse(statements);
         }
@@ -588,8 +592,8 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 2,     "var result = 0; var ids = [0,1,2]; for(x in ids) { result = x; }"),
-                new Tuple<string,Type, object, string>("result", typeof(string), "com", "var result = 0; var ids = {a:'com', b:'com', c:'com'}; for(x in ids) { result = x.Value; }")
+                TestCase("result", typeof(double), 2,     "var result = 0; var ids = [0,1,2]; for(x in ids) { result = x; }"),
+                TestCase("result", typeof(string), "com", "var result = 0; var ids = {a:'com', b:'com', c:'com'}; for(x in ids) { result = x.Value; }")
             };
             Parse(statements);
         }
@@ -600,9 +604,9 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 3, "var result = 3; while( result < 4 ){ if( result > 2 ) { break; } result++; }"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 2, "var result = 2; while( result > 1 ){ if( result < 3 ) { break; } result--; }"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 3, "var result = 3; for(var ndx = 0; ndx < 5; ndx++) { if( result > 2 ) { break; } result = ndx; }")
+                TestCase("result", typeof(double), 3, "var result = 3; while( result < 4 ){ if( result > 2 ) { break; } result++; }"),
+                TestCase("result", typeof(double), 2, "var result = 2; while( result > 1 ){ if( result < 3 ) { break; } result--; }"),
+                TestCase("result", typeof(double), 3, "var result = 3; for(var ndx = 0; ndx < 5; ndx++) { if( result > 2 ) { break; } result = ndx; }")
             };
             Parse(statements);
         }
@@ -734,7 +738,7 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var testcases = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 4,     "var result = 0; function test(a, b)       { return arguments[a]; } result = test(2, 'a', 4);")
+                TestCase("result", typeof(double), 4,     "var result = 0; function test(a, b)       { return arguments[a]; } result = test(2, 'a', 4);")
             };
             Parse(testcases);
         }
@@ -945,11 +949,11 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = null; if(result)  result = 0; else result = 1;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = null; if(!result) result = 1;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result ;       if(result == null) result = 1;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = null; if(result == null) result = 1;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1, "var result = 0;    if(result != null) result = 1;"),                
+                TestCase("result", typeof(double), 1, "var result = null; if(result)  result = 0; else result = 1;"),
+                TestCase("result", typeof(double), 1, "var result = null; if(!result) result = 1;"),
+                TestCase("result", typeof(double), 1, "var result ;       if(result == null) result = 1;"),
+                TestCase("result", typeof(double), 1, "var result = null; if(result == null) result = 1;"),
+                TestCase("result", typeof(double), 1, "var result = 0;    if(result != null) result = 1;"),                
             };
             Parse(statements);
         }
@@ -960,10 +964,10 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(object), LNull.Instance, "var result = null;"),
-                new Tuple<string,Type, object, string>("result", typeof(object), LNull.Instance, "var items = [0, null, 2]; var result = items[1];"),
-                new Tuple<string,Type, object, string>("result", typeof(object), LNull.Instance, "var items = { a: 0, b: null, c: 2 }; var result = items.b;"),
-                new Tuple<string,Type, object, string>("result", typeof(object), LNull.Instance, "function test( a, b ) { if ( a == null ) return null; return b; } result = test( null, 2);"),
+                TestCase("result", typeof(object), LNull.Instance, "var result = null;"),
+                TestCase("result", typeof(object), LNull.Instance, "var items = [0, null, 2]; var result = items[1];"),
+                TestCase("result", typeof(object), LNull.Instance, "var items = { a: 0, b: null, c: 2 }; var result = items.b;"),
+                TestCase("result", typeof(object), LNull.Instance, "function test( a, b ) { if ( a == null ) return null; return b; } result = test( null, 2);"),
             };
             Parse(statements);
         }
@@ -974,9 +978,9 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(string), "fluentscript", "var result = 2; result = 'fluentscript';"),
-                new Tuple<string,Type, object, string>("result", typeof(bool),   true,           "var result = 'fluentscript'; result = true;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 4,              "var result = 'fluentscript'; result = 4;")
+                TestCase("result", typeof(string), "fluentscript", "var result = 2; result = 'fluentscript';"),
+                TestCase("result", typeof(bool),   true,           "var result = 'fluentscript'; result = true;"),
+                TestCase("result", typeof(double), 4,              "var result = 'fluentscript'; result = 4;")
             };
             Parse(statements);
         }        
@@ -1102,10 +1106,10 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(string),    "john",                          "var p = new Person(); var result = p.FirstName;"),
-                new Tuple<string,Type, object, string>("result", typeof(string),    "kish",                          "var p = new Person('ki', 'sh'); var result = p.FirstName + p.LastName; "),
-                new Tuple<string,Type, object, string>("result", typeof(string),    "nonew@email.com",               "var p = new Person('john', 'doe', 'nonew@email.com', true, 10.56); var result = p.Email;  "),
-                new Tuple<string,Type, object, string>("result", typeof(string),    "janedallparams@email.comfalse", "var p = new Person('jane', 'd', 'allparams@email.com', false, 10.56, new Date()); var result = p.FirstName + p.LastName + p.Email + p.IsMale;")
+                TestCase("result", typeof(string),    "john",                          "var p = new Person(); var result = p.FirstName;"),
+                TestCase("result", typeof(string),    "kish",                          "var p = new Person('ki', 'sh'); var result = p.FirstName + p.LastName; "),
+                TestCase("result", typeof(string),    "nonew@email.com",               "var p = new Person('john', 'doe', 'nonew@email.com', true, 10.56); var result = p.Email;  "),
+                TestCase("result", typeof(string),    "janedallparams@email.comfalse", "var p = new Person('jane', 'd', 'allparams@email.com', false, 10.56, new Date()); var result = p.FirstName + p.LastName + p.Email + p.IsMale;")
             };
             Parse(statements, true, (i) => i.Context.Types.Register(typeof(Person), null));
         }
@@ -1116,10 +1120,10 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(string),    "john",                          "var p = new ComLib.Tests.Person(); var result = p.FirstName;"),
-                new Tuple<string,Type, object, string>("result", typeof(string),    "kish",                          "var p = new ComLib.Tests.Person('ki', 'sh'); var result = p.FirstName + p.LastName; "),
-                new Tuple<string,Type, object, string>("result", typeof(string),    "nonew@email.com",               "var p = new ComLib.Tests.Person('john', 'doe', 'nonew@email.com', true, 10.56); var result = p.Email;  "),
-                new Tuple<string,Type, object, string>("result", typeof(string),    "janedallparams@email.comfalse", "var p = new ComLib.Tests.Person('jane', 'd', 'allparams@email.com', false, 10.56, new Date()); var result = p.FirstName + p.LastName + p.Email + p.IsMale;")
+                TestCase("result", typeof(string),    "john",                          "var p = new ComLib.Tests.Person(); var result = p.FirstName;"),
+                TestCase("result", typeof(string),    "kish",                          "var p = new ComLib.Tests.Person('ki', 'sh'); var result = p.FirstName + p.LastName; "),
+                TestCase("result", typeof(string),    "nonew@email.com",               "var p = new ComLib.Tests.Person('john', 'doe', 'nonew@email.com', true, 10.56); var result = p.Email;  "),
+                TestCase("result", typeof(string),    "janedallparams@email.comfalse", "var p = new ComLib.Tests.Person('jane', 'd', 'allparams@email.com', false, 10.56, new Date()); var result = p.FirstName + p.LastName + p.Email + p.IsMale;")
             };
             Parse(statements, true, (i) => i.Context.Types.Register(typeof(Person), null));
         }
@@ -1130,8 +1134,8 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(string),    "ki sh",                 "var p = new Person('ki', 'sh', 'comlib@email.com', true, 12.34); var result = p.FullName();"),
-                new Tuple<string,Type, object, string>("result", typeof(string),    "programmer ki sh sr.",  "var p = new Person('ki', 'sh', 'comlib@email.com', true, 12.34); var result = p.FullNameWithPrefix('programmer', true);")                
+                TestCase("result", typeof(string),    "ki sh",                 "var p = new Person('ki', 'sh', 'comlib@email.com', true, 12.34); var result = p.FullName();"),
+                TestCase("result", typeof(string),    "programmer ki sh sr.",  "var p = new Person('ki', 'sh', 'comlib@email.com', true, 12.34); var result = p.FullNameWithPrefix('programmer', true);")                
             };
             Parse(statements, true, (i) => i.Context.Types.Register(typeof(Person), null));
         }
@@ -1142,12 +1146,12 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(string),    "ki sh",  "var p = new Person(); p.Init( first: 'ki', last: 'sh', email: 'comlib@email.com', isMale: true, salary: 12.34, birthday: new Date(2012, 7, 10)); var result = p.FullName();"),
-                new Tuple<string,Type, object, string>("result", typeof(string),    "ki sh",  "var p = new Person(); p.Init( 'ki', last: 'sh', email: 'comlib@email.com', isMale: true, salary: 12.34, birthday: new Date(2012, 7, 10)); var result = p.FullName();"),
-                new Tuple<string,Type, object, string>("result", typeof(string),    "ki sh",  "var p = new Person(); p.Init( 'ki', 'sh', email: 'comlib@email.com', isMale: true, salary: 12.34, birthday: new Date(2012, 7, 10)); var result = p.FullName();"),
-                new Tuple<string,Type, object, string>("result", typeof(string),    "ki sh",  "var p = new Person(); p.Init( 'ki', 'sh', 'comlib@email.com', isMale: true, salary: 12.34, birthday: new Date(2012, 7, 10)); var result = p.FullName();"),
-                new Tuple<string,Type, object, string>("result", typeof(string),    "ki sh",  "var p = new Person(); p.Init( 'ki', 'sh', 'comlib@email.com', true, salary: 12.34, birthday: new Date(2012, 7, 10)); var result = p.FullName();"),
-                new Tuple<string,Type, object, string>("result", typeof(string),    "ki sh",  "var p = new Person(); p.Init( 'ki', 'sh', 'comlib@email.com', true, 12.34, birthday: new Date(2012, 7, 10)); var result = p.FullName();"),
+                TestCase("result", typeof(string),    "ki sh",  "var p = new Person(); p.Init( first: 'ki', last: 'sh', email: 'comlib@email.com', isMale: true, salary: 12.34, birthday: new Date(2012, 7, 10)); var result = p.FullName();"),
+                TestCase("result", typeof(string),    "ki sh",  "var p = new Person(); p.Init( 'ki', last: 'sh', email: 'comlib@email.com', isMale: true, salary: 12.34, birthday: new Date(2012, 7, 10)); var result = p.FullName();"),
+                TestCase("result", typeof(string),    "ki sh",  "var p = new Person(); p.Init( 'ki', 'sh', email: 'comlib@email.com', isMale: true, salary: 12.34, birthday: new Date(2012, 7, 10)); var result = p.FullName();"),
+                TestCase("result", typeof(string),    "ki sh",  "var p = new Person(); p.Init( 'ki', 'sh', 'comlib@email.com', isMale: true, salary: 12.34, birthday: new Date(2012, 7, 10)); var result = p.FullName();"),
+                TestCase("result", typeof(string),    "ki sh",  "var p = new Person(); p.Init( 'ki', 'sh', 'comlib@email.com', true, salary: 12.34, birthday: new Date(2012, 7, 10)); var result = p.FullName();"),
+                TestCase("result", typeof(string),    "ki sh",  "var p = new Person(); p.Init( 'ki', 'sh', 'comlib@email.com', true, 12.34, birthday: new Date(2012, 7, 10)); var result = p.FullName();"),
             };
             Parse(statements, true, (i) => i.Context.Types.Register(typeof(Person), null));
         }
@@ -1158,9 +1162,9 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(string),    "ki sh",  "var p = new Person(); p.Init( first: 'ki', last: 'sh', email: null, isMale: true, salary: 12.34, birthday: new Date(2012, 7, 10)); var result = p.FullName();"),
-                new Tuple<string,Type, object, string>("result", typeof(string),    "ki sh",  "var p = new Person(); p.Init( 'ki', last: 'sh', email: 'comlib@email.com', isMale: null, salary: 12.34, birthday: new Date(2012, 7, 10)); var result = p.FullName();"),
-                new Tuple<string,Type, object, string>("result", typeof(string),    "ki sh",  "var p = new Person(); p.Init( 'ki', 'sh', email: 'comlib@email.com', isMale: true, salary: null, birthday: null); var result = p.FullName();"),
+                TestCase("result", typeof(string),    "ki sh",  "var p = new Person(); p.Init( first: 'ki', last: 'sh', email: null, isMale: true, salary: 12.34, birthday: new Date(2012, 7, 10)); var result = p.FullName();"),
+                TestCase("result", typeof(string),    "ki sh",  "var p = new Person(); p.Init( 'ki', last: 'sh', email: 'comlib@email.com', isMale: null, salary: 12.34, birthday: new Date(2012, 7, 10)); var result = p.FullName();"),
+                TestCase("result", typeof(string),    "ki sh",  "var p = new Person(); p.Init( 'ki', 'sh', email: 'comlib@email.com', isMale: true, salary: null, birthday: null); var result = p.FullName();"),
             };
             Parse(statements, true, (i) => i.Context.Types.Register(typeof(Person), null));
         }
@@ -1171,7 +1175,7 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(string),    "k dog",                 "var result = Person.ToFullName('k', 'dog');")
+                TestCase("result", typeof(string),    "k dog",                 "var result = Person.ToFullName('k', 'dog');")
             };
             Parse(statements, true, (i) => i.Context.Types.Register(typeof(Person), null));
         }
@@ -1182,13 +1186,13 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(string),    "john",                "var result = p.FirstName;"),
-                new Tuple<string,Type, object, string>("result", typeof(string),    "doe",                 "var result = p.LastName; "),
-                new Tuple<string,Type, object, string>("result", typeof(string),    "johndoe@email.com",   "var result = p.Email;    "),
-                new Tuple<string,Type, object, string>("result", typeof(bool),      true,                  "var result = p.IsMale;   "),
-                new Tuple<string,Type, object, string>("result", typeof(double),    10.56,                 "var result = p.Salary;   "),
-                new Tuple<string,Type, object, string>("result", typeof(string),    "Queens",              "var result = p.Address.City;"),
-                new Tuple<string,Type, object, string>("result", typeof(string),    "NY",                  "var result = p.Address.State;")
+                TestCase("result", typeof(string),    "john",                "var result = p.FirstName;"),
+                TestCase("result", typeof(string),    "doe",                 "var result = p.LastName; "),
+                TestCase("result", typeof(string),    "johndoe@email.com",   "var result = p.Email;    "),
+                TestCase("result", typeof(bool),      true,                  "var result = p.IsMale;   "),
+                TestCase("result", typeof(double),    10.56,                 "var result = p.Salary;   "),
+                TestCase("result", typeof(string),    "Queens",              "var result = p.Address.City;"),
+                TestCase("result", typeof(string),    "NY",                  "var result = p.Address.State;")
             };
             Parse(statements, true, (i) =>
             {
@@ -1203,7 +1207,7 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(string), "CodeHelix", "var result = Person.Company;"),                
+                TestCase("result", typeof(string), "CodeHelix", "var result = Person.Company;"),                
             };
             Parse(statements, true, (i) =>
             {
@@ -1355,7 +1359,7 @@ namespace ComLib.Lang.Tests.Integration.System
             var result = true;
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(string),   "common@lib",  "var file = new File('c:\tmp\test.txt'); file.Delete();")
+                TestCase("result", typeof(string),   "common@lib",  "var file = new File('c:\tmp\test.txt'); file.Delete();")
             };
             try { Parse(statements); }
             catch (Exception ex) { result = false; }
@@ -1374,7 +1378,7 @@ namespace ComLib.Lang.Tests.Integration.System
             int expressionCount = 0;
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 2,   "var result = 1; var b = 'abc'; if ( result == 1 ) result = 2;")
+                TestCase("result", typeof(double), 2,   "var result = 1; var b = 'abc'; if ( result == 1 ) result = 2;")
                 
             };
             Parse(statements, true, i =>
@@ -1402,12 +1406,12 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(bool), true,   "var result = 1 < 2 and 3 < 4;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), false,  "var result = 1 < 2 and 3 > 4;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true,   "var result = 1 < 2 or  3 > 4;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), false,  "var result = 1 > 2 or  3 > 4;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), true,   "var result = yes;"),
-                new Tuple<string,Type, object, string>("result", typeof(bool), false,  "var result = no;")
+                TestCase("result", typeof(bool), true,   "var result = 1 < 2 and 3 < 4;"),
+                TestCase("result", typeof(bool), false,  "var result = 1 < 2 and 3 > 4;"),
+                TestCase("result", typeof(bool), true,   "var result = 1 < 2 or  3 > 4;"),
+                TestCase("result", typeof(bool), false,  "var result = 1 > 2 or  3 > 4;"),
+                TestCase("result", typeof(bool), true,   "var result = yes;"),
+                TestCase("result", typeof(bool), false,  "var result = no;")
                 
             };
             Parse(statements, true, i =>
@@ -1425,10 +1429,10 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 1,  "the var result = 1;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1,  "var the result = 1;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1,  "var result = the 1;"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 1,  "var result = 1 the;")                
+                TestCase("result", typeof(double), 1,  "the var result = 1;"),
+                TestCase("result", typeof(double), 1,  "var the result = 1;"),
+                TestCase("result", typeof(double), 1,  "var result = the 1;"),
+                TestCase("result", typeof(double), 1,  "var result = 1 the;")                
             };
             Parse(statements, true, i =>
             {
@@ -1450,7 +1454,7 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 1,  "var age=17;\rvar result=0;\rif(age<18){result=1;}"),
+                TestCase("result", typeof(double), 1,  "var age=17;\rvar result=0;\rif(age<18){result=1;}"),
                 
             };
             Parse(statements);
@@ -1462,7 +1466,7 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(double), 1,  "var age=17;var result=0;if(age<18){result=1;}"),                
+                TestCase("result", typeof(double), 1,  "var age=17;var result=0;if(age<18){result=1;}"),                
             };
             Parse(statements);
         }
@@ -1473,13 +1477,13 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(string), "common",    "var name1 = 'common'\r\n var result = name1"),                
-                new Tuple<string,Type, object, string>("result", typeof(double), 3,           "function inc( a ) { return a + 1 \r\n } var a = inc( 2 )\r\n var result = a"),
-                new Tuple<string,Type, object, string>("result", typeof(bool),   true,        "var a = 1 + 3 \r\n var result = a > 2 "),
-                new Tuple<string,Type, object, string>("result", typeof(bool),   true,        "var result = false \r\n var a = 1, b = 2 \r\n if( a == 1 ) { if ( b == 2 ) { result = true \r\n } }"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 2,           "var result = 1 \r\n result++ \r\n"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 2,           "var result = 1 \r\n result++"),
-                new Tuple<string,Type, object, string>("result", typeof(double), 3,           "var result = 1 \r\n result += 2\r\n"),                
+                TestCase("result", typeof(string), "common",    "var name1 = 'common'\r\n var result = name1"),                
+                TestCase("result", typeof(double), 3,           "function inc( a ) { return a + 1 \r\n } var a = inc( 2 )\r\n var result = a"),
+                TestCase("result", typeof(bool),   true,        "var a = 1 + 3 \r\n var result = a > 2 "),
+                TestCase("result", typeof(bool),   true,        "var result = false \r\n var a = 1, b = 2 \r\n if( a == 1 ) { if ( b == 2 ) { result = true \r\n } }"),
+                TestCase("result", typeof(double), 2,           "var result = 1 \r\n result++ \r\n"),
+                TestCase("result", typeof(double), 2,           "var result = 1 \r\n result++"),
+                TestCase("result", typeof(double), 3,           "var result = 1 \r\n result += 2\r\n"),                
             };
             Parse(statements);
         }

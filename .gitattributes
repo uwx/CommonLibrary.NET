@@ -573,6 +573,7 @@ src/Lib/CommonLibrary.NET/_Core/Lang/Entities/FunctionLookupResult.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Extensions/MethodExtensions.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/ArgsFetcher.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/DocHelper.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/EvalHelper.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/FluentHelper.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/FunctionHelper.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/LangHelper.cs -text
@@ -695,6 +696,7 @@ src/Lib/CommonLibrary.NET/_Core/Lang/Types/LBaseType.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LBool.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LClass.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LDate.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Types/LDayOfWeek.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LError.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LFunction.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LMap.cs -text

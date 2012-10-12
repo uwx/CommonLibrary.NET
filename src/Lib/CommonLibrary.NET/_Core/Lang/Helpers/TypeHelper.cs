@@ -14,11 +14,28 @@ namespace ComLib.Lang.Helpers
     /// </summary>
     public class LangTypeHelper
     {
+        public static LNumber ConverToLangDayOfWeekNumber(LObject obj)
+        {
+            if (obj.Type == LTypes.Date)
+            {
+                var day = (int)((LDate) obj).Value.DayOfWeek;
+                return new LNumber(day);
+            }
+            
+            if (obj.Type == LTypes.DayOfWeek)
+            {
+                var day = (int)((LDayOfWeek)obj).Value;
+                return new LNumber(day);
+            }
+            return (LNumber)obj;
+        }
+
+
         /// <summary>
         /// Converts from c# datatypes to fluentscript datatypes inside
         /// </summary>
         /// <param name="val"></param>
-        public static LObjectValue ConvertToLangValue(object val)
+        public static LObject ConvertToLangValue(object val)
         {
             if (val.GetType() == typeof(int))       
                 return new LNumber(Convert.ToDouble(val));

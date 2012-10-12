@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.IO;
-using System.Data;
-using System.Data.Common;
 using System.Reflection;
-using ComLib;
 using ComLib.Application;
 using CommonLibrary.Tests;
 using ComLib.Lang.Helpers;
@@ -20,9 +13,7 @@ using ComLib.Lang.Tests.Templating;
 
 using ComLib.Lang;
 using ComLib.Lang.AST;
-using System.Dynamic;
 
-using System.Linq.Expressions;
 
 namespace ComLib.Samples
 {
@@ -47,8 +38,8 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            UnitTests();
             Combinator_Tests();
+            //UnitTests();
             ExpressionTest();
             Lang_Script_Tests();
             TestVersion();
@@ -217,7 +208,7 @@ namespace ComLib.Samples
             tests.Can_Use_Fluent_Member_Method_Calls();            
         }
 
-
+        /*
         static void UnitTests()
         {
             var ltJS = new Lang_LString2_Tests();
@@ -281,22 +272,22 @@ namespace ComLib.Samples
 
 
                        
-            /*
-            var fcet = new FluentCallExpressionTests();
-            fcet.Can_Check_For_Matching_Multiword_Function_Name_In_Internal_Script();
-            fcet.Can_Check_For_Matching_Multiword_Function_Name_To_Single_Word_Function_In_Internal_Script();
-            fcet.Can_Check_For_Matching_Multiword_Function_Name_To_Single_Word_Underscore_Function_In_Internal_Script();
-            fcet.Can_Check_For_Matching_Multiword_Function_Name_In_External_Script();
-            */
+            
+            //var fcet = new FluentCallExpressionTests();
+           // fcet.Can_Check_For_Matching_Multiword_Function_Name_In_Internal_Script();
+           // fcet.Can_Check_For_Matching_Multiword_Function_Name_To_Single_Word_Function_In_Internal_Script();
+           // fcet.Can_Check_For_Matching_Multiword_Function_Name_To_Single_Word_Underscore_Function_In_Internal_Script();
+           // fcet.Can_Check_For_Matching_Multiword_Function_Name_In_External_Script();
+           // 
         }
-
+        */
 
         static void LangTestsAll()
         {
             Combinator_Tests();
             Lang_Script_Tests();
             Lang_Expression_Tests();
-            DataType_Tests();
+            //DataType_Tests();
             Lang_Scope_Tests();
         }
 
@@ -328,8 +319,8 @@ namespace ComLib.Samples
 
         static void Combinator_Tests()
         {
-            Combinator_Core_Tests();
             Combinator_System_Tests();
+            Combinator_Core_Tests();
             Combinator_Integration_Failures();
             Combinator_Integration_Tests();
             FluentTests();
@@ -347,28 +338,38 @@ namespace ComLib.Samples
             var st = new Script_Tests_Types();
             var sf = new Script_Tests_Functions();
 
-            sf.Can_Make_Calls();
-            sf.Can_Make_Calls_With_Extra_Parameters();
-             sf.Can_Have_Implicit_Arguments_Parameter();
             
             var td = new Types_Dates();
             var ta = new Types_Array();
 
-            ta.Can_Get_Array_Item_By_Index_Right_After_Declaration();
+            c2.Can_Do_Single_Assignment_Constant_Compare_Expressions_On_Bools();
+            c2.Can_Do_Single_Assignment_Constant_Compare_Expressions_On_Numbers();
+            c2.Can_Do_Single_Assignment_Constant_Compare_Expressions_On_Strings();
 
+            c.Can_Do_Single_Assignment_Constant_Math_Expressions_With_Precendence();
+            c.Can_Do_Single_Assignment_Constant_Math_Expressions_With_Precendence_With_Parenthesis();
+            c.Can_Do_Single_Assignment_Constant_Math_Expressions();
+            c.Can_Do_Single_Assignment_Constant_Expressions();
+            
+            c.Can_Do_Complex_Addition_On_Mixed_Types();
+            c.Can_Do_Single_Assignment_Constant_Logical_Expressions();
+            c.Can_Do_Multiple_Assignment_Expressions();
+            c.Can_Do_Unary_Expressions();
+            
+            ta.Can_Get_Array_Item_By_Index_Right_After_Declaration();
+            sf.Can_Make_Calls();
+            sf.Can_Make_Calls_With_Extra_Parameters();
+            sf.Can_Have_Implicit_Arguments_Parameter();
+            
             ta.Can_Get_Array_Item_By_Nested_Indexes();
             sm.Can_Set_Class_Member_Property();
             td.Can_Create_Dates_With_Parameters();            
             ss.Can_Handle_SingleChar_NewLines();
             ss.Can_Handle_New_Lines_As_End_of_Stmt();
-            c.Can_Do_Complex_Addition_On_Mixed_Types();            
             sb.Can_Use_Non_Nested_BlockStatements();
-            c.Can_Do_Single_Assignment_Constant_Logical_Expressions();
-            c.Can_Do_Multiple_Assignment_Expressions();
             ta.Can_Get_Array_ByIndex();
             c2.Can_Do_Check_For_Nulls_Using_Complex_DataTypes();
-            c.Can_Do_Unary_Expressions();
-            c.Can_Do_Single_Assignment_Constant_Expressions();
+            
         }
 
 
@@ -474,7 +475,7 @@ namespace ComLib.Samples
             c.Can_Use_Time_Plugin();          
         }
 
-
+        /*
         static void DataType_Tests()
         {
             var t = new Lang_Custom_DataType_Tests();
@@ -498,7 +499,7 @@ namespace ComLib.Samples
             m.Can_Get_Property();
             m.Can_Set_Property();
         }
-
+        */
 
         static void Lang_Scope_Tests()
         {

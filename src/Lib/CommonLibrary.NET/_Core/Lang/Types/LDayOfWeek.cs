@@ -7,13 +7,13 @@ namespace ComLib.Lang.Types
     /// <summary>
     /// Used to store a timespan value.
     /// </summary>
-    public class LTime : LObject
+    public class LDayOfWeek : LObject
     {
         /// <summary>
         /// Initialize
         /// </summary>
         /// <param name="val"></param>
-        public LTime(TimeSpan val)
+        public LDayOfWeek(DayOfWeek val)
         {
             this.Value = val;
             this.Type = LTypes.Time;
@@ -23,7 +23,7 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// The raw type value.
         /// </summary>
-        public TimeSpan Value;
+        public DayOfWeek Value;
 
 
         /// <summary>
@@ -41,12 +41,12 @@ namespace ComLib.Lang.Types
     /// <summary>
     /// Array type.
     /// </summary>
-    public class LTimeType : LObjectType
+    public class LDayOfWeekType : LObjectType
     {
         /// <summary>
         /// Initialize.
         /// </summary>
-        public LTimeType()
+        public LDayOfWeekType()
         {
             this.Name = "time";
             this.FullName = "sys.time";

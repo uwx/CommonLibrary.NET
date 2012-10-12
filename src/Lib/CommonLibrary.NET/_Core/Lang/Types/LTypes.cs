@@ -24,6 +24,12 @@ namespace ComLib.Lang.Types
         /// </summary>
         public static LType Date = new LDateType();
 
+        
+        /// <summary>
+        /// Single instance of the day of week type for resusability
+        /// </summary>
+        public static LType DayOfWeek = new LDayOfWeekType();
+
 
         /// <summary>
         /// Single instance of the function type for resusability
@@ -65,5 +71,11 @@ namespace ComLib.Lang.Types
         /// Object type.
         /// </summary>
         public static LType Object = new LObjectType(); 
+
+
+        /// <summary>
+        /// A unit of measure type.
+        /// </summary>
+        public static LType Unit = new LUnitType();
     }
 }

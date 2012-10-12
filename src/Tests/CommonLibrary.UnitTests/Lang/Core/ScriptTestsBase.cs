@@ -1,27 +1,28 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using System.Reflection;
-using System.Resources;
+using ComLib.Lang.Types;
 using NUnit.Framework;
 
 
-using ComLib;
-using ComLib.Lang;
 using ComLib.Lang.Parsing;
-using ComLib.Lang.Plugins;
+
 using ComLib.Tests;
 
 namespace ComLib.Lang.Tests.Common
 {
     public class ScriptTestsBase
     {
-        protected static new Tuple<string, Type, object, string> TestCase(string resultVarName, Type resultType, object resultValue, string script)
+        protected static List<Tuple<string, Type, object, string>> StatementList()
+        {
+            return new List<Tuple<string, Type, object, string>>();
+        }
+
+        protected static Tuple<string, Type, object, string> TestCase(string resultVarName, Type resultType, object resultValue, string script)
         {
             return new Tuple<string, Type, object, string>
                 (resultVarName, resultType, resultValue, script);
         }
+
 
         protected void ExpectError(ILangPlugin plugin, string script, string messageErrorPart)
         {
@@ -216,6 +217,8 @@ namespace ComLib.Lang.Tests.Common
                     if (stmt.Item1 != null)
                     {
                         object obj = i.Memory[stmt.Item1];
+                        if (obj is LObject && obj != LNull.Instance)
+                            obj = ((LObject) obj).GetValue();
                         Compare(obj, stmt.Item3); 
                     }
                     if (replaceSemicolonsWithNewLines)
@@ -230,6 +233,8 @@ namespace ComLib.Lang.Tests.Common
                         if (stmt.Item1 != null)
                         {
                             object obj = i.Memory[stmt.Item1];
+                            if (obj is LObject && obj != LNull.Instance)
+                                obj = ((LObject)obj).GetValue();
                             Compare(obj, stmt.Item3); 
                         }
                     }

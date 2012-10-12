@@ -76,6 +76,12 @@ namespace ComLib.Lang.Core
         /// Represents an external class in c# being used
         /// </summary>
         public const int LClass   = 11;
+
+
+        /// <summary>
+        /// A unit of measure.
+        /// </summary>
+        public const int Unit = 12;
     }
 
 
