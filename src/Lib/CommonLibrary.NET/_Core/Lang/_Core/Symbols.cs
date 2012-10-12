@@ -8,6 +8,7 @@ using System.Text;
 // <lang:using>
 using ComLib.Lang.Core;
 using ComLib.Lang.Types;
+using ComLib.Lang.Helpers;
 // </lang:using>
 
 namespace ComLib.Lang.Core
@@ -252,6 +253,18 @@ namespace ComLib.Lang.Core
 
 
         /// <summary>
+        /// Define the symbol within this scope.
+        /// </summary>
+        /// <param name="name">Name of the varaible</param>
+        /// <param name="type">The type of the variable</param>
+        public virtual void DefineVariable(string name, Type type)
+        {
+            var ltype = LangTypeHelper.ConvertToLangType(type);
+            this.Symbols[name] = new SymbolType() { Name = name, Category = SymbolConstants.Var, DataTypeName = type.Name, DataType = ltype };
+        }
+
+
+        /// <summary>
         /// Define a function symbol within this scope.
         /// </summary>
         /// <param name="name">Name of the varaible</param>
@@ -262,6 +275,21 @@ namespace ComLib.Lang.Core
         {
             var meta = new FunctionMetaData(name, argNames.ToList());
             meta.ReturnType = returnType;
+            this.Symbols[name] = new SymbolTypeFunc(meta);
+        }
+
+
+        /// <summary>
+        /// Define a function symbol within this scope.
+        /// </summary>
+        /// <param name="name">Name of the varaible</param>
+        /// <param name="totalNumberOfArgs">The total number of arguments</param>
+        /// <param name="argNames">The names of the arguments</param>
+        /// <param name="returnType">The return type of the function</param>
+        public virtual void DefineFunction(string name, int totalNumberOfArgs, string[] argNames, Type returnType)
+        {
+            var meta = new FunctionMetaData(name, argNames.ToList());
+            meta.ReturnType = LangTypeHelper.ConvertToLangType(returnType);
             this.Symbols[name] = new SymbolTypeFunc(meta);
         }
 

@@ -246,7 +246,9 @@ namespace ComLib.Lang.Tests.Integration.System
                 i.Execute(stmt.Item5);
                 var array = i.Memory.Get<LArray>("result");
 
-                Assert.AreEqual(array.Length, stmt.Item4);
+                throw new NotImplementedException();
+                //Assert.AreEqual(array.Length, stmt.Item4);
+
             }
         }
 
@@ -264,7 +266,8 @@ namespace ComLib.Lang.Tests.Integration.System
                 i.Execute(stmt.Item5);
                 var array = i.Memory.Get<LArray>("result");
 
-                Assert.AreEqual(array.Length, stmt.Item4);
+                //Assert.AreEqual(array.Length, stmt.Item4);
+                throw new NotImplementedException();
             }
         }
 
@@ -363,7 +366,8 @@ namespace ComLib.Lang.Tests.Integration.System
 
                 // Check length
                 LArray arr = i.Memory.Get<LArray>("arr");
-                Assert.AreEqual(stmt.Item4, arr.Length);
+                //Assert.AreEqual(stmt.Item4, arr.Length);
+                throw new NotImplementedException();
             }
         }
     }

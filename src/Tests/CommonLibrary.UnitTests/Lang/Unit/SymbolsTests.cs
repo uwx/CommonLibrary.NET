@@ -55,8 +55,9 @@ namespace ComLib.Lang.Tests.Unit
             syms.DefineFunction("add", 2, new string[]{ "a", "b"}, typeof(object));
             var sym = syms.GetSymbol<SymbolTypeFunc>("add");
 
+            throw new NotImplementedException();
             Assert.AreEqual(sym.Name, "add");
-            Assert.AreEqual(sym.DataType, typeof(LFunction));
+            //Assert.AreEqual(sym.DataType, typeof(LFunction));
             Assert.AreEqual(sym.Category, "func");
             Assert.AreEqual(sym.Meta.TotalArgs, 2);
             Assert.AreEqual(sym.Meta.Arguments[0].Name, "a");
