@@ -74,7 +74,7 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Get / set value by index.
         /// </summary>
-        /// <param name="obj">The object whose index value is being set.</param>
+        /// <param name="target">The object whose index value is being set.</param>
         /// <param name="index">The index position to set the value</param>
         /// <param name="val">The value to set at the index</param>
         /// <returns></returns>

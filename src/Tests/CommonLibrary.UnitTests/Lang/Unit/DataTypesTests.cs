@@ -12,7 +12,7 @@ using ComLib.Lang.Tests.Common;
 
 namespace ComLib.Lang.Tests.Unit
 {
-    /*
+    
     public class Lang_Type_Tests
     {
         public FunctionCallExpr BuildFuncCallExpr(Context ctx, string varName, string memName, List<object> args)
@@ -31,7 +31,7 @@ namespace ComLib.Lang.Tests.Unit
 
     
     [TestFixture]
-    public class Lang_LArray2_Tests : Lang_Type_Tests
+    public class Lang_LArray_Tests : Lang_Type_Tests
     {
         private LArray BuildTestArray1()
         {
@@ -47,7 +47,7 @@ namespace ComLib.Lang.Tests.Unit
 
         private void CheckArray(LArray larray, int newLength, object[] expectedItems)
         {
-            var array = larray.Raw;
+            var array = larray.Value;
             Assert.AreEqual(array.Count, newLength);
             var ndx = 0;
             foreach (var item in array)
@@ -67,8 +67,9 @@ namespace ComLib.Lang.Tests.Unit
                        
             // Concat
             var concat1 = BuildTestArray1();
-            CheckArray(lsMethods.Concat(concat1, new List<object>() { "e", "f" }), 6, new object []{ "a", "b", "c", "d", "e", "f" });
-            Assert.AreEqual(concat1.Raw.Count, 4);
+            CheckArray( (LArray)lsMethods.Concat(concat1, new List<object>() { "e", "f" }), 6, new object []{ "a", "b", "c", "d", "e", "f" });
+
+            Assert.AreEqual(concat1.Value.Count, 4);
 
             // Index of
             Assert.AreEqual(2, lsMethods.IndexOf(BuildTestArray1(), "c", 0));
@@ -90,32 +91,32 @@ namespace ComLib.Lang.Tests.Unit
             CheckArray(a1, 6, new object[]{"a", "b", "c", "d", "e", "f"});
 
             // Reverse
-            CheckArray(lsMethods.Reverse(BuildTestArray1()), 4, new object[] { "d", "c", "b", "a" });
+            CheckArray((LArray)lsMethods.Reverse(BuildTestArray1()), 4, new object[] { "d", "c", "b", "a" });
 
             // Shift
             Assert.AreEqual("a", lsMethods.Shift(BuildTestArray1()));
 
             // Slice
-            CheckArray(lsMethods.Slice(BuildTestArray1(), 1, -1), 3, new object[] { "b", "c", "d" });
+            CheckArray((LArray)lsMethods.Slice(BuildTestArray1(), 1, -1), 3, new object[] { "b", "c", "d" });
             
             // Sort ?? TODO: how to pass in lambda?
 
             // Splice
-            CheckArray(lsMethods.Splice(BuildTestArray1(), 1, 2, new object[] { "e", "f" }), 2, new object[]{ "b", "c"});
+            CheckArray((LArray)lsMethods.Splice(BuildTestArray1(), 1, 2, new object[] { "e", "f" }), 2, new object[] { "b", "c" });
 
             var access1 = BuildTestArray1();
-            Assert.AreEqual("b", lsMethods.IndexerGet(access1, 1));
+            Assert.AreEqual("b", lsMethods.GetByNumericIndex(access1, 1));
 
             var access2 = BuildTestArray1();
-            lsMethods.IndexerSet(access2, 1, "k");
-            Assert.AreEqual("k", lsMethods.IndexerGet(access2, 1));
+            lsMethods.SetByNumericIndex(access2, 1, new LString("k"));
+            Assert.AreEqual("k", ((LObject)lsMethods.GetByNumericIndex(access2, 1)).GetValue());
         }
     }
     
 
 
     [TestFixture]
-    public class Lang_LString2_Tests : Lang_Type_Tests
+    public class Lang_LString_Tests //: Lang_Type_Tests
     {
         [Test]
         public void Can_Test_Methods()
@@ -123,17 +124,17 @@ namespace ComLib.Lang.Tests.Unit
             var lsMethods = new LJSStringMethods();
             lsMethods.Init();
 
-            Assert.AreEqual("u",                lsMethods.CharAt("fluent_script", 2));
-            Assert.AreEqual("fluent_script",    lsMethods.Concat("fluent", new []{ "_", "script"}));
-            Assert.AreEqual(6,                  lsMethods.IndexOf("fluent_script", "_script", 0));
-            Assert.AreEqual(6,                  lsMethods.LastIndexOf("fluent_script", "_script", -1));
-            Assert.AreEqual(13,                 lsMethods.Length("fluent_script"));
-            Assert.AreEqual("fluent_fluent",    lsMethods.Replace("fluent_script", "script", "fluent"));
-            Assert.AreEqual(7,                  lsMethods.Search("fluent_script", "script"));
-            Assert.AreEqual("_sc",              lsMethods.Substr("fluent_script", 6, 3));
-            Assert.AreEqual("_sc",              lsMethods.Substring("fluent_script", 6, 8));
-            Assert.AreEqual("fluent_script",    lsMethods.ToLowerCase("Fluent_script"));
-            Assert.AreEqual("FLUENT_SCRIPT",    lsMethods.ToUpperCase("Fluent_script"));
+            Assert.AreEqual("u",                lsMethods.CharAt(       new LString("fluent_script"), 2));
+            Assert.AreEqual("fluent_script",    lsMethods.Concat(       new LString("fluent"), new []{ "_", "script"}));
+            Assert.AreEqual(6,                  lsMethods.IndexOf(      new LString("fluent_script"), "_script", 0));
+            Assert.AreEqual(6,                  lsMethods.LastIndexOf(  new LString("fluent_script"), "_script", -1));
+            Assert.AreEqual(13,                 lsMethods.Length(       new LString("fluent_script")));
+            Assert.AreEqual("fluent_fluent",    lsMethods.Replace(      new LString("fluent_script"), "script", "fluent"));
+            Assert.AreEqual(7,                  lsMethods.Search(       new LString("fluent_script"), "script"));
+            Assert.AreEqual("_sc",              lsMethods.Substr(       new LString("fluent_script"), 6, 3));
+            Assert.AreEqual("_sc",              lsMethods.Substring(    new LString("fluent_script"), 6, 8));
+            Assert.AreEqual("fluent_script",    lsMethods.ToLowerCase(  new LString("Fluent_script")));
+            Assert.AreEqual("FLUENT_SCRIPT",    lsMethods.ToUpperCase(  new LString("Fluent_script")));
         }
 
 
@@ -142,24 +143,25 @@ namespace ComLib.Lang.Tests.Unit
         {
             var lsMethods = new LJSStringMethods();
             lsMethods.Init();
-            var ls = new LString2("abc", "fluent");
-            Assert.AreEqual("u",                lsMethods.ExecuteMethod(new LString2("abc", "fluent"),          "charAt"     , new object[] { 2     }));
-            Assert.AreEqual("fluent_script",    lsMethods.ExecuteMethod(new LString2("abc", "fluent"),          "concat"     , new object[] { "_", "script"}));
-            Assert.AreEqual(6,                  lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "indexOf"    , new object[] { "_script", 0           }));
-            Assert.AreEqual(6,                  lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "lastIndexOf", new object[] { "_script", -1          }));
-            Assert.AreEqual(13,                 lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "length"     , null));
-            Assert.AreEqual("fluent_fluent",    lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "replace"    , new object[] { "script", "fluent"     }));
-            Assert.AreEqual(7,                  lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "search"     , new object[] { "script"               }));
-            Assert.AreEqual("_sc",              lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "substr"     , new object[] { 6, 3                   }));
-            Assert.AreEqual("_sc",              lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "substring"  , new object[] { 6, 8                   }));
-            Assert.AreEqual("fluent_script",    lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "toLowerCase", null ));
-            Assert.AreEqual("FLUENT_SCRIPT",    lsMethods.ExecuteMethod(new LString2("abc", "fluent_script"),   "toUpperCase", null ));
+            var ls = new LString("fluent");
+            Assert.AreEqual("u",                lsMethods.ExecuteMethod(new LString("fluent"),          "charAt"     , new object[] { 2     }));
+            Assert.AreEqual("fluent_script",    lsMethods.ExecuteMethod(new LString("fluent"),          "concat"     , new object[] { "_", "script"}));
+            Assert.AreEqual(6,                  lsMethods.ExecuteMethod(new LString("fluent_script"),   "indexOf"    , new object[] { "_script", 0           }));
+            Assert.AreEqual(6,                  lsMethods.ExecuteMethod(new LString("fluent_script"),   "lastIndexOf", new object[] { "_script", -1          }));
+            Assert.AreEqual(13,                 lsMethods.ExecuteMethod(new LString("fluent_script"),   "length"     , null));
+            Assert.AreEqual("fluent_fluent",    lsMethods.ExecuteMethod(new LString("fluent_script"),   "replace"    , new object[] { "script", "fluent"     }));
+            Assert.AreEqual(7,                  lsMethods.ExecuteMethod(new LString("fluent_script"),   "search"     , new object[] { "script"               }));
+            Assert.AreEqual("_sc",              lsMethods.ExecuteMethod(new LString("fluent_script"),   "substr"     , new object[] { 6, 3                   }));
+            Assert.AreEqual("_sc",              lsMethods.ExecuteMethod(new LString("fluent_script"),   "substring"  , new object[] { 6, 8                   }));
+            Assert.AreEqual("fluent_script",    lsMethods.ExecuteMethod(new LString("fluent_script"),   "toLowerCase", null ));
+            Assert.AreEqual("FLUENT_SCRIPT",    lsMethods.ExecuteMethod(new LString("fluent_script"),   "toUpperCase", null ));
         }
     }
 
 
+    
     [TestFixture]
-    public class Lang_LDate2_Tests : Lang_Type_Tests
+    public class Lang_LDate_Tests //: Lang_Type_Tests
     {
         [Test]
         public void Can_Do_Date_GetMethods()
@@ -199,15 +201,15 @@ namespace ComLib.Lang.Tests.Unit
             var l = new LDate(testdate);
 
             
-            l.Raw = testdate; Check( 2013,  (ld) => ld.Raw.Year,           l,  (ldate) => lsmethods.ExecuteMethod(ldate, "setFullYear",     new []{ 2013, 4, 1 })); 
-            l.Raw = testdate; Check( 4,     (ld) => ld.Raw.Month,          l,  (ldate) => lsmethods.ExecuteMethod(ldate, "setFullYear",     new []{ 2013, 4, 1 })); 
-            l.Raw = testdate; Check( 1,     (ld) => ld.Raw.Day,            l,  (ldate) => lsmethods.ExecuteMethod(ldate, "setFullYear",     new []{ 2013, 4, 1 })); 
-            l.Raw = testdate; Check( 4,     (ld) => ld.Raw.Month,          l,  (ldate) => lsmethods.ExecuteMethod(ldate, "setMonth",        new []{ 4, 1 }));
-            l.Raw = testdate; Check( 1,     (ld) => ld.Raw.Day,            l,  (ldate) => lsmethods.ExecuteMethod(ldate, "setDate",         new []{ 1 }));
-            l.Raw = testdate; Check( 4,     (ld) => ld.Raw.Hour,           l,  (ldate) => lsmethods.ExecuteMethod(ldate, "setHours",        new []{ 4, 30, 1, 150 })); 
-            l.Raw = testdate; Check( 30,    (ld) => ld.Raw.Minute,         l,  (ldate) => lsmethods.ExecuteMethod(ldate, "setMinutes",      new []{ 30, 1, 150 })); 
-            l.Raw = testdate; Check( 1,     (ld) => ld.Raw.Second,         l,  (ldate) => lsmethods.ExecuteMethod(ldate, "setSeconds",      new []{ 1, 150 }));
-            l.Raw = testdate; Check( 150,   (ld) => ld.Raw.Millisecond,    l,  (ldate) => lsmethods.ExecuteMethod(ldate, "setMilliseconds", new []{ 150 })); 
+            l.Value = testdate; Check( 2013,  (ld) => ld.Value.Year,           l,  (ldate) => lsmethods.ExecuteMethod(ldate, "setFullYear",     new object[]{ 2013, 4, 1 })); 
+            l.Value = testdate; Check( 4,     (ld) => ld.Value.Month,          l,  (ldate) => lsmethods.ExecuteMethod(ldate, "setFullYear",     new object[]{ 2013, 4, 1 })); 
+            l.Value = testdate; Check( 1,     (ld) => ld.Value.Day,            l,  (ldate) => lsmethods.ExecuteMethod(ldate, "setFullYear",     new object[]{ 2013, 4, 1 })); 
+            l.Value = testdate; Check( 4,     (ld) => ld.Value.Month,          l,  (ldate) => lsmethods.ExecuteMethod(ldate, "setMonth",        new object[]{ 4, 1 }));
+            l.Value = testdate; Check( 1,     (ld) => ld.Value.Day,            l,  (ldate) => lsmethods.ExecuteMethod(ldate, "setDate",         new object[]{ 1 }));
+            l.Value = testdate; Check( 4,     (ld) => ld.Value.Hour,           l,  (ldate) => lsmethods.ExecuteMethod(ldate, "setHours",        new object[]{ 4, 30, 1, 150 })); 
+            l.Value = testdate; Check( 30,    (ld) => ld.Value.Minute,         l,  (ldate) => lsmethods.ExecuteMethod(ldate, "setMinutes",      new object[]{ 30, 1, 150 })); 
+            l.Value = testdate; Check( 1,     (ld) => ld.Value.Second,         l,  (ldate) => lsmethods.ExecuteMethod(ldate, "setSeconds",      new object[]{ 1, 150 }));
+            l.Value = testdate; Check( 150,   (ld) => ld.Value.Millisecond,    l,  (ldate) => lsmethods.ExecuteMethod(ldate, "setMilliseconds", new object[]{ 150 })); 
         }
 
 
@@ -221,15 +223,15 @@ namespace ComLib.Lang.Tests.Unit
             var l = new LDate(testdate);
 
             
-            l.Raw = testdate; Check( 2013,  (ld) => ld.Raw.Year,           l,  (ldate) => lsmethods.SetFullYear         ( ldate, 2013, 4, 1 )); 
-            l.Raw = testdate; Check( 4,     (ld) => ld.Raw.Month,          l,  (ldate) => lsmethods.SetFullYear         ( ldate, 2013, 4, 1 )); 
-            l.Raw = testdate; Check( 1,     (ld) => ld.Raw.Day,            l,  (ldate) => lsmethods.SetFullYear         ( ldate, 2013, 4, 1 )); 
-            l.Raw = testdate; Check( 4,     (ld) => ld.Raw.Month,          l,  (ldate) => lsmethods.SetMonth            ( ldate, 4, 1 ));
-            l.Raw = testdate; Check( 1,     (ld) => ld.Raw.Day,            l,  (ldate) => lsmethods.SetDate             ( ldate, 1 ));
-            l.Raw = testdate; Check( 4,     (ld) => ld.Raw.Hour,           l,  (ldate) => lsmethods.SetHours            ( ldate, 4, 30, 1, 150 )); 
-            l.Raw = testdate; Check( 30,    (ld) => ld.Raw.Minute,         l,  (ldate) => lsmethods.SetMinutes          ( ldate, 30, 1, 150 )); 
-            l.Raw = testdate; Check( 1,     (ld) => ld.Raw.Second,         l,  (ldate) => lsmethods.SetSeconds          ( ldate, 1, 150 ));
-            l.Raw = testdate; Check( 150,   (ld) => ld.Raw.Millisecond,    l,  (ldate) => lsmethods.SetMilliseconds     ( ldate, 150 )); 
+            l.Value = testdate; Check( 2013,  (ld) => ld.Value.Year,           l,  (ldate) => lsmethods.SetFullYear         ( ldate, 2013, 4, 1 )); 
+            l.Value = testdate; Check( 4,     (ld) => ld.Value.Month,          l,  (ldate) => lsmethods.SetFullYear         ( ldate, 2013, 4, 1 )); 
+            l.Value = testdate; Check( 1,     (ld) => ld.Value.Day,            l,  (ldate) => lsmethods.SetFullYear         ( ldate, 2013, 4, 1 )); 
+            l.Value = testdate; Check( 4,     (ld) => ld.Value.Month,          l,  (ldate) => lsmethods.SetMonth            ( ldate, 4, 1 ));
+            l.Value = testdate; Check( 1,     (ld) => ld.Value.Day,            l,  (ldate) => lsmethods.SetDate             ( ldate, 1 ));
+            l.Value = testdate; Check( 4,     (ld) => ld.Value.Hour,           l,  (ldate) => lsmethods.SetHours            ( ldate, 4, 30, 1, 150 )); 
+            l.Value = testdate; Check( 30,    (ld) => ld.Value.Minute,         l,  (ldate) => lsmethods.SetMinutes          ( ldate, 30, 1, 150 )); 
+            l.Value = testdate; Check( 1,     (ld) => ld.Value.Second,         l,  (ldate) => lsmethods.SetSeconds          ( ldate, 1, 150 ));
+            l.Value = testdate; Check( 150,   (ld) => ld.Value.Millisecond,    l,  (ldate) => lsmethods.SetMilliseconds     ( ldate, 150 )); 
         }
 
         private void Check(int expected, Func<LDate, int> callbackForActual, LDate l, Action<LDate> callback)
@@ -241,7 +243,7 @@ namespace ComLib.Lang.Tests.Unit
     }
 
 
-
+    /*
     [TestFixture]
     public class Lang_LDate_Tests : Lang_Type_Tests
     {

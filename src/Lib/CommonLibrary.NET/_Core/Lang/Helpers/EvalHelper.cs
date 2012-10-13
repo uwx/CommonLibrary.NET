@@ -145,6 +145,7 @@ namespace ComLib.Lang.Helpers
         /// <summary>
         /// Gets an array value.
         /// </summary>
+        /// <param name="regmethods"></param>
         /// <param name="node"></param>
         /// <param name="ListObject"></param>
         /// <param name="ndx"></param>

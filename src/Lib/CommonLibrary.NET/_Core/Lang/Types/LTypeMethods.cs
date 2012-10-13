@@ -287,17 +287,18 @@ namespace ComLib.Lang.Types
             var funcDef = mappedMethod.FuncDef;
             int total = funcDef.GetTotalRequiredArgs();
             var methodArgs = new List<object>();
+            var hasParams = parameters != null && parameters.Length > 0;
 
-            methodArgs.Add(obj.GetValue());
+            methodArgs.Add(obj);
 
             // TODO: Figure out the total required args when AddArg is called.
-            if (total > 0)
+            if (total > 0 && hasParams )
             {
                 var ndx = 0;
                 var totalParamsGiven = parameters.Length;
 
                 // Go through all the argument definitions.
-                foreach(var arg in funcDef.Arguments)
+                foreach (var arg in funcDef.Arguments)
                 {
                     var isRequired = arg.Required;
                     // 1. Required and provided?
@@ -329,9 +330,13 @@ namespace ComLib.Lang.Types
                     else if (!isRequired && arg.DefaultValue != null && ndx >= parameters.Length)
                         methodArgs.Add(arg.DefaultValue);
                     ndx++;
-                }                    
-            }  
-          
+                }
+            }
+            else if(hasParams )
+            {
+                for (var ndx = 0; ndx < parameters.Length; ndx++)
+                    methodArgs.Add(parameters[ndx]);
+            }
             
             var methodParams = methodArgs.ToArray();
             var method = this.GetType().GetMethod(mappedMethod.HostLanguageMethod);

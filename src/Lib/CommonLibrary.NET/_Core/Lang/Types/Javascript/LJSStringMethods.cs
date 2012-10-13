@@ -62,11 +62,11 @@ namespace ComLib.Lang.Types
         /// <param name="target">The target value to apply this method on</param>
         /// <param name="ndx">The index of the character to get</param>
         /// <returns></returns>
-        public string CharAt(string target, int ndx)
+        public string CharAt(LString target, int ndx)
         {
             if (ndx < 0) return string.Empty;
-            if (ndx >= target.Length) return string.Empty;
-            return target[ndx].ToString();
+            if (ndx >= target.Value.Length) return string.Empty;
+            return target.Value[ndx].ToString();
         }
 
 
@@ -76,10 +76,10 @@ namespace ComLib.Lang.Types
         /// <param name="target">The target value to apply this method on</param>
         /// <param name="strings">The list of strings to join</param>
         /// <returns></returns>
-        public string Concat(string target, object[] strings)
+        public string Concat(LString target, object[] strings)
         {
             var result = new StringBuilder();
-            result.Append(target);
+            result.Append(target.Value);
             foreach (object str in strings)
                 result.Append(str);
             return result.ToString();
@@ -93,11 +93,11 @@ namespace ComLib.Lang.Types
         /// <param name="searchString">The string to search for</param>
         /// <param name="start">The starting position to start the search.</param>
         /// <returns></returns>
-        public int IndexOf(string target, string searchString, int start = 0)
+        public int IndexOf(LString target, string searchString, int start = 0)
         {
-            if (string.IsNullOrEmpty(target)) return -1;
+            if (string.IsNullOrEmpty(target.Value)) return -1;
             if (string.IsNullOrEmpty(searchString)) return -1;
-            return target.IndexOf(searchString, start);
+            return target.Value.IndexOf(searchString, start);
         }
 
 
@@ -108,13 +108,13 @@ namespace ComLib.Lang.Types
         /// <param name="searchString">The text to search for</param>
         /// <param name="start">The position to start search</param>
         /// <returns></returns>
-        public int LastIndexOf(string target, string searchString, int start)
+        public int LastIndexOf(LString target, string searchString, int start)
         {
-            if (string.IsNullOrEmpty(target)) return -1;
+            if (string.IsNullOrEmpty(target.Value)) return -1;
             if (string.IsNullOrEmpty(searchString)) return -1;
-            if (start == -1) return target.LastIndexOf(searchString);
+            if (start == -1) return target.Value.LastIndexOf(searchString);
 
-            var result =  target.LastIndexOf(searchString, start);
+            var result = target.Value.LastIndexOf(searchString, start);
             return result;
         }
 
@@ -126,14 +126,14 @@ namespace ComLib.Lang.Types
         /// <param name="from">Index where to start extraction</param>
         /// <param name="length">The number of characters to extract. If omitted, it extracts the rest of the string</param>
         /// <returns></returns>
-        public string Substr(string target, int from, int length = -1)
+        public string Substr(LString target, int from, int length = -1)
         {
             if (from < 0) from = 0;
 
             // Upto end of string.
-            if (length == -1) return target.Substring(from);
+            if (length == -1) return target.Value.Substring(from);
 
-            return target.Substring(from, length);
+            return target.Value.Substring(from, length);
         }
                
         
@@ -144,16 +144,16 @@ namespace ComLib.Lang.Types
         /// <param name="from">Index where to start extraction</param>
         /// <param name="to">The index where to stop the extraction. If omitted, it extracts the rest of the string</param>
         /// <returns></returns>
-        public string Substring(string target, int from, int to = -1)
+        public string Substring(LString target, int from, int to = -1)
         {
             if (from < 0) from = 0; 
 
             // Upto end of string.
-            if (to == -1) return target.Substring(from);
+            if (to == -1) return target.Value.Substring(from);
 
             // Compute length for c# string method.
             int length = (to - from) + 1;
-            return target.Substring(from, length);
+            return target.Value.Substring(from, length);
         }
 
         
@@ -164,9 +164,9 @@ namespace ComLib.Lang.Types
         /// <param name="substring">Required. A substring or a regular expression.</param>
         /// <param name="newString">Required. The string to replace the found value in parameter 1</param>
         /// <returns></returns>
-        public string Replace(string target, string substring, string newString)
+        public string Replace(LString target, string substring, string newString)
         {
-            return target.Replace(substring, newString);
+            return target.Value.Replace(substring, newString);
         }        
 
         
@@ -176,9 +176,9 @@ namespace ComLib.Lang.Types
         /// <param name="target">The target value to apply this method on</param>
         /// <param name="regExp">Required. A regular expression.</param>
         /// <returns></returns>
-        public int Search(string target, string regExp)
+        public int Search(LString target, string regExp)
         {
-            Match match = Regex.Match(target, regExp);
+            Match match = Regex.Match(target.Value, regExp);
             if (!match.Success) return -1;
 
             return match.Index;
@@ -190,9 +190,9 @@ namespace ComLib.Lang.Types
         /// </summary>
         /// <param name="target">The target value to apply this method on</param>
         /// <returns></returns>
-        public string ToUpperCase(string target)
+        public string ToUpperCase(LString target)
         {
-            return target.ToUpper();
+            return target.Value.ToUpper();
         }
 
 
@@ -201,9 +201,9 @@ namespace ComLib.Lang.Types
         /// </summary>
         /// <param name="target">The target value to apply this method on</param>
         /// <returns></returns>
-        public string ToLowerCase(string target)
+        public string ToLowerCase(LString target)
         {
-            return target.ToLower();
+            return target.Value.ToLower();
         }
 
 
@@ -212,9 +212,9 @@ namespace ComLib.Lang.Types
         /// </summary>
         /// <param name="target">The target value to apply this method on</param>
         /// <returns></returns>
-        public int Length(string target)
+        public int Length(LString target)
         {
-            return target.Length;
+            return target.Value.Length;
         }
         #endregion
     }

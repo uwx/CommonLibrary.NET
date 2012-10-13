@@ -48,7 +48,7 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Whether or not the associted obj of this methods class has the supplied property.
         /// </summary>
-        /// <param name="obj">The data obj to check for the property</param>
+        /// <param name="target">The data obj to check for the property</param>
         /// <param name="propertyName">The name of the property</param>
         /// <returns></returns>
         public override bool HasProperty(LObject target, string propertyName)

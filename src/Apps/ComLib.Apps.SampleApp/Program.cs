@@ -38,9 +38,9 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
+            UnitTests();
             Lang_Type_Tests(); 
             Combinator_Tests();
-            //UnitTests();
             ExpressionTest();
             Lang_Script_Tests();
             TestVersion();
@@ -208,20 +208,23 @@ namespace ComLib.Samples
             tests.Can_Use_Fluent_Member_Method_Calls();            
         }
 
-        /*
+        
         static void UnitTests()
         {
-            var ltJS = new Lang_LString2_Tests();
+            var ltJS = new Lang_LString_Tests();
 
-            var ltd = new Lang_LDate2_Tests();
+            ltJS.Can_Call_Execute();
+
+            var ltd = new Lang_LDate_Tests();
+            ltd.Can_Do_Date_SetMethods_Via_Execute();
             ltd.Can_Do_Date_SetMethods();
             ltd.Can_Do_Date_GetMethods();
             
             ltJS.Can_Test_Methods();
             ltJS.Can_Call_Execute();
 
-            var ltJSa = new Lang_LArray2_Tests();
-            ltJSa.Can_Test_Methods();
+            //var ltJSa = new Lang_LArray_Tests();
+            //ltJSa.Can_Test_Methods();
 
             var lexTests = new Lexer_Tests();
             lexTests.Can_Read_String(); 
@@ -280,7 +283,7 @@ namespace ComLib.Samples
            // fcet.Can_Check_For_Matching_Multiword_Function_Name_In_External_Script();
            // 
         }
-        */
+        
 
         static void LangTestsAll()
         {
@@ -523,6 +526,7 @@ namespace ComLib.Samples
             var tt = new Types_Time();
             var td = new Types_Dates();
             var ts = new Types_Strings();
+
 
             ta.Can_Do_Array_Declarations();
             ta.Can_Get_Array_Basic_Type_Values_ByIndex();
