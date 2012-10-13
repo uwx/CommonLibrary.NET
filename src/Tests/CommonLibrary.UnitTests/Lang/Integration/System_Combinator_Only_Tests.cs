@@ -91,9 +91,8 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var i = new Interpreter();
             i.Execute("var buffer = \"\r\n<h1 class=\\\"title\\\">\";");
-            var s = i.Memory.Get<string>("buffer");
-            //File.WriteAllText(@"c:\temp\jsnewlines.txt", s);
-            //Assert.AreEqual(s, Environment.NewLine);
+            var s = i.Memory.Get<object>("buffer");
+            Assert.AreEqual(((LString)s).Value, "\r\n<h1 class=\"title\">");
         }
 
 

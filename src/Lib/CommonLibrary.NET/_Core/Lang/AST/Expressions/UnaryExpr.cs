@@ -9,6 +9,7 @@ using System.Collections;
 using ComLib.Lang.Core;
 using ComLib.Lang.Types;
 using ComLib.Lang.Parsing;
+using ComLib.Lang.Helpers;
 // </lang:using>
 
 namespace ComLib.Lang.AST
@@ -77,69 +78,52 @@ namespace ComLib.Lang.AST
             if (Op == Operator.LogicalNot)
                 return HandleLogicalNot();
 
-            object valobj = this.Ctx.Memory.Get<object>(this.Name);
+            var valobj = (LObject)this.Ctx.Memory.Get<object>(this.Name);
 
             // Double ? 
-            if (valobj is double || valobj is int) return IncrementNumber(Convert.ToDouble(valobj));
+            if (valobj.Type == LTypes.Number ) 
+                return IncrementNumber((LNumber)valobj);
 
             // String ?
-            if (valobj is string) return IncrementString((string)valobj);
+            if (valobj.Type == LTypes.String) 
+                return IncrementString((LString)valobj);
 
             throw new LangException("Syntax Error", "Unexpected operation", Ref.ScriptName, Ref.Line, Ref.CharPos);
         }
 
 
-        private string IncrementString(string sourceVal)
+        private LString IncrementString(LString sourceVal)
         {
             if (Op != Operator.PlusEqual)
                 throw new LangException("Syntax Error", "string operation with " + Op.ToString() + " not supported", Ref.ScriptName, Ref.Line, Ref.CharPos);
 
             this.DataType = typeof(string);
-            string val = this.Expression.EvaluateAs<string>();
+            var val = this.Expression.EvaluateAs<LString>();
 
             // Check limit
-            Ctx.Limits.CheckStringLength(this, sourceVal, val);
+            Ctx.Limits.CheckStringLength(this, sourceVal.Value, val.Value);
 
-            string appended = sourceVal + val;
+            string appended = sourceVal.Value + val.Value;
+            sourceVal.Value = appended;
             this.Value = appended;
-            this.Ctx.Memory.SetValue(this.Name, appended);
-            return appended;
+            this.Ctx.Memory.SetValue(this.Name, sourceVal);
+            return sourceVal;
         }
 
 
-        private double IncrementNumber(double val)
+        private LNumber IncrementNumber(LNumber val)
         {
             this.DataType = typeof(double);
+            var inc = 1.0;
             if (this.Expression != null)
-                Increment = this.Expression.EvaluateAs<double>();
-            else if (Increment == 0)
-                Increment = 1;
+            {
+                var incval = this.Expression.Evaluate();
+                // TODO: Check if null and throw langexception?
+                inc = ((LNumber)incval).Value;
+            }
 
-            if (Op == Operator.PlusPlus)
-            {
-                val++;
-            }
-            else if (Op == Operator.MinusMinus)
-            {
-                val--;
-            }
-            else if (Op == Operator.PlusEqual)
-            {
-                val = val + Increment;
-            }
-            else if (Op == Operator.MinusEqual)
-            {
-                val = val - Increment;
-            }
-            else if (Op == Operator.MultEqual)
-            {
-                val = val * Increment;
-            }
-            else if (Op == Operator.DivEqual)
-            {
-                val = val / Increment;
-            }            
-            
+            val = EvalHelper.IncrementNumber(val, Op, inc);
+
             // Set the value back into scope
             this.Value = val;
             this.Ctx.Memory.SetValue(this.Name, val);
@@ -150,21 +134,16 @@ namespace ComLib.Lang.AST
 
         private object HandleLogicalNot()
         {
-            object result = this.Expression.Evaluate();
-            if (result == null)
-                return false;
-            if (result.GetType() == typeof(double))
-                return false;
-            if (result.GetType() == typeof(string))
-                return false;
-            if (result.GetType() == typeof(DateTime))
-                return false;
-            if (result.GetType() == typeof(bool))
-                return !((bool)result);
-            if (result == LNullType.Instance)
-                return true;
+            var result = (LObject)this.Expression.Evaluate();
+            var retVal = false;
+            
+            // Only handle bool for logical not !true !false
+            if (result.Type == LTypes.Bool)
+                retVal = !((LBool)result).Value;
+            else if (result == LNull.Instance)
+                retVal = false;
 
-            return false;
+            return new LBool(retVal);
         }
     }
 }

@@ -141,6 +141,44 @@ namespace ComLib.Lang.Helpers
 
 
         /// <summary>
+        /// Increments the number supplied.
+        /// </summary>
+        /// <param name="val"></param>
+        /// <param name="op"></param>
+        /// <param name="increment"></param>
+        /// <returns></returns>
+        public static LNumber IncrementNumber(LNumber num, Operator op, double increment)
+        {
+            var val = num.Value;
+            if (op == Operator.PlusPlus)
+            {
+                val++;
+            }
+            else if (op == Operator.MinusMinus)
+            {
+                val--;
+            }
+            else if (op == Operator.PlusEqual)
+            {
+                val = val + increment;
+            }
+            else if (op == Operator.MinusEqual)
+            {
+                val = val - increment;
+            }
+            else if (op == Operator.MultEqual)
+            {
+                val = val * increment;
+            }
+            else if (op == Operator.DivEqual)
+            {
+                val = val / increment;
+            }
+            return new LNumber(val);
+        }
+
+
+        /// <summary>
         /// Compares null values.
         /// </summary>
         /// <param name="left"></param>

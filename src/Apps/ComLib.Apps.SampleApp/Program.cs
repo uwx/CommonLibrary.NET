@@ -342,15 +342,18 @@ namespace ComLib.Samples
             var td = new Types_Dates();
             var ta = new Types_Array();
 
-            c2.Can_Do_Single_Assignment_Constant_Compare_Expressions_On_Bools();
-            c2.Can_Do_Single_Assignment_Constant_Compare_Expressions_On_Numbers();
-            c2.Can_Do_Single_Assignment_Constant_Compare_Expressions_On_Strings();
-
+            c.Can_Handle_Escape_Chars_InString();
+            c.Can_Do_Unary_Expressions();
+            c.Can_Do_Single_Assignment_Constant_Logical_Expressions();
             c.Can_Do_Single_Assignment_Constant_Math_Expressions_With_Precendence();
             c.Can_Do_Single_Assignment_Constant_Math_Expressions_With_Precendence_With_Parenthesis();
             c.Can_Do_Single_Assignment_Constant_Math_Expressions();
             c.Can_Do_Single_Assignment_Constant_Expressions();
             
+            c2.Can_Do_Single_Assignment_Constant_Compare_Expressions_On_Bools();
+            c2.Can_Do_Single_Assignment_Constant_Compare_Expressions_On_Numbers();
+            c2.Can_Do_Single_Assignment_Constant_Compare_Expressions_On_Strings();
+                        
             c.Can_Do_Complex_Addition_On_Mixed_Types();
             c.Can_Do_Single_Assignment_Constant_Logical_Expressions();
             c.Can_Do_Multiple_Assignment_Expressions();

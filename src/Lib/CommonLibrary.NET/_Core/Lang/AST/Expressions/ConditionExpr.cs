@@ -59,19 +59,19 @@ namespace ComLib.Lang.AST
             if (Op != Operator.And && Op != Operator.Or)
                 throw new ArgumentException("Only && || supported");
 
-            bool result = false;
-            bool left = Left.EvaluateAs<bool>();
-            bool right = Right.EvaluateAs<bool>();
+            var result = false;
+            var left = Left.EvaluateAs<LBool>();
+            var right = Right.EvaluateAs<LBool>();
 
             if (Op == Operator.Or)
             {
-                result = left || right;
+                result = left.Value || right.Value;
             }
             else if (Op == Operator.And)
             {
-                result = left && right;
+                result = left.Value && right.Value;
             }
-            return result;
+            return new LBool(result);
         }
     }    
 }

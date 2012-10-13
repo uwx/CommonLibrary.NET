@@ -32,7 +32,7 @@ namespace ComLib.Lang.Core
             if (typeof(T) == typeof(object))
             {
                 return (T)variable.Value;
-            }
+            }            
 
             return (T)Convert.ChangeType(variable.Value, typeof(T), null);
         }
