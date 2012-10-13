@@ -92,7 +92,7 @@ namespace ComLib.Lang.AST
                 {
                     string memberName = ndxVal as string;
                     var methods = this.Ctx.Methods.Get(LTypes.Map);
-                    var ltypeval = new LTypeValue(ListObject, LTypes.Map);
+                    var ltypeval = new LMap((IDictionary<string, object>)ListObject);
                     if (!methods.HasProperty(ltypeval, memberName))
                         throw this.BuildRunTimeException("Property does not exist : '" + memberName + "'");
                     return methods.ExecuteMethod(ltypeval, "Get_" + memberName, null);
@@ -111,7 +111,7 @@ namespace ComLib.Lang.AST
             MethodInfo method = null;
             object result = null;
             var list = (LArray)ListObject;
-
+            
             // 1. Array
             if (list.Type == LTypes.Array)
             {

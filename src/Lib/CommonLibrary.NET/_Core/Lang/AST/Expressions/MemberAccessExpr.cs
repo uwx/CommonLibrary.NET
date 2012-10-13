@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 
 // <lang:using>
@@ -130,7 +131,7 @@ namespace ComLib.Lang.AST
                 // 2. Non-Assignment - Validate property exists.
                 var lmap = memberAccess.Instance;
                 var methods = this.Ctx.Methods.Get(LTypes.Map);
-                var ltypeval = new LTypeValue(lmap, LTypes.Map);
+                var ltypeval = new LMap((IDictionary<string, object>)lmap);
                 if(!methods.HasProperty(ltypeval, MemberName))
                     throw this.BuildRunTimeException("Property does not exist : '" + MemberName + "'"); 
                 

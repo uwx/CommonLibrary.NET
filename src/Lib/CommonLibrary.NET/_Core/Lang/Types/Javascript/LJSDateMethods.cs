@@ -52,36 +52,30 @@ namespace ComLib.Lang.Types
         }
 
 
-        /// <summary>
-        /// The raw datetime.
-        /// </summary>
-        public DateTime Raw;
-
-
         #region Javascript API methods
-        internal int      GetDate              (LTypeValue target) { var date = (DateTime)target.Result; return date.Day;                                                      }      	
-        internal int      GetDay               (LTypeValue target) { var date = (DateTime)target.Result; return (int)date.DayOfWeek;                                           }
-        internal int      GetFullYear          (LTypeValue target) { var date = (DateTime)target.Result; return date.Year;                                                     }
-        internal int      GetHours             (LTypeValue target) { var date = (DateTime)target.Result; return date.Hour;                                                     }
-        internal int      GetMilliseconds      (LTypeValue target) { var date = (DateTime)target.Result; return date.Millisecond;                                              }
-        internal int      GetMinutes           (LTypeValue target) { var date = (DateTime)target.Result; return date.Minute;		                                           }
-        internal int      GetMonth             (LTypeValue target) { var date = (DateTime)target.Result; return date.Month;                                                    }
-        internal int      GetSeconds           (LTypeValue target) { var date = (DateTime)target.Result; return date.Second;                                                   }
-        internal int      GetUtcDate           (LTypeValue target) { var date = (DateTime)target.Result; return date.ToUniversalTime().Day;                                    }
-        internal int      GetUtcDay            (LTypeValue target) { var date = (DateTime)target.Result; return (int)date.ToUniversalTime().DayOfWeek;                         }
-        internal int      GetUtcFullYear       (LTypeValue target) { var date = (DateTime)target.Result; return date.ToUniversalTime().Year;                                   }
-        internal int      GetUtcHours          (LTypeValue target) { var date = (DateTime)target.Result; return date.ToUniversalTime().Hour;                                   }
-        internal int      GetUtcMilliseconds   (LTypeValue target) { var date = (DateTime)target.Result; return date.ToUniversalTime().Millisecond;                            }  
-        internal int      GetUtcMinutes        (LTypeValue target) { var date = (DateTime)target.Result; return date.ToUniversalTime().Minute;                                 }
-        internal int      GetUtcMonth          (LTypeValue target) { var date = (DateTime)target.Result; return date.ToUniversalTime().Month;                                  }
-        internal int      GetUtcSeconds        (LTypeValue target) { var date = (DateTime)target.Result; return date.ToUniversalTime().Second;                                 }
-        internal string   ToDateString         (LTypeValue target) { var date = (DateTime)target.Result; return date.ToString("ddd MMM dd yyyy");                              }
-        internal string   ToLocaleDateString   (LTypeValue target) { var date = (DateTime)target.Result; return date.ToLocalTime().ToString("ddd MMM dd yyyy");                }
-        internal string   ToLocaleTimeString   (LTypeValue target) { var date = (DateTime)target.Result; return date.ToLocalTime().ToString("hh mm ss");                       }
-        internal string   ToLocaleString       (LTypeValue target) { var date = (DateTime)target.Result; return date.ToLocalTime().ToString("ddd MMM dd yyyy hh mm ss");       }
-        internal string   ToString             (LTypeValue target) { var date = (DateTime)target.Result; return date.ToString("ddd MMM dd yyyy hh mm ss");                     }
-        internal string   ToTimeString         (LTypeValue target) { var date = (DateTime)target.Result; return date.ToString("hh mm ss");                                     }
-        internal string   ToUtcString          (LTypeValue target) { var date = (DateTime)target.Result; return date.ToUniversalTime().ToString("ddd MMM dd yyyy hh mm ss");   }
+        internal int      GetDate              (LDate target) { var date = target.Value; return date.Day;                                                      }      	
+        internal int      GetDay               (LDate target) { var date = target.Value; return (int)date.DayOfWeek;                                           }
+        internal int      GetFullYear          (LDate target) { var date = target.Value; return date.Year;                                                     }
+        internal int      GetHours             (LDate target) { var date = target.Value; return date.Hour;                                                     }
+        internal int      GetMilliseconds      (LDate target) { var date = target.Value; return date.Millisecond;                                              }
+        internal int      GetMinutes           (LDate target) { var date = target.Value; return date.Minute;		                                           }
+        internal int      GetMonth             (LDate target) { var date = target.Value; return date.Month;                                                    }
+        internal int      GetSeconds           (LDate target) { var date = target.Value; return date.Second;                                                   }
+        internal int      GetUtcDate           (LDate target) { var date = target.Value; return date.ToUniversalTime().Day;                                    }
+        internal int      GetUtcDay            (LDate target) { var date = target.Value; return (int)date.ToUniversalTime().DayOfWeek;                         }
+        internal int      GetUtcFullYear       (LDate target) { var date = target.Value; return date.ToUniversalTime().Year;                                   }
+        internal int      GetUtcHours          (LDate target) { var date = target.Value; return date.ToUniversalTime().Hour;                                   }
+        internal int      GetUtcMilliseconds   (LDate target) { var date = target.Value; return date.ToUniversalTime().Millisecond;                            }  
+        internal int      GetUtcMinutes        (LDate target) { var date = target.Value; return date.ToUniversalTime().Minute;                                 }
+        internal int      GetUtcMonth          (LDate target) { var date = target.Value; return date.ToUniversalTime().Month;                                  }
+        internal int      GetUtcSeconds        (LDate target) { var date = target.Value; return date.ToUniversalTime().Second;                                 }
+        internal string   ToDateString         (LDate target) { var date = target.Value; return date.ToString("ddd MMM dd yyyy");                              }
+        internal string   ToLocaleDateString   (LDate target) { var date = target.Value; return date.ToLocalTime().ToString("ddd MMM dd yyyy");                }
+        internal string   ToLocaleTimeString   (LDate target) { var date = target.Value; return date.ToLocalTime().ToString("hh mm ss");                       }
+        internal string   ToLocaleString       (LDate target) { var date = target.Value; return date.ToLocalTime().ToString("ddd MMM dd yyyy hh mm ss");       }
+        internal string   ToString             (LDate target) { var date = target.Value; return date.ToString("ddd MMM dd yyyy hh mm ss");                     }
+        internal string   ToTimeString         (LDate target) { var date = target.Value; return date.ToString("hh mm ss");                                     }
+        internal string   ToUtcString          (LDate target) { var date = target.Value; return date.ToUniversalTime().ToString("ddd MMM dd yyyy hh mm ss");   }
 
 
 
@@ -153,7 +147,7 @@ namespace ComLib.Lang.Types
         /// <param name="year">The year to set</param>
         /// <param name="month">The month to set</param>
         /// <param name="day">The day of the month to set</param>
-        public void SetFullYear(LTypeValue date, int year, int month, int day)
+        public void SetFullYear(LDate date, int year, int month, int day)
         {
             SetDateTime(date, DateTimeKind.Local, year, month, day);
         }
@@ -165,7 +159,7 @@ namespace ComLib.Lang.Types
         /// <param name="date">The LDateType to set</param>
         /// <param name="month">The month to set</param>
         /// <param name="day">The day of the month to set</param>
-        public void SetMonth(LTypeValue date, int month, int day)
+        public void SetMonth(LDate date, int month, int day)
         {
             SetDateTime(date, DateTimeKind.Local, -1, month, day);
         }
@@ -176,7 +170,7 @@ namespace ComLib.Lang.Types
         /// </summary>
         /// <param name="date">The LDateType to set</param>
         /// <param name="day">The day of the month to set</param>
-        public void SetDate(LTypeValue date, int day)
+        public void SetDate(LDate date, int day)
         {
             SetDateTime(date, DateTimeKind.Local, -1, -1, day);
         }
@@ -190,7 +184,7 @@ namespace ComLib.Lang.Types
         /// <param name="minutes">The minutes to set</param>
         /// <param name="seconds">The seconds to set</param>
         /// <param name="milliseconds">The milliseconds to set</param>
-        public void SetHours(LTypeValue date, int hours, int minutes, int seconds, int milliseconds)
+        public void SetHours(LDate date, int hours, int minutes, int seconds, int milliseconds)
         {
             SetDateTime(date, DateTimeKind.Local, -1, -1, -1, hours, minutes, seconds, milliseconds);
         }
@@ -203,7 +197,7 @@ namespace ComLib.Lang.Types
         /// <param name="minutes">The minutes to set</param>
         /// <param name="seconds">The seconds to set</param>
         /// <param name="milliseconds">The milliseconds to set</param>
-        public void SetMinutes(LTypeValue date, int minutes, int seconds, int milliseconds)
+        public void SetMinutes(LDate date, int minutes, int seconds, int milliseconds)
         {
             SetDateTime(date, DateTimeKind.Local, -1, -1, -1, -1, minutes, seconds, milliseconds);
         }
@@ -215,7 +209,7 @@ namespace ComLib.Lang.Types
         /// <param name="date">The LDateType to set</param>
         /// <param name="seconds">The seconds to set</param>
         /// <param name="milliseconds">The milliseconds to set</param>
-        public void SetSeconds(LTypeValue date, int seconds, int milliseconds)
+        public void SetSeconds(LDate date, int seconds, int milliseconds)
         {
             SetDateTime(date, DateTimeKind.Local, -1, -1, -1, -1, -1, seconds, milliseconds);
         }
@@ -226,7 +220,7 @@ namespace ComLib.Lang.Types
         /// </summary>
         /// <param name="date">The LDateType to set</param>
         /// <param name="milliseconds">The milliseconds to set</param>
-        public void SetMilliseconds(LTypeValue date, int milliseconds)
+        public void SetMilliseconds(LDate date, int milliseconds)
         {
             SetDateTime(date, DateTimeKind.Local, -1, -1, -1, -1, -1, -1, milliseconds);
         }
@@ -239,7 +233,7 @@ namespace ComLib.Lang.Types
         /// <param name="year">The year to set</param>
         /// <param name="month">The month to set</param>
         /// <param name="day">The day of the month to set</param>
-        public void SetUtcFullYear(LTypeValue date, int year, int month, int day)
+        public void SetUtcFullYear(LDate date, int year, int month, int day)
         {
             SetDateTime(date, DateTimeKind.Utc, year, month, day);
         }
@@ -251,7 +245,7 @@ namespace ComLib.Lang.Types
         /// <param name="date">The LDateType to set</param>
         /// <param name="month">The month to set</param>
         /// <param name="day">The day of the month to set</param>
-        public void SetUtcMonth(LTypeValue date, int month, int day)
+        public void SetUtcMonth(LDate date, int month, int day)
         {
             SetDateTime(date, DateTimeKind.Utc, -1, month, day);
         }
@@ -262,7 +256,7 @@ namespace ComLib.Lang.Types
         /// </summary>
         /// <param name="date">The LDateType to set</param>
         /// <param name="day">The day of the month to set</param>
-        public void SetUtcDate(LTypeValue date, int day)
+        public void SetUtcDate(LDate date, int day)
         {
             SetDateTime(date, DateTimeKind.Utc, -1, -1, day);
         }
@@ -276,7 +270,7 @@ namespace ComLib.Lang.Types
         /// <param name="minutes">The minutes to set</param>
         /// <param name="seconds">The seconds to set</param>
         /// <param name="milliseconds">The milliseconds to set</param>
-        public void SetUtcHours(LTypeValue date, int hours, int minutes, int seconds, int milliseconds)
+        public void SetUtcHours(LDate date, int hours, int minutes, int seconds, int milliseconds)
         {
             SetDateTime(date, DateTimeKind.Utc, -1, -1, -1, hours, minutes, seconds, milliseconds);
         }
@@ -289,7 +283,7 @@ namespace ComLib.Lang.Types
         /// <param name="minutes">The minutes to set</param>
         /// <param name="seconds">The seconds to set</param>
         /// <param name="milliseconds">The milliseconds to set</param>
-        public void SetUtcMinutes(LTypeValue date, int minutes, int seconds, int milliseconds)
+        public void SetUtcMinutes(LDate date, int minutes, int seconds, int milliseconds)
         {
             SetDateTime(date, DateTimeKind.Utc, -1, -1, -1, -1, minutes, seconds, milliseconds);
         }
@@ -301,7 +295,7 @@ namespace ComLib.Lang.Types
         /// <param name="date">The LDateType to set</param>
         /// <param name="seconds">The seconds to set</param>
         /// <param name="milliseconds">The milliseconds to set</param>
-        public void SetUtcSeconds(LTypeValue date, int seconds, int milliseconds)
+        public void SetUtcSeconds(LDate date, int seconds, int milliseconds)
         {
             SetDateTime(date, DateTimeKind.Utc, -1, -1, -1, -1, -1, seconds, milliseconds);
         }
@@ -312,16 +306,16 @@ namespace ComLib.Lang.Types
         /// </summary>
         /// <param name="date">The LDateType to set</param>
         /// <param name="milliseconds">The milliseconds to set</param>
-        public void SetUtcMilliseconds(LTypeValue date, int milliseconds)
+        public void SetUtcMilliseconds(LDate date, int milliseconds)
         {
             SetDateTime(date, DateTimeKind.Utc, -1, -1, -1, -1, -1, -1, milliseconds);
         }
 
 
-        private static void SetDateTime(LTypeValue date, DateTimeKind kind, int year = -1, int month = -1, int day = -1,
+        private static void SetDateTime(LDate date, DateTimeKind kind, int year = -1, int month = -1, int day = -1,
             int hour = -1, int minute = -1, int second = -1, int millisecond = -1)
         {
-            var target = (DateTime)date.Result;
+            var target = date.Value;
             DateTime dt = kind == DateTimeKind.Utc ? target.ToUniversalTime() : target;
             year = year == -1 ? dt.Year : year;
             month = month == -1 ? dt.Month : month;
@@ -332,7 +326,7 @@ namespace ComLib.Lang.Types
             millisecond = millisecond == -1 ? dt.Millisecond : millisecond;
 
             var finalDateTime = new DateTime(year, month, day, hour, minute, second, millisecond, kind);
-            date.Result = finalDateTime;
+            date.Value = finalDateTime;
         }
         #endregion
     }

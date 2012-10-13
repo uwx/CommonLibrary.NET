@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Reflection;
+using System.Collections;
 
 using ComLib.Lang.Types;
 using ComLib.Lang.Core;
@@ -141,13 +143,50 @@ namespace ComLib.Lang.Helpers
 
 
         /// <summary>
+        /// Gets an array value.
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="ListObject"></param>
+        /// <param name="ndx"></param>
+        /// <returns></returns>
+        public static LObject EvalListAccess(RegisteredMethods regmethods, AstNode node, object ListObject, int ndx)
+        {
+            MethodInfo method = null;
+            object result = null;
+            var list = (LArray)ListObject;
+
+            // Case 1: Fluentscript LArray
+            if (list.Type == LTypes.Array)
+            {
+                var methods = regmethods.Get(LTypes.Array);
+                result = methods.GetByNumericIndex(list, ndx);
+            }
+            // Case 2: C# IList
+            else if (list.Value is IList)
+            {
+                method = ListObject.GetType().GetMethod("get_Item");
+            }
+            // Getting value?                
+            try
+            {
+                result = method.Invoke(ListObject, new object[] { ndx });
+            }
+            catch (Exception)
+            {
+                throw BuildRunTimeException(node, "Access of list item at position " + ndx + " is out of range");
+            }
+            return null;
+        }
+
+
+        /// <summary>
         /// Increments the number supplied.
         /// </summary>
         /// <param name="val"></param>
         /// <param name="op"></param>
         /// <param name="increment"></param>
         /// <returns></returns>
-        public static LNumber IncrementNumber(LNumber num, Operator op, double increment)
+        public static LNumber EvalIncrementNumber(LNumber num, Operator op, double increment)
         {
             var val = num.Value;
             if (op == Operator.PlusPlus)
@@ -271,7 +310,7 @@ namespace ComLib.Lang.Helpers
                 return new LBool(result);
             }
 
-            int compareResult = string.Compare(left, right);
+            int compareResult = string.Compare(left, right, StringComparison.InvariantCultureIgnoreCase);
             if (op == Operator.LessThan) result = compareResult == -1;
             else if (op == Operator.LessThanEqual) result = compareResult != 1;
             else if (op == Operator.MoreThan) result = compareResult == 1;
@@ -360,7 +399,6 @@ namespace ComLib.Lang.Helpers
             var res = CompareNumbers(node, left, right, op);
             return res;
         }
-        
 
 
         /// <summary>

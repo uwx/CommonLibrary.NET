@@ -287,7 +287,7 @@ namespace ComLib.Lang.Plugins
                 // CASE 3 - 4 : Member access via class / map                    
                 else if (this.VarExp is MemberAccessExpr)
                 {
-                    var expval = this.ValueExp.Evaluate() as LTypeValue;
+                    var expval = this.ValueExp.Evaluate() as LObject;
 
                     // CHECK_LIMIT:
                     Ctx.Limits.CheckStringLength(this, result);
@@ -303,14 +303,14 @@ namespace ComLib.Lang.Plugins
                     {
                         //Ctx.Methods.Get(typeof(LMapType)).SetProperty((LMapType)member.Instance, member.MemberName, result);
                         var methods = Ctx.Methods.Get(LTypes.Map);
-                        var ltypeval = new LTypeValue(member.Instance, LTypes.Map);
+                        var ltypeval = new LMap((IDictionary<string, object>)member.Instance);
                         methods.SetByStringMember(ltypeval, member.MemberName, expval);
                     }
                 }
                 // Case 5: Set index value "users[0]" = <expression>;
                 else if (this.VarExp is IndexExpr)
                 {
-                    var ltypeval = this.ValueExp.Evaluate() as LTypeValue;
+                    var expval = this.ValueExp.Evaluate() as LObject;
 
                     // CHECK_LIMIT:
                     Ctx.Limits.CheckStringLength(this, result);
@@ -322,11 +322,11 @@ namespace ComLib.Lang.Plugins
                     {
                         obj.GetType().GetMethod("SetValue", new Type[] { typeof(int) }).Invoke(obj, new object[] { result, ndx });
                     }
-                    else if (obj is LArrayType)
+                    else if (obj is LArray)
                     {
                         //Ctx.Methods.Get(typeof(LArrayType)).SetProperty((LMapType)member.Instance, member.MemberName, result);                        
-                        var methods = Ctx.Methods.Get(LTypes.Array);                      
-                        methods.SetByNumericIndex(ltypeval, ndx);
+                        var methods = Ctx.Methods.Get(LTypes.Array);
+                        methods.SetByNumericIndex((LArray)obj, ndx, expval);
                     }
                     else
                     {

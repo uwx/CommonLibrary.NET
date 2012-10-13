@@ -126,24 +126,24 @@ namespace ComLib.Lang.Types
 
 
         /// <summary>
-        /// Whether or not the associted type of this methods class has the supplied member.
+        /// Whether or not the associted obj of this methods class has the supplied member.
         /// </summary>
-        /// <param name="type">The data type to check for the member</param>
+        /// <param name="obj">The data obj to check for the member</param>
         /// <param name="memberName">The name of the member to check for.</param>
         /// <returns></returns>
-        public virtual bool HasMember(LTypeValue type, string memberName)
+        public virtual bool HasMember(LObject obj, string memberName)
         {
             return _allMembersMap.ContainsKey(memberName);
         }
 
 
         /// <summary>
-        /// Whether or not the associted type of this methods class has the supplied method.
+        /// Whether or not the associted obj of this methods class has the supplied method.
         /// </summary>
-        /// <param name="type">The data type to check for the method</param>
+        /// <param name="obj">The data obj to check for the method</param>
         /// <param name="methodName">The name of the method to check for.</param>
         /// <returns></returns>
-        public virtual bool HasMethod(LTypeValue type, string methodName)
+        public virtual bool HasMethod(LObject obj, string methodName)
         {
             if (!_allMembersMap.ContainsKey(methodName)) return false;
             var member = _allMembersMap[methodName];
@@ -152,12 +152,12 @@ namespace ComLib.Lang.Types
 
 
         /// <summary>
-        /// Whether or not the associted type of this methods class has the supplied property.
+        /// Whether or not the associted obj of this methods class has the supplied property.
         /// </summary>
-        /// <param name="type">The data type to check for the property</param>
+        /// <param name="obj">The data obj to check for the property</param>
         /// <param name="propertyName">The name of the property</param>
         /// <returns></returns>
-        public virtual bool HasProperty(LTypeValue type, string propertyName)
+        public virtual bool HasProperty(LObject obj, string propertyName)
         {
             if (!_allMembersMap.ContainsKey(propertyName)) return false;
             var member = _allMembersMap[propertyName];
@@ -168,10 +168,10 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Gets the property value for the specified propertyname.
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="obj"></param>
         /// <param name="propName"></param>
         /// <returns></returns>
-        public virtual object GetProperty(LObjectType type, string propName)
+        public virtual object GetProperty(LObjectType obj, string propName)
         {
             return null;
         }
@@ -180,11 +180,11 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Sets the property value for the specified propertyname.
         /// </summary>
-        /// <param name="type">The object to set the property value on</param>
+        /// <param name="obj">The object to set the property value on</param>
         /// <param name="propName">The name of the property</param>
         /// <param name="val">The value to set on the property</param>
         /// <returns></returns>
-        public virtual void SetProperty(LObjectType type, string propName, object val)
+        public virtual void SetProperty(LObjectType obj, string propName, object val)
         {
         }
 
@@ -193,15 +193,15 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Validates the method call.
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="obj"></param>
         /// <param name="methodName"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public virtual ComLib.Lang.Core.BoolMsgObj ValidateCall(LTypeValue type, string methodName, object[] parameters)
+        public virtual ComLib.Lang.Core.BoolMsgObj ValidateCall(LObject obj, string methodName, object[] parameters)
         {
             // 1. Valid method/member name?
             if (!this._methodMap.ContainsKey(methodName))
-                return new BoolMsgObj(type, false, "The method name : " + methodName + " does not exist for this type");
+                return new BoolMsgObj(obj, false, "The method name : " + methodName + " does not exist for this type");
 
             // 2. Valid method parameters?
             var mappedMethod = _methodMap[methodName];
@@ -220,17 +220,43 @@ namespace ComLib.Lang.Types
                 var param = parameters[ndx];
                 ndx++;
             }
-            return new BoolMsgObj(type, isValid, message);
+            return new BoolMsgObj(obj, isValid, message);
         }
 
 
 
         /// <summary>
-        /// Set a value by the index.
+        /// Get / set value by index.
         /// </summary>
-        /// <param name="typeval"></param>
-        /// <param name="ndx"></param>
-        public virtual void SetByNumericIndex(LTypeValue typeval, int ndx)
+        /// <param name="target">The target list to apply this method on.</param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public virtual object GetByNumericIndex(LObject target, int index)
+        {
+            return LNull.Instance;
+        }
+
+
+        /// <summary>
+        /// Get / set value by index.
+        /// </summary>
+        /// <param name="target">The target list to apply this method on.</param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public virtual object GetByStringMember(LObject target, string member)
+        {
+            return LNull.Instance;
+        }
+
+
+        /// <summary>
+        /// Get / set value by index.
+        /// </summary>
+        /// <param name="obj">The object whose index value is being set.</param>
+        /// <param name="index">The index position to set the value</param>
+        /// <param name="val">The value to set at the index</param>        
+        /// <returns></returns>
+        public virtual void SetByNumericIndex(LObject obj, int index, LObject val)
         {
         }
 
@@ -238,9 +264,9 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Set a value by the index.
         /// </summary>
-        /// <param name="typeval"></param>
+        /// <param name="obj"></param>
         /// <param name="ndx"></param>
-        public virtual void SetByStringMember(LTypeValue typeval, string member, LTypeValue val)
+        public virtual void SetByStringMember(LObject obj, string member, LObject val)
         {
         }
 
@@ -248,11 +274,11 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Executes the method supplied on the the type.
         /// </summary>
-        /// <param name="type">The language type</param>
+        /// <param name="obj">The language type</param>
         /// <param name="methodName">The method name</param>
         /// <param name="parameters">The parameters to the method.</param>
         /// <returns></returns>
-        public virtual object ExecuteMethod(LTypeValue type, string methodName, object[] parameters)
+        public virtual object ExecuteMethod(LObject obj, string methodName, object[] parameters)
         {
             var mappedMethod = _methodMap[methodName];
             var args = new ArgsFetcher(parameters);
@@ -262,7 +288,7 @@ namespace ComLib.Lang.Types
             int total = funcDef.GetTotalRequiredArgs();
             var methodArgs = new List<object>();
 
-            methodArgs.Add(type.Result);
+            methodArgs.Add(obj.GetValue());
 
             // TODO: Figure out the total required args when AddArg is called.
             if (total > 0)

@@ -22,44 +22,42 @@ namespace ComLib.Lang.Types
 
 
         /// <summary>
-        /// Whether or not the associted type of this methods class has the supplied member.
+        /// Whether or not the associted obj of this methods class has the supplied member.
         /// </summary>
-        /// <param name="type">The data type to check for the member</param>
+        /// <param name="obj">The data obj to check for the member</param>
         /// <param name="memberName">The name of the member to check for.</param>
         /// <returns></returns>
-        public override bool HasMember(LTypeValue type, string memberName)
+        public override bool HasMember(LObject obj, string memberName)
         {
-            return HasProperty(type, memberName);
+            return HasProperty(obj, memberName);
         }
 
 
         /// <summary>
-        /// Whether or not the associted type of this methods class has the supplied method.
+        /// Whether or not the associted obj of this methods class has the supplied method.
         /// </summary>
-        /// <param name="type">The data type to check for the method</param>
+        /// <param name="obj">The data obj to check for the method</param>
         /// <param name="methodName">The name of the method to check for.</param>
         /// <returns></returns>
-        public override bool HasMethod(LTypeValue type, string methodName)
+        public override bool HasMethod(LObject obj, string methodName)
         {
-            return HasProperty(type, methodName);
+            return HasProperty(obj, methodName);
         }
 
 
         /// <summary>
-        /// Whether or not the associted type of this methods class has the supplied property.
+        /// Whether or not the associted obj of this methods class has the supplied property.
         /// </summary>
-        /// <param name="type">The data type to check for the property</param>
+        /// <param name="obj">The data obj to check for the property</param>
         /// <param name="propertyName">The name of the property</param>
         /// <returns></returns>
-        public override bool HasProperty(LTypeValue target, string propertyName)
+        public override bool HasProperty(LObject target, string propertyName)
         {
-            var map = target.Result as IDictionary;
+            var map = target.GetValue() as IDictionary;
             if (map == null) return false;
 
             return map.Contains(propertyName);
         }
-
-
 
 
         #region Javascript API methods
@@ -67,9 +65,9 @@ namespace ComLib.Lang.Types
         /// Lenght of the array.
         /// </summary>
         /// <param name="target">The target list to apply this method on.</param>
-        public int Length(LTypeValue target)
+        public int Length(LObject target)
         {
-            var map = target.Result as IDictionary;
+            var map = target.GetValue() as IDictionary;
             return map.Count;
         }
         #endregion
@@ -83,9 +81,9 @@ namespace ComLib.Lang.Types
         /// <param name="target">The target list to apply this method on.</param>
         /// <param name="key">The name of the map key/property to get</param>
         /// <returns></returns>
-        public T IndexerGetAs<T>(LTypeValue target, string name)
+        public T GetByStringMemberAs<T>(LObject target, string name)
         {
-            object result = IndexerGet(target, name);
+            object result = GetByStringMember(target, name);
             T returnVal = (T)result;
             return returnVal;
         }
@@ -95,15 +93,15 @@ namespace ComLib.Lang.Types
         /// Get / set value by index.
         /// </summary>
         /// <param name="target">The target list to apply this method on.</param>
-        /// <param name="key">The name of the map key/property to get</param>
+        /// <param name="member">The name of the map key/property to get</param>
         /// <returns></returns>
-        public object IndexerGet(LTypeValue target, string key)
+        public override object GetByStringMember(LObject target, string member)
         {
             if (target == null ) return LNullType.NullResult;
-            var map = target.Result as IDictionary;
+            var map = target.GetValue() as IDictionary;
             if (map == null || map.Count == 0) return LNullType.NullResult;
-            if (string.IsNullOrEmpty(key)) throw new IndexOutOfRangeException("Property does not exist : " + key);
-            return map[key];
+            if (string.IsNullOrEmpty(member)) throw new IndexOutOfRangeException("Property does not exist : " + member);
+            return map[member];
         }
 
 
@@ -111,16 +109,16 @@ namespace ComLib.Lang.Types
         /// Get / set value by index.
         /// </summary>
         /// <param name="target">The target list to apply this method on.</param>
-        /// <param name="key">The name of the map key/property to set</param>
+        /// <param name="member">The name of the map key/property to set</param>
         /// <param name="value">The vlaue to set</param>
         /// <returns></returns>
-        public void IndexerSet(LTypeValue target, string key, object value)
+        public override void SetByStringMember(LObject obj, string member, LObject val)
         {
-            if (target == null ) return;
-            var map = target.Result as IDictionary;
+            if (obj == null) return;
+            var map = obj.GetValue() as IDictionary;
             if (map == null) return;
-            if (string.IsNullOrEmpty(key)) throw new IndexOutOfRangeException("Property does not exist : " + key);
-            map[key] = value;
+            if (string.IsNullOrEmpty(member)) throw new IndexOutOfRangeException("Property does not exist : " + member);
+            map[member] = val;
         }
         #endregion
     }

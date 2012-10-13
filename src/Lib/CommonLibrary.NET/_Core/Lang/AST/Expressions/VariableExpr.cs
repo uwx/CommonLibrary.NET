@@ -38,7 +38,7 @@ namespace ComLib.Lang.AST
         public override object DoEvaluate()
         {
             this.Value = this.Ctx.Memory.Get<object>(this.Name);
-            this.DataType = this.Value.GetType();
+            //this.DataType = this.Value.GetType();
             return this.Value;
         }
 

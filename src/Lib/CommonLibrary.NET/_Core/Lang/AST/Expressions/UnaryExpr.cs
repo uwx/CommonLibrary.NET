@@ -122,7 +122,7 @@ namespace ComLib.Lang.AST
                 inc = ((LNumber)incval).Value;
             }
 
-            val = EvalHelper.IncrementNumber(val, Op, inc);
+            val = EvalHelper.EvalIncrementNumber(val, Op, inc);
 
             // Set the value back into scope
             this.Value = val;
