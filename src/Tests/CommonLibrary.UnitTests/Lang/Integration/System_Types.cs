@@ -214,10 +214,10 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string, Type, object, string>("result", typeof(double), 1,  "var result = 0; var time1 = new Time(0, 2, 30, 0 ); var time2 = new Time(1, 1, 10, 20); var time3 = time1 + time2; result = time3.Days;"), 
-                new Tuple<string, Type, object, string>("result", typeof(double), 3,  "var result = 0; var time1 = new Time(0, 2, 30, 0 ); var time2 = new Time(0, 1, 10, 20); var time3 = time1 + time2; result = time3.Hours;"), 
-                new Tuple<string, Type, object, string>("result", typeof(double), 40, "var result = 0; var time1 = new Time(0, 2, 30, 0 ); var time2 = new Time(0, 1, 10, 20); var time3 = time1 + time2; result = time3.Minutes;"), 
-                new Tuple<string, Type, object, string>("result", typeof(double), 25, "var result = 0; var time1 = new Time(0, 2, 30, 5 ); var time2 = new Time(0, 1, 10, 20); var time3 = time1 + time2; result = time3.Seconds;")
+                TestCase("result", typeof(double), 1,  "var result = 0; var time1 = new Time(0, 2, 30, 0 ); var time2 = new Time(1, 1, 10, 20); var time3 = time1 + time2; result = time3.Days;"), 
+                TestCase("result", typeof(double), 3,  "var result = 0; var time1 = new Time(0, 2, 30, 0 ); var time2 = new Time(0, 1, 10, 20); var time3 = time1 + time2; result = time3.Hours;"), 
+                TestCase("result", typeof(double), 40, "var result = 0; var time1 = new Time(0, 2, 30, 0 ); var time2 = new Time(0, 1, 10, 20); var time3 = time1 + time2; result = time3.Minutes;"), 
+                TestCase("result", typeof(double), 25, "var result = 0; var time1 = new Time(0, 2, 30, 5 ); var time2 = new Time(0, 1, 10, 20); var time3 = time1 + time2; result = time3.Seconds;")
             };
             Parse(statements);
         }
@@ -244,10 +244,9 @@ namespace ComLib.Lang.Tests.Integration.System
             {
                 var i = new Interpreter();
                 i.Execute(stmt.Item5);
-                var array = i.Memory.Get<LArray>("result");
+                var array = i.Memory.GetAs<LArray>("result");
 
-                throw new NotImplementedException();
-                //Assert.AreEqual(array.Length, stmt.Item4);
+                Assert.AreEqual(array.Value.Count, stmt.Item4);
 
             }
         }
@@ -273,17 +272,33 @@ namespace ComLib.Lang.Tests.Integration.System
 
 
         [Test]
+        public void Can_Get_Array_Basic_Type_Values_ByIndex()
+        {
+            string maptxt = @"[ 'john', 'johndoe@email.com', true, 10.5 ]";
+            var testcases = new List<Tuple<string, Type, object, string>>()
+            {
+                TestCase("result", typeof(string),   "john",              "var p = " + maptxt + "; var result = p[0];"),
+                TestCase("result", typeof(string),   "johndoe@email.com", "var p = " + maptxt + "; var result = p[1];"),
+                TestCase("result", typeof(bool),     true,                "var p = " + maptxt + "; var result = p[2];"),
+                TestCase("result", typeof(double),   10.5,                "var p = " + maptxt + "; var result = p[3];"),        
+                
+            };
+            Parse(testcases);
+        }
+
+
+        [Test]
         public void Can_Get_Array_ByIndex()
         {
             string maptxt = @"[ 'john', 'johndoe@email.com', true, 10.5, new Date(), { City: 'Queens', State: 'NY' }, [0, 1, 2] ]";
             var testcases = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string, Type, object, string>("result", typeof(string),   "Queens",            "var p = " + maptxt + "; var result = p[5].City;"),
-                new Tuple<string, Type, object, string>("result", typeof(string),   "NY",                "var p = " + maptxt + "; var result = p[5].State;"),
-                new Tuple<string, Type, object, string>("result", typeof(string),   "john",              "var p = " + maptxt + "; var result = p[0];"),
-                new Tuple<string, Type, object, string>("result", typeof(string),   "johndoe@email.com", "var p = " + maptxt + "; var result = p[1];"),
-                new Tuple<string, Type, object, string>("result", typeof(bool),     true,                "var p = " + maptxt + "; var result = p[2];"),
-                new Tuple<string, Type, object, string>("result", typeof(double),   10.5,                "var p = " + maptxt + "; var result = p[3];"),        
+                TestCase("result", typeof(string),   "Queens",            "var p = " + maptxt + "; var result = p[5].City;"),
+                TestCase("result", typeof(string),   "NY",                "var p = " + maptxt + "; var result = p[5].State;"),
+                TestCase("result", typeof(string),   "john",              "var p = " + maptxt + "; var result = p[0];"),
+                TestCase("result", typeof(string),   "johndoe@email.com", "var p = " + maptxt + "; var result = p[1];"),
+                TestCase("result", typeof(bool),     true,                "var p = " + maptxt + "; var result = p[2];"),
+                TestCase("result", typeof(double),   10.5,                "var p = " + maptxt + "; var result = p[3];"),        
                 
             };
             Parse(testcases);
@@ -296,12 +311,12 @@ namespace ComLib.Lang.Tests.Integration.System
             string arr = @"[ 'john', 'johndoe@email.com', true, 10.5, new Date(), { City: 'Queens', State: 'NY' }, [0, 1, 2] ]";
             var testcases = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string, Type, object, string>("result", typeof(string),   "john",              "var result = " + arr + "[0];"),
-                new Tuple<string, Type, object, string>("result", typeof(string),   "johndoe@email.com", "var result = " + arr + "[1];"),
-                new Tuple<string, Type, object, string>("result", typeof(bool),     true,                "var result = " + arr + "[2];"),
-                new Tuple<string, Type, object, string>("result", typeof(double),   10.5,                "var result = " + arr + "[3];"),
-                new Tuple<string, Type, object, string>("result", typeof(string),   "Queens",            "var result = " + arr + "[5].City;"),
-                new Tuple<string, Type, object, string>("result", typeof(string),   "NY",                "var result = " + arr + "[5].State;"),
+                TestCase("result", typeof(string),   "john",              "var result = " + arr + "[0];"),
+                TestCase("result", typeof(string),   "johndoe@email.com", "var result = " + arr + "[1];"),
+                TestCase("result", typeof(bool),     true,                "var result = " + arr + "[2];"),
+                TestCase("result", typeof(double),   10.5,                "var result = " + arr + "[3];"),
+                TestCase("result", typeof(string),   "Queens",            "var result = " + arr + "[5].City;"),
+                TestCase("result", typeof(string),   "NY",                "var result = " + arr + "[5].State;"),
                 
             };
             Parse(testcases);
@@ -314,9 +329,9 @@ namespace ComLib.Lang.Tests.Integration.System
             string maptxt = @"var users = ['john1', 'john2', 'john3']; var indexes = [0, 1, 2]; ";
             var testcases = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string, Type, object, string>("result", typeof(string),   "john2",  maptxt + " var result = users[indexes[1]];"),
-                new Tuple<string, Type, object, string>("result", typeof(string),   "john3",  maptxt + " var result = users[indexes[1+1]];"),
-                new Tuple<string, Type, object, string>("result", typeof(string),   "john3",  maptxt + " var result = users[indexes[1]+1];"),
+                TestCase("result", typeof(string),   "john2",  maptxt + " var result = users[indexes[1]];"),
+                TestCase("result", typeof(string),   "john3",  maptxt + " var result = users[indexes[1+1]];"),
+                TestCase("result", typeof(string),   "john3",  maptxt + " var result = users[indexes[1]+1];"),
             };
             Parse(testcases);
         }
@@ -328,12 +343,12 @@ namespace ComLib.Lang.Tests.Integration.System
             string maptxt = @"[ 'john', 'johndoe@email.com', true, 10.5, new Date(), { City: 'Queens', State: 'NY' }, [0, 1, 2] ]";
             var testcases = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string, Type, object, string>("result", typeof(string),   "jane",              "var p = " + maptxt + "; p[0] = 'jane';  var result = p[0];"),
-                new Tuple<string, Type, object, string>("result", typeof(string),   "janedoe@email.com", "var p = " + maptxt + "; p[1] = 'janedoe@email.com'; var result = p[1];"),
-                new Tuple<string, Type, object, string>("result", typeof(bool),     false,               "var p = " + maptxt + "; p[2] = false;   var result = p[2];"),
-                new Tuple<string, Type, object, string>("result", typeof(double),   10.8,                "var p = " + maptxt + "; p[3] = 10.8;    var result = p[3];"),        
-                new Tuple<string, Type, object, string>("result", typeof(string),   "Bronx",             "var p = " + maptxt + "; p[5].City = 'Bronx';  var result = p[5].City;"),
-                new Tuple<string, Type, object, string>("result", typeof(string),   "NJ",                "var p = " + maptxt + "; p[5].State = 'NJ';    var result = p[5].State;")
+                TestCase("result", typeof(string),   "jane",              "var p = " + maptxt + "; p[0] = 'jane';  var result = p[0];"),
+                TestCase("result", typeof(string),   "janedoe@email.com", "var p = " + maptxt + "; p[1] = 'janedoe@email.com'; var result = p[1];"),
+                TestCase("result", typeof(bool),     false,               "var p = " + maptxt + "; p[2] = false;   var result = p[2];"),
+                TestCase("result", typeof(double),   10.8,                "var p = " + maptxt + "; p[3] = 10.8;    var result = p[3];"),        
+                TestCase("result", typeof(string),   "Bronx",             "var p = " + maptxt + "; p[5].City = 'Bronx';  var result = p[5].City;"),
+                TestCase("result", typeof(string),   "NJ",                "var p = " + maptxt + "; p[5].State = 'NJ';    var result = p[5].State;")
             };
             RunTestCases(testcases);
         }

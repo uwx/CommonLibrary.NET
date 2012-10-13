@@ -59,7 +59,7 @@ namespace ComLib.Lang.AST
                     object result = exp == null ? null : exp.Evaluate();
                     items.Add(result);
                 }
-                var array = new LTypeValue(items, LTypes.Array);
+                var array = new LArray(items);
                 return array;
             }
 
@@ -71,7 +71,7 @@ namespace ComLib.Lang.AST
                 object result = expression == null ? null : expression.Evaluate();
                 dictionary[pair.Item1] = result;
             }
-            var map = new LTypeValue(dictionary, LTypes.Array);
+            var map = new LMap(dictionary);
             return map;
         }
 

@@ -169,6 +169,23 @@ namespace ComLib.Lang.Core
 
 
         /// <summary>
+        /// Get the variable value associated with name from the scope
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="name">Name of the varibale to get</param>
+        /// <returns></returns>
+        public T GetAs<T>(string name) where T: class
+        {
+            int stackIndex = Find(name);
+            // Not found?
+            if (stackIndex == -1) throw new KeyNotFoundException("variable : " + name + " was not found");
+
+            var obj = _stack[stackIndex].Get<object>(name);
+            return (T)obj;
+        }
+
+
+        /// <summary>
         /// Sets a value into the current scope.
         /// </summary>
         /// <param name="name">The name of the variable.</param>

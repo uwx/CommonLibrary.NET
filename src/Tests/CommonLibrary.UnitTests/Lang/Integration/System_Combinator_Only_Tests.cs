@@ -76,6 +76,9 @@ namespace ComLib.Lang.Tests.Integration.System
                     object val = stmt.Item3[ndxV];
                     var actualValue = i.Memory.Get<object>(varName);
 
+                    if (actualValue is LObject && actualValue != LNull.Instance)
+                        actualValue = ((LObject)actualValue).GetValue();
+
                     // Check values are correct.
                     Assert.AreEqual(val, actualValue);
                 }

@@ -65,20 +65,26 @@ namespace ComLib.Lang.AST
         public override object DoEvaluate()
         {
             object result = null;
-            object ndxVal = IndexExp.Evaluate();
+            var ndxVal = IndexExp.Evaluate();
             
             // Either get from scope or from exp.
             if (VariableExp is VariableExpr)
-                ListObject = Ctx.Memory.Get<object>(((VariableExpr)VariableExp).Name);
+                this.ListObject = Ctx.Memory.Get<object>(((VariableExpr)VariableExp).Name);
             else
-                ListObject = VariableExp.Evaluate();
+                this.ListObject = VariableExp.Evaluate();
+            
+            // 1. Check for null
+            if (ndxVal == null)
+                throw BuildRunTimeException("Unable to index with null value");
 
             if(!this.IsAssignment)
             {
                 // Is the index value a number ? Indicates that the object is an array.
-                if (ndxVal is int || ndxVal is double )
+                var ndxNum = (LObject)ndxVal;
+                if (ndxNum.Type == LTypes.Number)
                 {
-                    result = GetArrayValue(Convert.ToInt32(ndxVal));
+                    var ndx = ((LNumber)ndxNum).Value;
+                    result = GetArrayValue(Convert.ToInt32(ndx));
                     return result;    
                 }
                 // If the index is a string. Then object is a map/dictionary.
@@ -103,9 +109,11 @@ namespace ComLib.Lang.AST
         private object GetArrayValue(int ndx)
         {
             MethodInfo method = null;
-            object result = null;           
+            object result = null;
+            var list = (LArray)ListObject;
+
             // 1. Array
-            if (ListObject is Array)
+            if (list.Type == LTypes.Array)
             {
                 method = ListObject.GetType().GetMethod("GetValue", new Type[] { typeof(int) });
             }

@@ -38,6 +38,7 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
+            Lang_Type_Tests(); 
             Combinator_Tests();
             //UnitTests();
             ExpressionTest();
@@ -46,7 +47,6 @@ namespace ComLib.Samples
             FluentTests();
             Semantic_Tests();
             System_Control_Flow();
-            Lang_Type_Tests(); 
             
         }
 
@@ -342,6 +342,7 @@ namespace ComLib.Samples
             var td = new Types_Dates();
             var ta = new Types_Array();
 
+            c.Can_Do_Multiple_Assignment_Constant_Expressions_In_Same_Line();
             c.Can_Handle_Escape_Chars_InString();
             c.Can_Do_Unary_Expressions();
             c.Can_Do_Single_Assignment_Constant_Logical_Expressions();
@@ -523,6 +524,11 @@ namespace ComLib.Samples
             var td = new Types_Dates();
             var ts = new Types_Strings();
 
+            ta.Can_Do_Array_Declarations();
+            ta.Can_Get_Array_Basic_Type_Values_ByIndex();
+            ta.Can_Do_Array_Method_Calls();
+            ta.Can_Do_Array_Nested();
+            
             ts.Can_Read_Interpolated_Strings();
 
             ts.Can_Escape_Chars();
