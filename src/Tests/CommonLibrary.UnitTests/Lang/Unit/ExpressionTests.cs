@@ -11,6 +11,7 @@ using ComLib;
 using ComLib.Lang;
 using ComLib.Lang.Core;
 using ComLib.Lang.Parsing;
+using ComLib.Lang.Types;
 using ComLib.Lang.AST;
 using ComLib.Lang.Plugins;
 using ComLib.Tests;
@@ -25,13 +26,13 @@ namespace ComLib.Lang.Tests.Unit
         public void Can_Do_AssignmentExpressions()
         {
             Memory memory = new Memory();
-            memory.SetValue("age", 32);
-            memory.SetValue("isMale", true);
-            memory.SetValue("name", "kishore");
+            memory.SetValue("age",    new LNumber(32));
+            memory.SetValue("isMale", new LBool(true));
+            memory.SetValue("name",   new LString("kishore"));
 
             // Strings
             Assign(memory, "str1", "kishore1", true, "kishore1");
-            Assign(memory, "str2", "name", false, "kishore");
+            Assign(memory, "str2", "name",     false, "kishore");
 
             // Numbers
             Assign(memory, "num1", 2, true, 2);
@@ -61,9 +62,9 @@ namespace ComLib.Lang.Tests.Unit
         public void Can_Do_Math_Expressions_On_Variables()
         {
             var memory = new Memory();
-            memory.SetValue("four", 4);
-            memory.SetValue("five", 5);
-            memory.SetValue("two", 2);
+            memory.SetValue("four", new LNumber(4));
+            memory.SetValue("five", new LNumber(5));
+            memory.SetValue("two",  new LNumber(2));
             Math(memory, "five", "two", Operator.Multiply, 10);
             Math(memory, "four", "two", Operator.Divide, 2);
             Math(memory, "five", "two", Operator.Add, 7);
@@ -76,19 +77,19 @@ namespace ComLib.Lang.Tests.Unit
         public void Can_Do_Unary_Operations()
         {
             var memory = new Memory();
-            memory.SetValue("one", 1);
-            memory.SetValue("two", 2);
-            memory.SetValue("three", 3);
-            memory.SetValue("four", 4);
-            memory.SetValue("five", 5);
-            memory.SetValue("six", 6);
+            memory.SetValue("one",   new LNumber(1));
+            memory.SetValue("two",   new LNumber(2));
+            memory.SetValue("three", new LNumber(3));
+            memory.SetValue("four",  new LNumber(4));
+            memory.SetValue("five",  new LNumber(5));
+            memory.SetValue("six",   new LNumber(6));
 
-            Unary(memory, "one", 0, Operator.PlusPlus, 2);
-            Unary(memory, "two", 2, Operator.PlusEqual, 4);
+            Unary(memory, "one", 0,   Operator.PlusPlus, 2);
+            Unary(memory, "two", 2,   Operator.PlusEqual, 4);
             Unary(memory, "three", 0, Operator.MinusMinus, 2);
-            Unary(memory, "four", 2, Operator.MinusEqual, 2);
-            Unary(memory, "five", 2, Operator.MultEqual, 10);
-            Unary(memory, "six", 2, Operator.DivEqual, 3);
+            Unary(memory, "four", 2,  Operator.MinusEqual, 2);
+            Unary(memory, "five", 2,  Operator.MultEqual, 10);
+            Unary(memory, "six", 2,   Operator.DivEqual, 3);
         }
 
 
@@ -96,9 +97,9 @@ namespace ComLib.Lang.Tests.Unit
         public void Can_Do_Math_Expressions_On_Constants_And_Variables()
         {
             var memory = new Memory();
-            memory.SetValue("four", 4);
-            memory.SetValue("five", 5);
-            memory.SetValue("two", 2);            
+            memory.SetValue("four", new LNumber(4));
+            memory.SetValue("five", new LNumber(5));
+            memory.SetValue("two",  new LNumber(2));            
             Math(memory, "five", 2, Operator.Multiply, 10);
             Math(memory, "four", 2, Operator.Divide, 2);
             Math(memory, "five", 2, Operator.Add, 7);
@@ -160,7 +161,7 @@ namespace ComLib.Lang.Tests.Unit
         {
             // LESS THAN
             var exp = new CompareExpr(new ConstantExpr(left), op, new ConstantExpr(right));
-            Assert.AreEqual(expected, exp.EvaluateAs<bool>());
+            Assert.AreEqual(expected, exp.EvaluateAs<LBool>().Value);
         }
 
 
@@ -177,7 +178,7 @@ namespace ComLib.Lang.Tests.Unit
             expLeft.Ctx = ctx;
             expRight.Ctx = ctx;
             var exp = new BinaryExpr(expLeft, op, expRight);
-            Assert.AreEqual(expected, exp.EvaluateAs<double>());
+            Assert.AreEqual(expected, exp.EvaluateAs<LNumber>().Value);
         }
 
 
@@ -186,8 +187,8 @@ namespace ComLib.Lang.Tests.Unit
             var ctx = new Context();
             ctx.Memory = memory;
             var exp = new UnaryExpr(left, inc, op, ctx);
-            Assert.AreEqual(expected, exp.EvaluateAs<double>());
-            Assert.AreEqual(expected, memory.Get<double>(left));
+            Assert.AreEqual(expected, exp.EvaluateAs<LNumber>().Value);
+            Assert.AreEqual(expected, memory.GetAs<LNumber>(left).Value);
         }
 
 
@@ -202,7 +203,7 @@ namespace ComLib.Lang.Tests.Unit
             expr.Ctx = ctx;
             exp.Ctx = ctx;
             exp.Evaluate();
-            Assert.AreEqual(expected, memory.Get<object>(name));
+            Assert.AreEqual(expected, memory.GetAs<LObject>(name).GetValue());
         }
     }
 }

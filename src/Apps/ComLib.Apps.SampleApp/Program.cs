@@ -211,6 +211,9 @@ namespace ComLib.Samples
         
         static void UnitTests()
         {
+            var exptests = new Expression_Tests();
+            exptests.Can_Do_Unary_Operations();
+
             var ltJS = new Lang_LString_Tests();
 
             ltJS.Can_Call_Execute();

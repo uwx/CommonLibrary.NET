@@ -114,7 +114,7 @@ namespace ComLib.Lang.AST
         private LNumber IncrementNumber(LNumber val)
         {
             this.DataType = typeof(double);
-            var inc = 1.0;
+            var inc = this.Increment == 0 ? 1 : this.Increment;
             if (this.Expression != null)
             {
                 var incval = this.Expression.Evaluate();
