@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Collections;
 
@@ -21,7 +22,7 @@ namespace ComLib.Lang.Helpers
         /// <param name="rhs">The number on the right hand side</param>
         /// <param name="op">The math operator.</param>
         /// <returns></returns>
-        public static LNumber EvalNumbers(AstNode node, LNumber lhs, LNumber rhs, Operator op)
+        public static LNumber CalcNumbers(AstNode node, LNumber lhs, LNumber rhs, Operator op)
         {
             var left = lhs.Value;
             var right = rhs.Value;
@@ -59,7 +60,7 @@ namespace ComLib.Lang.Helpers
         /// <param name="op">The math operator</param>
         /// <param name="units"></param>
         /// <returns></returns>
-        public static LUnit EvalUnits(AstNode node, LUnit left, LUnit right, Operator op, Units units)
+        public static LUnit CalcUnits(AstNode node, LUnit left, LUnit right, Operator op, Units units)
         {
             double baseUnitsValue = 0;
             if (op == Operator.Multiply)
@@ -102,7 +103,7 @@ namespace ComLib.Lang.Helpers
         /// <param name="rhs">The time on the right hand side</param>
         /// <param name="op">The math operator.</param>
         /// <returns></returns>
-        public static LTime EvalTimes(AstNode node, LTime lhs, LTime rhs, Operator op)
+        public static LTime CalcTimes(AstNode node, LTime lhs, LTime rhs, Operator op)
         {
             if (op != Operator.Add && op != Operator.Subtract)
                 throw BuildRunTimeException(node, "Can only add/subtract times");
@@ -130,7 +131,7 @@ namespace ComLib.Lang.Helpers
         /// <param name="rhs">The time on the right hand side</param>
         /// <param name="op">The math operator.</param>
         /// <returns></returns>
-        public static LTime EvalDates(AstNode node, LDate lhs, LDate rhs, Operator op)
+        public static LTime CalcDates(AstNode node, LDate lhs, LDate rhs, Operator op)
         {
             if (op != Operator.Subtract)
                 throw BuildRunTimeException(node, "Can only subtract dates");
@@ -143,52 +144,13 @@ namespace ComLib.Lang.Helpers
 
 
         /// <summary>
-        /// Gets an array value.
-        /// </summary>
-        /// <param name="regmethods"></param>
-        /// <param name="node"></param>
-        /// <param name="ListObject"></param>
-        /// <param name="ndx"></param>
-        /// <returns></returns>
-        public static LObject EvalListAccess(RegisteredMethods regmethods, AstNode node, object ListObject, int ndx)
-        {
-            MethodInfo method = null;
-            object result = null;
-            var list = (LArray)ListObject;
-
-            // Case 1: Fluentscript LArray
-            if (list.Type == LTypes.Array)
-            {
-                var methods = regmethods.Get(LTypes.Array);
-                result = methods.GetByNumericIndex(list, ndx);
-                return (LObject)result;
-            }
-            // Case 2: C# IList
-            else if (list.Value is IList)
-            {
-                method = ListObject.GetType().GetMethod("get_Item");
-            }
-            // Getting value?                
-            try
-            {
-                result = method.Invoke(ListObject, new object[] { ndx });
-            }
-            catch (Exception)
-            {
-                throw BuildRunTimeException(node, "Access of list item at position " + ndx + " is out of range");
-            }
-            return null;
-        }
-
-
-        /// <summary>
         /// Increments the number supplied.
         /// </summary>
-        /// <param name="val"></param>
+        /// <param name="num"></param>
         /// <param name="op"></param>
         /// <param name="increment"></param>
         /// <returns></returns>
-        public static LNumber EvalIncrementNumber(LNumber num, Operator op, double increment)
+        public static LNumber CalcUnary(LNumber num, Operator op, double increment)
         {
             var val = num.Value;
             if (op == Operator.PlusPlus)
@@ -329,17 +291,18 @@ namespace ComLib.Lang.Helpers
         /// <param name="rhs">The time on the right hand side</param>
         /// <param name="op">The math operator.</param>
         /// <returns></returns>
-        public static bool CompareDates(AstNode node, LDate lhs, LDate rhs, Operator op)
+        public static LBool CompareDates(AstNode node, LDate lhs, LDate rhs, Operator op)
         {
             var left = lhs.Value;
             var right = rhs.Value;
-            if (op == Operator.LessThan) return left < right;
-            if (op == Operator.LessThanEqual) return left <= right;
-            if (op == Operator.MoreThan) return left > right;
-            if (op == Operator.MoreThanEqual) return left >= right;
-            if (op == Operator.EqualEqual) return left == right;
-            if (op == Operator.NotEqual) return left != right;
-            return false;
+            var result = false;
+            if (op == Operator.LessThan)             result = left < right;
+            else if (op == Operator.LessThanEqual)   result = left <= right;
+            else if (op == Operator.MoreThan)        result = left > right;
+            else if (op == Operator.MoreThanEqual)   result = left >= right;
+            else if (op == Operator.EqualEqual)      result = left == right;
+            else if (op == Operator.NotEqual)        result = left != right;
+            return new LBool(result);
         }
 
 
@@ -351,17 +314,18 @@ namespace ComLib.Lang.Helpers
         /// <param name="rhs">The time on the right hand side</param>
         /// <param name="op">The math operator.</param>
         /// <returns></returns>
-        public static bool CompareTimes(AstNode node, LTime lhs, LTime rhs, Operator op)
+        public static LBool CompareTimes(AstNode node, LTime lhs, LTime rhs, Operator op)
         {
             var left = lhs.Value;
             var right = rhs.Value;
-            if (op == Operator.LessThan) return left < right;
-            if (op == Operator.LessThanEqual) return left <= right;
-            if (op == Operator.MoreThan) return left > right;
-            if (op == Operator.MoreThanEqual) return left >= right;
-            if (op == Operator.EqualEqual) return left == right;
-            if (op == Operator.NotEqual) return left != right;
-            return false;
+            var result = false;
+            if (op == Operator.LessThan)             result = left < right;
+            else if (op == Operator.LessThanEqual)   result = left <= right;
+            else if (op == Operator.MoreThan)        result = left > right;
+            else if (op == Operator.MoreThanEqual)   result = left >= right;
+            else if (op == Operator.EqualEqual)      result = left == right;
+            else if (op == Operator.NotEqual)        result = left != right;
+            return new LBool(result);
         }
 
 
@@ -373,15 +337,16 @@ namespace ComLib.Lang.Helpers
         /// <param name="rhs">The time on the right hand side</param>
         /// <param name="op">The math operator.</param>
         /// <returns></returns>
-        public static bool CompareUnits(AstNode node, LUnit lhs, LUnit rhs, Operator op)
+        public static LBool CompareUnits(AstNode node, LUnit lhs, LUnit rhs, Operator op)
         {
-            if (op == Operator.LessThan) return lhs.BaseValue < rhs.BaseValue;
-            if (op == Operator.LessThanEqual) return lhs.BaseValue <= rhs.BaseValue;
-            if (op == Operator.MoreThan) return lhs.BaseValue > rhs.BaseValue;
-            if (op == Operator.MoreThanEqual) return lhs.BaseValue >= rhs.BaseValue;
-            if (op == Operator.EqualEqual) return lhs.BaseValue == rhs.BaseValue;
-            if (op == Operator.NotEqual) return lhs.BaseValue != rhs.BaseValue;
-            return false;
+            var result = false;
+            if (op == Operator.LessThan)             result = lhs.BaseValue < rhs.BaseValue;
+            else if (op == Operator.LessThanEqual)   result = lhs.BaseValue <= rhs.BaseValue;
+            else if (op == Operator.MoreThan)        result = lhs.BaseValue > rhs.BaseValue;
+            else if (op == Operator.MoreThanEqual)   result = lhs.BaseValue >= rhs.BaseValue;
+            else if (op == Operator.EqualEqual)      result = lhs.BaseValue == rhs.BaseValue;
+            else if (op == Operator.NotEqual)        result = lhs.BaseValue != rhs.BaseValue;
+            return new LBool(result);
         }
 
 
@@ -402,6 +367,79 @@ namespace ComLib.Lang.Helpers
             return res;
         }
 
+
+
+        /// <summary>
+        /// Evaluate the result of indexing an object e.g. users[0] or users["admins"]
+        /// </summary>
+        /// <param name="regmethods"></param>
+        /// <param name="node"></param>
+        /// <param name="target"></param>
+        /// <param name="ndxObj"></param>
+        /// <returns></returns>
+        public static LObject AccessIndex(RegisteredMethods regmethods, AstNode node, LObject target, LObject ndxObj)
+        {
+            var result = LObjects.Empty;
+            // Case 1: Array access users[0];
+            if (target.Type == LTypes.Array)
+            {
+                var ndx = ((LNumber)ndxObj).Value;
+                var methods = regmethods.Get(LTypes.Array);
+                result = (LObject)methods.GetByNumericIndex(target, (int)ndx);
+            }
+            // Case 2: Map access. users["kishore"];
+            else if (target.Type == LTypes.Map)
+            {
+                var memberName = ((LString)ndxObj).Value;
+                var methods = regmethods.Get(LTypes.Map);
+                if (!methods.HasProperty(target, memberName))
+                    throw EvalHelper.BuildRunTimeException(node, "Property does not exist : '" + memberName + "'");
+
+                result = (LObject)methods.GetByStringMember(target, memberName);
+            }
+            return result;
+        }
+
+
+        /*
+        /// <summary>
+        /// Gets an array value.
+        /// </summary>
+        /// <param name="regmethods"></param>
+        /// <param name="node"></param>
+        /// <param name="ListObject"></param>
+        /// <param name="ndx"></param>
+        /// <returns></returns>
+        public static LObject AccessListIndex(RegisteredMethods regmethods, AstNode node, LArray ListObject, int ndx)
+        {
+            MethodInfo method = null;
+            object result = null;
+            var list = (LArray)ListObject;
+
+            // Case 1: Fluentscript LArray
+            if (list.Type == LTypes.Array)
+            {
+                var methods = regmethods.Get(LTypes.Array);
+                result = methods.GetByNumericIndex(list, ndx);
+                return (LObject)result;
+            }
+            // Case 2: C# IList
+            else if (list.Value is IList)
+            {
+                method = ListObject.GetType().GetMethod("get_Item");
+            }
+            // Getting value?                
+            try
+            {
+                result = method.Invoke(ListObject, new object[] { ndx });
+            }
+            catch (Exception)
+            {
+                throw BuildRunTimeException(node, "Access of list item at position " + ndx + " is out of range");
+            }
+            return null;
+        }
+        */
 
         /// <summary>
         /// Build a language exception due to the current token being invalid.

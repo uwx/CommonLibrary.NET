@@ -578,6 +578,7 @@ src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/FluentHelper.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/FunctionHelper.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/LangHelper.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/LangUtils.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/MemberHelper.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/ParamHelper.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/TimeTypeHelper.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/TypeHelper.cs -text

@@ -97,7 +97,6 @@
     <Compile Include="Lang\Integration\System_Combinator_Only_Tests.cs" />
     <Compile Include="Lang\Integration\System_Config_Tests.cs" />
     <Compile Include="Lang\Integration\System_Types.cs" />
-    <Compile Include="Lang\LangAPITests.cs" />
     <Compile Include="Lang\Unit\LexerTests.cs" />
     <Compile Include="Lang\Unit\SemActsTests.cs" />
     <Compile Include="Lang\Unit\SymbolsTests.cs" />

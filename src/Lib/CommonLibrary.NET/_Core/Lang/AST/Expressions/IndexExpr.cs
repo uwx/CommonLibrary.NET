@@ -73,71 +73,27 @@ namespace ComLib.Lang.AST
                 this.ListObject = Ctx.Memory.Get<object>(((VariableExpr)VariableExp).Name);
             else
                 this.ListObject = VariableExp.Evaluate();
-            
-            // 1. Check for null
+
+            var lobj = LObjects.Empty;
+            if (this.ListObject != null)
+                lobj = (LObject)this.ListObject;
+
+            // Check for null
             if (ndxVal == null)
                 throw BuildRunTimeException("Unable to index with null value");
 
+            // 1. Access
             if(!this.IsAssignment)
             {
-                // Is the index value a number ? Indicates that the object is an array.
-                var ndxNum = (LObject)ndxVal;
-                if (ndxNum.Type == LTypes.Number)
-                {
-                    var ndx = ((LNumber)ndxNum).Value;
-                    result = EvalHelper.EvalListAccess(Ctx.Methods, this, this.ListObject, (int)ndx);
-                    return result;    
-                }
-                // If the index is a string. Then object is a map/dictionary.
-                else if (ndxVal is string)
-                {
-                    string memberName = ndxVal as string;
-                    var methods = this.Ctx.Methods.Get(LTypes.Map);
-                    var ltypeval = new LMap((IDictionary<string, object>)ListObject);
-                    if (!methods.HasProperty(ltypeval, memberName))
-                        throw this.BuildRunTimeException("Property does not exist : '" + memberName + "'");
-                    return methods.ExecuteMethod(ltypeval, "Get_" + memberName, null);
-                }       
+                result = EvalHelper.AccessIndex(this.Ctx.Methods, this, lobj, (LObject)ndxVal);
+                return result;
             }
+            // 2. Assignment
             if (ndxVal is int || ndxVal is double)
             {
                 return new Tuple<object, int>(ListObject, Convert.ToInt32(ndxVal));
             }
-            return new Tuple<LMapType, string>((LMapType)ListObject, (string)ndxVal);          
-        }
-
-
-        private object GetArrayValue(int ndx)
-        {
-            MethodInfo method = null;
-            object result = null;
-            var list = (LArray)ListObject;
-            
-            // 1. Array
-            if (list.Type == LTypes.Array)
-            {
-                method = ListObject.GetType().GetMethod("GetValue", new Type[] { typeof(int) });
-            }
-            // 2. LArrayType
-            else if (ListObject is LArrayType)
-            {
-                method = ListObject.GetType().GetMethod("GetByIndex");
-            }
-            // 3. IList
-            else
-            {
-                method = ListObject.GetType().GetMethod("get_Item");
-            }
-            // Getting value?                
-            try
-            {
-                result = method.Invoke(ListObject, new object[] { ndx });
-            }
-            catch (Exception)
-            {
-                throw BuildRunTimeException("Access of list item at position " + ndx + " is out of range");
-            }
-            return result;
+            return new Tuple<LMapType, string>((LMapType)ListObject, (string)ndxVal);
         }
     }    
 }

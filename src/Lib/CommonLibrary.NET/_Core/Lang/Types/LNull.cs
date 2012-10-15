@@ -20,7 +20,7 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Instance of null
         /// </summary>
-        public static LNull Instance = new LNull();
+        public static LNull Instance = LObjects.Null;
     }
 
 

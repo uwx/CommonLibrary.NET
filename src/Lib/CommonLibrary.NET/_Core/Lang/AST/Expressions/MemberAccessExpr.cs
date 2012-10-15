@@ -57,6 +57,12 @@ namespace ComLib.Lang.AST
 
 
         /// <summary>
+        /// The type if the member access is on a built in a fluentscript type.
+        /// </summary>
+        public LType Type;
+
+
+        /// <summary>
         /// The method represetning the member.
         /// </summary>
         public MethodInfo Method;
@@ -117,7 +123,7 @@ namespace ComLib.Lang.AST
         /// <returns></returns>
         public override object DoEvaluate()
         {
-            MemberAccess memberAccess = GetMemberAccess();
+            var memberAccess = MemberHelper.GetMemberAccess(this, this.Ctx, this.VariableExp, this.MemberName);
             if (IsAssignment)
                 return memberAccess;
 
@@ -138,55 +144,6 @@ namespace ComLib.Lang.AST
                 return methods.ExecuteMethod(ltypeval, "Get_" + MemberName, null);
             }           
             return memberAccess;
-        }
-
-
-        private MemberAccess GetMemberAccess()
-        {
-             bool isVariableExp = VariableExp is VariableExpr;
-            string variableName = isVariableExp ? ((VariableExpr)VariableExp).Name : string.Empty;
-            
-            // CASE 1: External function call "user.create"
-            if (isVariableExp && IsExternalFunctionCall(variableName))
-                return new MemberAccess(MemberMode.FunctionExternal) { Name = variableName, MemberName = MemberName };
-            
-            // CASE 2. Static method call: "Person.Create" 
-            if(isVariableExp )
-            { 
-                var result = IsMemberStaticAccess(variableName);
-                if (result.Success)
-                    return GetStaticMemberAccess(result.Item as Type);
-            }
-
-            var obj = VariableExp.Evaluate() as LTypeValue;
-            var type = obj.Type;
-
-            // Case 3: LDateType, LArrayType, String,
-            bool isCoreType = obj.Type.IsBasicType();
-            if ( isCoreType )
-            {
-                // Get the methods implementation LTypeMethods for this basic type 
-                // e.g. string,  date,  time,  array , map
-                // e.g. LStringType  LDateType, LTimeType, LArrayType, LMapType
-                var typeMethods = Ctx.Methods.Get(type);
-                var hostType = LangTypeHelper.ConvertToHostLangType(type);
-
-                // 1. Check that the member exists.
-                if (!typeMethods.HasMember(null, MemberName))
-                    throw BuildRunTimeException("Property or Member : " + MemberName + " does not exist");
-
-                // 2. Property ?
-                if (typeMethods.HasProperty(null, MemberName))
-                    return new MemberAccess(MemberMode.CustObjMethodInstance) { Name = type.Name, DataType = hostType, Instance = obj, MemberName = MemberName };
-
-                // 3. Method ?
-                if (typeMethods.HasMethod(null, MemberName))
-                    return new MemberAccess(MemberMode.CustObjMethodInstance) { Name = type.Name, DataType = hostType, Instance = obj, MemberName = MemberName };
-            }
-
-            // CASE 4: Custom object type
-            var member = GetInstanceMemberAccess(obj);
-            return member;
         }
     }    
 }

@@ -524,32 +524,49 @@ namespace ComLib.Samples
         }
 
 
+        
+
+
+        #region System Types
         static void Lang_Type_Tests()
         {
-            var t = new Types_Dictionary();
-            var ta = new Types_Array();
-            var tt = new Types_Time();
-            var td = new Types_Dates();
-            var ts = new Types_Strings();
-
-
-            ta.Can_Do_Array_Declarations();
-            ta.Can_Get_Array_Basic_Type_Values_ByIndex();
-            ta.Can_Do_Array_Method_Calls();
-            ta.Can_Do_Array_Nested();
-            ta.Can_Get_Array_ByIndex();
-            ta.Can_Get_Array_Item_By_Index_Right_After_Declaration();
-            ta.Can_Get_Array_Item_By_Nested_Indexes();
-            ta.Can_Set_Array_ByIndex();
-
-            ts.Can_Read_Interpolated_Strings();
-
-            ts.Can_Escape_Chars();
-            td.Can_Subtract_Dates();
-            tt.Can_Declare_Time_With_New();
-            t.Can_Do_Map_Access();
-            
+            System_Types_Strings();
+            System_Types_Arrays();
         }
+
+
+        static void System_Types_Arrays()
+        {
+            var t = new Types_Array();
+            t.Can_Do_Array_Declarations();
+            t.Can_Get_Array_Basic_Type_Values_ByIndex();
+            t.Can_Do_Array_Method_Calls();
+            t.Can_Do_Array_Nested();
+            t.Can_Get_Array_ByIndex();
+            t.Can_Get_Array_Item_By_Index_Right_After_Declaration();
+            t.Can_Get_Array_Item_By_Nested_Indexes();
+            t.Can_Set_Array_ByIndex();
+        }
+
+
+        static void System_Types_Strings()
+        {
+            var t = new Types_Strings();
+            t.Can_Do_String_Method_Calls();
+            t.Can_Escape_Chars();
+            t.Can_Read_Interpolated_Strings();
+            t.Can_Read_Interpolated_Strings_With_Custom_Interpolated_StartChar();
+        }
+
+
+        static void System_Types_Dates()
+        {
+            var t = new Types_Dates();
+            t.Can_Create_Dates_With_Parameters();
+            t.Can_Do_Date_Method_Calls();
+            t.Can_Subtract_Dates();
+        }
+        #endregion
 
 
 

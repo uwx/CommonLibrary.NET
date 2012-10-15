@@ -78,4 +78,23 @@ namespace ComLib.Lang.Types
         /// </summary>
         public static LType Unit = new LUnitType();
     }
+
+
+
+    /// <summary>
+    /// Holder for "singleton" like object such as empty string, null.
+    /// </summary>
+    public class LObjects
+    {
+        /// <summary>
+        /// Empty object
+        /// </summary>
+        public static LNull Null = new LNull();
+
+
+        /// <summary>
+        /// Empty object
+        /// </summary>
+        public static LObject Empty = new LObject();
+    }
 }

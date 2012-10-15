@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Collections;
-using System.Reflection;
 
 // <lang:using>
 using ComLib.Lang.Core;
@@ -91,8 +87,8 @@ namespace ComLib.Lang.AST
             {
                 result = FunctionHelper.FunctionCall(Ctx, maccess.FullMemberName as string, this);
             }
-            // CASE 4: string method call or date method call
-            else if (maccess.DataType == typeof(string) || maccess.DataType == typeof(LDateType))
+            // CASE 4: Method call / Property on Language types
+            else if (maccess.Type != null)
             {
                 result = FunctionHelper.MemberCall(Ctx, maccess.Instance.GetType(), maccess.Instance, maccess.Name, maccess.MemberName, null, this.ParamListExpressions, this.ParamList);
             }

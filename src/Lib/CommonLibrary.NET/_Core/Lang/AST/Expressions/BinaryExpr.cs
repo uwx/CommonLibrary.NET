@@ -59,17 +59,17 @@ namespace ComLib.Lang.AST
             // Case 1: Both numbers
             if (this.IsTypeMatch(LTypes.Number, left, right))
             {
-                result = EvalHelper.EvalNumbers(this, (LNumber)left, (LNumber)right, Op);
+                result = EvalHelper.CalcNumbers(this, (LNumber)left, (LNumber)right, Op);
             }
             // Case 2: Both times
             else if (this.IsTypeMatch(LTypes.Time, left, right))
             {
-                result = EvalHelper.EvalTimes(this, (LTime)left, (LTime)right, Op);
+                result = EvalHelper.CalcTimes(this, (LTime)left, (LTime)right, Op);
             }
             // Case 3: Both dates
             else if (this.IsTypeMatch(LTypes.Date, left, right))
             {
-                result = EvalHelper.EvalDates(this, (LDate)left, (LDate)right, Op);
+                result = EvalHelper.CalcDates(this, (LDate)left, (LDate)right, Op);
             }
             // Case 4: Both strings.
             else if (this.IsTypeMatch(LTypes.String, left, right))
@@ -89,14 +89,14 @@ namespace ComLib.Lang.AST
             {
                 var r = ((LBool) right).Value;
                 var rval = r ? 1 : 0;
-                result = EvalHelper.EvalNumbers(this, (LNumber)left, new LNumber(rval), Op);
+                result = EvalHelper.CalcNumbers(this, (LNumber)left, new LNumber(rval), Op);
             }
             // Bool Double
             else if (left.Type == LTypes.Bool && right.Type == LTypes.Number)
             {
                 var l = ((LBool) left).Value;
                 var lval = l ? 1 : 0;
-                result = EvalHelper.EvalNumbers(this, new LNumber(lval), (LNumber)right, Op);
+                result = EvalHelper.CalcNumbers(this, new LNumber(lval), (LNumber)right, Op);
             }
             // Append as strings.
             else if (left.Type == LTypes.String && right.Type == LTypes.Bool)
@@ -110,9 +110,9 @@ namespace ComLib.Lang.AST
                 var st2 = ((LBool) left).Value.ToString().ToLower() + ((LString) right).Value;
                 result = new LString(st2);
             }
-            else if (left is LUnit && right is LUnit)
+            else if (left.Type == LTypes.Unit && right.Type == LTypes.Unit)
             {
-                result = EvalHelper.EvalUnits(this, (LUnit)left, (LUnit)right, Op, Ctx.Units);
+                result = EvalHelper.CalcUnits(this, (LUnit)left, (LUnit)right, Op, Ctx.Units);
             }
             else
             {
