@@ -211,6 +211,14 @@ namespace ComLib.Samples
         
         static void UnitTests()
         {
+            var symTests = new Symbols_Tests();
+            var symTG = new Symbols_Global_Tests();
+
+            symTG.Can_Get_Var_Symbol();
+            symTG.Can_Get_Function_Symbol();
+            symTests.Can_Have_Block_Inside_Function();
+
+
             var exptests = new Expression_Tests();
             exptests.Can_Do_Unary_Operations();
 
@@ -264,11 +272,7 @@ namespace ComLib.Samples
             semactTests.Can_Validate_Variable_Does_Not_Exist();
              
 
-            var symTests = new Symbols_Tests();
-            var symTG = new Symbols_Global_Tests();
-            symTG.Can_Get_Function_Symbol();
-            symTests.Can_Have_Block_Inside_Function();
-
+            
             var units = new UnitsTests();
             units.Can_Create_Units();
             units.Can_Convert_Values_Using_ShortName();

@@ -237,7 +237,7 @@ namespace ComLib.Lang.Core
         /// <param name="name">Name of the varaible</param>
         public virtual void DefineVariable(string name)
         {
-            this.Symbols[name] = new SymbolType() { Name = name, Category = SymbolConstants.Var,  DataType = new LObjectType() };
+            this.Symbols[name] = new SymbolType() { Name = name, Category = SymbolConstants.Var,  DataType = LTypes.Object };
         }
 
 

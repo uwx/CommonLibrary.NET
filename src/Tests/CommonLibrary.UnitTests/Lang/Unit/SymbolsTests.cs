@@ -43,7 +43,7 @@ namespace ComLib.Lang.Tests.Unit
             var sym = syms.GetSymbol("a");
 
             Assert.AreEqual(sym.Name, "a");
-            Assert.AreEqual(sym.DataType, typeof(object));
+            Assert.AreEqual(sym.DataType, LTypes.Object);            
             Assert.AreEqual(sym.Category, "var");
         }
 
@@ -55,14 +55,13 @@ namespace ComLib.Lang.Tests.Unit
             syms.DefineFunction("add", 2, new string[]{ "a", "b"}, typeof(object));
             var sym = syms.GetSymbol<SymbolTypeFunc>("add");
 
-            throw new NotImplementedException();
             Assert.AreEqual(sym.Name, "add");
-            //Assert.AreEqual(sym.DataType, typeof(LFunction));
+            Assert.AreEqual(sym.DataType.TypeVal, LTypes.Function.TypeVal);
             Assert.AreEqual(sym.Category, "func");
             Assert.AreEqual(sym.Meta.TotalArgs, 2);
             Assert.AreEqual(sym.Meta.Arguments[0].Name, "a");
             Assert.AreEqual(sym.Meta.Arguments[1].Name, "b");
-            Assert.AreEqual(sym.Meta.ReturnType, typeof(object));
+            Assert.AreEqual(sym.Meta.ReturnType, LTypes.Object);
         }
     }
 
