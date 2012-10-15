@@ -161,6 +161,7 @@ namespace ComLib.Lang.Helpers
             {
                 var methods = regmethods.Get(LTypes.Array);
                 result = methods.GetByNumericIndex(list, ndx);
+                return (LObject)result;
             }
             // Case 2: C# IList
             else if (list.Value is IList)

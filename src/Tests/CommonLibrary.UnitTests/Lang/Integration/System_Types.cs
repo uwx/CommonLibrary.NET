@@ -25,12 +25,12 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(string), "abc" + "'", "var result = 'abc\\'';"),
-                new Tuple<string,Type, object, string>("result", typeof(string), "abc" + "\"", "var result = 'abc\"';"),
-                new Tuple<string,Type, object, string>("result", typeof(string), "abc" + "\"", "var result = \"abc\\\"\";"),
-                new Tuple<string,Type, object, string>("result", typeof(string), "abc" + "\\", "var result = 'abc\\\\';"),
-                new Tuple<string,Type, object, string>("result", typeof(string), "abc" + "\t", "var result = 'abc\t';"),
-                new Tuple<string,Type, object, string>("result", typeof(string), "abc" + Environment.NewLine, "var result = 'abc\r\n';")
+                TestCase("result", typeof(string), "abc" + "'", "var result = 'abc\\'';"),
+                TestCase("result", typeof(string), "abc" + "\"", "var result = 'abc\"';"),
+                TestCase("result", typeof(string), "abc" + "\"", "var result = \"abc\\\"\";"),
+                TestCase("result", typeof(string), "abc" + "\\", "var result = 'abc\\\\';"),
+                TestCase("result", typeof(string), "abc" + "\t", "var result = 'abc\t';"),
+                TestCase("result", typeof(string), "abc" + Environment.NewLine, "var result = 'abc\r\n';")
             };
             Parse(statements);
         }
@@ -41,12 +41,12 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("fullname", typeof(string), "3 plus reddy",       "var first = 'kishore'; var last = 'reddy'; var fullname = \"#{1 + 2} plus #{last}\";"),
-                new Tuple<string,Type, object, string>("fullname", typeof(string), "kishore plus reddy", "var first = 'kishore'; var last = 'reddy'; var fullname = \"#{first} plus #{last}\";"),
-                new Tuple<string,Type, object, string>("fullname", typeof(string), "before kishore plus reddy after", "var first = 'kishore'; var last = 'reddy'; var fullname = \"before #{first} plus #{last} after\";"),
-                new Tuple<string,Type, object, string>("fullname", typeof(string), "kishore plus reddy", "var first = 'kishore'; var last = 'reddy'; var fullname = \"#{first} plus #{last}\";"),
-                new Tuple<string,Type, object, string>("fullname", typeof(string), "kishore mid:kdog reddy", "var user = { name: 'kishore', middle: 'kdog' }; var last = 'reddy'; var fullname = \"#{user.name} mid:#{user.middle} #{last}\";"),                
-                new Tuple<string,Type, object, string>("result", typeof(string), "exp 7, func 3", "function add( a, b ) return a + b; var num = 2; var result = \"exp #{5 + num}, func #{add( num, 1)}\""),                
+                TestCase("fullname", typeof(string), "3 plus reddy",       "var first = 'kishore'; var last = 'reddy'; var fullname = \"#{1 + 2} plus #{last}\";"),
+                TestCase("fullname", typeof(string), "kishore plus reddy", "var first = 'kishore'; var last = 'reddy'; var fullname = \"#{first} plus #{last}\";"),
+                TestCase("fullname", typeof(string), "before kishore plus reddy after", "var first = 'kishore'; var last = 'reddy'; var fullname = \"before #{first} plus #{last} after\";"),
+                TestCase("fullname", typeof(string), "kishore plus reddy", "var first = 'kishore'; var last = 'reddy'; var fullname = \"#{first} plus #{last}\";"),
+                TestCase("fullname", typeof(string), "kishore mid:kdog reddy", "var user = { name: 'kishore', middle: 'kdog' }; var last = 'reddy'; var fullname = \"#{user.name} mid:#{user.middle} #{last}\";"),                
+                TestCase("result", typeof(string), "exp 7, func 3", "function add( a, b ) return a + b; var num = 2; var result = \"exp #{5 + num}, func #{add( num, 1)}\""),                
             };            
             Parse(statements);
         }
@@ -57,11 +57,11 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("fullname", typeof(string), "3 plus reddy",       "var first = 'kishore'; var last = 'reddy'; var fullname = \"${1 + 2} plus ${last}\";"),
-                new Tuple<string,Type, object, string>("fullname", typeof(string), "kishore plus reddy", "var first = 'kishore'; var last = 'reddy'; var fullname = \"${first} plus ${last}\";"),
-                new Tuple<string,Type, object, string>("fullname", typeof(string), "before kishore plus reddy after", "var first = 'kishore'; var last = 'reddy'; var fullname = \"before ${first} plus ${last} after\";"),
-                new Tuple<string,Type, object, string>("fullname", typeof(string), "kishore plus reddy", "var first = 'kishore'; var last = 'reddy'; var fullname = \"${first} plus ${last}\";"),
-                new Tuple<string,Type, object, string>("fullname", typeof(string), "kishore mid:kdog reddy", "var user = { name: 'kishore', middle: 'kdog' }; var last = 'reddy'; var fullname = \"${user.name} mid:${user.middle} ${last}\";"),
+                TestCase("fullname", typeof(string), "3 plus reddy",       "var first = 'kishore'; var last = 'reddy'; var fullname = \"${1 + 2} plus ${last}\";"),
+                TestCase("fullname", typeof(string), "kishore plus reddy", "var first = 'kishore'; var last = 'reddy'; var fullname = \"${first} plus ${last}\";"),
+                TestCase("fullname", typeof(string), "before kishore plus reddy after", "var first = 'kishore'; var last = 'reddy'; var fullname = \"before ${first} plus ${last} after\";"),
+                TestCase("fullname", typeof(string), "kishore plus reddy", "var first = 'kishore'; var last = 'reddy'; var fullname = \"${first} plus ${last}\";"),
+                TestCase("fullname", typeof(string), "kishore mid:kdog reddy", "var user = { name: 'kishore', middle: 'kdog' }; var last = 'reddy'; var fullname = \"${user.name} mid:${user.middle} ${last}\";"),
             };
             Parse(statements, true, i => i.Context.Settings.InterpolatedStartChar = '$');
         }
@@ -72,13 +72,13 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(string),   "common@lib",  "var name = 'COmmOn@Lib'; var result = name.toLowerCase();"),
-                new Tuple<string,Type, object, string>("result", typeof(string),   "COMMON@LIB",  "var name = 'COmmOn@Lib'; var result = name.toUpperCase();"),
-                new Tuple<string,Type, object, string>("result", typeof(int),      6,             "var name = 'COmmOn@Lib'; var result = name.indexOf('@');"),
-                new Tuple<string,Type, object, string>("result", typeof(int),      4,             "var name = 'COmmOn@Lib'; var result = name.lastIndexOf('O');"),
-                new Tuple<string,Type, object, string>("result", typeof(string),   "mmOn",        "var name = 'COmmOn@Lib'; var result = name.substr(2, 4);"),
-                new Tuple<string,Type, object, string>("result", typeof(string),   "mmO",         "var name = 'COmmOn@Lib'; var result = name.substring(2, 4);"),
-                new Tuple<string,Type, object, string>("result", typeof(string),   "COnnOn@Lib",  "var name = 'COmmOn@Lib'; var result = name.replace('mm', 'nn');")
+                TestCase("result", typeof(string),   "common@lib",  "var name = 'COmmOn@Lib'; var result = name.toLowerCase();"),
+                TestCase("result", typeof(string),   "COMMON@LIB",  "var name = 'COmmOn@Lib'; var result = name.toUpperCase();"),
+                TestCase("result", typeof(int),      6,             "var name = 'COmmOn@Lib'; var result = name.indexOf('@');"),
+                TestCase("result", typeof(int),      4,             "var name = 'COmmOn@Lib'; var result = name.lastIndexOf('O');"),
+                TestCase("result", typeof(string),   "mmOn",        "var name = 'COmmOn@Lib'; var result = name.substr(2, 4);"),
+                TestCase("result", typeof(string),   "mmO",         "var name = 'COmmOn@Lib'; var result = name.substring(2, 4);"),
+                TestCase("result", typeof(string),   "COnnOn@Lib",  "var name = 'COmmOn@Lib'; var result = name.replace('mm', 'nn');")
             };
             Parse(statements);
         }
@@ -94,11 +94,11 @@ namespace ComLib.Lang.Tests.Integration.System
             var date = new DateTime(2012, 8, 1);
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string, Type, object, string>("result", typeof(string),  "kishore",  "var data = { name: 'kishore', id: 123, isactive: true, dt: new Date(), salary: 80.5 }; var result = data.name;" ),
-                new Tuple<string, Type, object, string>("result", typeof(double),  123,        "var data = { name: 'kishore', id: 123, isactive: true, dt: new Date(), salary: 80.5 }; var result = data.id;" ),
-                new Tuple<string, Type, object, string>("result", typeof(bool),    true,       "var data = { name: 'kishore', id: 123, isactive: true, dt: new Date(), salary: 80.5 }; var result = data.isactive;" ),
-                new Tuple<string, Type, object, string>("result", typeof(bool),    date,       "var data = { name: 'kishore', id: 123, isactive: true, dt: new Date(2012, 8, 1), salary: 80.5 }; var result = data.dt;" ),
-                new Tuple<string, Type, object, string>("result", typeof(double),  80.5,       "var data = { name: 'kishore', id: 123, isactive: true, dt: new Date(), salary: 80.5 }; var result = data.salary;" )
+                TestCase("result", typeof(string),  "kishore",  "var data = { name: 'kishore', id: 123, isactive: true, dt: new Date(), salary: 80.5 }; var result = data.name;" ),
+                TestCase("result", typeof(double),  123,        "var data = { name: 'kishore', id: 123, isactive: true, dt: new Date(), salary: 80.5 }; var result = data.id;" ),
+                TestCase("result", typeof(bool),    true,       "var data = { name: 'kishore', id: 123, isactive: true, dt: new Date(), salary: 80.5 }; var result = data.isactive;" ),
+                TestCase("result", typeof(bool),    date,       "var data = { name: 'kishore', id: 123, isactive: true, dt: new Date(2012, 8, 1), salary: 80.5 }; var result = data.dt;" ),
+                TestCase("result", typeof(double),  80.5,       "var data = { name: 'kishore', id: 123, isactive: true, dt: new Date(), salary: 80.5 }; var result = data.salary;" )
             };
             Parse(statements);
         }
@@ -111,12 +111,12 @@ namespace ComLib.Lang.Tests.Integration.System
 
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string, Type, object, string>("result", typeof(string), "fs",  map + " var result = book['name'];" ),
-                new Tuple<string, Type, object, string>("result", typeof(string), "ch",  map + " var result = book['author'];" ),
-                new Tuple<string, Type, object, string>("result", typeof(double), 100,   map + " var result = book['pages'];" ),                
-                new Tuple<string, Type, object, string>("result", typeof(string), "fs",  map + " var result = book.name;" ),
-                new Tuple<string, Type, object, string>("result", typeof(string), "ch",  map + " var result = book.author;" ),
-                new Tuple<string, Type, object, string>("result", typeof(double), 100,   map + " var result = book.pages;" )
+                TestCase("result", typeof(string), "fs",  map + " var result = book['name'];" ),
+                TestCase("result", typeof(string), "ch",  map + " var result = book['author'];" ),
+                TestCase("result", typeof(double), 100,   map + " var result = book['pages'];" ),                
+                TestCase("result", typeof(string), "fs",  map + " var result = book.name;" ),
+                TestCase("result", typeof(string), "ch",  map + " var result = book.author;" ),
+                TestCase("result", typeof(double), 100,   map + " var result = book.pages;" )
             };
             Parse(statements);
         }
@@ -131,10 +131,10 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(DateTime), new DateTime(2012, 1, 2), "var result = new Date(new Date('1/2/2012'));"),
-                new Tuple<string,Type, object, string>("result", typeof(DateTime), new DateTime(2012, 1, 2), "var result = new Date(2012, 1, 2);"),
-                new Tuple<string,Type, object, string>("result", typeof(DateTime), new DateTime(2012, 1, 2, 10, 30, 5), "var result = new Date(2012, 1, 2, 10, 30, 5);"),
-                new Tuple<string,Type, object, string>("result", typeof(DateTime), new DateTime(2012, 1, 2), "var result = new Date('1/2/2012');"),                
+                TestCase("result", typeof(DateTime), new DateTime(2012, 1, 2), "var result = new Date(new Date('1/2/2012'));"),
+                TestCase("result", typeof(DateTime), new DateTime(2012, 1, 2), "var result = new Date(2012, 1, 2);"),
+                TestCase("result", typeof(DateTime), new DateTime(2012, 1, 2, 10, 30, 5), "var result = new Date(2012, 1, 2, 10, 30, 5);"),
+                TestCase("result", typeof(DateTime), new DateTime(2012, 1, 2), "var result = new Date('1/2/2012');"),                
             };
             Parse(statements);
         }
@@ -145,10 +145,10 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string, Type, object, string>("result", typeof(double), 0,  "var result = 0; var date1 = new Date(2012, 1, 8, 10, 30, 30); var date2 = new Date(2012, 1, 9, 8, 15, 40); var diff = date2 - date1; result = diff.Days;"), 
-                new Tuple<string, Type, object, string>("result", typeof(double), 21, "var result = 0; var date1 = new Date(2012, 1, 8, 10, 30, 30); var date2 = new Date(2012, 1, 9, 8, 15, 40); var diff = date2 - date1; result = diff.Hours;"), 
-                new Tuple<string, Type, object, string>("result", typeof(double), 45, "var result = 0; var date1 = new Date(2012, 1, 8, 10, 30, 30); var date2 = new Date(2012, 1, 9, 8, 15, 40); var diff = date2 - date1; result = diff.Minutes;"), 
-                new Tuple<string, Type, object, string>("result", typeof(double), 10, "var result = 0; var date1 = new Date(2012, 1, 8, 10, 30, 30); var date2 = new Date(2012, 1, 9, 8, 15, 40); var diff = date2 - date1; result = diff.Seconds;")
+                TestCase("result", typeof(double), 0,  "var result = 0; var date1 = new Date(2012, 1, 8, 10, 30, 30); var date2 = new Date(2012, 1, 9, 8, 15, 40); var diff = date2 - date1; result = diff.Days;"), 
+                TestCase("result", typeof(double), 21, "var result = 0; var date1 = new Date(2012, 1, 8, 10, 30, 30); var date2 = new Date(2012, 1, 9, 8, 15, 40); var diff = date2 - date1; result = diff.Hours;"), 
+                TestCase("result", typeof(double), 45, "var result = 0; var date1 = new Date(2012, 1, 8, 10, 30, 30); var date2 = new Date(2012, 1, 9, 8, 15, 40); var diff = date2 - date1; result = diff.Minutes;"), 
+                TestCase("result", typeof(double), 10, "var result = 0; var date1 = new Date(2012, 1, 8, 10, 30, 30); var date2 = new Date(2012, 1, 9, 8, 15, 40); var diff = date2 - date1; result = diff.Seconds;")
             };
             Parse(statements);
         }
@@ -160,27 +160,27 @@ namespace ComLib.Lang.Tests.Integration.System
             var date = DateTime.Now;
             var testcases = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("result", typeof(int), date.Day,                             "var result = date.getDate();"),
-                new Tuple<string,Type, object, string>("result", typeof(int), (int)date.DayOfWeek,                  "var result = date.getDay();"),
-                new Tuple<string,Type, object, string>("result", typeof(int), date.Month,                           "var result = date.getMonth();"),
-                new Tuple<string,Type, object, string>("result", typeof(int), date.Year,                            "var result = date.getFullYear();"),
-                new Tuple<string,Type, object, string>("result", typeof(int), date.Hour,                            "var result = date.getHours();"),
-                new Tuple<string,Type, object, string>("result", typeof(int), date.Minute,                          "var result = date.getMinutes();"),
-                new Tuple<string,Type, object, string>("result", typeof(int), date.Second,                          "var result = date.getSeconds();"),
-                new Tuple<string,Type, object, string>("result", typeof(int), date.ToUniversalTime().Day,           "var result = date.getUTCDate();"),
-                new Tuple<string,Type, object, string>("result", typeof(int), (int)date.ToUniversalTime().DayOfWeek,"var result = date.getUTCDay();"),
-                new Tuple<string,Type, object, string>("result", typeof(int), date.ToUniversalTime().Month,         "var result = date.getUTCMonth();"),
-                new Tuple<string,Type, object, string>("result", typeof(int), date.ToUniversalTime().Year,          "var result = date.getUTCFullYear();"),
-                new Tuple<string,Type, object, string>("result", typeof(int), date.ToUniversalTime().Hour,          "var result = date.getUTCHours();"),
-                new Tuple<string,Type, object, string>("result", typeof(int), date.ToUniversalTime().Minute,        "var result = date.getUTCMinutes();"),
-                new Tuple<string,Type, object, string>("result", typeof(int), date.ToUniversalTime().Second,        "var result = date.getUTCSeconds();"),
+                TestCase("result", typeof(int), date.Day,                             "var result = date.getDate();"),
+                TestCase("result", typeof(int), (int)date.DayOfWeek,                  "var result = date.getDay();"),
+                TestCase("result", typeof(int), date.Month,                           "var result = date.getMonth();"),
+                TestCase("result", typeof(int), date.Year,                            "var result = date.getFullYear();"),
+                TestCase("result", typeof(int), date.Hour,                            "var result = date.getHours();"),
+                TestCase("result", typeof(int), date.Minute,                          "var result = date.getMinutes();"),
+                TestCase("result", typeof(int), date.Second,                          "var result = date.getSeconds();"),
+                TestCase("result", typeof(int), date.ToUniversalTime().Day,           "var result = date.getUTCDate();"),
+                TestCase("result", typeof(int), (int)date.ToUniversalTime().DayOfWeek,"var result = date.getUTCDay();"),
+                TestCase("result", typeof(int), date.ToUniversalTime().Month,         "var result = date.getUTCMonth();"),
+                TestCase("result", typeof(int), date.ToUniversalTime().Year,          "var result = date.getUTCFullYear();"),
+                TestCase("result", typeof(int), date.ToUniversalTime().Hour,          "var result = date.getUTCHours();"),
+                TestCase("result", typeof(int), date.ToUniversalTime().Minute,        "var result = date.getUTCMinutes();"),
+                TestCase("result", typeof(int), date.ToUniversalTime().Second,        "var result = date.getUTCSeconds();"),
 
-                new Tuple<string,Type, object, string>("result", typeof(int), 10,       "date.setDate(10);       var result = date.getDate();"),
-                new Tuple<string,Type, object, string>("result", typeof(int), 3,        "date.setMonth(3);       var result = date.getMonth();"),
-                new Tuple<string,Type, object, string>("result", typeof(int), 2010,     "date.setFullYear(2010); var result = date.getFullYear();"),
-                new Tuple<string,Type, object, string>("result", typeof(int), 14,       "date.setHours(14);      var result = date.getHours();"),
-                new Tuple<string,Type, object, string>("result", typeof(int), 30,       "date.setMinutes(30);    var result = date.getMinutes();"),
-                new Tuple<string,Type, object, string>("result", typeof(int), 45,       "date.setSeconds(45);    var result = date.getSeconds();")
+                TestCase("result", typeof(int), 10,       "date.setDate(10);       var result = date.getDate();"),
+                TestCase("result", typeof(int), 3,        "date.setMonth(3);       var result = date.getMonth();"),
+                TestCase("result", typeof(int), 2010,     "date.setFullYear(2010); var result = date.getFullYear();"),
+                TestCase("result", typeof(int), 14,       "date.setHours(14);      var result = date.getHours();"),
+                TestCase("result", typeof(int), 30,       "date.setMinutes(30);    var result = date.getMinutes();"),
+                TestCase("result", typeof(int), 45,       "date.setSeconds(45);    var result = date.getSeconds();")
             };
             Parse(testcases, true, (i) => i.Memory.SetValue("date", date));
         }
@@ -200,10 +200,10 @@ namespace ComLib.Lang.Tests.Integration.System
 
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string, Type, object, string>("result", typeof(double), 1,  "var result = 0; var time = new Time(1, 2, 30, 45 ); result = time.Days;"), 
-                new Tuple<string, Type, object, string>("result", typeof(double), 2,  "var result = 0; var time = new Time(1, 2, 30, 45 ); result = time.Hours;"), 
-                new Tuple<string, Type, object, string>("result", typeof(double), 30, "var result = 0; var time = new Time(1, 2, 30, 45 ); result = time.Minutes;"), 
-                new Tuple<string, Type, object, string>("result", typeof(double), 45, "var result = 0; var time = new Time(1, 2, 30, 45 ); result = time.Seconds;")
+                TestCase("result", typeof(double), 1,  "var result = 0; var time = new Time(1, 2, 30, 45 ); result = time.Days;"), 
+                TestCase("result", typeof(double), 2,  "var result = 0; var time = new Time(1, 2, 30, 45 ); result = time.Hours;"), 
+                TestCase("result", typeof(double), 30, "var result = 0; var time = new Time(1, 2, 30, 45 ); result = time.Minutes;"), 
+                TestCase("result", typeof(double), 45, "var result = 0; var time = new Time(1, 2, 30, 45 ); result = time.Seconds;")
             };
             Parse(statements);
         }
@@ -280,8 +280,7 @@ namespace ComLib.Lang.Tests.Integration.System
                 TestCase("result", typeof(string),   "john",              "var p = " + maptxt + "; var result = p[0];"),
                 TestCase("result", typeof(string),   "johndoe@email.com", "var p = " + maptxt + "; var result = p[1];"),
                 TestCase("result", typeof(bool),     true,                "var p = " + maptxt + "; var result = p[2];"),
-                TestCase("result", typeof(double),   10.5,                "var p = " + maptxt + "; var result = p[3];"),        
-                
+                TestCase("result", typeof(double),   10.5,                "var p = " + maptxt + "; var result = p[3];"),
             };
             Parse(testcases);
         }

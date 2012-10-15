@@ -38,9 +38,9 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            UnitTests();
-            Lang_Type_Tests(); 
+            Lang_Type_Tests();
             Combinator_Tests();
+            UnitTests();
             ExpressionTest();
             Lang_Script_Tests();
             TestVersion();
@@ -380,10 +380,8 @@ namespace ComLib.Samples
             td.Can_Create_Dates_With_Parameters();            
             ss.Can_Handle_SingleChar_NewLines();
             ss.Can_Handle_New_Lines_As_End_of_Stmt();
-            sb.Can_Use_Non_Nested_BlockStatements();
-            ta.Can_Get_Array_ByIndex();
-            c2.Can_Do_Check_For_Nulls_Using_Complex_DataTypes();
-            
+            sb.Can_Use_Non_Nested_BlockStatements();            
+            c2.Can_Do_Check_For_Nulls_Using_Complex_DataTypes();            
         }
 
 
@@ -539,15 +537,16 @@ namespace ComLib.Samples
             ta.Can_Get_Array_Basic_Type_Values_ByIndex();
             ta.Can_Do_Array_Method_Calls();
             ta.Can_Do_Array_Nested();
-            
+            ta.Can_Get_Array_ByIndex();
+            ta.Can_Get_Array_Item_By_Index_Right_After_Declaration();
+            ta.Can_Get_Array_Item_By_Nested_Indexes();
+            ta.Can_Set_Array_ByIndex();
+
             ts.Can_Read_Interpolated_Strings();
 
             ts.Can_Escape_Chars();
             td.Can_Subtract_Dates();
             tt.Can_Declare_Time_With_New();
-            ta.Can_Set_Array_ByIndex();
-            ta.Can_Do_Array_Method_Calls();
-            ta.Can_Get_Array_Item_By_Index_Right_After_Declaration();
             t.Can_Do_Map_Access();
             
         }

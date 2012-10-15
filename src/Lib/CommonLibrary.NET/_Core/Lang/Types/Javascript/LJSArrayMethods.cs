@@ -60,7 +60,7 @@ namespace ComLib.Lang.Types
         /// <param name="target">The target list to apply this method on.</param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public object GetByNumericIndex(LObject target, int index)
+        public override object GetByNumericIndex(LObject target, int index)
         {
             if (target == null) return LNullType.NullResult;
             var list = target.GetValue() as IList;
@@ -78,7 +78,7 @@ namespace ComLib.Lang.Types
         /// <param name="index">The index position to set the value</param>
         /// <param name="val">The value to set at the index</param>
         /// <returns></returns>
-        public void SetByNumericIndex(LObject target, int index, LObject val)
+        public override void SetByNumericIndex(LObject target, int index, LObject val)
         {
             if (target == null) return;
             var list = target.GetValue() as IList;

@@ -9,6 +9,7 @@ using System.Reflection;
 // <lang:using>
 using ComLib.Lang.Core;
 using ComLib.Lang.Types;
+using ComLib.Lang.Helpers;
 // </lang:using>
 
 namespace ComLib.Lang.AST
@@ -84,7 +85,7 @@ namespace ComLib.Lang.AST
                 if (ndxNum.Type == LTypes.Number)
                 {
                     var ndx = ((LNumber)ndxNum).Value;
-                    result = GetArrayValue(Convert.ToInt32(ndx));
+                    result = EvalHelper.EvalListAccess(Ctx.Methods, this, this.ListObject, (int)ndx);
                     return result;    
                 }
                 // If the index is a string. Then object is a map/dictionary.
