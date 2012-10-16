@@ -16,7 +16,7 @@ namespace ComLib.Lang.Types
         /// </summary>
         public LJSStringMethods()
         {
-            DataType = new LStringType();
+            DataType = LTypes.String;
 
             // Create the methods associated with this type.
             AddMethod("charAt",       "CharAt",       typeof(string),  "Returns the character at the specified index" );
@@ -56,6 +56,20 @@ namespace ComLib.Lang.Types
 
 
         #region Javascript API methods
+        /// <summary>
+        /// Can create from the paramelist expressions supplied.
+        /// </summary>
+        /// <param name="args">The arguments</param>
+        /// <returns></returns>
+        public override bool CanCreateFromArgs(object[] args)
+        {
+            var paramCount = args == null ? 0 : args.Length;
+            if (paramCount == 0 || paramCount == 1)
+                return true;
+            return false;
+        }
+
+
         /// <summary>
         /// Returns the character at the specified index
         /// </summary>

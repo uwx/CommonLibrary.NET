@@ -529,6 +529,9 @@ namespace ComLib.Samples
         #region System Types
         static void Lang_Type_Tests()
         {
+            System_Types_Dictionary();
+            System_Types_Time();
+            System_Types_Dates();
             System_Types_Strings();
             System_Types_Arrays();
         }
@@ -555,16 +558,32 @@ namespace ComLib.Samples
             t.Can_Read_Interpolated_Strings_With_Custom_Interpolated_StartChar();
             t.Can_Do_String_Method_Calls();
             t.Can_Escape_Chars();
-            
+        }
+
+
+        static void System_Types_Time()
+        {
+            var t = new Types_Time();
+            t.Can_Declare_Time_With_New(); 
+            t.Can_Add_Times();
+        }
+
+
+        static void System_Types_Dictionary()
+        {
+            var t = new Types_Dictionary();
+            t.Can_Set_Values(); 
+            t.Can_Declare(); 
+            t.Can_Get_Values();
         }
 
 
         static void System_Types_Dates()
         {
             var t = new Types_Dates();
+            t.Can_Subtract_Dates(); 
             t.Can_Create_Dates_With_Parameters();
             t.Can_Do_Date_Method_Calls();
-            t.Can_Subtract_Dates();
         }
         #endregion
         

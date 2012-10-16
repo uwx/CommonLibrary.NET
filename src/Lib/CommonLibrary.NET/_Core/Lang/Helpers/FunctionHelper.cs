@@ -76,13 +76,18 @@ namespace ComLib.Lang.Helpers
             // 4. Property?
             if (memberAccess.Mode == MemberMode.PropertyMember)
             {
-                result = methods.ExecuteMethod(lobj, memberAccess.MemberName, null);
+                result = methods.GetProperty(lobj, memberAccess.MemberName);
             }
             // 5. Method
             else if (memberAccess.Mode == MemberMode.MethodMember)
             {
-                ParamHelper.ResolveParameters(paramListExpressions, paramList);
-                result = methods.ExecuteMethod(lobj, memberAccess.MemberName, paramList.ToArray());
+                object[] args = null; 
+                if(paramListExpressions != null && paramListExpressions.Count > 0)
+                {
+                    ParamHelper.ResolveParameters(paramListExpressions, paramList);
+                    args = paramList.ToArray();
+                }
+                result = methods.ExecuteMethod(lobj, memberAccess.MemberName, args);
             }
             return result;
         }

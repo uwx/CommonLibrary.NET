@@ -9,7 +9,7 @@ namespace ComLib.Lang.Helpers
     /// <summary>
     /// Helper class for time types.
     /// </summary>
-    public class TimeTypeHelper
+    public class DateTimeTypeHelper
     {
         /// <summary>
         /// Whether or not a timespan can be created from the number of arguments supplied.

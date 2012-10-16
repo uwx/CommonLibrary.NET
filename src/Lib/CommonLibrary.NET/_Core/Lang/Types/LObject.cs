@@ -45,6 +45,7 @@ namespace ComLib.Lang.Types
             this.Name = "object";
             this.FullName = "sys.object";
             this.TypeVal = TypeConstants.Any;
+            this.IsSystemType = true;
         }
 
 
@@ -108,7 +109,7 @@ namespace ComLib.Lang.Types
         public bool IsBasicType()
         {
             return this.TypeVal >= TypeConstants.Bool 
-                && this.TypeVal <= TypeConstants.Time;
+                && this.TypeVal <= TypeConstants.Map;
         }
 
 

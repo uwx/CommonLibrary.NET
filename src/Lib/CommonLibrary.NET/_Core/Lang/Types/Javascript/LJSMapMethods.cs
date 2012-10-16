@@ -16,7 +16,7 @@ namespace ComLib.Lang.Types
         /// </summary>
         public LJSMapMethods()
         {
-            DataType = new LMapType();
+            DataType = LTypes.Map;
             AddProperty(true, true,     "length",       "Length",           typeof(double),     "Sets or returns the number of elements in an array");
         }
 
@@ -60,6 +60,33 @@ namespace ComLib.Lang.Types
         }
 
 
+        /// <summary>
+        /// Gets the property value for the specified propertyname.
+        /// </summary>
+        /// <param name="target">The object containing the property</param>
+        /// <param name="propName">The name of the property</param>
+        /// <returns></returns>
+        public override object GetProperty(LObject target, string propName)
+        {
+            var map = target.GetValue() as IDictionary;
+            return map[propName];
+        }
+
+
+        /// <summary>
+        /// Sets the property value for the specified propertyname.
+        /// </summary>
+        /// <param name="target">The object to set the property value on</param>
+        /// <param name="propName">The name of the property</param>
+        /// <param name="val">The value to set on the property</param>
+        /// <returns></returns>
+        public override void SetProperty(LObject target, string propName, object val)
+        {
+            var map = target.GetValue() as IDictionary;
+            map[propName] = val;
+        }
+
+
         #region Javascript API methods
         /// <summary>
         /// Lenght of the array.
@@ -97,9 +124,9 @@ namespace ComLib.Lang.Types
         /// <returns></returns>
         public override object GetByStringMember(LObject target, string member)
         {
-            if (target == null ) return LNullType.NullResult;
+            if (target == null ) return LObjects.Null;
             var map = target.GetValue() as IDictionary;
-            if (map == null || map.Count == 0) return LNullType.NullResult;
+            if (map == null || map.Count == 0) return LObjects.Null;
             if (string.IsNullOrEmpty(member)) throw new IndexOutOfRangeException("Property does not exist : " + member);
             return map[member];
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#pragma warning disable 1591
+using System;
 
 
 namespace ComLib.Lang.Types
@@ -13,7 +14,7 @@ namespace ComLib.Lang.Types
         /// </summary>
         public LJSDateMethods()
         {
-            DataType = new LDateType();
+            DataType = LTypes.Date;
 
             AddMethod("getDate", 			"GetDate", 				typeof(double), "Returns the day of the month (from 1-31)");
             AddMethod("getDay", 	 		"GetDay", 				typeof(double), "Returns the day of the week (from 0-6)");
@@ -49,33 +50,54 @@ namespace ComLib.Lang.Types
             AddMethod("setUTCMinutes", 	    "SetUtcMinutes", 		null,           "Set the minutes of a date object, according to universal time");
             AddMethod("setUTCMonth", 		"SetUtcMonth", 			null,           "Sets the month of a date object, according to universal time");
             AddMethod("setUTCSeconds",  	"SetUtcSeconds", 		null,           "Set the seconds of a date object, according to universal time");
+
+            // NOTE: I could use reflection add add attributes to the methods to expose, but the attributes are C# specific,
+            // and I want to minimize the use of C# specific code.
+            // Associate the arguments for each declared function.
+            //     Method name,     Param name,     Type,       Required   Alias,   Default,    Example         Description
+            AddArg("setFullYear",   "year",         "int",      true,       "",     null,       "2011, 2012",   "An integer representing the day of the month");
+            AddArg("setFullYear",   "month",        "int",      false,      "",     -1,         "10, 12",       "An integer representing the day of the month");
+            AddArg("setFullYear",   "day",          "int",      false,      "",     -1,         "15, 25",       "An integer representing the day of the month");
+            AddArg("setMonth",      "month",        "int",      true,       "",     null,       "10, 12",       "An integer representing the day of the month");
+            AddArg("setMonth",      "day",          "int",      false,      "",     -1,         "15, 25",       "An integer representing the day of the month");
+            AddArg("setDate",       "day",          "int",      true,       "",     null,       "15, 25",       "An integer representing the day of the month");
+            AddArg("setHours",      "hour",         "int",      true,       "",     null,       "10, 21",       "An integer representing the day of the month");
+            AddArg("setHours",      "min",          "int",      false,      "",     -1,         "10, 21",       "An integer representing the day of the month");
+            AddArg("setHours",      "sec",          "int",      false,      "",     -1,         "10, 21",       "An integer representing the day of the month");
+            AddArg("setHours",      "millisec",     "int",      false,      "",     -1,         "10, 21",       "An integer representing the day of the month");
+            AddArg("setMinutes",    "min",          "int",      true,       "",     null,       "10, 21",       "An integer representing the day of the month");
+            AddArg("setMinutes",    "sec",          "int",      false,      "",     -1,         "10, 21",       "An integer representing the day of the month");
+            AddArg("setMinutes",    "millisec",     "int",      false,      "",     -1,         "10, 21",       "An integer representing the day of the month");
+            AddArg("setSeconds",    "sec",          "int",      true,       "",     null,       "10, 21",       "An integer representing the day of the month");
+            AddArg("setSeconds",    "millisec",     "int",      false,      "",     -1,         "10, 21",       "An integer representing the day of the month");
+            AddArg("setMilliseconds", "millisec",   "int",      true,       "",     null,       "10, 21",       "An integer representing the day of the month");
         }
 
 
         #region Javascript API methods
-        internal int      GetDate              (LDate target) { var date = target.Value; return date.Day;                                                      }      	
-        internal int      GetDay               (LDate target) { var date = target.Value; return (int)date.DayOfWeek;                                           }
-        internal int      GetFullYear          (LDate target) { var date = target.Value; return date.Year;                                                     }
-        internal int      GetHours             (LDate target) { var date = target.Value; return date.Hour;                                                     }
-        internal int      GetMilliseconds      (LDate target) { var date = target.Value; return date.Millisecond;                                              }
-        internal int      GetMinutes           (LDate target) { var date = target.Value; return date.Minute;		                                           }
-        internal int      GetMonth             (LDate target) { var date = target.Value; return date.Month;                                                    }
-        internal int      GetSeconds           (LDate target) { var date = target.Value; return date.Second;                                                   }
-        internal int      GetUtcDate           (LDate target) { var date = target.Value; return date.ToUniversalTime().Day;                                    }
-        internal int      GetUtcDay            (LDate target) { var date = target.Value; return (int)date.ToUniversalTime().DayOfWeek;                         }
-        internal int      GetUtcFullYear       (LDate target) { var date = target.Value; return date.ToUniversalTime().Year;                                   }
-        internal int      GetUtcHours          (LDate target) { var date = target.Value; return date.ToUniversalTime().Hour;                                   }
-        internal int      GetUtcMilliseconds   (LDate target) { var date = target.Value; return date.ToUniversalTime().Millisecond;                            }  
-        internal int      GetUtcMinutes        (LDate target) { var date = target.Value; return date.ToUniversalTime().Minute;                                 }
-        internal int      GetUtcMonth          (LDate target) { var date = target.Value; return date.ToUniversalTime().Month;                                  }
-        internal int      GetUtcSeconds        (LDate target) { var date = target.Value; return date.ToUniversalTime().Second;                                 }
-        internal string   ToDateString         (LDate target) { var date = target.Value; return date.ToString("ddd MMM dd yyyy");                              }
-        internal string   ToLocaleDateString   (LDate target) { var date = target.Value; return date.ToLocalTime().ToString("ddd MMM dd yyyy");                }
-        internal string   ToLocaleTimeString   (LDate target) { var date = target.Value; return date.ToLocalTime().ToString("hh mm ss");                       }
-        internal string   ToLocaleString       (LDate target) { var date = target.Value; return date.ToLocalTime().ToString("ddd MMM dd yyyy hh mm ss");       }
-        internal string   ToString             (LDate target) { var date = target.Value; return date.ToString("ddd MMM dd yyyy hh mm ss");                     }
-        internal string   ToTimeString         (LDate target) { var date = target.Value; return date.ToString("hh mm ss");                                     }
-        internal string   ToUtcString          (LDate target) { var date = target.Value; return date.ToUniversalTime().ToString("ddd MMM dd yyyy hh mm ss");   }
+        public int      GetDate              (LDate target) { var date = target.Value; return date.Day;                                                      }      	
+        public int      GetDay               (LDate target) { var date = target.Value; return (int)date.DayOfWeek;                                           }
+        public int      GetFullYear          (LDate target) { var date = target.Value; return date.Year;                                                     }
+        public int      GetHours             (LDate target) { var date = target.Value; return date.Hour;                                                     }
+        public int      GetMilliseconds      (LDate target) { var date = target.Value; return date.Millisecond;                                              }
+        public int      GetMinutes           (LDate target) { var date = target.Value; return date.Minute;		                                           }
+        public int      GetMonth             (LDate target) { var date = target.Value; return date.Month;                                                    }
+        public int      GetSeconds           (LDate target) { var date = target.Value; return date.Second;                                                   }
+        public int      GetUtcDate           (LDate target) { var date = target.Value; return date.ToUniversalTime().Day;                                    }
+        public int      GetUtcDay            (LDate target) { var date = target.Value; return (int)date.ToUniversalTime().DayOfWeek;                         }
+        public int      GetUtcFullYear       (LDate target) { var date = target.Value; return date.ToUniversalTime().Year;                                   }
+        public int      GetUtcHours          (LDate target) { var date = target.Value; return date.ToUniversalTime().Hour;                                   }
+        public int      GetUtcMilliseconds   (LDate target) { var date = target.Value; return date.ToUniversalTime().Millisecond;                            }  
+        public int      GetUtcMinutes        (LDate target) { var date = target.Value; return date.ToUniversalTime().Minute;                                 }
+        public int      GetUtcMonth          (LDate target) { var date = target.Value; return date.ToUniversalTime().Month;                                  }
+        public int      GetUtcSeconds        (LDate target) { var date = target.Value; return date.ToUniversalTime().Second;                                 }
+        public string   ToDateString         (LDate target) { var date = target.Value; return date.ToString("ddd MMM dd yyyy");                              }
+        public string   ToLocaleDateString   (LDate target) { var date = target.Value; return date.ToLocalTime().ToString("ddd MMM dd yyyy");                }
+        public string   ToLocaleTimeString   (LDate target) { var date = target.Value; return date.ToLocalTime().ToString("hh mm ss");                       }
+        public string   ToLocaleString       (LDate target) { var date = target.Value; return date.ToLocalTime().ToString("ddd MMM dd yyyy hh mm ss");       }
+        public string   ToString             (LDate target) { var date = target.Value; return date.ToString("ddd MMM dd yyyy hh mm ss");                     }
+        public string   ToTimeString         (LDate target) { var date = target.Value; return date.ToString("hh mm ss");                                     }
+        public string   ToUtcString          (LDate target) { var date = target.Value; return date.ToUniversalTime().ToString("ddd MMM dd yyyy hh mm ss");   }
 
 
 
@@ -92,51 +114,75 @@ namespace ComLib.Lang.Types
 
 
         /// <summary>
-        /// Creates a datetime from the parameters supplied.
+        /// Callback for when these methods are registered with the system.
         /// </summary>
-        /// <param name="parameters"></param>
+        public override void OnRegistered()
+        {
+            // Associated the javascript Date type name "Date" to LDate type name : "sys.datetime".
+            LTypesLookup.RegisterAlias(this.DataType, "Date", "Date");
+        }
+
+
+        /// <summary>
+        /// Can create from the paramelist expressions supplied.
+        /// </summary>
+        /// <param name="args">The arguments</param>
         /// <returns></returns>
-        public static DateTime CreateFrom(object[] parameters)
+        public override bool CanCreateFromArgs(object[] args)
+        {
+            var paramCount = args == null ? 0 : args.Length;
+            if (paramCount == 0 || paramCount == 1 || paramCount == 3 || paramCount == 6)
+                return true;
+            return false;
+        }
+
+
+        /// <summary>
+        /// Creates an instance of the type associated with theses methods from the arguments supplied. Repesents a constructor call
+        /// </summary>
+        /// <param name="parameters">The arguments used to construct the instance of this type</param>
+        /// <returns></returns>
+        public override LObject CreateFromArgs(object[] parameters)
         {
             if (parameters == null || parameters.Length == 0)
             {
-                return DateTime.Now;
+                return new LDate(DateTime.Now);
             }
 
-            var result = DateTime.MinValue;
-
             // Case 1: From string
-            if (parameters.Length == 1 && parameters[0] is string)
+            if (parameters.Length == 1 && parameters[0] is LString)
             {
-                result = DateTime.Parse((string)parameters[0]);
-                return result;
+                var result = DateTime.Parse(((LString)parameters[0]).Value);
+                return new LDate(result);
             }
 
             // Case 2: From Date
-            if (parameters.Length == 1 && parameters[0] is DateTime)
+            if (parameters.Length == 1 && parameters[0] is LDate)
             {
-                var d = (DateTime)parameters[0];
-                result = new DateTime(d.Ticks);
-                return result;
+                var d = (LDate)parameters[0];
+               var  result = new DateTime(d.Value.Ticks);
+                return new LDate(result);
             }
 
             // Convert all parameters to int            
             var args = new int[parameters.Length];
             for (int ndx = 0; ndx < parameters.Length; ndx++)
             {
-                args[ndx] = Convert.ToInt32(parameters[ndx]);
+                var arg = parameters[ndx];
+                var num = arg is LNumber ? ((LNumber) arg).Value : arg;
+                args[ndx] = Convert.ToInt32(num);
             }
 
             // Case 3: 3 parameters month, day, year
             if (parameters.Length == 3)
-                return new DateTime(args[0], args[1], args[2]);
+                return new LDate(new DateTime(args[0], args[1], args[2]));
 
             // Case 4: 6 parameters
             if (parameters.Length == 6)
-                return new DateTime(args[0], args[1], args[2], args[3], args[4], args[5]);
+                return new LDate(new DateTime(args[0], args[1], args[2], args[3], args[4], args[5]));
 
             // TODO: Need to handle this better.
-            return DateTime.MinValue;
+            return new LDate(DateTime.MinValue);
         }
 
         

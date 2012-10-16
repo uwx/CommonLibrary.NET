@@ -16,6 +16,28 @@ namespace ComLib.Lang.Types
 
 
         /// <summary>
+        /// Determines whether or not this type can be created ( via constructor ) from the args supplied.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        bool CanCreateFromArgs(object[] args);
+
+
+        /// <summary>
+        /// Creates an instance of the type associated with theses methods from the arguments supplied. Repesents a constructor call
+        /// </summary>
+        /// <param name="args">The arguments used to construct the instance of this type</param>
+        /// <returns></returns>
+        LObject CreateFromArgs(object[] args);
+
+
+        /// <summary>
+        /// Callback for when these methods are registered with the system.
+        /// </summary>
+        void OnRegistered();
+
+
+        /// <summary>
         /// Whether or not the associted obj of this methods class has the supplied member.
         /// </summary>
         /// <param name="obj">The data obj to check for the member</param>
@@ -53,6 +75,25 @@ namespace ComLib.Lang.Types
 
 
         /// <summary>
+        /// Gets the property value for the specified propertyname.
+        /// </summary>
+        /// <param name="obj">The object containing the property</param>
+        /// <param name="propName">The name of the property</param>
+        /// <returns></returns>
+        object GetProperty(LObject obj, string propName);
+
+
+        /// <summary>
+        /// Sets the property value for the specified propertyname.
+        /// </summary>
+        /// <param name="obj">The object to set the property value on</param>
+        /// <param name="propName">The name of the property</param>
+        /// <param name="val">The value to set on the property</param>
+        /// <returns></returns>
+        void SetProperty(LObject obj, string propName, object val);
+
+        
+        /// <summary>
         /// Executes the method supplied on the the obj.
         /// </summary>
         /// <param name="obj">The language obj</param>
@@ -61,7 +102,7 @@ namespace ComLib.Lang.Types
         /// <returns></returns>
         object ExecuteMethod(LObject obj, string methodName, object[] parameters);
 
-
+        
         /// <summary>
         /// Set a value by the index.
         /// </summary>

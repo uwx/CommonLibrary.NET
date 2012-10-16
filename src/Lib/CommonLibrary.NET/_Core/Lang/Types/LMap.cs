@@ -17,7 +17,7 @@ namespace ComLib.Lang.Types
         public LMap(IDictionary<string, object> val)
         {
             this.Value = val;
-            this.Type = LTypes.Array;
+            this.Type = LTypes.Map;
         }
 
 
@@ -25,6 +25,16 @@ namespace ComLib.Lang.Types
         /// The raw type value.
         /// </summary>
         public IDictionary<string, object> Value;
+
+
+        /// <summary>
+        /// Gets the value of this object.
+        /// </summary>
+        /// <returns></returns>
+        public override object GetValue()
+        {
+            return this.Value;
+        }
     }
 
 
@@ -43,6 +53,7 @@ namespace ComLib.Lang.Types
             this.Name = "map";
             this.FullName = "sys.map";
             this.TypeVal = TypeConstants.Map;
+            this.IsSystemType = true;
             // Dictionary<string, object>
         }
 

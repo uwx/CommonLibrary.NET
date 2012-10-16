@@ -16,7 +16,7 @@ namespace ComLib.Lang.Types
         /// </summary>
         public LJSArrayMethods()
         {
-            DataType = new LArrayType();
+            DataType = LTypes.Array;
 
             // Create the methods associated with this type.
             AddMethod("concat", 		"Concat", 		typeof(LArray),		"Joins two or more arrays, and returns a copy of the joined arrays" );

@@ -35,7 +35,10 @@ namespace ComLib.Lang.Types
         public void RegisterIfNotPresent(LType type, ITypeMethods methods)
         {
             if (!_typeToMethods.ContainsKey(type))
+            {
                 _typeToMethods[type] = methods;
+                methods.OnRegistered();
+            }
         }
 
 

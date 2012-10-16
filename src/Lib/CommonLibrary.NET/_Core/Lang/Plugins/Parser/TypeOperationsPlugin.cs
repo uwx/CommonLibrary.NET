@@ -456,7 +456,7 @@ namespace ComLib.Lang.Plugins
         private static object Convert_String_To_Time(ConvertSpec spec, object val) 
         {
             string txt = ((string)val).ToLower();
-            var result = TimeTypeHelper.ParseTime(txt);
+            var result = DateTimeTypeHelper.ParseTime(txt);
             if (!result.Item2)
                 return LNullType.Instance;
             return result.Item1;

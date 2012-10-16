@@ -112,6 +112,7 @@ namespace ComLib.Lang.Types
             this.Name = "datetime";
             this.FullName = "sys.datetime";
             this.TypeVal = TypeConstants.Date;
+            this.IsSystemType = true;
         }
 
 

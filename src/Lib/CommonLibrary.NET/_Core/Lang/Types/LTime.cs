@@ -51,6 +51,7 @@ namespace ComLib.Lang.Types
             this.Name = "time";
             this.FullName = "sys.time";
             this.TypeVal = TypeConstants.Time;
+            this.IsSystemType = true;
         }
 
 

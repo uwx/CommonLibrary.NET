@@ -91,6 +91,16 @@ namespace ComLib.Lang.AST
         {
             return Mode == MemberMode.FunctionExternal || Mode == MemberMode.FunctionScript;
         }
+
+
+        /// <summary>
+        /// Whether or not this represents a property access on a basic built in type (date, array, etc )
+        /// </summary>
+        /// <returns></returns>
+        public bool IsPropertyAccessOnBuiltInType()
+        {
+            return this.Type != null && this.Mode == MemberMode.PropertyMember;
+        }
     }
 
 
@@ -127,10 +137,13 @@ namespace ComLib.Lang.AST
             if (IsAssignment)
                 return memberAccess;
 
-            // Get property value ( either static or instance )
-            if (memberAccess.Property != null)
+            // NOTES:
+            // 1. If property on a built in type && not assignment then just return the value of the property
+            // 2. It's done here instead because there is no function/method call on a property.
+            if (memberAccess.IsPropertyAccessOnBuiltInType())
             {
-                return memberAccess.Property.GetValue(memberAccess.Instance, null);
+                var result = FunctionHelper.CallMemberOnBasicType(this.Ctx, memberAccess, null, null);
+                return result;
             }
             if (memberAccess.DataType == typeof(IDictionary))
             {

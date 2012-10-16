@@ -309,7 +309,7 @@ namespace ComLib.Lang.Parsing
             // 2. Check # params to Time
             else if (string.Compare(typeName, "Time", StringComparison.InvariantCultureIgnoreCase) == 0)
             {
-                if (!TimeTypeHelper.CanCreateTimeFrom(exp.ParamListExpressions.Count))
+                if (!DateTimeTypeHelper.CanCreateTimeFrom(exp.ParamListExpressions.Count))
                     AddError("Unexpected number of inputs when creating time", exp);
             }
         }

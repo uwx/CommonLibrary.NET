@@ -692,6 +692,7 @@ src/Lib/CommonLibrary.NET/_Core/Lang/Types/Javascript/LJSArrayMethods.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/Javascript/LJSDateMethods.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/Javascript/LJSMapMethods.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/Javascript/LJSStringMethods.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Types/Javascript/LJSTimeMethods.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LArray.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LBaseType.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LBool.cs -text

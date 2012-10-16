@@ -1,5 +1,4 @@
 ﻿
-
 using System.Collections.Generic;
 
 namespace ComLib.Lang.Types
@@ -10,6 +9,7 @@ namespace ComLib.Lang.Types
     public class LTypesLookup
     {
         private static Dictionary<string, LType> _types = new Dictionary<string, LType>();
+        private static Dictionary<string, LType> _sysBasicTypes = new Dictionary<string, LType>(); 
 
 
         /// <summary>
@@ -35,7 +35,32 @@ namespace ComLib.Lang.Types
         /// <param name="type"></param>
         public static void Register(LType type)
         {
-            _types[type.FullName] = type;
+            RegisterAlias(type, type.FullName, type.Name);
+        }
+
+
+        /// <summary>
+        /// Register the type
+        /// </summary>
+        /// <param name="type">The type</param>
+        /// <param name="fullName">The fullname of the type</param>
+        /// <param name="name">The short name of the type</param>
+        public static void RegisterAlias(LType type, string fullName, string name)
+        {
+            _types[fullName] = type;
+            if (type.IsSystemType)
+                _sysBasicTypes[name] = type;
+        }
+
+
+        /// <summary>
+        /// Whether or not the type name supplied is a basic system type. e.g. bool, date etc.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static bool IsBasicTypeShortName(string name)
+        {
+            return _sysBasicTypes.ContainsKey(name);
         }
 
         

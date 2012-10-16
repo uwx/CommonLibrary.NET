@@ -73,7 +73,7 @@ namespace ComLib.Lang.Helpers
             var typeMethods = methods.Get(type);
 
             // 1. Check that the member exists.
-            if (!typeMethods.HasMember(null, memberName))
+            if (!typeMethods.HasMember(obj, memberName))
                 throw MemberHelper.BuildRunTimeException(node, "Property or Member : " + memberName + " does not exist");
 
             // 2. It's either a Property or method

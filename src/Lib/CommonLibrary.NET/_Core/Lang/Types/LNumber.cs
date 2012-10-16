@@ -51,6 +51,7 @@ namespace ComLib.Lang.Types
             this.Name = "number";
             this.FullName = "sys.number";
             this.TypeVal = TypeConstants.Number;
+            this.IsSystemType = true;
         }
 
 

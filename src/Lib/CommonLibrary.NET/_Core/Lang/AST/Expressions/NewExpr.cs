@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 // <lang:using>
-using ComLib.Lang.Core;
 using ComLib.Lang.Types;
 using ComLib.Lang.Helpers;
 // </lang:using>
@@ -59,16 +56,22 @@ namespace ComLib.Lang.AST
                 ParamHelper.ResolveParameters(ParamListExpressions, ParamList);
                 constructorArgs = ParamList.ToArray();
             }
-            if (string.Compare(TypeName, "Date", StringComparison.InvariantCultureIgnoreCase) == 0)
+
+            // CASE 1: Built in basic system types ( string, date, time, etc )
+            if(LTypesLookup.IsBasicTypeShortName(this.TypeName))
             {
-                DateTime result = LDateType.CreateFrom(constructorArgs);
+                // TODO: Move this check to Semacts later
+                var langType = LTypesLookup.GetLType(this.TypeName);
+                var methods = this.Ctx.Methods.Get(langType);
+                var canCreate = methods.CanCreateFromArgs(constructorArgs);
+                if (!canCreate)
+                    throw BuildRunTimeException("Can not create " + this.TypeName + " from parameters");
+
+                // Allow built in type methods to create it.
+                var result = methods.CreateFromArgs(constructorArgs);
                 return result;
             }
-            else if (string.Compare(TypeName, "Time", StringComparison.InvariantCultureIgnoreCase) == 0)
-            {
-                TimeSpan result = TimeTypeHelper.CreateTimeFrom(constructorArgs);
-                return result;
-            }
+            // CASE 2: Custom types e.g. custom classes.
             return Ctx.Types.Create(TypeName, constructorArgs);
         }
     }

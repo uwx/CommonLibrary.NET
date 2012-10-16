@@ -89,7 +89,7 @@ namespace ComLib.Lang.Tests.Integration.System
     public class Types_Dictionary : ScriptTestsBase
     {    
         [Test]
-        public void Can_Do_Map_Declarations()
+        public void Can_Declare()
         {
             var date = new DateTime(2012, 8, 1);
             var statements = new List<Tuple<string, Type, object, string>>()
@@ -105,7 +105,7 @@ namespace ComLib.Lang.Tests.Integration.System
 
 
         [Test]
-        public void Can_Do_Map_Access()
+        public void Can_Get_Values()
         {
             string map = "var book = {  name: 'fs', author: 'ch', pages: 100 };";
 
@@ -117,6 +117,24 @@ namespace ComLib.Lang.Tests.Integration.System
                 TestCase("result", typeof(string), "fs",  map + " var result = book.name;" ),
                 TestCase("result", typeof(string), "ch",  map + " var result = book.author;" ),
                 TestCase("result", typeof(double), 100,   map + " var result = book.pages;" )
+            };
+            Parse(statements);
+        }
+
+
+        [Test]
+        public void Can_Set_Values()
+        {
+            string map = "var book = {  name: 'fs', author: 'ch', pages: 100 };";
+
+            var statements = new List<Tuple<string, Type, object, string>>()
+            {
+                TestCase("result", typeof(string), "fs2",  map + "book['name']   = 'fs2'; var result = book['name'];  " ),
+                TestCase("result", typeof(string), "ch2",  map + "book['author'] = 'ch2'; var result = book['author'];" ),
+                TestCase("result", typeof(double), 101,    map + "book['pages']  = 101;   var result = book['pages']; " ),                
+                TestCase("result", typeof(string), "fs3",  map + "book.name      = 'fs3'; var result = book.name;     " ),
+                TestCase("result", typeof(string), "ch3",  map + "book.author    = 'ch2'; var result = book.author;   " ),
+                TestCase("result", typeof(double), 102,    map + "book.pages     = 102;   var result = book.pages;    " )
             };
             Parse(statements);
         }
@@ -182,7 +200,7 @@ namespace ComLib.Lang.Tests.Integration.System
                 TestCase("result", typeof(int), 30,       "date.setMinutes(30);    var result = date.getMinutes();"),
                 TestCase("result", typeof(int), 45,       "date.setSeconds(45);    var result = date.getSeconds();")
             };
-            Parse(testcases, true, (i) => i.Memory.SetValue("date", date));
+            Parse(testcases, true, (i) => i.Memory.SetValue("date", new LDate(date)));
         }
     }
 

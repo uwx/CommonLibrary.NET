@@ -52,6 +52,7 @@ namespace ComLib.Lang.Types
             this.Name = "string";
             this.FullName = "sys.string";
             this.TypeVal = TypeConstants.String;
+            this.IsSystemType = true;
         }
 
 

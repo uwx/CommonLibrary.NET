@@ -49,6 +49,7 @@ namespace ComLib.Lang.Types
             this.Name = "bool";
             this.FullName = "sys.bool";
             this.TypeVal = TypeConstants.Bool;
+            this.IsSystemType = true;
         }
 
 

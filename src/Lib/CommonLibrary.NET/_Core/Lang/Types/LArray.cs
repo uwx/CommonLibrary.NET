@@ -51,6 +51,7 @@ namespace ComLib.Lang.Types
             this.Name = "array";
             this.FullName = "sys.array";
             this.TypeVal = TypeConstants.Array;
+            this.IsSystemType = true;
             // List<object>
         }
 

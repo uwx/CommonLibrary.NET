@@ -126,6 +126,37 @@ namespace ComLib.Lang.Types
 
 
         /// <summary>
+        /// Determines whether or not this type can be created ( via constructor ) from the args supplied.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public virtual bool CanCreateFromArgs(object[] args)
+        {
+            return false;
+        }
+
+
+        /// <summary>
+        /// Creates an instance of the type associated with theses methods from the arguments supplied. Repesents a constructor call
+        /// </summary>
+        /// <param name="args">The arguments used to construct the instance of this type</param>
+        /// <returns></returns>
+        public virtual LObject CreateFromArgs(object[] args)
+        {
+            return LObjects.Empty;
+        }
+
+
+        /// <summary>
+        /// Callback for when these methods are registered with the system.
+        /// </summary>
+        public virtual void OnRegistered()
+        {
+            
+        }
+
+
+        /// <summary>
         /// Whether or not the associted obj of this methods class has the supplied member.
         /// </summary>
         /// <param name="obj">The data obj to check for the member</param>
@@ -168,12 +199,20 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Gets the property value for the specified propertyname.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="propName"></param>
+        /// <param name="obj">The object containing the property</param>
+        /// <param name="propName">The name of the property</param>
         /// <returns></returns>
-        public virtual object GetProperty(LObjectType obj, string propName)
+        public virtual object GetProperty(LObject obj, string propName)
         {
-            return null;
+            var mappedMethod = _methodMap[propName];
+
+            // total required = 
+            var funcDef = mappedMethod.FuncDef;
+            int total = funcDef.GetTotalRequiredArgs();
+            var methodArgs = new[] { obj };
+            var method = this.GetType().GetMethod(mappedMethod.HostLanguageMethod);
+            object result = method.Invoke(this, methodArgs);
+            return result;
         }
 
 
@@ -184,8 +223,16 @@ namespace ComLib.Lang.Types
         /// <param name="propName">The name of the property</param>
         /// <param name="val">The value to set on the property</param>
         /// <returns></returns>
-        public virtual void SetProperty(LObjectType obj, string propName, object val)
+        public virtual void SetProperty(LObject obj, string propName, object val)
         {
+            var mappedMethod = _methodMap[propName];
+
+            // total required = 
+            var funcDef = mappedMethod.FuncDef;
+            int total = funcDef.GetTotalRequiredArgs();
+            var methodArgs = new[] {obj, val};
+            var method = this.GetType().GetMethod(mappedMethod.HostLanguageMethod);
+            object result = method.Invoke(this, methodArgs);
         }
 
 
