@@ -38,8 +38,8 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            UnitTests();
             Lang_Type_Tests();
+            UnitTests();
             Combinator_Tests();
             ExpressionTest();
             Lang_Script_Tests();
@@ -551,10 +551,11 @@ namespace ComLib.Samples
         static void System_Types_Strings()
         {
             var t = new Types_Strings();
-            t.Can_Do_String_Method_Calls();
-            t.Can_Escape_Chars();
             t.Can_Read_Interpolated_Strings();
             t.Can_Read_Interpolated_Strings_With_Custom_Interpolated_StartChar();
+            t.Can_Do_String_Method_Calls();
+            t.Can_Escape_Chars();
+            
         }
 
 

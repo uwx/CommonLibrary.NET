@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using ComLib.Lang.Types;
+
 namespace ComLib.Lang.AST
 {
 
@@ -49,10 +51,21 @@ namespace ComLib.Lang.AST
             string total = "";
             foreach (var exp in _expressions)
             {
-                if(exp != null)
-                    total += exp.Evaluate().ToString();
+                if (exp != null)
+                {
+                    var val = exp.Evaluate();
+                    var text = "";
+                    if (val is LObject)
+                    {
+                        var lobj = (LObject)val;
+                        text = lobj.GetValue().ToString();
+                    }
+                    else
+                        text = val.ToString();
+                    total += text;
+                }
             }
-            return total;
+            return new LString(total);
         }
     }
 }
