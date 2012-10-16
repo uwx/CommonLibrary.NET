@@ -308,7 +308,8 @@ namespace ComLib.Lang.Types
                         if (arg.Type != "params")
                         {
                             var param = parameters[ndx];
-                            methodArgs.Add(param);
+                            var val = ConvertToProperType(arg, param);
+                            methodArgs.Add(val);
                         }
                         // End of list arguments.
                         else
@@ -316,7 +317,9 @@ namespace ComLib.Lang.Types
                             var remainder = new List<object>();
                             while (ndx < totalParamsGiven)
                             {
-                                remainder.Add(parameters[ndx]);
+                                var param = parameters[ndx];
+                                var val = ConvertToProperType(arg, param);
+                                remainder.Add(val);
                                 ndx++;
                             }
                             methodArgs.Add(remainder.ToArray());
@@ -324,11 +327,16 @@ namespace ComLib.Lang.Types
                     }
                     // 2. Not required but supplied.
                     else if (!isRequired && ndx < parameters.Length)
-                        methodArgs.Add(parameters[ndx]);
-
+                    {
+                        var param = parameters[ndx];
+                        var val = ConvertToProperType(arg, param);
+                        methodArgs.Add(val);
+                    }
                     // 3. Not required but there is a default.
                     else if (!isRequired && arg.DefaultValue != null && ndx >= parameters.Length)
+                    {
                         methodArgs.Add(arg.DefaultValue);
+                    }
                     ndx++;
                 }
             }
@@ -371,6 +379,25 @@ namespace ComLib.Lang.Types
 
             _allMembersMap[name] = memberType;
             return funcdef;
+        }
+
+
+        /// <summary>
+        /// Converts the parameter value into the proper type of the argument.
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        private object ConvertToProperType(ArgAttribute arg, object param)
+        {
+            object val = param;
+            if (param is LObject)
+            {
+                var lobj = (LObject)param;
+                var isInt = arg.Type == "int" && lobj.Type == LTypes.Number;
+                val = isInt ? Convert.ToInt32(lobj.GetValue()) : lobj.GetValue();
+            }
+            return val;
         }
     }
 }

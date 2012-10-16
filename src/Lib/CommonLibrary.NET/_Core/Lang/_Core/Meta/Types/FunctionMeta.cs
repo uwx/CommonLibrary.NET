@@ -75,6 +75,7 @@ namespace ComLib.Lang.Core
             arg.Desc = desc;
             arg.Type = type;
             arg.Required = required;
+            arg.DefaultValue = defaultVal;
             arg.Alias = alias;
             arg.Examples = new List<string>() { examples };
             arg.Index = this.Arguments.Count;

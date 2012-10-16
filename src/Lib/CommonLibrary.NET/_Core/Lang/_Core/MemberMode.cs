@@ -29,6 +29,18 @@ namespace ComLib.Lang.Core
 
 
         /// <summary>
+        /// Property access/set on object.
+        /// </summary>
+        PropertyMember,
+
+
+        /// <summary>
+        /// Method access/call on object.
+        /// </summary>
+        MethodMember,
+
+
+        /// <summary>
         /// Static method on class
         /// </summary>
         CustObjMethodStatic

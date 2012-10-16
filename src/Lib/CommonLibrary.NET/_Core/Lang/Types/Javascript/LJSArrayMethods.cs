@@ -39,17 +39,17 @@ namespace ComLib.Lang.Types
             //          Method name,    Param name,    Type,     Required   Alias,  Default,    Example         Description
             AddArg("concat", 		"items",       "list",     true,      "",     null,       "'abc', 'def'", "The arrays to be joined");
             AddArg("indexOf", 		"item",        "object",   true,      "",     null,       "abc",          "The item to search for");
-            AddArg("indexOf",      "start",       "number",   false,     "",     0,          "0 | 5",        "Where to start the search. Negative values will start at the given position counting from the end, and search to the end");
-            AddArg("join",         "separator",   "string",   false,     "",     ",",        "abc",          "The separator to be used. If omitted, the elements are separated with a comma");
-            AddArg("lastIndexOf",  "item",        "object",   true,      "",     null,       "abc",          "The item to search for");
-            AddArg("lastIndexOf", 	"start",       "number",   false,     "",     0,          "0 | 4",        "Where to start the search. Negative values will start at the given position counting from the end, and search to the beginning");
-            AddArg("push",         "items",       "list",     true,      "",     null,       "abc",          "The items(s) to add to the array");
-            AddArg("slice",        "start",       "number",   true,      "",     null,       "0",            "An integer that specifies where to start the selection (The first element has an index of 0). Use negative numbers to select from the end of an array");
-            AddArg("slice",        "end",         "number",   false,     "",     null,       "1",            "An integer that specifies where to end the selection. If omitted, all elements from the start position and to the end of the array will be selected. Use negative numbers to select from the end of an array");
-            AddArg("sort",         "sortfunction","function", false,     "",     "",         "",             "The function that defines the sort order");
-            AddArg("splice",       "index",       "number",   true,      "",     null,       "1",            "An integer that specifies at what position to add/remove items, Use negative values to specify the position from the end of the array");
-            AddArg("splice",       "howmany",     "number",   true,      "",     null,       "2",            "The number of items to be removed. If set to 0, no items will be removed");
-            AddArg("splice",       "items",       "list",     false,     "",     null,       "2,3,4",        "The new item(s) to be added to the array");            
+            AddArg("indexOf",      "start",        "int",      false,     "",     0,          "0 | 5",        "Where to start the search. Negative values will start at the given position counting from the end, and search to the end");
+            AddArg("join",         "separator",    "string",   false,     "",     ",",        "abc",          "The separator to be used. If omitted, the elements are separated with a comma");
+            AddArg("lastIndexOf",  "item",         "object",   true,      "",     null,       "abc",          "The item to search for");
+            AddArg("lastIndexOf", 	"start",       "int",      false,     "",     0,          "0 | 4",        "Where to start the search. Negative values will start at the given position counting from the end, and search to the beginning");
+            AddArg("push",         "items",        "list",     true,      "",     null,       "abc",          "The items(s) to add to the array");
+            AddArg("slice",        "start",        "int",      true,      "",     null,       "0",            "An integer that specifies where to start the selection (The first element has an index of 0). Use negative numbers to select from the end of an array");
+            AddArg("slice",        "end",          "int",      false,     "",     null,       "1",            "An integer that specifies where to end the selection. If omitted, all elements from the start position and to the end of the array will be selected. Use negative numbers to select from the end of an array");
+            AddArg("sort",         "sortfunction", "function", false,     "",     "",         "",             "The function that defines the sort order");
+            AddArg("splice",       "index",        "int",      true,      "",     null,       "1",            "An integer that specifies at what position to add/remove items, Use negative values to specify the position from the end of the array");
+            AddArg("splice",       "howmany",      "int",      true,      "",     null,       "2",            "The number of items to be removed. If set to 0, no items will be removed");
+            AddArg("splice",       "items",        "list",     false,     "",     null,       "2,3,4",        "The new item(s) to be added to the array");            
             AddArg("unshift", 		"items",       "list",     true,      "",     null,       "'abc', 'def'", "The item(s) to add to the beginning of the array");
         }
 

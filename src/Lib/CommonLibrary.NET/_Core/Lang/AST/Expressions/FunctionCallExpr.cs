@@ -90,7 +90,8 @@ namespace ComLib.Lang.AST
             // CASE 4: Method call / Property on Language types
             else if (maccess.Type != null)
             {
-                result = FunctionHelper.MemberCall(Ctx, maccess.Instance.GetType(), maccess.Instance, maccess.Name, maccess.MemberName, null, this.ParamListExpressions, this.ParamList);
+                //result = FunctionHelper.MemberCall(Ctx, maccess.Instance.GetType(), maccess.Instance, maccess.Name, maccess.MemberName, null, this.ParamListExpressions, this.ParamList);
+                result = FunctionHelper.CallMemberOnBasicType(this.Ctx, maccess, this.ParamListExpressions, this.ParamList);
             }
             // CASE 5: Member call via "." : either static or instance method call. e.g. Person.Create() or instance1.FullName() e.g.
             else if (maccess.Mode == MemberMode.CustObjMethodStatic || maccess.Mode == MemberMode.CustObjMethodInstance)
@@ -106,7 +107,7 @@ namespace ComLib.Lang.AST
         private bool IsMemberCall(MemberAccess maccess)
         {
             if (maccess.IsInternalExternalFunctionCall()
-                || maccess.DataType == typeof(string) || maccess.DataType == typeof(LDateType)
+                || (maccess.Mode == MemberMode.MethodMember || maccess.Mode == MemberMode.PropertyMember && maccess.Type != null)
                 || maccess.Mode == MemberMode.CustObjMethodInstance || maccess.Mode == MemberMode.CustObjMethodStatic
               )
                 return true;

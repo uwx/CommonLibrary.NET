@@ -56,6 +56,39 @@ namespace ComLib.Lang.Helpers
 
 
         /// <summary>
+        /// Calls a property get
+        /// </summary>
+        /// <param name="ctx">The context of the runtime</param>
+        /// <param name="memberAccess">Object to hold all the relevant information required for the member call.</param>
+        /// <param name="paramListExpressions">The collection of parameters as expressions</param>
+        /// <param name="paramList">The collection of parameter values after they have been evaluated</param>
+        /// <returns></returns>
+        public static object CallMemberOnBasicType(Context ctx, MemberAccess memberAccess, List<Expr> paramListExpressions, List<object> paramList)
+        {
+            object result = null;
+
+            // 1. Get methods
+            var methods = ctx.Methods.Get(memberAccess.Type);
+            
+            // 2. Get object on which method/property is being called on.
+            var lobj = (LObject)memberAccess.Instance;
+
+            // 4. Property?
+            if (memberAccess.Mode == MemberMode.PropertyMember)
+            {
+                result = methods.ExecuteMethod(lobj, memberAccess.MemberName, null);
+            }
+            // 5. Method
+            else if (memberAccess.Mode == MemberMode.MethodMember)
+            {
+                ParamHelper.ResolveParameters(paramListExpressions, paramList);
+                result = methods.ExecuteMethod(lobj, memberAccess.MemberName, paramList.ToArray());
+            }
+            return result;
+        }
+
+
+        /// <summary>
         /// Execute a member call.
         /// </summary>
         /// <param name="ctx">The context of the script</param>
@@ -76,21 +109,7 @@ namespace ComLib.Lang.Helpers
             object result = null;
             if (type == null && obj != null)
                 type = obj.GetType();
-
-            // 1. DateTime
-            if (type == typeof(DateTime))
-            {
-                var methods = ctx.Methods.Get(LTypes.Date);
-                var lobj = new LDate((DateTime)obj);
-                result = methods.ExecuteMethod(lobj, memberName, paramList.ToArray());
-            }
-            // 2. String
-            else if (type == typeof(string))
-            {
-                var methods = ctx.Methods.Get(LTypes.String);
-                var lobj = new LString((string)obj);
-                result = methods.ExecuteMethod(lobj, memberName, paramList.ToArray());
-            }
+            
             // 3. Method info supplied
             else if (methodInfo != null)
             {

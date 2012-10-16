@@ -38,20 +38,20 @@ namespace ComLib.Lang.Types
             AddProperty(true, false,  "length",     "Length",       typeof(double),  "Returns the length of the string");
 
             // Associate the arguments for each declared function.
-            //          Method name,    Param name,    Type,     Required   Alias,  Default,    Example         Description
-            AddArg("charAt",       "index",       "number", true,      "",     0,          "0 | 4",        "An integer representing the index of the character you want to return");
+            //     Method name,    Param name,     Type,     Required   Alias,  Default,    Example         Description
+            AddArg("charAt",       "index",        "int",    true,      "",     0,          "0 | 4",        "An integer representing the index of the character you want to return");
             AddArg("concat", 		"items",       "params", true,      "",     null,       "'abc', 'def'", "The strings to be joined");
             AddArg("indexOf", 		"pattern",     "string", true,      "",     null,       "abc",          "The string pattern to search for");
-            AddArg("indexOf", 		"start",       "number", false,     "",     0,          "0 | 5",        "The starting position of the search");
+            AddArg("indexOf", 		"start",       "int",    false,     "",     0,          "0 | 5",        "The starting position of the search");
             AddArg("lastIndexOf", 	"searchvalue", "string", true,      "",     null,       "abc",          "The string to search for");
             AddArg("lastIndexOf", 	"start",       "number", false,     "",     -1,         "0 | 4",        "The position where to start the search. If omitted, the default value is the length of the string");
             AddArg("replace", 		"searchvalue", "string", true,      "",     "",         "abc",          "The value, or regular expression, that will be replaced by the new value");
             AddArg("replace", 		"newvalue",    "string", true,      "",     "",         "bbb",          "The value to replace the searchvalue with");
             AddArg("search", 		"searchvalue", "string", true,      "",     "",         "abc",          "The value, or regular expression, to search for.");
-            AddArg("substr", 		"start",	   "number", true,      "",     0,          "0 | 4",        "The postition where to start the extraction. First character is at index 0");
-            AddArg("substr", 		"length",      "number", false,     "",     "",         "5 | 10",       "The number of characters to extract. If omitted, it extracts the rest of the string" );
-            AddArg("substring", 	"from",	       "number", true,      "",     0,          "0 | 4",        "The index where to start the extraction. First character is at index 0");
-            AddArg("substring", 	"to",          "number", false,     "",     "",         "5 | 10",       "The index where to stop the extraction. If omitted, it extracts the rest of the string");
+            AddArg("substr", 		"start",	   "int",    true,      "",     0,          "0 | 4",        "The postition where to start the extraction. First character is at index 0");
+            AddArg("substr", 		"length",      "int",    false,     "",     "",         "5 | 10",       "The number of characters to extract. If omitted, it extracts the rest of the string" );
+            AddArg("substring", 	"from",	       "int",    true,      "",     0,          "0 | 4",        "The index where to start the extraction. First character is at index 0");
+            AddArg("substring", 	"to",          "int",    false,     "",     "",         "5 | 10",       "The index where to stop the extraction. If omitted, it extracts the rest of the string");
         }
 
 

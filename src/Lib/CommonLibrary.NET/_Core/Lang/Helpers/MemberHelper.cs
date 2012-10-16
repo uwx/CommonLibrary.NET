@@ -77,7 +77,9 @@ namespace ComLib.Lang.Helpers
                 throw MemberHelper.BuildRunTimeException(node, "Property or Member : " + memberName + " does not exist");
 
             // 2. It's either a Property or method
-            var maccess = new MemberAccess(MemberMode.CustObjMethodInstance);
+            var isProp = typeMethods.HasProperty(obj, memberName);
+            var mode = isProp ? MemberMode.PropertyMember : MemberMode.MethodMember;
+            var maccess = new MemberAccess(mode);
             maccess.Name = type.Name;
             maccess.Instance = obj;
             maccess.MemberName = memberName;

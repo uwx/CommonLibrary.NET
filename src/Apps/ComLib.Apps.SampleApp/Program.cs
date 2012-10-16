@@ -38,9 +38,9 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
+            UnitTests();
             Lang_Type_Tests();
             Combinator_Tests();
-            UnitTests();
             ExpressionTest();
             Lang_Script_Tests();
             TestVersion();
@@ -211,6 +211,11 @@ namespace ComLib.Samples
         
         static void UnitTests()
         {
+            var ltJS = new Lang_LString_Tests();
+
+            ltJS.Can_Call_Execute();
+
+
             var symTests = new Symbols_Tests();
             var symTG = new Symbols_Global_Tests();
 
@@ -222,10 +227,7 @@ namespace ComLib.Samples
             var exptests = new Expression_Tests();
             exptests.Can_Do_Unary_Operations();
 
-            var ltJS = new Lang_LString_Tests();
-
-            ltJS.Can_Call_Execute();
-
+            
             var ltd = new Lang_LDate_Tests();
             ltd.Can_Do_Date_SetMethods_Via_Execute();
             ltd.Can_Do_Date_SetMethods();
@@ -521,10 +523,7 @@ namespace ComLib.Samples
             st.Can_Push_Scope();
             st.Can_Set_Same_Variable_Name_In_Different_Scopes();
             st.Can_Set_Value_From_Different_Scope();
-        }
-
-
-        
+        }        
 
 
         #region System Types
@@ -567,8 +566,7 @@ namespace ComLib.Samples
             t.Can_Subtract_Dates();
         }
         #endregion
-
-
+        
 
         static void System_Control_Flow()
         {
