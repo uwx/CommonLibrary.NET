@@ -94,16 +94,22 @@ namespace ComLib.Lang.AST
 
         private LString IncrementString(LString sourceVal)
         {
+            // Check 1: Can only do += on strings.
             if (Op != Operator.PlusEqual)
                 throw new LangException("Syntax Error", "string operation with " + Op.ToString() + " not supported", Ref.ScriptName, Ref.Line, Ref.CharPos);
 
             this.DataType = typeof(string);
-            var val = this.Expression.EvaluateAs<LString>();
+            var val = this.Expression.Evaluate() as LObject;
 
-            // Check limit
-            Ctx.Limits.CheckStringLength(this, sourceVal.Value, val.Value);
+            // Check 2: Check for null
+            if (val == LObjects.Null)
+                return sourceVal;
 
-            string appended = sourceVal.Value + val.Value;
+            // Check 3: Limit size if string
+            Ctx.Limits.CheckStringLength(this, sourceVal.Value, val.GetValue().ToString());
+
+            // Finally do the appending.
+            string appended = sourceVal.Value + val.GetValue().ToString();
             sourceVal.Value = appended;
             this.Value = appended;
             this.Ctx.Memory.SetValue(this.Name, sourceVal);
@@ -122,26 +128,31 @@ namespace ComLib.Lang.AST
                 inc = ((LNumber)incval).Value;
             }
 
+            // 1. Calculate the unary value
             val = EvalHelper.CalcUnary(val, Op, inc);
 
-            // Set the value back into scope
+            // 2. Set the value back into scope
             this.Value = val;
             this.Ctx.Memory.SetValue(this.Name, val);
-
             return val;
         }
 
 
         private object HandleLogicalNot()
         {
-            var result = (LObject)this.Expression.Evaluate();
+            var result = this.Expression.Evaluate() as LObject;
+            
+            // Check 1:  This is actually an assert and should not happen.
+            if (result == null)
+                throw this.BuildRunTimeException("Null value encountered");
+
             var retVal = false;
             
             // Only handle bool for logical not !true !false
             if (result.Type == LTypes.Bool)
                 retVal = !((LBool)result).Value;
-            else if (result == LNull.Instance)
-                retVal = false;
+            else if (result == LObjects.Null)
+                retVal = true;
 
             return new LBool(retVal);
         }

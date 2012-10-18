@@ -136,7 +136,7 @@ namespace ComLib.Lang.Plugins
         public override object DoEvaluate()
         {
             // Case 1: If is true
-            if (Condition.EvaluateAs<bool>())
+            if (this.Condition.EvaluateAs<bool>())
             {
                 LangHelper.Evaluate(_statements, this);
             }
@@ -145,7 +145,7 @@ namespace ComLib.Lang.Plugins
             {
                 Else.Evaluate();
             }
-            return LNullType.Instance;
+            return LObjects.Null;
         }
     }    
 }

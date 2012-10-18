@@ -35,13 +35,21 @@ namespace ComLib.Lang.Tests.Unit
     {
         private LArray BuildTestArray1()
         {
-            return new LArray(new List<object>() { "a", "b", "c", "d" });
+            var items = new[] {"a", "b", "c", "d"};
+            var array = new List<object>();
+            foreach(var item in items)
+                array.Add(new LString(item));
+            return new LArray(array);
         }
 
 
         private LArray BuildTestArray2()
         {
-            return new LArray(new List<object>() { "a", "b", "c", "d", "b" });
+            var items = new[] { "a", "b", "c", "d", "b" };
+            var array = new List<object>();
+            foreach (var item in items)
+                array.Add(new LString(item));
+            return new LArray(array);
         }
 
 
@@ -53,7 +61,8 @@ namespace ComLib.Lang.Tests.Unit
             foreach (var item in array)
             {
                 var expected = expectedItems[ndx];
-                Assert.AreEqual(expected, item);
+                var actualVal = ((LObject) item).GetValue();
+                Assert.AreEqual(expected, actualVal);
                 ndx++;
             }
         }
@@ -67,7 +76,7 @@ namespace ComLib.Lang.Tests.Unit
                        
             // Concat
             var concat1 = BuildTestArray1();
-            CheckArray( (LArray)lsMethods.Concat(concat1, new List<object>() { "e", "f" }), 6, new object []{ "a", "b", "c", "d", "e", "f" });
+            CheckArray( (LArray)lsMethods.Concat(concat1, new List<object>() { new LString("e"), new LString("f") }), 6, new object []{ "a", "b", "c", "d", "e", "f" });
 
             Assert.AreEqual(concat1.Value.Count, 4);
 
@@ -83,7 +92,7 @@ namespace ComLib.Lang.Tests.Unit
             Assert.AreEqual(4, lsMethods.LastIndexOf(BuildTestArray2(), "b", 2));
 
             // Pop
-            Assert.AreEqual("d", lsMethods.Pop(BuildTestArray1()));
+            Assert.AreEqual("d", ((LObject)lsMethods.Pop(BuildTestArray1())).GetValue());
             
             // Push
             var a1 = BuildTestArray1();
@@ -94,7 +103,7 @@ namespace ComLib.Lang.Tests.Unit
             CheckArray((LArray)lsMethods.Reverse(BuildTestArray1()), 4, new object[] { "d", "c", "b", "a" });
 
             // Shift
-            Assert.AreEqual("a", lsMethods.Shift(BuildTestArray1()));
+            Assert.AreEqual("a", ((LObject)lsMethods.Shift(BuildTestArray1())).GetValue());
 
             // Slice
             CheckArray((LArray)lsMethods.Slice(BuildTestArray1(), 1, -1), 3, new object[] { "b", "c", "d" });
@@ -105,7 +114,7 @@ namespace ComLib.Lang.Tests.Unit
             CheckArray((LArray)lsMethods.Splice(BuildTestArray1(), 1, 2, new object[] { "e", "f" }), 2, new object[] { "b", "c" });
 
             var access1 = BuildTestArray1();
-            Assert.AreEqual("b", lsMethods.GetByNumericIndex(access1, 1));
+            Assert.AreEqual("b", ((LObject)lsMethods.GetByNumericIndex(access1, 1)).GetValue());
 
             var access2 = BuildTestArray1();
             lsMethods.SetByNumericIndex(access2, 1, new LString("k"));

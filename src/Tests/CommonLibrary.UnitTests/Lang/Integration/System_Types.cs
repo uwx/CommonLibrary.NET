@@ -133,10 +133,49 @@ namespace ComLib.Lang.Tests.Integration.System
                 TestCase("result", typeof(string), "ch2",  map + "book['author'] = 'ch2'; var result = book['author'];" ),
                 TestCase("result", typeof(double), 101,    map + "book['pages']  = 101;   var result = book['pages']; " ),                
                 TestCase("result", typeof(string), "fs3",  map + "book.name      = 'fs3'; var result = book.name;     " ),
-                TestCase("result", typeof(string), "ch3",  map + "book.author    = 'ch2'; var result = book.author;   " ),
+                TestCase("result", typeof(string), "ch3",  map + "book.author    = 'ch3'; var result = book.author;   " ),
                 TestCase("result", typeof(double), 102,    map + "book.pages     = 102;   var result = book.pages;    " )
             };
             Parse(statements);
+        }
+
+
+
+
+
+        [Test]
+        public void Can_Get_Nested_Member_Property()
+        {
+            string maptxt = @"{ FirstName: 'john', LastName: 'doe', Email: 'johndoe@email.com', IsMale: true, Salary: 10.5, BirthDate: new Date(), Address: { City: 'Queens', State: 'NY' } }";
+            var testcases = new List<Tuple<string, Type, object, string>>()
+            {
+                TestCase("result", typeof(string),   "john",              "var p = " + maptxt + "; var result = p.FirstName;" ),
+                TestCase("result", typeof(string),   "johndoe@email.com", "var p = " + maptxt + "; var result = p.Email;" ),
+                TestCase("result", typeof(bool),     true,                "var p = " + maptxt + "; var result = p.IsMale;" ),
+                TestCase("result", typeof(double),   10.5,                "var p = " + maptxt + "; var result = p.Salary;" ),
+                TestCase("result", typeof(DateTime), DateTime.Today,      "var p = " + maptxt + "; var result = p.BirthDate;" ),                
+                TestCase("result", typeof(string),   "Queens",            "var p = " + maptxt + "; var result = p.Address.City;" ),
+                TestCase("result", typeof(string),   "NY",                "var p = " + maptxt + "; var result = p.Address.State;" )
+            };
+            RunTestCases(testcases);
+        }
+
+
+        [Test]
+        public void Can_Set_Nested_Member_Property()
+        {
+            string maptxt = @"{ FirstName: 'john', LastName: 'doe', Email: 'johndoe@email.com', IsMale: true, Salary: 10.5, BirthDate: new Date(), Address: { City: 'Queens', State: 'NY' } }";
+            var testcases = new List<Tuple<string, Type, object, string>>()
+            {
+                TestCase("result", typeof(string),   "jane",              "var p = " + maptxt + ";  p.FirstName = 'jane';     var result = p.FirstName;" ),
+                TestCase("result", typeof(string),   "janedoe@email.com", "var p = " + maptxt + ";  p.Email     = 'janedoe@email.com'; var result = p.Email;" ),
+                TestCase("result", typeof(bool),     false,               "var p = " + maptxt + ";  p.IsMale    =  false;       var result = p.IsMale;" ),
+                TestCase("result", typeof(double),   10.8,                "var p = " + maptxt + ";  p.Salary    = 10.8;         var result = p.Salary;" ),
+                TestCase("result", typeof(DateTime), DateTime.Today,      "var p = " + maptxt + ";  p.BirthDate = new Date();   var result = p.BirthDate;" ),    
+                TestCase("result", typeof(string),   "Bronx",             "var p = " + maptxt + ";  p.Address.City = 'Bronx';   var result = p.Address.City;" ),
+                TestCase("result", typeof(string),   "NJ",                "var p = " + maptxt + ";  p.Address.State = 'NJ';     var result = p.Address.State;" )
+            };
+            RunTestCases(testcases);
         }
     }
 
@@ -283,8 +322,7 @@ namespace ComLib.Lang.Tests.Integration.System
                 i.Execute(stmt.Item5);
                 var array = i.Memory.Get<LArray>("result");
 
-                //Assert.AreEqual(array.Length, stmt.Item4);
-                throw new NotImplementedException();
+                Assert.AreEqual(array.Value.Count, stmt.Item4);
             }
         }
 
@@ -390,16 +428,11 @@ namespace ComLib.Lang.Tests.Integration.System
                 i.Execute(stmt.Item5);
                 var result = i.Memory.Get<object>("result");
 
-                // Check type
-                Assert.AreEqual(result.GetType(), stmt.Item3.GetType());
-
-                // Check value
-                Assert.AreEqual(result, stmt.Item3);
+                LangTestsHelper.Compare(result, stmt.Item3);
 
                 // Check length
                 LArray arr = i.Memory.Get<LArray>("arr");
-                //Assert.AreEqual(stmt.Item4, arr.Length);
-                throw new NotImplementedException();
+                Assert.AreEqual(stmt.Item4, arr.Value.Count);
             }
         }
     }

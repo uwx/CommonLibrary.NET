@@ -251,18 +251,19 @@ namespace ComLib.Lang.Plugins
 
             // for(user in users)
             // Push scope for var name 
-            var source = Ctx.Memory.Get<object>(_sourceName) as LTypeValue;
+            var source = Ctx.Memory.Get<object>(_sourceName) as LObject;
 
             IEnumerator enumerator = null;
-            if (source.Type == LTypes.Array) enumerator = ((IList)source.Result).GetEnumerator();
-            else if (source.Type == LTypes.Map) enumerator = ((IDictionary)source.Result).GetEnumerator();
+            if (source.Type == LTypes.Array) enumerator = ((IList)source.GetValue()).GetEnumerator();
+            else if (source.Type == LTypes.Map) enumerator = ((IDictionary)source.GetValue()).GetEnumerator();
 
             _continueRunning = enumerator.MoveNext();
 
             while (_continueRunning)
             {
                 // Set the next value of "x" in for(x in y).
-                Ctx.Memory.SetValue(_varName, enumerator.Current);
+                var current = enumerator.Current is LObject ? enumerator.Current : new LClass(enumerator.Current);
+                Ctx.Memory.SetValue(_varName, current);
 
                 if (_statements != null && _statements.Count > 0)
                 {

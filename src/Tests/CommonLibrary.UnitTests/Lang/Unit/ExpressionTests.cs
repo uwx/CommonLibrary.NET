@@ -161,7 +161,7 @@ namespace ComLib.Lang.Tests.Unit
         {
             // LESS THAN
             var exp = new CompareExpr(new ConstantExpr(left), op, new ConstantExpr(right));
-            Assert.AreEqual(expected, exp.EvaluateAs<LBool>().Value);
+            Assert.AreEqual(expected, exp.EvaluateAs<bool>());
         }
 
 
@@ -178,7 +178,7 @@ namespace ComLib.Lang.Tests.Unit
             expLeft.Ctx = ctx;
             expRight.Ctx = ctx;
             var exp = new BinaryExpr(expLeft, op, expRight);
-            Assert.AreEqual(expected, exp.EvaluateAs<LNumber>().Value);
+            Assert.AreEqual(expected, exp.EvaluateAs<double>());
         }
 
 
@@ -187,7 +187,7 @@ namespace ComLib.Lang.Tests.Unit
             var ctx = new Context();
             ctx.Memory = memory;
             var exp = new UnaryExpr(left, inc, op, ctx);
-            Assert.AreEqual(expected, exp.EvaluateAs<LNumber>().Value);
+            Assert.AreEqual(expected, exp.EvaluateAs<double>());
             Assert.AreEqual(expected, memory.GetAs<LNumber>(left).Value);
         }
 

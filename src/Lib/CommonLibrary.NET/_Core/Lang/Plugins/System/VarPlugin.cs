@@ -259,82 +259,25 @@ namespace ComLib.Lang.Plugins
                 this.VarExp = assigment.Item1;
                 this.ValueExp = assigment.Item2;
                                 
-                // CASE 1 & 2
+                // CASE 1: Assign variable.  a = 1
                 if (this.VarExp is VariableExpr)
                 {
-                    string varname = ((VariableExpr)this.VarExp).Name;
-
-                    // Case 1: var result;
-                    if (this.ValueExp == null)
-                    {
-                        this.Ctx.Memory.SetValue(varname, LNull.Instance, _isDeclaration);
-                    }
-                    else
-                    {
-                        // Case 2: var result = <expression>;
-                        result = this.ValueExp.Evaluate();
-
-                        // CHECK_LIMIT:
-                        Ctx.Limits.CheckStringLength(this, result);
-
-                        this.Ctx.Memory.SetValue(varname, result, _isDeclaration);
-                    }
-
-                    // LIMIT CHECK
-                    Ctx.Limits.CheckScopeCount(this.VarExp);
-                    Ctx.Limits.CheckScopeStringLength(this.VarExp);
+                    AssignHelper.SetVariableValue(this.Ctx, this, _isDeclaration, this.VarExp, this.ValueExp);
                 }
-                // CASE 3 - 4 : Member access via class / map                    
+                // CASE 2: Assign member.    
+                //      e.g. dictionary       :  user.name = 'kishore'
+                //      e.g. property on class:  user.age  = 20
                 else if (this.VarExp is MemberAccessExpr)
                 {
-                    var expval = this.ValueExp.Evaluate() as LObject;
-
-                    // CHECK_LIMIT:
-                    Ctx.Limits.CheckStringLength(this, result);
-
-                    // Case 3: Set property "user.name" = <expression>;
-                    var member = this.VarExp.Evaluate() as MemberAccess;
-                    if (member.Property != null)
-                    {                        
-                        member.Property.SetValue(member.Instance, result, null);
-                    }
-                    // Case 4: Set map "user.name" = <expression>; // { name: 'kishore' }
-                    else if (member.DataType == typeof(LMapType))
-                    {
-                        //Ctx.Methods.Get(typeof(LMapType)).SetProperty((LMapType)member.Instance, member.MemberName, result);
-                        var methods = Ctx.Methods.Get(LTypes.Map);
-                        var ltypeval = new LMap((IDictionary<string, object>)member.Instance);
-                        methods.SetByStringMember(ltypeval, member.MemberName, expval);
-                    }
+                    AssignHelper.SetMemberValue(this.Ctx, this, this.VarExp, this.ValueExp);
                 }
-                // Case 5: Set index value "users[0]" = <expression>;
+                // Case 3: Assign value to index: "users[0]" = <expression>;
                 else if (this.VarExp is IndexExpr)
                 {
-                    var expval = this.ValueExp.Evaluate() as LObject;
-
-                    // CHECK_LIMIT:
-                    Ctx.Limits.CheckStringLength(this, result);
-
-                    var indexExp = this.VarExp.Evaluate() as Tuple<object, int>;
-                    var obj = indexExp.Item1;
-                    var ndx = indexExp.Item2;
-                    if (obj is Array)
-                    {
-                        obj.GetType().GetMethod("SetValue", new Type[] { typeof(int) }).Invoke(obj, new object[] { result, ndx });
-                    }
-                    else if (obj is LArray)
-                    {
-                        //Ctx.Methods.Get(typeof(LArrayType)).SetProperty((LMapType)member.Instance, member.MemberName, result);                        
-                        var methods = Ctx.Methods.Get(LTypes.Array);
-                        methods.SetByNumericIndex((LArray)obj, ndx, expval);
-                    }
-                    else
-                    {
-                        obj.GetType().GetMethod("set_Item").Invoke(obj, new object[] { result, ndx });
-                    }
+                    AssignHelper.SetIndexValue(this.Ctx, this, this.VarExp, this.ValueExp);
                 }
             }
-            return LNullType.Instance;
+            return LObjects.Null;
         }
     }
 }

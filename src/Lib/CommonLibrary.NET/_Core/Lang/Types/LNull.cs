@@ -15,12 +15,6 @@ namespace ComLib.Lang.Types
         {
             this.Type = LTypes.Null;
         }
-
-
-        /// <summary>
-        /// Instance of null
-        /// </summary>
-        public static LNull Instance = LObjects.Null;
     }
 
 

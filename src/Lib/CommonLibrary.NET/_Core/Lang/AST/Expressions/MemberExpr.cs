@@ -24,6 +24,7 @@ namespace ComLib.Lang.AST
             this.MemberName = memberName;
         }
 
+        
         /// <summary>
         /// The variable expression representing the list.
         /// </summary>

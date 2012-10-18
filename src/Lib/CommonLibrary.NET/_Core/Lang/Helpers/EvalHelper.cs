@@ -188,18 +188,15 @@ namespace ComLib.Lang.Helpers
         /// <param name="right"></param>
         /// <param name="op"></param>
         /// <returns></returns>
-        public static bool CompareNull(object left, object right, Operator op)
+        public static LBool CompareNull(object left, object right, Operator op)
         {
-            // Both null
-            if (left == LNull.Instance && right == LNull.Instance && op == Operator.EqualEqual) return true;
-            if (left == LNull.Instance && right == LNull.Instance && op == Operator.NotEqual) return false;
-            // Both not null
-            if (left != LNull.Instance && right != LNull.Instance && op == Operator.EqualEqual) return left == right;
-            if (left != LNull.Instance && right != LNull.Instance && op == Operator.NotEqual) return left != right;
-            // Check for one
-            if (op == Operator.NotEqual) return true;
+            var result = false;
+            if (left == LObjects.Null && right == LObjects.Null) 
+                result = op == Operator.EqualEqual;
+            else 
+                result = op == Operator.NotEqual;
 
-            return false;
+            return new LBool(result);
         }
 
 

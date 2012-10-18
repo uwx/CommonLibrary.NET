@@ -77,7 +77,7 @@ namespace ComLib.Lang.AST
                 result = EvalHelper.CompareTimes(this, (LTime)left, (LTime)right, Op);
 
             // 1 or both null
-            else if (left == LNull.Instance || right == LNull.Instance)
+            else if (left == LObjects.Null || right == LObjects.Null)
                 result = EvalHelper.CompareNull(left, right, Op);
             
             // Day of week ?

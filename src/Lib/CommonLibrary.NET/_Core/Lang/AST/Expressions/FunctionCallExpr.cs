@@ -96,7 +96,7 @@ namespace ComLib.Lang.AST
             // CASE 5: Member call via "." : either static or instance method call. e.g. Person.Create() or instance1.FullName() e.g.
             else if (maccess.Mode == MemberMode.CustObjMethodStatic || maccess.Mode == MemberMode.CustObjMethodInstance)
             {
-                result = FunctionHelper.MemberCall(Ctx, maccess.DataType, maccess.Instance, maccess.Name, maccess.MemberName, maccess.Method, this.ParamListExpressions, this.ParamList);
+                result = FunctionHelper.CallMemberOnClass(this.Ctx, maccess, this.ParamListExpressions, this.ParamList);
             }
             // Pop the function name off the call stack.
             Ctx.State.Stack.Pop();

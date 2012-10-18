@@ -5,9 +5,42 @@ using ComLib.Lang.Core;
 namespace ComLib.Lang.Types
 {
     /// <summary>
+    /// Used to store a bool value.
+    /// </summary>
+    public class LClass : LObject
+    {
+        /// <summary>
+        /// Initialize
+        /// </summary>
+        /// <param name="val">The type of the external c# class.</param>
+        public LClass(object val)
+        {
+            this.Value = val;
+            this.Type = new LClassType(val.GetType());
+        }
+
+
+        /// <summary>
+        /// The raw type value.
+        /// </summary>
+        public object Value;
+
+
+        /// <summary>
+        /// Gets the value of this object.
+        /// </summary>
+        /// <returns></returns>
+        public override object GetValue()
+        {
+            return this.Value;
+        }
+    }
+
+
+    /// <summary>
     /// Array type.
     /// </summary>
-    public class LClass : LObjectType
+    public class LClassType : LObjectType
     {
         /// <summary>
         /// Used for now since fluentscript doesn't support classes.
@@ -19,13 +52,13 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Initialize.
         /// </summary>
-        public LClass()
+        public LClassType(Type type)
         {
             // To be determined during parsing phase.
-            this.Name = "place_holder";
-            this.FullName = "place_holder";
+            this.Name = type.Name;
+            this.FullName = type.FullName;
             this.TypeVal = TypeConstants.LClass;
-            this.DataType = null;
+            this.DataType = type;
         }
 
 

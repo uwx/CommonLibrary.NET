@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Collections;
-using System.Reflection;
 
 // <lang:using>
 using ComLib.Lang.Core;
@@ -82,18 +76,22 @@ namespace ComLib.Lang.AST
             if (ndxVal == null)
                 throw BuildRunTimeException("Unable to index with null value");
 
-            // 1. Access
+            // 1. Access 
+            //      e.g. Array: users[0] 
+            //      e.g. Map:   users['total']
             if(!this.IsAssignment)
             {
                 result = EvalHelper.AccessIndex(this.Ctx.Methods, this, lobj, (LObject)ndxVal);
                 return result;
             }
             // 2. Assignment
-            if (ndxVal is int || ndxVal is double)
-            {
-                return new Tuple<object, int>(ListObject, Convert.ToInt32(ndxVal));
-            }
-            return new Tuple<LMapType, string>((LMapType)ListObject, (string)ndxVal);
+            //      e.g. Array: users[0]        = 'john'
+            //      e.g. Map:   users['total']  = 200
+            // NOTE: In this case of assignment, return back a MemberAccess object descripting what is assign
+            var indexAccess = new IndexAccess();
+            indexAccess.Instance = lobj;
+            indexAccess.MemberName = (LObject) ndxVal;
+            return indexAccess;
         }
     }    
 }

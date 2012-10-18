@@ -29,6 +29,11 @@ namespace ComLib.Lang.AST
         /// <returns></returns>
         public override object DoEvaluate()
         {
+            // 1. Null
+            if (this.Value == LObjects.Null)
+                return this.Value;
+
+            // 2. Actual value.
             var ltype = LangTypeHelper.ConvertToLangValue(this.Value);
             return ltype;
         }

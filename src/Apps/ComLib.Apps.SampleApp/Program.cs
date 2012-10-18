@@ -38,15 +38,15 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            Lang_Type_Tests();
+            System_Control_Flow();
             UnitTests();
+            Lang_Type_Tests();
             Combinator_Tests();
             ExpressionTest();
             Lang_Script_Tests();
             TestVersion();
             FluentTests();
             Semantic_Tests();
-            System_Control_Flow();
             
         }
 
@@ -211,6 +211,14 @@ namespace ComLib.Samples
         
         static void UnitTests()
         {
+            var e = new Expression_Tests();
+            e.Can_Do_Compare_Expressions_On_Constants();
+            e.Can_Do_Unary_Operations();
+            
+            var ltJSa = new Lang_LArray_Tests();
+            ltJSa.Can_Test_Methods();
+
+
             var ltJS = new Lang_LString_Tests();
 
             ltJS.Can_Call_Execute();
@@ -236,9 +244,7 @@ namespace ComLib.Samples
             ltJS.Can_Test_Methods();
             ltJS.Can_Call_Execute();
 
-            //var ltJSa = new Lang_LArray_Tests();
-            //ltJSa.Can_Test_Methods();
-
+            
             var lexTests = new Lexer_Tests();
             lexTests.Can_Read_String(); 
             lexTests.Can_Read_Interpolated_Tokens();
@@ -529,17 +535,19 @@ namespace ComLib.Samples
         #region System Types
         static void Lang_Type_Tests()
         {
+            System_Types_Arrays();
             System_Types_Dictionary();
             System_Types_Time();
             System_Types_Dates();
             System_Types_Strings();
-            System_Types_Arrays();
         }
 
 
         static void System_Types_Arrays()
         {
             var t = new Types_Array();
+            t.Can_Set_Array_ByIndex();
+            // works
             t.Can_Do_Array_Declarations();
             t.Can_Get_Array_Basic_Type_Values_ByIndex();
             t.Can_Do_Array_Method_Calls();
@@ -547,7 +555,7 @@ namespace ComLib.Samples
             t.Can_Get_Array_ByIndex();
             t.Can_Get_Array_Item_By_Index_Right_After_Declaration();
             t.Can_Get_Array_Item_By_Nested_Indexes();
-            t.Can_Set_Array_ByIndex();
+            
         }
 
 
@@ -586,30 +594,108 @@ namespace ComLib.Samples
             t.Can_Do_Date_Method_Calls();
         }
         #endregion
-        
 
+
+        #region System Control Flow
         static void System_Control_Flow()
         {
+            System_CustomObject();
+            System_Types(); 
+            System_MemberAccess();
+            System_Loops();
+            System_Assignment();
+            
+        }
 
+
+        static void System_Assignment()
+        {
+            var t = new Script_Tests_Assignment();
+            t.Can_Do_Unary_Expressions();
+            t.Can_Do_Complex_Addition_On_Mixed_Types();
+            t.Can_Do_Multiple_Assignment_Constant_Expressions_In_Same_Line();
+            t.Can_Do_Multiple_Assignment_Expressions();
+            t.Can_Do_Single_Assignment_Constant_Expressions();
+            t.Can_Do_Single_Assignment_Constant_Logical_Expressions();
+            t.Can_Do_Single_Assignment_Constant_Math_Expressions();
+            t.Can_Do_Single_Assignment_Constant_Math_Expressions_With_Mixed_Types();
+            t.Can_Do_Single_Assignment_Constant_Math_Expressions_With_Precendence();
+            t.Can_Do_Single_Assignment_Constant_Math_Expressions_With_Precendence_With_Parenthesis();
+            t.Can_Handle_Escape_Chars_InString();
+        }
+
+
+        static void System_If()
+        {
             var ti = new Script_Tests_If();
-            ti.Can_Use_Without_Parenthesis_With_Braces(); 
-            ti.Can_Use_Without_Parenthesis_Without_Braces();            
-            ti.Can_Use_With_Parenthesis_With_Braces();
-            ti.Can_Use_With_Parenthesis_Without_Braces();
             ti.Can_Use_With_Constants();
             ti.Can_Use_With_Constants_Single_line();
+            ti.Can_Use_Without_Parenthesis_With_Braces();
+            ti.Can_Use_Without_Parenthesis_Without_Braces();
+            ti.Can_Use_With_Parenthesis_With_Braces();
+            ti.Can_Use_With_Parenthesis_Without_Braces();
             ti.Can_Use_Else_With_Constants();
             ti.Can_Use_Else_If_With_Constants();
+        }
 
 
+        static void System_CustomObject()
+        {
+            var t = new Script_Tests_CustomObject();
+            t.Can_Call_Instance_Methods();
+            t.Can_Call_Static_Methods(); 
+            t.Can_Create_Via_Different_Constructors();
+            t.Can_Create_With_FullName_Via_Different_Constructors();
+            t.Can_Access_Instance_Properties();
+            t.Can_Access_Static_Properties();
+            t.Can_Call_Instance_Methods_With_Named_Params();
+            t.Can_Call_Instance_Methods_With_Named_Params_Using_Nulls();
+        }
+
+
+        static void System_Compare()
+        {
+            var t = new Script_Tests_Comparisons();
+            t.Can_Do_Check_For_Nulls_Using_Complex_DataTypes();
+            t.Can_Do_Check_For_Nulls_Using_Variables_Constants();
+            t.Can_Do_Single_Assignment_Constant_Compare_Expressions_On_Bools();
+            t.Can_Do_Single_Assignment_Constant_Compare_Expressions_On_Numbers();
+            t.Can_Do_Single_Assignment_Constant_Compare_Expressions_On_Strings();
+        }
+
+
+        static void System_Loops()
+        {
             var tl = new Script_Tests_Loops();
+            tl.Can_Do_Recursion(); 
+            tl.Can_Do_While_Statements_Syntax();
+            tl.Can_Do_Nested_Loops();
+            tl.Can_Do_While_Statements(); 
             tl.Can_Do_For_Each_Statements();
             tl.Can_Do_For_Loop_Statements();
             tl.Can_Do_Break_Statements();
-            tl.Can_Do_Recursion();
-            tl.Can_Do_While_Statements();
-            tl.Can_Do_Nested_Loops();         
         }
+
+
+        static void System_MemberAccess()
+        {
+            var t = new Script_Tests_MemberAccess();
+            t.Can_Set_Class_Member_Property();
+            t.Can_Get_Class_Member_Property();
+        }
+
+
+        static void System_Types()
+        {
+            var t = new Script_Tests_Types();
+            t.Can_Do_Single_Assignment_New_Expressions(); 
+            t.Can_Do_Check_For_Nulls();
+            t.Can_Do_Check_For_Nulls2();
+            
+            t.Can_Do_Type_Changes(); ;
+        }
+        #endregion
+        
 
 
         static void Lang_Script_Errors()
@@ -663,19 +749,6 @@ namespace ComLib.Samples
             ta.Can_Do_Single_Assignment_Constant_Expressions();
 
             tcb.Can_Use_Non_Nested_BlockStatements();
-                
-            ta.Can_Do_Single_Assignment_Constant_Expressions();
-            ta.Can_Do_Complex_Addition_On_Mixed_Types();
-            ta.Can_Do_Single_Assignment_Constant_Math_Expressions();
-            ta.Can_Do_Unary_Expressions();
-            ta.Can_Do_Single_Assignment_Constant_Math_Expressions_With_Precendence();
-            ta.Can_Do_Single_Assignment_Constant_Math_Expressions_With_Precendence_With_Parenthesis();
-            ta.Can_Handle_Escape_Chars_InString();
-            ta.Can_Do_Single_Assignment_Constant_Logical_Expressions();
-            ta.Can_Do_Single_Assignment_Constant_Math_Expressions_With_Mixed_Types();
-            ta.Can_Do_Multiple_Assignment_Expressions();
-            ta.Can_Do_Multiple_Assignment_Constant_Expressions_In_Same_Line();
-            
 
             tp.Can_Do_MultiLine_Conditions();
 
@@ -701,14 +774,6 @@ namespace ComLib.Samples
             tcs.Can_Call_Function_Using_Dictionary();
 
             tt.Can_Do_Check_For_Nulls();
-
-            tco.Can_Call_Custom_Object_Instance_Methods_With_Named_Params_Using_Nulls();
-            tco.Can_Call_Custom_Object_Instance_Methods_With_Named_Params();
-            tco.Can_Call_Custom_Object_Instance_Methods();
-            tco.Can_Call_Custom_Object_Static_Methods();
-            tco.Can_Create_Custom_Object_Via_Different_Constructors();
-            tco.Can_Access_Custom_Object_Instance_Properties();
-                                     
             
 
             tmem.Can_Pop_Memory();
@@ -746,8 +811,6 @@ namespace ComLib.Samples
             
             tm.Can_Get_Class_Member_Property();
             tm.Can_Set_Class_Member_Property();
-            tm.Can_Get_Map_Member_Property();
-            tm.Can_Set_Map_Member_Property();
 
             tlm.Can_Set_Exception_Limit();
             tlm.Can_Set_Call_Stack_Cyclic_Limit();

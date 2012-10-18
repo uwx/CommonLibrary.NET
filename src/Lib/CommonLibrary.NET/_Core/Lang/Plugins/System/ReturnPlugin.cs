@@ -103,7 +103,7 @@ namespace ComLib.Lang.Plugins
             object result = Exp == null ? null : Exp.Evaluate();
             bool hasReturnVal = Exp != null;
             parent.Return(result, hasReturnVal);
-            return LNullType.Instance;
+            return LObjects.Null;
         }
     }
 }

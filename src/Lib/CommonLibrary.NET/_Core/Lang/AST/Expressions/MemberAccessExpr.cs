@@ -12,6 +12,25 @@ using ComLib.Lang.Types;
 namespace ComLib.Lang.AST
 {   
     /// <summary>
+    /// Information for an index access operation.
+    /// </summary>
+    public class IndexAccess
+    {
+        /// <summary>
+        /// Instance of the member
+        /// </summary>
+        public LObject Instance;
+
+
+        /// <summary>
+        /// The name of the member being accessed
+        /// </summary>
+        public LObject MemberName;
+    }
+
+
+
+    /// <summary>
     /// Represents the member access
     /// </summary>
     public class MemberAccess
@@ -101,6 +120,16 @@ namespace ComLib.Lang.AST
         {
             return this.Type != null && this.Mode == MemberMode.PropertyMember;
         }
+
+
+        /// <summary>
+        /// Whether or not this is a property access on a custom object.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsPropertyAccessOnClass()
+        {
+            return this.DataType != null && this.Property != null;
+        }
     }
 
 
@@ -145,17 +174,11 @@ namespace ComLib.Lang.AST
                 var result = FunctionHelper.CallMemberOnBasicType(this.Ctx, memberAccess, null, null);
                 return result;
             }
-            if (memberAccess.DataType == typeof(IDictionary))
+            if (memberAccess.IsPropertyAccessOnClass())
             {
-                // 2. Non-Assignment - Validate property exists.
-                var lmap = memberAccess.Instance;
-                var methods = this.Ctx.Methods.Get(LTypes.Map);
-                var ltypeval = new LMap((IDictionary<string, object>)lmap);
-                if(!methods.HasProperty(ltypeval, MemberName))
-                    throw this.BuildRunTimeException("Property does not exist : '" + MemberName + "'"); 
-                
-                return methods.ExecuteMethod(ltypeval, "Get_" + MemberName, null);
-            }           
+                var result = FunctionHelper.CallMemberOnClass(this.Ctx, memberAccess, null, null);
+                return result;
+            }
             return memberAccess;
         }
     }    

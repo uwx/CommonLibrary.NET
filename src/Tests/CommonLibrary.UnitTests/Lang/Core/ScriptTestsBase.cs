@@ -217,7 +217,7 @@ namespace ComLib.Lang.Tests.Common
                     if (stmt.Item1 != null)
                     {
                         object obj = i.Memory[stmt.Item1];
-                        if (obj is LObject && obj != LNull.Instance)
+                        if (obj is LObject && obj != LObjects.Null)
                             obj = ((LObject) obj).GetValue();
                         Compare(obj, stmt.Item3); 
                     }
@@ -233,7 +233,7 @@ namespace ComLib.Lang.Tests.Common
                         if (stmt.Item1 != null)
                         {
                             object obj = i.Memory[stmt.Item1];
-                            if (obj is LObject && obj != LNull.Instance)
+                            if (obj is LObject && obj != LObjects.Null)
                                 obj = ((LObject)obj).GetValue();
                             Compare(obj, stmt.Item3); 
                         }
@@ -312,18 +312,11 @@ namespace ComLib.Lang.Tests.Common
                 i.Execute(test.Item4);
 
                 // 1. Check type of result is correct
-                Assert.AreEqual(i.Memory.Get<object>(test.Item1).GetType(), test.Item2);
+                var actual = i.Memory.Get<object>(test.Item1) as LObject;
+                LangTestsHelper.CompareType(actual, test.Item2);
 
                 // 2. Check that value is correct
-                object actualValue = i.Memory.Get<object>(test.Item1);
-                if (test.Item3 is DateTime)
-                {
-                    var actualDate = (DateTime)actualValue;
-                    actualDate = actualDate.Date;
-                    Assert.AreEqual(test.Item3, actualDate);
-                }
-                else
-                    Assert.AreEqual(test.Item3, actualValue);
+                LangTestsHelper.Compare(actual.GetValue(), test.Item3);
             }
         }
     }

@@ -70,7 +70,7 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Object type.
         /// </summary>
-        public static LType Object = new LObjectType(); 
+        public static LType Object = new LObjectType();
 
 
         /// <summary>

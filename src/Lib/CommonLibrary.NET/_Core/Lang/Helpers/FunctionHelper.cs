@@ -73,12 +73,12 @@ namespace ComLib.Lang.Helpers
             // 2. Get object on which method/property is being called on.
             var lobj = (LObject)memberAccess.Instance;
 
-            // 4. Property?
+            // 3. Property ?
             if (memberAccess.Mode == MemberMode.PropertyMember)
             {
                 result = methods.GetProperty(lobj, memberAccess.MemberName);
             }
-            // 5. Method
+            // 4. Method
             else if (memberAccess.Mode == MemberMode.MethodMember)
             {
                 object[] args = null; 
@@ -89,6 +89,46 @@ namespace ComLib.Lang.Helpers
                 }
                 result = methods.ExecuteMethod(lobj, memberAccess.MemberName, args);
             }
+            return result;
+        }
+
+
+        /// <summary>
+        /// Execute a member call.
+        /// </summary>
+        /// <param name="ctx">The context of the script</param>
+        /// <param name="memberAccess">Object to hold all the relevant information required for the member call.</param>
+        /// <param name="paramListExpressions">The expressions to resolve as parameters</param>
+        /// <param name="paramList">The list of parameters.</param>
+        /// <returns></returns>
+        public static object CallMemberOnClass(Context ctx, MemberAccess memberAccess, List<Expr> paramListExpressions, List<object> paramList)
+        {
+            object result = LObjects.Null;
+            var obj = memberAccess.Instance;
+            var type = memberAccess.DataType;
+            
+            // Case 1: Property access
+            if (memberAccess.Property != null)
+            {
+                var prop = type.GetProperty(memberAccess.MemberName);
+                if (prop != null)
+                    result = prop.GetValue(obj, null);
+            }
+            // Case 2: Method call.
+            else if( memberAccess.Method != null)
+            {
+                ParamHelper.ResolveParameters(paramListExpressions, paramList);
+                result = MethodCall(ctx, obj, type, memberAccess.Method, paramListExpressions, paramList, true);
+            }
+            
+            // Finally, convert to fluentscript types.
+            // Case 1: Aleady an LObject
+            if (result != LObjects.Null && result is LObject)
+                return result;
+
+            // Case 2: C# type so wrap inside of fluentscript type.
+            if (result != LObjects.Null)
+                result = LangTypeHelper.ConvertToLangValue(result);
             return result;
         }
 
@@ -214,12 +254,9 @@ namespace ComLib.Lang.Helpers
             if (resolveParams) ParamHelper.ResolveParametersForMethodCall(methodInfo, paramListExpressions, paramList);
 
             // 2. Convert internal language types to c# code method types.
-            LangTypeHelper.ConvertArgs(paramList, methodInfo);
+            object[] args = LangTypeHelper.ConvertArgs(paramList, methodInfo);
 
-            // 3. Now get args as an array for method calling.
-            object[] args = paramList.ToArray();
-
-            // 4. Handle  params object[];
+            // 3. Handle  params object[];
             if (methodInfo.GetParameters().Length == 1)
             {
                 if (methodInfo.GetParameters()[0].ParameterType == typeof(object[]))

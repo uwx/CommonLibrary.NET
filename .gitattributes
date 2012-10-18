@@ -572,6 +572,7 @@ src/Lib/CommonLibrary.NET/_Core/Lang/DataTypes/Units.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Entities/FunctionLookupResult.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Extensions/MethodExtensions.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/ArgsFetcher.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/AssignHelper.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/DocHelper.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/EvalHelper.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/FluentHelper.cs -text

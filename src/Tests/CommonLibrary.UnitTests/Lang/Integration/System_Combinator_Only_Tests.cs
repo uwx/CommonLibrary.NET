@@ -26,7 +26,7 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                TestCase("name",     typeof(object),    LNull.Instance,  "var name;"),
+                TestCase("name",     typeof(object),    LObjects.Null,  "var name;"),
                 TestCase("name",     typeof(string),    "kishore",       "var name = 'kishore';"),
                 TestCase("name",     typeof(string),    "kishore",       "var name = \"kishore\";"),
                 TestCase("age",      typeof(double),    32,              "var age = 32;"),
@@ -60,9 +60,9 @@ namespace ComLib.Lang.Tests.Integration.System
             var statements = new List<Tuple<List<string>, List<Type>, List<object>, string>>()
             {                
                 new Tuple<List<string>, List<Type>, List<object>, string>(new List<string>(){ "name", "age", "isActive"}, new List<Type>(){ typeof(string), typeof(double), typeof(bool)}, new List<object>(){ "kis", 32,   true },  "var name = 'kis', age = 32, isActive = true;"),
-                new Tuple<List<string>, List<Type>, List<object>, string>(new List<string>(){ "name", "age", "isActive"}, new List<Type>(){ typeof(string), typeof(double), typeof(bool)}, new List<object>(){ "kis", 32,   LNull.Instance},   "var name = 'kis', age = 32, isActive;"),
-                new Tuple<List<string>, List<Type>, List<object>, string>(new List<string>(){ "name", "age", "isActive"}, new List<Type>(){ typeof(string), typeof(double), typeof(bool)}, new List<object>(){ "kis", LNull.Instance, LNull.Instance },  "var name = 'kis', age, isActive;"),
-                new Tuple<List<string>, List<Type>, List<object>, string>(new List<string>(){ "name", "age", "isActive"}, new List<Type>(){ typeof(string), typeof(double), typeof(bool)}, new List<object>(){ LNull.Instance,  LNull.Instance, LNull.Instance },  "var name, age, isActive;"),
+                new Tuple<List<string>, List<Type>, List<object>, string>(new List<string>(){ "name", "age", "isActive"}, new List<Type>(){ typeof(string), typeof(double), typeof(bool)}, new List<object>(){ "kis", 32,   LObjects.Null},   "var name = 'kis', age = 32, isActive;"),
+                new Tuple<List<string>, List<Type>, List<object>, string>(new List<string>(){ "name", "age", "isActive"}, new List<Type>(){ typeof(string), typeof(double), typeof(bool)}, new List<object>(){ "kis", LObjects.Null, LObjects.Null },  "var name = 'kis', age, isActive;"),
+                new Tuple<List<string>, List<Type>, List<object>, string>(new List<string>(){ "name", "age", "isActive"}, new List<Type>(){ typeof(string), typeof(double), typeof(bool)}, new List<object>(){ LObjects.Null,  LObjects.Null, LObjects.Null },  "var name, age, isActive;"),
             };
             for (int ndx = 0; ndx < statements.Count; ndx++)
             {
@@ -76,7 +76,7 @@ namespace ComLib.Lang.Tests.Integration.System
                     object val = stmt.Item3[ndxV];
                     var actualValue = i.Memory.Get<object>(varName);
 
-                    if (actualValue is LObject && actualValue != LNull.Instance)
+                    if (actualValue is LObject && actualValue != LObjects.Null)
                         actualValue = ((LObject)actualValue).GetValue();
 
                     // Check values are correct.
@@ -165,12 +165,12 @@ namespace ComLib.Lang.Tests.Integration.System
             Console.WriteLine(text);
             var i = new Interpreter();
             i.Execute(text);
-            var result = i.Memory.Get<string>("result");
+            var result = i.Memory.Get<LString>("result");
 
             // john30.5true8/17/2011 3:14:25 PM11Queens
-            Assert.IsTrue(result.StartsWith("john30.5true"));
-            Assert.IsTrue(result.EndsWith("11Queens"));
-            Assert.IsTrue(result.Contains(DateTime.Now.Date.ToShortDateString()));
+            Assert.IsTrue(result.Value.StartsWith("john30.5true"));
+            Assert.IsTrue(result.Value.EndsWith("11Queens"));
+            Assert.IsTrue(result.Value.Contains(DateTime.Now.Date.ToShortDateString()));
         }
 
 
@@ -618,10 +618,12 @@ namespace ComLib.Lang.Tests.Integration.System
         public void Can_Do_Nested_Loops()
         {
             var i = new Interpreter();
-            i.Execute("var result = 0; for(var a = 0; a < 10; a++) { for(var b = 0; b < 10; b++) { result++; } }");
+            var script = "var result = 0; for(var a = 0; a < 10; a++) { for(var b = 0; b < 10; b++) { result++; } }";
+            Console.WriteLine(script);
+            i.Execute(script);
 
-            int result = i.Memory.Get<int>("result");
-            Assert.AreEqual(100, result);
+            var result = i.Memory.Get<LNumber>("result");
+            Assert.AreEqual(100, result.Value);
         }
 
 
@@ -631,8 +633,8 @@ namespace ComLib.Lang.Tests.Integration.System
             var i = new Interpreter();
             i.Execute("function Additive(n) { if (n == 0 )  return 0; return n + Additive(n-1); } var result = Additive(5);");
 
-            int result = i.Memory.Get<int>("result");
-            Assert.AreEqual(15, result);
+            var result = i.Memory.Get<LNumber>("result");
+            Assert.AreEqual(15, result.Value);
         }
     }
 
@@ -715,7 +717,7 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var testcases = new List<Tuple<string, Type, object, string>>()
             {
-                TestCase("result", typeof(object), LNull.Instance,    "var result = 0; function test(a) { if( a > 2 ) return; return 2; }   result = test(3);"),
+                TestCase("result", typeof(object), LObjects.Null,    "var result = 0; function test(a) { if( a > 2 ) return; return 2; }   result = test(3);"),
             };
             Parse(testcases);
         }
@@ -966,10 +968,10 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                TestCase("result", typeof(object), LNull.Instance, "var result = null;"),
-                TestCase("result", typeof(object), LNull.Instance, "var items = [0, null, 2]; var result = items[1];"),
-                TestCase("result", typeof(object), LNull.Instance, "var items = { a: 0, b: null, c: 2 }; var result = items.b;"),
-                TestCase("result", typeof(object), LNull.Instance, "function test( a, b ) { if ( a == null ) return null; return b; } result = test( null, 2);"),
+                TestCase("result", typeof(object), LObjects.Null, "var result = null;"),
+                TestCase("result", typeof(object), LObjects.Null, "var items = [0, null, 2]; var result = items[1];"),
+                TestCase("result", typeof(object), LObjects.Null, "var items = { a: 0, b: null, c: 2 }; var result = items.b;"),
+                TestCase("result", typeof(object), LObjects.Null, "function test( a, b ) { if ( a == null ) return null; return b; } result = test( null, 2);"),
             };
             Parse(statements);
         }
@@ -994,10 +996,13 @@ namespace ComLib.Lang.Tests.Integration.System
             Interpreter i = new Interpreter();
             i.Context.Types.Register(typeof(Person), null);
             i.Execute("var result = new Person();");
-            Assert.AreEqual(i.Memory.Get<object>("result").GetType(), typeof(Person));
+
+            var obj = i.Memory.Get<object>("result") as LClass;
+            Assert.AreEqual(obj.Value.GetType(), typeof(Person));
 
             i.Execute("var result = new Date();");
-            Assert.AreEqual(i.Memory.Get<object>("result").GetType(), typeof(DateTime));
+            var dt = i.Memory.Get<object>("result") as LDate;
+            Assert.AreEqual(dt.Type.GetType(), typeof(LDateType));
         }
 
 
@@ -1034,13 +1039,13 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var testcases = new List<Tuple<string,Type, object, string>>()
             {
-                new Tuple<string, Type, object, string>("result", typeof(string),   "john",              "var p = new Person(); var result = p.FirstName;" ),
-                new Tuple<string, Type, object, string>("result", typeof(string),   "johndoe@email.com", "var p = new Person(); var result = p.Email;" ),
-                new Tuple<string, Type, object, string>("result", typeof(bool),     true,                "var p = new Person(); var result = p.IsMale;" ),
-                new Tuple<string, Type, object, string>("result", typeof(double),   10.5,                "var p = new Person(); var result = p.Salary;" ),
-                new Tuple<string, Type, object, string>("result", typeof(DateTime), DateTime.Today,      "var p = new Person(); var result = p.BirthDate;" ),                
-                new Tuple<string, Type, object, string>("result", typeof(string),   "Queens",            "var p = new Person(); var result = p.Address.City;" ),
-                new Tuple<string, Type, object, string>("result", typeof(string),   "NY",                "var p = new Person(); var result = p.Address.State;" )
+                TestCase("result", typeof(string),   "john",              "var p = new Person(); var result = p.FirstName;" ),
+                TestCase("result", typeof(string),   "johndoe@email.com", "var p = new Person(); var result = p.Email;" ),
+                TestCase("result", typeof(bool),     true,                "var p = new Person(); var result = p.IsMale;" ),
+                TestCase("result", typeof(double),   10.5,                "var p = new Person(); var result = p.Salary;" ),
+                TestCase("result", typeof(DateTime), DateTime.Today,      "var p = new Person(); var result = p.BirthDate;" ),                
+                TestCase("result", typeof(string),   "Queens",            "var p = new Person(); var result = p.Address.City;" ),
+                TestCase("result", typeof(string),   "NY",                "var p = new Person(); var result = p.Address.State;" )
             };
             RunTestCases(testcases);
         }
@@ -1051,51 +1056,15 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             var testcases = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string, Type, object, string>("result", typeof(string),   "jane",              "var p = new Person();  p.FirstName = 'jane';     var result = p.FirstName;" ),
-                new Tuple<string, Type, object, string>("result", typeof(string),   "janedoe@email.com", "var p = new Person();  p.Email     = 'janedoe@email.com'; var result = p.Email;" ),
-                new Tuple<string, Type, object, string>("result", typeof(bool),     false,               "var p = new Person();  p.IsMale    =  false;       var result = p.IsMale;" ),
-                new Tuple<string, Type, object, string>("result", typeof(double),   10.8,                "var p = new Person();  p.Salary    = 10.8;         var result = p.Salary;" ),
-                new Tuple<string, Type, object, string>("result", typeof(DateTime), DateTime.Today,      "var p = new Person();  p.BirthDate = new Date();   var result = p.BirthDate;" ),    
-                new Tuple<string, Type, object, string>("result", typeof(string),   "Bronx",             "var p = new Person();  p.Address.City = 'Bronx';   var result = p.Address.City;" ),
-                new Tuple<string, Type, object, string>("result", typeof(string),   "NJ",                "var p = new Person();  p.Address.State = 'NJ';     var result = p.Address.State;" )
+                TestCase("result", typeof(string),   "jane",              "var p = new Person();  p.FirstName = 'jane';     var result = p.FirstName;" ),
+                TestCase("result", typeof(string),   "janedoe@email.com", "var p = new Person();  p.Email     = 'janedoe@email.com'; var result = p.Email;" ),
+                TestCase("result", typeof(bool),     false,               "var p = new Person();  p.IsMale    =  false;       var result = p.IsMale;" ),
+                TestCase("result", typeof(double),   10.8,                "var p = new Person();  p.Salary    = 10.8;         var result = p.Salary;" ),
+                TestCase("result", typeof(DateTime), DateTime.Today,      "var p = new Person();  p.BirthDate = new Date();   var result = p.BirthDate;" ),    
+                TestCase("result", typeof(string),   "Bronx",             "var p = new Person();  p.Address.City = 'Bronx';   var result = p.Address.City;" ),
+                TestCase("result", typeof(string),   "NJ",                "var p = new Person();  p.Address.State = 'NJ';     var result = p.Address.State;" )
             };
             Parse(testcases, true, (i) => i.Context.Types.Register(typeof(Person), null));
-        }
-
-
-        [Test]
-        public void Can_Get_Map_Member_Property()
-        {
-            string maptxt = @"{ FirstName: 'john', LastName: 'doe', Email: 'johndoe@email.com', IsMale: true, Salary: 10.5, BirthDate: new Date(), Address: { City: 'Queens', State: 'NY' } }";
-            var testcases = new List<Tuple<string, Type, object, string>>()
-            {
-                new Tuple<string, Type, object, string>("result", typeof(string),   "john",              "var p = " + maptxt + "; var result = p.FirstName;" ),
-                new Tuple<string, Type, object, string>("result", typeof(string),   "johndoe@email.com", "var p = " + maptxt + "; var result = p.Email;" ),
-                new Tuple<string, Type, object, string>("result", typeof(bool),     true,                "var p = " + maptxt + "; var result = p.IsMale;" ),
-                new Tuple<string, Type, object, string>("result", typeof(double),   10.5,                "var p = " + maptxt + "; var result = p.Salary;" ),
-                new Tuple<string, Type, object, string>("result", typeof(DateTime), DateTime.Today,      "var p = " + maptxt + "; var result = p.BirthDate;" ),                
-                new Tuple<string, Type, object, string>("result", typeof(string),   "Queens",            "var p = " + maptxt + "; var result = p.Address.City;" ),
-                new Tuple<string, Type, object, string>("result", typeof(string),   "NY",                "var p = " + maptxt + "; var result = p.Address.State;" )
-            };
-            RunTestCases(testcases);
-        }
-
-
-        [Test]
-        public void Can_Set_Map_Member_Property()
-        {
-            string maptxt = @"{ FirstName: 'john', LastName: 'doe', Email: 'johndoe@email.com', IsMale: true, Salary: 10.5, BirthDate: new Date(), Address: { City: 'Queens', State: 'NY' } }";            
-            var testcases = new List<Tuple<string, Type, object, string>>()
-            {
-                new Tuple<string, Type, object, string>("result", typeof(string),   "jane",              "var p = " + maptxt + ";  p.FirstName = 'jane';     var result = p.FirstName;" ),
-                new Tuple<string, Type, object, string>("result", typeof(string),   "janedoe@email.com", "var p = " + maptxt + ";  p.Email     = 'janedoe@email.com'; var result = p.Email;" ),
-                new Tuple<string, Type, object, string>("result", typeof(bool),     false,               "var p = " + maptxt + ";  p.IsMale    =  false;       var result = p.IsMale;" ),
-                new Tuple<string, Type, object, string>("result", typeof(double),   10.8,                "var p = " + maptxt + ";  p.Salary    = 10.8;         var result = p.Salary;" ),
-                new Tuple<string, Type, object, string>("result", typeof(DateTime), DateTime.Today,      "var p = " + maptxt + ";  p.BirthDate = new Date();   var result = p.BirthDate;" ),    
-                new Tuple<string, Type, object, string>("result", typeof(string),   "Bronx",             "var p = " + maptxt + ";  p.Address.City = 'Bronx';   var result = p.Address.City;" ),
-                new Tuple<string, Type, object, string>("result", typeof(string),   "NJ",                "var p = " + maptxt + ";  p.Address.State = 'NJ';     var result = p.Address.State;" )
-            };
-            RunTestCases(testcases);
         }
     }
 
@@ -1104,7 +1073,7 @@ namespace ComLib.Lang.Tests.Integration.System
     public class Script_Tests_CustomObject : ScriptTestsBase
     {
         [Test]
-        public void Can_Create_Custom_Object_Via_Different_Constructors()
+        public void Can_Create_Via_Different_Constructors()
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
@@ -1118,7 +1087,7 @@ namespace ComLib.Lang.Tests.Integration.System
 
 
         [Test]
-        public void Can_Create_Custom_Object_With_FullName_Via_Different_Constructors()
+        public void Can_Create_With_FullName_Via_Different_Constructors()
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
@@ -1127,12 +1096,13 @@ namespace ComLib.Lang.Tests.Integration.System
                 TestCase("result", typeof(string),    "nonew@email.com",               "var p = new ComLib.Tests.Person('john', 'doe', 'nonew@email.com', true, 10.56); var result = p.Email;  "),
                 TestCase("result", typeof(string),    "janedallparams@email.comfalse", "var p = new ComLib.Tests.Person('jane', 'd', 'allparams@email.com', false, 10.56, new Date()); var result = p.FirstName + p.LastName + p.Email + p.IsMale;")
             };
+            throw new NotImplementedException();
             Parse(statements, true, (i) => i.Context.Types.Register(typeof(Person), null));
         }
 
 
         [Test]
-        public void Can_Call_Custom_Object_Instance_Methods()
+        public void Can_Call_Instance_Methods()
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
@@ -1144,7 +1114,7 @@ namespace ComLib.Lang.Tests.Integration.System
 
 
         [Test]
-        public void Can_Call_Custom_Object_Instance_Methods_With_Named_Params()
+        public void Can_Call_Instance_Methods_With_Named_Params()
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
@@ -1160,7 +1130,7 @@ namespace ComLib.Lang.Tests.Integration.System
 
 
         [Test]
-        public void Can_Call_Custom_Object_Instance_Methods_With_Named_Params_Using_Nulls()
+        public void Can_Call_Instance_Methods_With_Named_Params_Using_Nulls()
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
@@ -1173,7 +1143,7 @@ namespace ComLib.Lang.Tests.Integration.System
 
 
         [Test]
-        public void Can_Call_Custom_Object_Static_Methods()
+        public void Can_Call_Static_Methods()
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
@@ -1184,7 +1154,7 @@ namespace ComLib.Lang.Tests.Integration.System
 
 
         [Test]
-        public void Can_Access_Custom_Object_Instance_Properties()
+        public void Can_Access_Instance_Properties()
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
@@ -1199,13 +1169,13 @@ namespace ComLib.Lang.Tests.Integration.System
             Parse(statements, true, (i) =>
             {
                 i.Context.Types.Register(typeof(Person), null);
-                i.Context.Memory.SetValue("p", new Person("john", "doe", "johndoe@email.com", true, 10.56, DateTime.Now.Date));
+                i.Context.Memory.SetValue("p", new LClass(new Person("john", "doe", "johndoe@email.com", true, 10.56, DateTime.Now.Date)));
             });
         }
 
 
         [Test]
-        public void Can_Access_Custom_Object_Static_Properties()
+        public void Can_Access_Static_Properties()
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
@@ -1214,7 +1184,7 @@ namespace ComLib.Lang.Tests.Integration.System
             Parse(statements, true, (i) =>
             {
                 i.Context.Types.Register(typeof(Person), null);
-                i.Context.Memory.SetValue("p", new Person("john", "doe", "johndoe@email.com", true, 10.56, DateTime.Now.Date));
+                i.Context.Memory.SetValue("p", new LClass(new Person("john", "doe", "johndoe@email.com", true, 10.56, DateTime.Now.Date)));
             });
         }
     }

@@ -30,8 +30,8 @@ namespace ComLib.Lang.Tests.Integration
             var func = "function order( index, amount, of, at, on, using ) { var args = [amount, of, at, on, using]; return args[index]; }";
             var statements = new List<Tuple<string, Type, object, string>>()
             {   
-                TestCase( "result", typeof(object), LNull.Instance,      func + "result = order( 0, amount: null, of: 'ibm', at: $45.50, on: Aug 2nd 2012 at 9:30 am, using: 'default pricing' )"),
-                TestCase( "result", typeof(object), LNull.Instance,      func + "result = order( 1, 300, null, at: $45.50, on: Aug 2nd 2012 at 9:30 am, using: 'default pricing' )"),
+                TestCase( "result", typeof(object), LObjects.Null,      func + "result = order( 0, amount: null, of: 'ibm', at: $45.50, on: Aug 2nd 2012 at 9:30 am, using: 'default pricing' )"),
+                TestCase( "result", typeof(object), LObjects.Null,      func + "result = order( 1, 300, null, at: $45.50, on: Aug 2nd 2012 at 9:30 am, using: 'default pricing' )"),
                 TestCase( "result", typeof(double), 300,                 func + "result = order( 0, amount: 300, of: 'ibm', at: $45.50, on: Aug 2nd 2012 at 9:30 am, using: 'default pricing' )"),
                 TestCase( "result", typeof(string), "ibm",               func + "result = order( 1, 300, of: 'ibm', at: $45.50, on: Aug 2nd 2012 at 9:30 am, using: 'default pricing' )"),
                 TestCase( "result", typeof(double), 45.50,               func + "result = order( 2, 300, 'ibm', at: $45.50, on: Aug 2nd 2012 at 9:30 am, using: 'default pricing' )"),

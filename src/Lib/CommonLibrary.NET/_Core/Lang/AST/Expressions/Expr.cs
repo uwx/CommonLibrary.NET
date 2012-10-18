@@ -72,8 +72,10 @@ namespace ComLib.Lang.AST
             object result = Evaluate();
 
             // Evalulate<bool>() converting null to true.
-            if (result == LNullType.Instance && typeof(T) == typeof(bool))
+            if (result == LObjects.Null && typeof(T) == typeof(bool))
                 return default(T);
+            if (result is LObject)
+                return (T)Convert.ChangeType(((LObject) result).GetValue(), typeof(T), null);
 
             return (T)Convert.ChangeType(result, typeof(T), null);
         }

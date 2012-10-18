@@ -37,6 +37,9 @@ namespace ComLib.Lang.Helpers
         /// <param name="val"></param>
         public static LObject ConvertToLangValue(object val)
         {
+            if (val == null)
+                return LObjects.Null;
+
             if (val.GetType() == typeof(int))       
                 return new LNumber(Convert.ToDouble(val));
             
@@ -52,7 +55,17 @@ namespace ComLib.Lang.Helpers
             if (val.GetType() == typeof(TimeSpan))
                 return new LTime((TimeSpan)val);
 
-            return new LBool((bool)val);
+            if (val.GetType() == typeof(bool))
+                return new LBool((bool)val);
+
+            if (val.GetType() == typeof(List<object>))
+                return new LArray((List<object>)val);
+            
+            if (val.GetType() == typeof(Dictionary<string, object>))
+                return new LMap((Dictionary<string, object>)val);
+
+            // object
+            return new LClass(val);
         }
 
         
@@ -126,25 +139,31 @@ namespace ComLib.Lang.Helpers
             for (int ndx = 0; ndx < args.Count; ndx++)
             {
                 var val = args[ndx];
-                if (val == null)
-                    args[ndx] = LNullType.NullResult;
-                else if (val.GetType() == typeof(int))
-                    args[ndx] = new LTypeValue(Convert.ToDouble(val), LTypes.Number);
-                else if (val.GetType() == typeof(double))
-                    args[ndx] = new LTypeValue(val, LTypes.Number);
-                else if (val.GetType() == typeof(string))
-                    args[ndx] = new LTypeValue(val, LTypes.String);
-                else if (val.GetType() == typeof(DateTime))
-                    args[ndx] = new LTypeValue(val, LTypes.Date);
-                else if (val.GetType() == typeof(TimeSpan))
-                    args[ndx] = new LTypeValue(val, LTypes.Time);
-                else if (val.GetType() == typeof(List<object>))
-                    args[ndx] = new LTypeValue(val, LTypes.Array);
-                else if (val.GetType() == typeof(Dictionary<string, object>))
-                    args[ndx] = new LTypeValue(val, LTypes.Map);
-
-                // TODO: Need to handle other types such as List<T>, Dictionary<string, T> etc.
+                args[ndx] = ConvertToLangValue(val);
             }
+        }
+
+
+        /// <summary>
+        /// Converts from c# datatypes to fluentscript datatypes inside
+        /// </summary>
+        /// <param name="args"></param>
+        public static object[] ConvertToArrayOfHostLangValues(object[] args)
+        {
+            if (args == null || args.Length == 0)
+                return args;
+
+            // Convert types from c# types fluentscript compatible types.
+            var convertedItems = new object[args.Length];
+            for (int ndx = 0; ndx < args.Length; ndx++)
+            {
+                var val = args[ndx];
+                if (val is LObject)
+                    convertedItems[ndx] = ((LObject)val).GetValue();
+                else
+                    convertedItems[ndx] = val;
+            }
+            return convertedItems;
         }
 
 
@@ -189,35 +208,25 @@ namespace ComLib.Lang.Helpers
         /// </summary>
         /// <param name="args"></param>
         /// <param name="method">The method for which the parameters need to be converted</param>
-        public static void ConvertArgs(List<object> args, MethodInfo method)
+        public static object[] ConvertArgs(List<object> args, MethodInfo method)
         {
+            var hostLangArgs = new List<object>();
             var parameters = method.GetParameters();
-            if (parameters.Length == 0) return;
+            if (parameters.Length == 0) return hostLangArgs.ToArray();
 
             // For each param
             for (int ndx = 0; ndx < parameters.Length; ndx++)
             {
                 var param = parameters[ndx];
-                var sourceArg = args[ndx] as LTypeValue;
+                var sourceArg = args[ndx] as LObject;
 
-                // types match ? continue to next one.
-                if (    (sourceArg.Type == LTypes.Number && param.ParameterType == typeof(double))
-                     || (sourceArg.Type == LTypes.String && param.ParameterType == typeof(string))
-                     || (sourceArg.Type == LTypes.Bool && param.ParameterType == typeof(bool)) 
-                    )
-                    continue;
-
-                // 1. Double to Int32
-                if (sourceArg.Type == LTypes.Number && param.ParameterType == typeof(int))
-                    sourceArg.Result = Convert.ToInt32(sourceArg);
-
-                // 2. Double to Int32
-                else if (sourceArg.Type == LTypes.Number && param.ParameterType == typeof(long))
-                    sourceArg.Result = Convert.ToInt64(sourceArg);
-
-                // 3. Null
-                else if (sourceArg.Type == LTypes.Null)
-                    sourceArg.Result = LangTypeHelper.GetDefaultValue(param.ParameterType);
+                // Null
+                if (sourceArg == LObjects.Null)
+                    hostLangArgs.Add(LangTypeHelper.GetDefaultValue(param.ParameterType));
+                
+                // Array or Map
+                else if (sourceArg.Type.IsBasicType())
+                    hostLangArgs.Add(sourceArg.GetValue());
 
                 // 4. LArrayType
                 else if (sourceArg.Type == LTypes.Array && param.ParameterType.IsGenericType)
@@ -225,10 +234,11 @@ namespace ComLib.Lang.Helpers
                     var gentype = param.ParameterType.GetGenericTypeDefinition();
                     if (gentype == typeof(List<>) || gentype == typeof(IList<>))
                     {
-                        args[ndx] = ConvertToTypedList((List<object>)sourceArg.Result, param.ParameterType);
+                        args[ndx] = ConvertToTypedList((List<object>)sourceArg.GetValue(), param.ParameterType);
                     }
                 }
             }
+            return hostLangArgs.ToArray();
         } 
 
 

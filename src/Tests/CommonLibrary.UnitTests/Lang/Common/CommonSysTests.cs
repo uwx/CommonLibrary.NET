@@ -16,7 +16,7 @@ namespace ComLib.Lang.Tests.Common
         public static TestCases While = new TestCases()
         {
             Name = "While Plugin",
-            RequiredPlugins = new[] { typeof(WhilePlugin) },
+            RequiredPlugins = new Type[0],
             Positive = new List<Tuple<string, Type, object, string>>()
             { 
                 // 1. parenthesis - no braces

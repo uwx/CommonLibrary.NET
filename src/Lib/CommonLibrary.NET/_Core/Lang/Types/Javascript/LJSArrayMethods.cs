@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using ComLib.Lang.Helpers;
 
 
 namespace ComLib.Lang.Types
@@ -43,7 +44,7 @@ namespace ComLib.Lang.Types
             AddArg("join",         "separator",    "string",   false,     "",     ",",        "abc",          "The separator to be used. If omitted, the elements are separated with a comma");
             AddArg("lastIndexOf",  "item",         "object",   true,      "",     null,       "abc",          "The item to search for");
             AddArg("lastIndexOf", 	"start",       "int",      false,     "",     0,          "0 | 4",        "Where to start the search. Negative values will start at the given position counting from the end, and search to the beginning");
-            AddArg("push",         "items",        "list",     true,      "",     null,       "abc",          "The items(s) to add to the array");
+            AddArg("push",         "items",        "params",     true,      "",     null,       "abc",          "The items(s) to add to the array");
             AddArg("slice",        "start",        "int",      true,      "",     null,       "0",            "An integer that specifies where to start the selection (The first element has an index of 0). Use negative numbers to select from the end of an array");
             AddArg("slice",        "end",          "int",      false,     "",     null,       "1",            "An integer that specifies where to end the selection. If omitted, all elements from the start position and to the end of the array will be selected. Use negative numbers to select from the end of an array");
             AddArg("sort",         "sortfunction", "function", false,     "",     "",         "",             "The function that defines the sort order");
@@ -140,8 +141,8 @@ namespace ComLib.Lang.Types
             var total = list.Count;
             for(var ndx = start; ndx < total; ndx++)
             {
-                var itemAt = list[ndx];
-                if (itemAt == item)
+                var itemAt = list[ndx] as LObject;
+                if (itemAt != null && itemAt.GetValue() == item)
                 {
                     foundPos = ndx;
                     break;
@@ -165,13 +166,15 @@ namespace ComLib.Lang.Types
 
             var buffer = new StringBuilder();
             var total = list.Count;
-            
-            buffer.Append(list[0]);
+            var lobj = list[0] as LObject;
+            if (lobj != null)
+                buffer.Append(lobj.GetValue());
             if (total > 1)
             {
                 for (int ndx = 1; ndx < list.Count; ndx++)
                 {
-                    buffer.Append(separator + list[ndx]);
+                    lobj = list[ndx] as LObject;
+                    buffer.Append(separator + lobj.GetValue());
                 }
             }
             string result = buffer.ToString();
@@ -194,8 +197,8 @@ namespace ComLib.Lang.Types
             var total = list.Count;
             for(var ndx = start; ndx < total; ndx++)
             {
-                var itemAt = list[ndx];
-                if (itemAt == item)
+                var itemAt = list[ndx] as LObject;
+                if (itemAt != null && itemAt.GetValue() == item)
                 {
                     foundPos = ndx;
                 }
@@ -232,7 +235,10 @@ namespace ComLib.Lang.Types
             // Add
             var list = target.GetValue() as IList;
             foreach (object elem in elements)
-                list.Add(elem);
+            {
+                var langType = LangTypeHelper.ConvertToLangValue(elem);
+                list.Add(langType);
+            }
 
             return list.Count;
         }

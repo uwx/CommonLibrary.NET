@@ -72,7 +72,9 @@ namespace ComLib.Lang.AST
                 return result;
             }
             // CASE 2: Custom types e.g. custom classes.
-            return Ctx.Types.Create(TypeName, constructorArgs);
+            var hostLangArgs = LangTypeHelper.ConvertToArrayOfHostLangValues(constructorArgs);
+            var instance = Ctx.Types.Create(TypeName, hostLangArgs);
+            return new LClass(instance);
         }
     }
 }

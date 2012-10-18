@@ -50,7 +50,9 @@ namespace ComLib.Lang.Helpers
             }
 
             // CASE 4: Method / Property on External/Host language type (C#)
-            var member = MemberHelper.GetExternalTypeMember(node, null, variableName, null, memberName, true);
+            var lclass = obj as LClass;
+            var lclassType = lclass.Type as LClassType;
+            var member = MemberHelper.GetExternalTypeMember(node, lclassType.DataType, variableName, lclass.Value, memberName, false);
             return member;
         }
 

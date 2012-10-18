@@ -280,7 +280,7 @@ namespace ComLib.Lang.Types
         /// <returns></returns>
         public virtual object GetByNumericIndex(LObject target, int index)
         {
-            return LNull.Instance;
+            return LObjects.Null;
         }
 
 
@@ -292,7 +292,7 @@ namespace ComLib.Lang.Types
         /// <returns></returns>
         public virtual object GetByStringMember(LObject target, string member)
         {
-            return LNull.Instance;
+            return LObjects.Null;
         }
 
 
@@ -390,7 +390,10 @@ namespace ComLib.Lang.Types
             else if(hasParams )
             {
                 for (var ndx = 0; ndx < parameters.Length; ndx++)
-                    methodArgs.Add(parameters[ndx]);
+                {
+                    var val = ((LObject) parameters[ndx]).GetValue();
+                    methodArgs.Add(val);
+                }
             }
             
             var methodParams = methodArgs.ToArray();
