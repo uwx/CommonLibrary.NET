@@ -220,8 +220,8 @@ namespace ComLib.Lang.Plugins
         /// <returns></returns>
         public override object Evaluate()
         {
-            var array = _source.Evaluate() as LTypeValue;
-            var items = array.Result as List<object>;
+            var array = _source.Evaluate() as LObject;
+            var items = array.GetValue() as List<object>;
             var results = new List<object>();
 
             for (int ndx = 0; ndx < items.Count; ndx++)
@@ -234,7 +234,7 @@ namespace ComLib.Lang.Plugins
                     results.Add(val);
                 }
             }
-            return new LTypeValue(results, LTypes.Array);
+            return new LArray(results);
         }
     }
 }
