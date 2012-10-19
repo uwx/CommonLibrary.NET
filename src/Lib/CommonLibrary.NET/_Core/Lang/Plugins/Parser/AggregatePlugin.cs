@@ -6,6 +6,7 @@ using System.Text;
 // <lang:using>
 using ComLib.Lang.Core;
 using ComLib.Lang.AST;
+using ComLib.Lang.Helpers;
 using ComLib.Lang.Types;
 using ComLib.Lang.Parsing;
 // </lang:using>
@@ -158,32 +159,47 @@ namespace ComLib.Lang.Plugins
         /// <returns></returns>
         public override object Evaluate()
         {
-            var dataSource = _source.Evaluate() as LTypeValue;
+            var dataSource = _source.Evaluate() as LObject;
+            ExceptionHelper.AssertNotNull(this, dataSource, "aggregation(min/max)");
+            
             List<object> items = null;
 
             // Get the right type of list.
             if (dataSource.Type == LTypes.Array)
-                items = dataSource.Result as List<object>;
+                items = dataSource.GetValue() as List<object>;
             else
                 throw new NotSupportedException(_aggregateType + " not supported for list type of " + dataSource.GetType());
 
             double val = 0;
             if (_aggregateType == "sum")
-                val = items.Sum(item => item == null ? 0 : Convert.ToDouble(item));
+                val = items.Sum(item => GetValue(item));
 
             else if (_aggregateType == "avg")
-                val = items.Average(item => item == null ? 0 : Convert.ToDouble(item));
+                val = items.Average(item => GetValue(item));
 
             else if (_aggregateType == "min")
-                val = items.Min(item => item == null ? 0 : Convert.ToDouble(item));
+                val = items.Min(item => GetValue(item));
 
             else if (_aggregateType == "max")
-                val = items.Max(item => item == null ? 0 : Convert.ToDouble(item));
+                val = items.Max(item => GetValue(item));
 
             else if (_aggregateType == "count" || _aggregateType == "number")
                 val = items.Count;
-            
-            return val;
+
+            return new LNumber(val);
+        }
+
+
+        private double GetValue(object item)
+        {
+            // Check 1: Null
+            if (item == LObjects.Null) return 0;
+            var lobj = (LObject) item;
+
+            // Check 2: Number ? ok
+            if (lobj.Type == LTypes.Number) return ((LNumber) lobj).Value;
+
+            return 0;
         }
     }
 }

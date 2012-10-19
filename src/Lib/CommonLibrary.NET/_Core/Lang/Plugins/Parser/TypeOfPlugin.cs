@@ -6,6 +6,7 @@ using System.Text;
 // <lang:using>
 using ComLib.Lang.Core;
 using ComLib.Lang.AST;
+using ComLib.Lang.Helpers;
 using ComLib.Lang.Types;
 using ComLib.Lang.Parsing;
 // </lang:using>
@@ -132,25 +133,18 @@ namespace ComLib.Lang.Plugins
                     return "function:" + name;
             }
             var obj = _exp.Evaluate();
-            object result = null;
-            if (obj == null)
-                return typeof(LNullType);
+            ExceptionHelper.AssertNotNull(this, obj, "typeof");
+            var lobj = (LObject) obj;
+            var typename = lobj.Type.Name;
 
-            if (obj is string) result = "string";
-            else if (obj is DateTime) result = "datetime";
-            else if (obj is TimeSpan) result = "time";
-            else if (obj is bool) result = "boolean";
-            else if (obj is int || obj is long) result = "number";
-            else if (obj is float || obj is double || obj is decimal) result = "number";
-            else if (obj is LArrayType) result = "object:list";
-            else if (obj is LMapType) result = "object:map";
-            else
-            {
-                var fullname = obj.GetType().FullName;
-                result = "object:" + fullname;
-            }
+            if (lobj.Type == LTypes.Array || lobj.Type == LTypes.Map)
+                typename = "object:" + typename;
+            else if (lobj.Type == LTypes.Bool)
+                typename = "boolean";
+            else if (lobj.Type.TypeVal == TypeConstants.LClass)
+                typename = "object:" + lobj.Type.FullName;
 
-            return result;
+            return new LString(typename);
         }
     }
 }

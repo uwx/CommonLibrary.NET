@@ -99,7 +99,7 @@ namespace ComLib.Lang.Plugins
         /// <returns></returns>
         public override Expr Parse(object context)
         {
-            ConstantExpr constExp = context as ConstantExpr;
+            var constExp = context as ConstantExpr;
             var ctx = _parser.Context;
 
             var percentToken = _tokenIt.Peek(1);

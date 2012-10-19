@@ -162,7 +162,7 @@ namespace ComLib.Lang.Plugins
 
                 // Push the scope in the catch block
                 Ctx.Memory.Push();
-                Ctx.Memory.SetValue(ErrorName, LError.FromException(ex));
+                Ctx.Memory.SetValue(ErrorName, new LClass(LError.FromException(ex)));
 
                 // Run statements in catch block.
                 if (Catch != null && Catch.Statements.Count > 0)
@@ -177,7 +177,7 @@ namespace ComLib.Lang.Plugins
                 // Pop the catch scope in case there was an error.
                 if (!catchScopePopped) Ctx.Memory.Remove(ErrorName);
             }
-            return LNullType.Instance;
+            return LObjects.Null;
         }
     }    
 }

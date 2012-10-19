@@ -6,7 +6,10 @@ using System.Text;
 // <lang:using>
 using ComLib.Lang.Core;
 using ComLib.Lang.AST;
+using ComLib.Lang.Helpers;
 using ComLib.Lang.Parsing;
+using ComLib.Lang.Types;
+
 // </lang:using>
 
 namespace ComLib.Lang.Plugins
@@ -154,14 +157,10 @@ namespace ComLib.Lang.Plugins
         public override object DoEvaluate()
         {
             var result = _exp.Evaluate();
-            double val = 0;
-            if (result is double)
-                val = Convert.ToDouble(result);
-            else if (result is int)
-                val = Convert.ToDouble(result);
-            else
-                throw new LangException("runtime", "Unexpected type to round", this.Ref.ScriptName, this.Ref.Line, this.Ref.CharPos);
+            ExceptionHelper.AssertNotNull(this, result, "rounding");
+            ExceptionHelper.AssertType(this, result, LTypes.Number);
 
+            var val = ((LNumber) result).Value;
             if (_mode == RoundPlugin.RoundMode.Round)
             {
                 var d = Convert.ToDouble(val + .5);
@@ -173,7 +172,7 @@ namespace ComLib.Lang.Plugins
             else if (_mode == RoundPlugin.RoundMode.RoundUp)
                 val = Math.Ceiling(val);
 
-            return val;
+            return new LNumber(val);
         }
     }
 }

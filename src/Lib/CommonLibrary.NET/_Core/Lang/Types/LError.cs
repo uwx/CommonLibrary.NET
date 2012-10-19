@@ -10,8 +10,16 @@ namespace ComLib.Lang.Types
     /// <summary>
     /// Error class for exceptions in the language.
     /// </summary>
-    public class LError : LObjectType
+    public class LError : LObject
     {
+        /// <summary>
+        /// Initialize
+        /// </summary>
+        public LError()
+        {
+        }
+
+
         /// <summary>
         /// Name of the message
         /// </summary>
@@ -71,12 +79,10 @@ namespace ComLib.Lang.Types
                 return error;
             }
             // Create new instance of language error.
-            error = new LError()
-            {
-                name = string.Empty,
-                message = exc.Message,
-                StackTrace = exc.StackTrace
-            };
+            error = new LError();
+            error.name = string.Empty;
+            error.message = exc.Message;
+            error.StackTrace = exc.StackTrace;
             return error;
         }
     }

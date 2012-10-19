@@ -217,8 +217,6 @@ namespace ComLib.Lang.Tests.Common
                     if (stmt.Item1 != null)
                     {
                         object obj = i.Memory[stmt.Item1];
-                        if (obj is LObject && obj != LObjects.Null)
-                            obj = ((LObject) obj).GetValue();
                         Compare(obj, stmt.Item3); 
                     }
                     if (replaceSemicolonsWithNewLines)
@@ -233,8 +231,6 @@ namespace ComLib.Lang.Tests.Common
                         if (stmt.Item1 != null)
                         {
                             object obj = i.Memory[stmt.Item1];
-                            if (obj is LObject && obj != LObjects.Null)
-                                obj = ((LObject)obj).GetValue();
                             Compare(obj, stmt.Item3); 
                         }
                     }
@@ -247,8 +243,18 @@ namespace ComLib.Lang.Tests.Common
         }
 
 
-        private void Compare(object actual, object expected)
+        protected void CompareExpected(object expected, object actual )
         {
+            Compare(actual, expected);
+        }
+
+
+
+        protected void Compare(object actual, object expected)
+        {
+            if (actual is LObject && actual != LObjects.Null)
+                actual = ((LObject)actual).GetValue();
+
             if (actual is DateTime)
             {
                 DateTime d1 = (DateTime)actual;

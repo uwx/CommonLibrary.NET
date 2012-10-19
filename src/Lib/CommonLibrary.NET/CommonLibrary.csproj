@@ -525,6 +525,8 @@
     <Compile Include="_Core\Lang\AST\Expressions\VariableExpr.cs" />
     <Compile Include="_Core\Lang\AST\Expressions\IParameterExpression.cs" />
     <Compile Include="_Core\Lang\Helpers\AssignHelper.cs" />
+    <Compile Include="_Core\Lang\Helpers\LogHelper.cs" />
+    <Compile Include="_Core\Lang\Helpers\ExceptionHelper.cs" />
     <Compile Include="_Core\Lang\Helpers\MemberHelper.cs" />
     <Compile Include="_Core\Lang\Helpers\EvalHelper.cs" />
     <Compile Include="_Core\Lang\Helpers\ParamHelper.cs" />
@@ -535,7 +537,6 @@
     <Compile Include="_Core\Lang\Parser\Core\Limits.cs" />
     <Compile Include="_Core\Lang\Types\Javascript\LJSTimeMethods.cs" />
     <Compile Include="_Core\Lang\Types\LDayOfWeek.cs" />
-    <Compile Include="_Core\Lang\Types\LTypeValue.cs" />
     <Compile Include="_Core\Lang\Types\LClass.cs" />
     <Compile Include="_Core\Lang\Types\LTime.cs" />
     <Compile Include="_Core\Lang\Types\LTypeMethods.cs" />

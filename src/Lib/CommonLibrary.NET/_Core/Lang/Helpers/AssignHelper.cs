@@ -67,7 +67,7 @@ namespace ComLib.Lang.Helpers
             // 3. Evaluate expression to get index info.
             var memAccess = varExp.Evaluate() as MemberAccess;
             if (memAccess == null)
-                throw BuildRunTimeException(node, "Value to assign is null");
+                throw ExceptionHelper.BuildRunTimeException(node, "Value to assign is null");
 
             // Case 1: Set member on basic type
             if (memAccess.Type != null)
@@ -112,7 +112,7 @@ namespace ComLib.Lang.Helpers
             // 3. Evaluate expression to get index info.
             var indexExp = varExp.Evaluate() as IndexAccess;
             if (indexExp == null)
-                throw BuildRunTimeException(node, "Value to assign is null");
+                throw ExceptionHelper.BuildRunTimeException(node, "Value to assign is null");
 
             // 4. Get the target of the index access and the name / number to set.
             var target = indexExp.Instance;
@@ -133,16 +133,6 @@ namespace ComLib.Lang.Helpers
                 var name = ((LString) memberNameOrIndex).Value;
                 methods.SetByStringMember(target, name, val);
             }
-        }
-
-
-        /// <summary>
-        /// Build a language exception due to the current token being invalid.
-        /// </summary>
-        /// <returns></returns>
-        public static LangException BuildRunTimeException(AstNode node, string message)
-        {
-            return new LangException("Runtime Error", message, node.Ref.ScriptName, node.Ref.Line, node.Ref.CharPos);
         }
     }
 }

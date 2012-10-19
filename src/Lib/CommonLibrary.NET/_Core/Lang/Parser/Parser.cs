@@ -443,7 +443,7 @@ namespace ComLib.Lang.Parsing
                 if (token.IsLiteralAny())
                 {
                     exp = token == Tokens.Null
-                        ? new ConstantExpr(LNullType.Instance)
+                        ? new ConstantExpr(LObjects.Null)
                         : new ConstantExpr(token.Value);
                     exp.Ctx = _context;
                     _state.ExpressionCount++;

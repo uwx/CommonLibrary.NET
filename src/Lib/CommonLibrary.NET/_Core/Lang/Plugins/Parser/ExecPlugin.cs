@@ -152,7 +152,7 @@ namespace ComLib.Lang.Plugins
                     throw BuildRunTimeException(error);
                 }
             }
-            return LNullType.Instance;
+            return LObjects.Null;
         }
     }
 }

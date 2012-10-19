@@ -42,17 +42,5 @@ namespace ComLib.Lang.Types
         {
             this.SetDefaultConversionMatrix(TypeConversionMode.NotSupported);
         }
-
-
-        /// <summary>
-        /// Singleton instance.
-        /// </summary>
-        public static readonly LNullType Instance = new LNullType();
-
-
-        /// <summary>
-        /// Used for null values returned from ast evaulations.
-        /// </summary>
-        public static LTypeValue NullResult = new LTypeValue(null, new LNullType());
     }
 }

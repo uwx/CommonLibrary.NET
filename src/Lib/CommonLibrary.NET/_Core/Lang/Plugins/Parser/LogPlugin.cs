@@ -376,7 +376,7 @@ namespace ComLib.Lang.Plugins
                 return;
 
             // Good to log.
-            string message = FunctionHelper.BuildMessage(ParamList);
+            string message = LogHelper.BuildMessage(ParamList);
             if (settings.OutputMode == LogPluginConstants.Console)
                 Console.WriteLine(LogLevel + " : " + message);
             else if (settings.OutputMode == LogPluginConstants.Callback)

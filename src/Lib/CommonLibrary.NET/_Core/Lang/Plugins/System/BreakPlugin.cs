@@ -88,7 +88,7 @@ namespace ComLib.Lang.Plugins
             if (loop == null) throw new LangException("syntax error", "unable to break, loop not found", string.Empty, 0);
 
             loop.Break();
-            return LNullType.Instance;
+            return LObjects.Null;
         }
     }
 }

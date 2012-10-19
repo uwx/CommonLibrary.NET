@@ -158,7 +158,7 @@ namespace ComLib.Lang.Plugins
 
                 _continueRunning = Condition.EvaluateAs<bool>();
             }
-            return LNullType.Instance;
+            return LObjects.Null;
         }
 
 

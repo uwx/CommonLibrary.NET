@@ -6,6 +6,7 @@ using System.Text;
 // <lang:using>
 using ComLib.Lang.Core;
 using ComLib.Lang.AST;
+using ComLib.Lang.Helpers;
 using ComLib.Lang.Types;
 using ComLib.Lang.Parsing;
 // </lang:using>
@@ -100,7 +101,7 @@ namespace ComLib.Lang.Plugins
             var parent = this.FindParent<FunctionExpr>();
             if (parent == null) throw new LangException("syntax error", "unable to return, parent not found", string.Empty, 0);
 
-            object result = Exp == null ? null : Exp.Evaluate();
+            object result = this.Exp == null ? LObjects.Null : Exp.Evaluate();
             bool hasReturnVal = Exp != null;
             parent.Return(result, hasReturnVal);
             return LObjects.Null;

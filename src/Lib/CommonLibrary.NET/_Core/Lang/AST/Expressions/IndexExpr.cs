@@ -59,32 +59,25 @@ namespace ComLib.Lang.AST
         /// <returns></returns>
         public override object DoEvaluate()
         {
-            object result = null;
             var ndxVal = IndexExp.Evaluate();
-            
-            // Either get from scope or from exp.
-            if (VariableExp is VariableExpr)
-                this.ListObject = Ctx.Memory.Get<object>(((VariableExpr)VariableExp).Name);
-            else
-                this.ListObject = VariableExp.Evaluate();
+            this.ListObject = VariableExp.Evaluate();
 
-            var lobj = LObjects.Empty;
-            if (this.ListObject != null)
-                lobj = (LObject)this.ListObject;
+            // Check for empty objects.
+            ExceptionHelper.AssertNotNull(this, this.ListObject, "indexing");
+            ExceptionHelper.AssertNotNull(this, ndxVal, "indexing");
 
-            // Check for null
-            if (ndxVal == null)
-                throw BuildRunTimeException("Unable to index with null value");
+            var lobj = (LObject)this.ListObject;
 
-            // 1. Access 
+            // CASE 1. Access 
             //      e.g. Array: users[0] 
             //      e.g. Map:   users['total']
             if(!this.IsAssignment)
             {
-                result = EvalHelper.AccessIndex(this.Ctx.Methods, this, lobj, (LObject)ndxVal);
+                var result = EvalHelper.AccessIndex(this.Ctx.Methods, this, lobj, (LObject)ndxVal);
                 return result;
             }
-            // 2. Assignment
+
+            // CASE 2.  Assignment
             //      e.g. Array: users[0]        = 'john'
             //      e.g. Map:   users['total']  = 200
             // NOTE: In this case of assignment, return back a MemberAccess object descripting what is assign

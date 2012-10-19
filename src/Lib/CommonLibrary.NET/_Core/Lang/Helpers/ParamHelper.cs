@@ -5,6 +5,7 @@ using System.Reflection;
 
 using ComLib.Lang.AST;
 using ComLib.Lang.Core;
+using ComLib.Lang.Types;
 
 
 namespace ComLib.Lang.Helpers
@@ -46,6 +47,29 @@ namespace ComLib.Lang.Helpers
             {
                 object val = exp.Evaluate();
                 paramList.Add(val);
+            }
+        }
+
+
+        /// <summary>
+        /// Resolve the parameters in the function call.
+        /// </summary>
+        public static void ResolveParametersToHostLangValues(List<Expr> paramListExpressions, List<object> paramList)
+        {
+            if (paramListExpressions == null || paramListExpressions.Count == 0)
+                return;
+
+            paramList.Clear();
+            foreach (var exp in paramListExpressions)
+            {
+                var val = exp.Evaluate();
+                if(val is LObject)
+                {
+                    var converted = ((LObject)val).GetValue();
+                    paramList.Add(converted);
+                }
+                else
+                    paramList.Add(val);
             }
         }
         

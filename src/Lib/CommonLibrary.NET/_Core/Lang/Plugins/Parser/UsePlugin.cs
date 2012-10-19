@@ -194,7 +194,7 @@ namespace ComLib.Lang.Plugins
             scriptParser.Parse(script);
             Parser parser = null;
             parser.Statements.AddRange(scriptParser.Statements);
-            return LNullType.Instance;
+            return LObjects.Null;
         }        
     }
 }

@@ -384,6 +384,11 @@ namespace ComLib.Lang.Types
                     {
                         methodArgs.Add(arg.DefaultValue);
                     }
+                    // 4. Not required and extra params
+                    else if(!isRequired && arg.DefaultValue == null && arg.Name == "params" && ndx >= parameters.Length)
+                    {
+                        methodArgs.Add(null);
+                    }
                     ndx++;
                 }
             }

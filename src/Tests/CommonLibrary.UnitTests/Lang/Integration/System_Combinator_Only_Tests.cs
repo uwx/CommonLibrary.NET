@@ -495,6 +495,22 @@ namespace ComLib.Lang.Tests.Integration.System
 
 
 
+    [TestFixture]
+    public class Script_Tests_TryCatch :ScriptTestsBase
+    {
+        [Test]
+        public void Can_Do_Try_Catch()
+        {
+            var testcases = new List<Tuple<string, Type, object, string>>()
+            {
+                TestCase("result", typeof(string), "test error", "var result = 'default'; try { throw 'test error'; } catch(err) { result = err.message; }")
+            };
+            Parse(testcases);
+        }
+    }
+
+
+
 
     [TestFixture]
     public class Script_Tests_Parenthesis : ScriptTestsBase
@@ -751,39 +767,35 @@ namespace ComLib.Lang.Tests.Integration.System
         [Test]
         public void Can_Make_Calls()
         {
-            var testcases = new List<Tuple<string, Type, object, string>>()
-            {
-                TestCase("result", typeof(double), 1,     "var result = 0; function test()     { return 1;         } result = test();"),
-                TestCase("result", typeof(double), 2,     "var result = 1; function test(a)    { return a + 1;      } result = test(1);"),
-                TestCase("result", typeof(double), 4,     "var result = 2; function test(a)    { return a + result; } result = test(2);"),
-                TestCase("result", typeof(bool), true,    "var result = 1; function test(a)    { return true;       } result = test(1);"),
-                TestCase("result", typeof(bool), false,   "var result = 1; function test(a)    { return false;      } result = test(1);"),
-                TestCase("result", typeof(double), 5,     "var result = 1; function test(a, b) { return a + b;      } result = test(2,3);"),
-                TestCase("result", typeof(double), 3,     "var result = 1; function test(a, b) { return a - b;      } result = test(4,1);"),
-                TestCase("result", typeof(string), "com", "var result = 1; function test()     { return 'com';      } result = test();")
-            };
-            Parse(testcases);
+            var suite = new LangTestSuite()
+                .TestCase("result", typeof(double), 1,   "var result = 0; function test()     { return 1;          } result = test();")
+                .TestCase("result", typeof(double), 2,   "var result = 1; function test(a)    { return a + 1;      } result = test(1);")
+                .TestCase("result", typeof(double), 4,   "var result = 2; function test(a)    { return a + result; } result = test(2);")
+                .TestCase("result", typeof(bool), true,  "var result = 1; function test(a)    { return true;       } result = test(1);")
+                .TestCase("result", typeof(bool), false, "var result = 1; function test(a)    { return false;      } result = test(1);")
+                .TestCase("result", typeof(double), 5,   "var result = 1; function test(a, b) { return a + b;      } result = test(2,3);")
+                .TestCase("result", typeof(double), 3,   "var result = 1; function test(a, b) { return a - b;      } result = test(4,1);")
+                .TestCase("result", typeof(string),"com","var result = 1; function test()     { return 'com';      } result = test();");
+            
+            Parse(suite.Tests);
         }
 
 
         [Test]
         public void Can_Make_Calls_Without_Parenthesis()
         {
-            var testcases = new List<Tuple<string, Type, object, string>>()
-            {
-                TestCase("result", typeof(double), 1,     "var result = 0; function test()        { return 1;          } result = test;"),
-                TestCase("result", typeof(double), 2,     "var result = 1; function inc(a)        { return a + 1;      } result = inc 1;"),
-                TestCase("result", typeof(double), 4,     "var result = 2; function addr(a)       { return a + result; } result = addr 2;"),                
-                TestCase("result", typeof(double), 3,     "var result = 1; function add2(a, b)    { return a + b;      } result = add2 1, 2;"),
-                TestCase("result", typeof(double), 6,     "var result = 1; function add3(a, b, c) { return a + b + c;  } result = add3 1, 2, 3;"),
-
-                TestCase("result", typeof(double), 1,     "var result = 0; function test()        { return 1;          } result = test;"),
-                TestCase("result", typeof(double), 3,     "var result = 1; function inc(a)        { return a + 1;      } result = inc inc(1);"),
-                TestCase("result", typeof(double), 6,     "var result = 2; function addr(a)       { return a + result; } result = addr addr(2);"),                
-                TestCase("result", typeof(double), 5,     "var result = 1; function add2(a, b)    { return a + b;      } result = add2 add2(1,2), 2;"),
-                TestCase("result", typeof(double), 14,    "var result = 1; function add3(a, b, c) { return a + b + c;  } result = add3 add3(1,2,1), 2, add3(2,3,3);")
-            };
-            Parse(testcases);
+            var suite = new LangTestSuite()
+                 .TestCase("result", typeof(double), 1, "var result = 0; function test()        { return 1;          } result = test;")
+                 .TestCase("result", typeof(double), 2, "var result = 1; function inc(a)        { return a + 1;      } result = inc 1;")
+                 .TestCase("result", typeof(double), 4, "var result = 2; function addr(a)       { return a + result; } result = addr 2;")
+                 .TestCase("result", typeof(double), 3, "var result = 1; function add2(a, b)    { return a + b;      } result = add2 1, 2;")
+                 .TestCase("result", typeof(double), 6, "var result = 1; function add3(a, b, c) { return a + b + c;  } result = add3 1, 2, 3;")
+                 .TestCase("result", typeof(double), 1, "var result = 0; function test()        { return 1;          } result = test;")
+                 .TestCase("result", typeof(double), 3, "var result = 1; function inc(a)        { return a + 1;      } result = inc inc(1);")
+                 .TestCase("result", typeof(double), 6, "var result = 2; function addr(a)       { return a + result; } result = addr addr(2);")
+                 .TestCase("result", typeof(double), 5, "var result = 1; function add2(a, b)    { return a + b;      } result = add2 add2(1,2), 2;")
+                 .TestCase("result", typeof(double), 14, "var result = 1; function add3(a, b, c) { return a + b + c;  } result = add3 add3(1,2,1), 2, add3(2,3,3);");
+            Parse(suite.Tests);
         }
 
 
@@ -796,17 +808,6 @@ namespace ComLib.Lang.Tests.Integration.System
                 TestCase("result", typeof(double), 3, "var result = 0; function inc(a) { return a + 1; }  if( inc(inc(1)) == 3 ) result = 3;"),
                 TestCase("result", typeof(double), 1, "var result = 0; function inc(a) { return a + 1; }  if( inc(1) == 2 ) result = 1;"),
                 TestCase("result", typeof(double), 2, "var result = 0; var b = 0; function inc(a) { return a + 1; }  while( inc(b) < 3 ){ b++; result = b;}")
-            };
-            Parse(testcases);
-        }
-
-
-        [Test]
-        public void Can_Do_Try_Catch()
-        {
-            var testcases = new List<Tuple<string, Type, object, string>>()
-            {
-                TestCase("result", typeof(string), "test error", "var result = 'default'; try { throw 'test error'; } catch(err) { result = err.message; }")
             };
             Parse(testcases);
         }
@@ -859,15 +860,16 @@ namespace ComLib.Lang.Tests.Integration.System
         public void Can_Make_Calls_With_Mixed_Types()
         {
             string text = "function add(name, age, date, ids, isActive, addy) { var result2 = name + age + isActive + date + ids[1] + addy.City; return result2; }"
-                        + "var result = add('john', 30.5, new Date(), [10,11,12], true, { City: 'Queens', State: 'NY' });"; 
+                        + "var result = add('john', 30.5, new Date(), [10,11,12], true, { City: 'Queens', State: 'NY' });";
+            Console.WriteLine(text);
             var i = new Interpreter();
             i.Execute(text);
-            var result = i.Memory.Get<string>("result");
-
+            var result = i.Memory.Get<object>("result") as LObject;
+            var actual = ((LString) result).Value;
             // john30.5true8/17/2011 3:14:25 PM11Queens
-            Assert.IsTrue(result.StartsWith("john30.5true"));
-            Assert.IsTrue(result.EndsWith("11Queens"));
-            Assert.IsTrue(result.Contains(DateTime.Now.Date.ToShortDateString()));
+            Assert.IsTrue(actual.StartsWith("john30.5true"));
+            Assert.IsTrue(actual.EndsWith("11Queens"));
+            Assert.IsTrue(actual.Contains(DateTime.Now.Date.ToShortDateString()));
         }
     }
 
@@ -1096,7 +1098,6 @@ namespace ComLib.Lang.Tests.Integration.System
                 TestCase("result", typeof(string),    "nonew@email.com",               "var p = new ComLib.Tests.Person('john', 'doe', 'nonew@email.com', true, 10.56); var result = p.Email;  "),
                 TestCase("result", typeof(string),    "janedallparams@email.comfalse", "var p = new ComLib.Tests.Person('jane', 'd', 'allparams@email.com', false, 10.56, new Date()); var result = p.FirstName + p.LastName + p.Email + p.IsMale;")
             };
-            throw new NotImplementedException();
             Parse(statements, true, (i) => i.Context.Types.Register(typeof(Person), null));
         }
 
@@ -1228,14 +1229,14 @@ namespace ComLib.Lang.Tests.Integration.System
         [Test]
         public void Can_Handle_Non_Existant_Map_Property()
         {
-            ExpectError(new Tuple<string, string, string>("Runtime Error", "Property does not exist", "var user = { name: 'comlib' }; var result = user.firstname;"));
+            ExpectError(new Tuple<string, string, string>("Runtime Error", "firstname does not exist", "var user = { name: 'comlib' }; var result = user.firstname;"));
         }
 
 
         [Test]
         public void Can_Handle_Index_Out_Of_Bounds()
         {
-            ExpectError(new Tuple<string, string, string>("Runtime Error", "Access of list item", "var nums = [1, 2]; var result = nums[2];"));
+            ExpectError(new Tuple<string, string, string>("Runtime Error", "Index out of bounds", "var nums = [1, 2]; var result = nums[2];"));
         }
         
 

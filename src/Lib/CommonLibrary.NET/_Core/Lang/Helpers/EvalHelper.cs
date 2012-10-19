@@ -376,13 +376,19 @@ namespace ComLib.Lang.Helpers
         /// <returns></returns>
         public static LObject AccessIndex(RegisteredMethods regmethods, AstNode node, LObject target, LObject ndxObj)
         {
-            var result = LObjects.Empty;
+            object result = LObjects.Empty;
             // Case 1: Array access users[0];
             if (target.Type == LTypes.Array)
             {
                 var ndx = ((LNumber)ndxObj).Value;
                 var methods = regmethods.Get(LTypes.Array);
-                result = (LObject)methods.GetByNumericIndex(target, (int)ndx);
+
+                // TODO: Make this generic.
+                var length = Convert.ToInt32(methods.ExecuteMethod(target, "length", null));
+                if(ndx >= length)
+                    throw EvalHelper.BuildRunTimeException(node, "Index out of bounds : '" + ndx + "'");
+
+                result = methods.GetByNumericIndex(target, (int)ndx);
             }
             // Case 2: Map access. users["kishore"];
             else if (target.Type == LTypes.Map)
@@ -392,9 +398,14 @@ namespace ComLib.Lang.Helpers
                 if (!methods.HasProperty(target, memberName))
                     throw EvalHelper.BuildRunTimeException(node, "Property does not exist : '" + memberName + "'");
 
-                result = (LObject)methods.GetByStringMember(target, memberName);
+                result = methods.GetByStringMember(target, memberName);
             }
-            return result;
+            // Conver to lang type.
+            if(result != LObjects.Empty && !(result is LObject))
+            {
+                result = LangTypeHelper.ConvertToLangValue(result);
+            }
+            return (LObject)result;
         }
 
 

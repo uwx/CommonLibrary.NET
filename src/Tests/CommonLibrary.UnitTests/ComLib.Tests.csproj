@@ -88,6 +88,7 @@
     <Compile Include="Lang\Component\CombinatorTests.cs" />
     <Compile Include="Lang\Core\Klass.cs" />
     <Compile Include="Lang\Core\ScriptTestsBase.cs" />
+    <Compile Include="Lang\Core\TestSuite.cs" />
     <Compile Include="Lang\Core\User.cs" />
     <Compile Include="Lang\Integration\All_Combinators_Failures.cs" />
     <Compile Include="Lang\Integration\All_Combinators_Tests.cs" />

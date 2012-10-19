@@ -50,14 +50,15 @@ namespace ComLib.Lang.Parsing
         /// <param name="val"></param>
         internal void CheckStringLength(AstNode node, object val)
         {
-            if (val == null || !(val is string)) return;
+            if (val == null || val == LObjects.Null) return;
+            if (!(val is LString)) return;
 
             // Check limit
-            if (_hasSettings && _ctx.Settings.MaxStringLength > 0)
+            if (_hasSettings && _ctx.Settings.MaxScopeStringVariablesLength > 0)
             {
-                string strval = val.ToString();
-                if (strval.Length > _ctx.Settings.MaxStringLength)
-                    throw BuildLimitException(node, "string lenth", _ctx.Settings.MaxStringLength);
+                var strval = ((LString) val).Value;
+                if (strval.Length > _ctx.Settings.MaxScopeStringVariablesLength)
+                    throw BuildLimitException(node, "string lenth", _ctx.Settings.MaxScopeStringVariablesLength);
             }
         }
 

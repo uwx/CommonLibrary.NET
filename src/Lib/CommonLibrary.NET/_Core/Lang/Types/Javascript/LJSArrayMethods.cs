@@ -40,18 +40,18 @@ namespace ComLib.Lang.Types
             //          Method name,    Param name,    Type,     Required   Alias,  Default,    Example         Description
             AddArg("concat", 		"items",       "list",     true,      "",     null,       "'abc', 'def'", "The arrays to be joined");
             AddArg("indexOf", 		"item",        "object",   true,      "",     null,       "abc",          "The item to search for");
-            AddArg("indexOf",      "start",        "int",      false,     "",     0,          "0 | 5",        "Where to start the search. Negative values will start at the given position counting from the end, and search to the end");
-            AddArg("join",         "separator",    "string",   false,     "",     ",",        "abc",          "The separator to be used. If omitted, the elements are separated with a comma");
-            AddArg("lastIndexOf",  "item",         "object",   true,      "",     null,       "abc",          "The item to search for");
+            AddArg("indexOf",       "start",        "int",      false,     "",     0,          "0 | 5",        "Where to start the search. Negative values will start at the given position counting from the end, and search to the end");
+            AddArg("join",          "separator",    "string",   false,     "",     ",",        "abc",          "The separator to be used. If omitted, the elements are separated with a comma");
+            AddArg("lastIndexOf",   "item",         "object",   true,      "",     null,       "abc",          "The item to search for");
             AddArg("lastIndexOf", 	"start",       "int",      false,     "",     0,          "0 | 4",        "Where to start the search. Negative values will start at the given position counting from the end, and search to the beginning");
-            AddArg("push",         "items",        "params",     true,      "",     null,       "abc",          "The items(s) to add to the array");
-            AddArg("slice",        "start",        "int",      true,      "",     null,       "0",            "An integer that specifies where to start the selection (The first element has an index of 0). Use negative numbers to select from the end of an array");
-            AddArg("slice",        "end",          "int",      false,     "",     null,       "1",            "An integer that specifies where to end the selection. If omitted, all elements from the start position and to the end of the array will be selected. Use negative numbers to select from the end of an array");
-            AddArg("sort",         "sortfunction", "function", false,     "",     "",         "",             "The function that defines the sort order");
-            AddArg("splice",       "index",        "int",      true,      "",     null,       "1",            "An integer that specifies at what position to add/remove items, Use negative values to specify the position from the end of the array");
-            AddArg("splice",       "howmany",      "int",      true,      "",     null,       "2",            "The number of items to be removed. If set to 0, no items will be removed");
-            AddArg("splice",       "items",        "list",     false,     "",     null,       "2,3,4",        "The new item(s) to be added to the array");            
-            AddArg("unshift", 		"items",       "list",     true,      "",     null,       "'abc', 'def'", "The item(s) to add to the beginning of the array");
+            AddArg("push",          "items",        "params",     true,      "",     null,       "abc",          "The items(s) to add to the array");
+            AddArg("slice",         "start",        "int",      true,      "",     null,       "0",            "An integer that specifies where to start the selection (The first element has an index of 0). Use negative numbers to select from the end of an array");
+            AddArg("slice",         "end",          "int",      false,     "",     null,       "1",            "An integer that specifies where to end the selection. If omitted, all elements from the start position and to the end of the array will be selected. Use negative numbers to select from the end of an array");
+            AddArg("sort",          "sortfunction", "function", false,     "",     "",         "",             "The function that defines the sort order");
+            AddArg("splice",        "index",        "int",      true,      "",     null,       "1",            "An integer that specifies at what position to add/remove items, Use negative values to specify the position from the end of the array");
+            AddArg("splice",        "howmany",      "int",      true,      "",     null,       "2",            "The number of items to be removed. If set to 0, no items will be removed");
+            AddArg("splice",        "params",        "list",     false,     "",     null,       "2,3,4",        "The new item(s) to be added to the array");            
+            AddArg("unshift", 		"items",        "list",     true,      "",     null,       "'abc', 'def'", "The item(s) to add to the beginning of the array");
         }
 
 
@@ -63,9 +63,9 @@ namespace ComLib.Lang.Types
         /// <returns></returns>
         public override object GetByNumericIndex(LObject target, int index)
         {
-            if (target == null) return LNullType.NullResult;
+            if (target == null) return LObjects.Null;
             var list = target.GetValue() as IList;
-            if (list == null || list.Count == 0) return LNullType.NullResult;
+            if (list == null || list.Count == 0) return LObjects.Null;
 
             if (index < 0 || index >= list.Count) throw new IndexOutOfRangeException("Index : " + index);
             return list[index];
@@ -389,8 +389,8 @@ namespace ComLib.Lang.Types
         /// <returns></returns>
         protected object RemoveRange(IList target, int start, int howmany)
         {
-            if (target == null) return LNullType.Instance;
-            if (target.Count == 0) return LNullType.Instance;
+            if (target == null) return LObjects.Null;
+            if (target.Count == 0) return LObjects.Null;
             var totalRemoved = 0;
             while (totalRemoved < howmany)
             {

@@ -171,12 +171,12 @@ namespace ComLib.Lang.AST
             // 2. It's done here instead because there is no function/method call on a property.
             if (memberAccess.IsPropertyAccessOnBuiltInType())
             {
-                var result = FunctionHelper.CallMemberOnBasicType(this.Ctx, memberAccess, null, null);
+                var result = FunctionHelper.CallMemberOnBasicType(this.Ctx, this, memberAccess, null, null);
                 return result;
             }
             if (memberAccess.IsPropertyAccessOnClass())
             {
-                var result = FunctionHelper.CallMemberOnClass(this.Ctx, memberAccess, null, null);
+                var result = FunctionHelper.CallMemberOnClass(this.Ctx, this, memberAccess, null, null);
                 return result;
             }
             return memberAccess;

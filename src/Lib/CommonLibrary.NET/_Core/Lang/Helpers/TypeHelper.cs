@@ -40,30 +40,39 @@ namespace ComLib.Lang.Helpers
             if (val == null)
                 return LObjects.Null;
 
-            if (val.GetType() == typeof(int))       
+            var type = val.GetType();
+            
+            if (type == typeof(int))       
                 return new LNumber(Convert.ToDouble(val));
             
-            if (val.GetType() == typeof(double))
+            if (type == typeof(double))
                 return new LNumber((double)val);
             
-            if (val.GetType() == typeof(string))
+            if (type == typeof(string))
                 return new LString((string)val);
 
-            if (val.GetType() == typeof(DateTime))
+            if (type == typeof(DateTime))
                 return new LDate((DateTime)val);
 
-            if (val.GetType() == typeof(TimeSpan))
+            if (type == typeof(TimeSpan))
                 return new LTime((TimeSpan)val);
 
-            if (val.GetType() == typeof(bool))
+            if (type == typeof(DayOfWeek))
+                return new LDayOfWeek((DayOfWeek) val);
+
+            if (type == typeof(bool))
                 return new LBool((bool)val);
 
-            if (val.GetType() == typeof(List<object>))
-                return new LArray((List<object>)val);
-            
-            if (val.GetType() == typeof(Dictionary<string, object>))
-                return new LMap((Dictionary<string, object>)val);
+            var isGenType = type.IsGenericType;
+            if (isGenType)
+            {
+                var gentype = type.GetGenericTypeDefinition();
+                if (type == typeof(List<object>) || gentype == typeof (List<>) || gentype == typeof (IList<>))
+                    return new LArray((IList) val);
 
+                if (type == typeof (Dictionary<string, object>))
+                    return new LMap((Dictionary<string, object>) val);
+            }
             // object
             return new LClass(val);
         }
@@ -139,6 +148,7 @@ namespace ComLib.Lang.Helpers
             for (int ndx = 0; ndx < args.Count; ndx++)
             {
                 var val = args[ndx];
+                
                 args[ndx] = ConvertToLangValue(val);
             }
         }

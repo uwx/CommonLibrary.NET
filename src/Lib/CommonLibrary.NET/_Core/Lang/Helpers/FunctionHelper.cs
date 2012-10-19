@@ -16,42 +16,43 @@ namespace ComLib.Lang.Helpers
     /// </summary>
     public class FunctionHelper
     {   
+        
         /// <summary>
-        /// Whether or not the name/member combination supplied is a script level function or an external C# function
+        /// Calls an internal function or external function.
         /// </summary>
-        /// <param name="ctx">Context of script</param>
-        /// <param name="name">Object name "Log"</param>
-        /// <param name="member">Member name "Info" as in "Log.Info"</param>
+        /// <param name="ctx">The context of the runtime.</param>
+        /// <param name="fexpr">The function call expression</param>
+        /// <param name="functionName">The name of the function. if not supplied, gets from the fexpr</param>
+        /// <param name="pushCallStack"></param>
         /// <returns></returns>
-        public static bool IsInternalOrExternalFunction(Context ctx, string name, string member)
+        public static object CallFunction(Context ctx, FunctionCallExpr fexpr, string functionName, bool pushCallStack)
         {
-            string fullName = name;
-            if (!string.IsNullOrEmpty(member))
-                fullName += "." + member;
+            if(string.IsNullOrEmpty(functionName))
+                functionName = fexpr.NameExp.ToQualifiedName();
 
-            // Case 1: getuser() script function
-            if (ctx.Functions.Contains(fullName) || ctx.ExternalFunctions.Contains(fullName))
-                return true;
+            if (!FunctionHelper.IsInternalOrExternalFunction(ctx, functionName, null))
+                throw ExceptionHelper.BuildRunTimeException(fexpr, "Function does not exist : '" + functionName + "'");
 
-            return false;
-        }        
+            // 1. Push the name of the function on teh call stack
+            if(pushCallStack)
+                ctx.State.Stack.Push(functionName, fexpr);
 
-
-        /// <summary>
-        /// Call internal/external script.
-        /// </summary>
-        /// <param name="ctx"></param>
-        /// <param name="name"></param>
-        /// <param name="exp"></param>
-        /// <returns></returns>
-        public static object FunctionCall(Context ctx, string name, FunctionCallExpr exp)
-        {
+            // 2. Call the function.
+            object result = null;
             // Case 1: Custom C# function blog.create blog.*
-            if (ctx.ExternalFunctions.Contains(name))
-                return ctx.ExternalFunctions.Call(name, exp);
+            if (ctx.ExternalFunctions.Contains(functionName))
+                result = ctx.ExternalFunctions.Call(functionName, fexpr);
 
             // Case 2: Script functions "createUser('john');" 
-            return ctx.Functions.Call(exp);
+            else 
+                result = ctx.Functions.CallByName(functionName, fexpr.ParamListExpressions, fexpr.ParamList, true);
+
+            // 3. Finnaly pop the call stact.
+            if(pushCallStack)
+                ctx.State.Stack.Pop();
+
+            result = CheckConvert(result);
+            return result;
         }
 
 
@@ -63,7 +64,7 @@ namespace ComLib.Lang.Helpers
         /// <param name="paramListExpressions">The collection of parameters as expressions</param>
         /// <param name="paramList">The collection of parameter values after they have been evaluated</param>
         /// <returns></returns>
-        public static object CallMemberOnBasicType(Context ctx, MemberAccess memberAccess, List<Expr> paramListExpressions, List<object> paramList)
+        public static object CallMemberOnBasicType(Context ctx, AstNode node, MemberAccess memberAccess, List<Expr> paramListExpressions, List<object> paramList)
         {
             object result = null;
 
@@ -89,6 +90,7 @@ namespace ComLib.Lang.Helpers
                 }
                 result = methods.ExecuteMethod(lobj, memberAccess.MemberName, args);
             }
+            result = CheckConvert(result);
             return result;
         }
 
@@ -101,7 +103,7 @@ namespace ComLib.Lang.Helpers
         /// <param name="paramListExpressions">The expressions to resolve as parameters</param>
         /// <param name="paramList">The list of parameters.</param>
         /// <returns></returns>
-        public static object CallMemberOnClass(Context ctx, MemberAccess memberAccess, List<Expr> paramListExpressions, List<object> paramList)
+        public static object CallMemberOnClass(Context ctx, AstNode node, MemberAccess memberAccess, List<Expr> paramListExpressions, List<object> paramList)
         {
             object result = LObjects.Null;
             var obj = memberAccess.Instance;
@@ -120,121 +122,30 @@ namespace ComLib.Lang.Helpers
                 ParamHelper.ResolveParameters(paramListExpressions, paramList);
                 result = MethodCall(ctx, obj, type, memberAccess.Method, paramListExpressions, paramList, true);
             }
-            
-            // Finally, convert to fluentscript types.
-            // Case 1: Aleady an LObject
-            if (result != LObjects.Null && result is LObject)
-                return result;
-
-            // Case 2: C# type so wrap inside of fluentscript type.
-            if (result != LObjects.Null)
-                result = LangTypeHelper.ConvertToLangValue(result);
+            result = CheckConvert(result);
             return result;
         }
 
 
         /// <summary>
-        /// Execute a member call.
+        /// Whether or not the name/member combination supplied is a script level function or an external C# function
         /// </summary>
-        /// <param name="ctx">The context of the script</param>
-        /// <param name="type">The type of the object</param>
-        /// <param name="obj">The object to call the method on</param>
-        /// <param name="varname">The name of the variable</param>
-        /// <param name="memberName">The name of the member/method to call</param>
-        /// <param name="methodInfo">The methodinfo(not needed for built in types )</param>
-        /// <param name="paramListExpressions">The expressions to resolve as parameters</param>
-        /// <param name="paramList">The list of parameters.</param>
+        /// <param name="ctx">Context of script</param>
+        /// <param name="name">Object name "Log"</param>
+        /// <param name="member">Member name "Info" as in "Log.Info"</param>
         /// <returns></returns>
-        public static object MemberCall(Context ctx, Type type, object obj, string varname, string memberName, MethodInfo methodInfo, List<Expr> paramListExpressions, List<object> paramList)
+        public static bool IsInternalOrExternalFunction(Context ctx, string name, string member)
         {
-            // 1. Resolve the parameters.
-            if(methodInfo == null)
-                ParamHelper.ResolveParameters(paramListExpressions, paramList);
+            string fullName = name;
+            if (!string.IsNullOrEmpty(member))
+                fullName += "." + member;
 
-            object result = null;
-            if (type == null && obj != null)
-                type = obj.GetType();
-            
-            // 3. Method info supplied
-            else if (methodInfo != null)
-            {
-                result = MethodCall(ctx, obj, type, methodInfo, paramListExpressions, paramList, true);
-            }
-            else
-            {
-                methodInfo = type.GetMethod(memberName);
-                if (methodInfo != null)
-                    result = methodInfo.Invoke(obj, paramList.ToArray());
-                else
-                {
-                    var prop = type.GetProperty(memberName);
-                    if(prop != null)
-                        result = prop.GetValue(obj, null);
-                }
-            }
-            return result;
+            // Case 1: getuser() script function
+            if (ctx.Functions.Contains(fullName) || ctx.ExternalFunctions.Contains(fullName))
+                return true;
+
+            return false;
         }
-
-
-        /// <summary>
-        /// Prints to the console.
-        /// </summary>
-        /// /// <param name="settings">Settings for interpreter</param>
-        /// <param name="exp">The functiona call expression</param>
-        /// <param name="printline">Whether to print with line or no line</param>
-        public static string Print(LangSettings settings, FunctionCallExpr exp, bool printline)
-        {
-            if (!settings.EnablePrinting) return string.Empty;
-
-            string message = BuildMessage(exp.ParamList);
-            if (printline) Console.WriteLine(message);
-            else Console.Write(message);
-            return message;
-        }
-
-
-        /// <summary>
-        /// Logs severity to console.
-        /// </summary>
-        /// <param name="settings">Settings for interpreter</param>
-        /// <param name="exp">The functiona call expression</param>
-        public static string Log(LangSettings settings, FunctionCallExpr exp)
-        {
-            if (!settings.EnableLogging) return string.Empty;
-
-            string severity = exp.Name.Substring(exp.Name.IndexOf(".") + 1);
-            string message = BuildMessage(exp.ParamList);
-            Console.WriteLine(severity.ToUpper() + " : " + message);
-            return message;
-        }
-
-
-        /// <summary>
-        /// Builds a single message from multiple arguments
-        /// If there are 2 or more arguments, the 1st is a format, then rest are the args to the format.
-        /// </summary>
-        /// <param name="paramList">The list of parameters</param>
-        /// <returns></returns>
-        public static string BuildMessage(List<object> paramList)
-        {
-            string val = string.Empty;
-            bool hasFormat = false;
-            string format = string.Empty;
-            if (paramList != null && paramList.Count > 0)
-            {
-                // Check for 2 arguments which reflects formatting the printing.
-                hasFormat = paramList.Count > 1;
-                if (hasFormat)
-                {
-                    format = paramList[0].ToString();
-                    var args = paramList.GetRange(1,paramList.Count - 1);
-                    val = string.Format(format, args.ToArray());
-                }
-                else
-                    val = paramList[0].ToString();
-            }
-            return val;
-        } 
 
 
         /// <summary>
@@ -264,6 +175,18 @@ namespace ComLib.Lang.Helpers
             }
             object result = methodInfo.Invoke(obj, args);
             return result;
+        }
+
+
+        private static object CheckConvert(object result)
+        {
+            // Finally, convert to fluentscript types.
+            // Case 1: Aleady an LObject
+            if (result is LObject)
+                return result;
+
+            // Case 2: C# type so wrap inside of fluentscript type.
+            return LangTypeHelper.ConvertToLangValue(result);
         }
     }
 }

@@ -39,6 +39,10 @@ namespace ComLib.Lang.Helpers
             }
 
             var obj = varExp.Evaluate() as LObject;
+
+            // Check for empty objects.
+            ExceptionHelper.AssertNotNull(node,  obj, "member access");
+
             var type = obj.Type;
 
             // Case 3: Method / Property on FluentScript type
@@ -76,7 +80,7 @@ namespace ComLib.Lang.Helpers
 
             // 1. Check that the member exists.
             if (!typeMethods.HasMember(obj, memberName))
-                throw MemberHelper.BuildRunTimeException(node, "Property or Member : " + memberName + " does not exist");
+                throw ExceptionHelper.BuildRunTimeException(node, "Property or Member : " + memberName + " does not exist");
 
             // 2. It's either a Property or method
             var isProp = typeMethods.HasProperty(obj, memberName);
@@ -107,7 +111,7 @@ namespace ComLib.Lang.Helpers
 
             // 2. Check that there were members with matching name.
             if (members == null || members.Length == 0)
-                throw BuildRunTimeException(node, "Property does not exist : '" + memberName + "' ");
+                throw ExceptionHelper.BuildRunTimeException(node, "Property does not exist : '" + memberName + "' ");
 
             // 3. Get the first member that matches the memberName.
             var matchingMember = members[0];
@@ -180,16 +184,6 @@ namespace ComLib.Lang.Helpers
             }
             if (type != null) isStatic = true;
             return new BoolMsgObj(type, isStatic, string.Empty);
-        }
-
-
-        /// <summary>
-        /// Build a language exception due to the current token being invalid.
-        /// </summary>
-        /// <returns></returns>
-        public static LangException BuildRunTimeException(AstNode node, string message)
-        {
-            return new LangException("Runtime Error", message, node.Ref.ScriptName, node.Ref.Line, node.Ref.CharPos);
         }
     }
 }

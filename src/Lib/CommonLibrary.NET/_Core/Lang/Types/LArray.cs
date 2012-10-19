@@ -1,4 +1,5 @@
 ﻿
+using System.Collections;
 using System.Collections.Generic;
 using ComLib.Lang.Core;
 
@@ -14,7 +15,7 @@ namespace ComLib.Lang.Types
         /// Initialize
         /// </summary>
         /// <param name="val"></param>
-        public LArray(List<object> val)
+        public LArray(IList val)
         {
             this.Value = val;
             this.Type = LTypes.Array;
@@ -24,7 +25,7 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// The raw type value.
         /// </summary>
-        public List<object> Value;
+        public IList Value;
 
 
         /// <summary>
@@ -48,8 +49,8 @@ namespace ComLib.Lang.Types
         /// </summary>
         public LArrayType()
         {
-            this.Name = "array";
-            this.FullName = "sys.array";
+            this.Name = "list";
+            this.FullName = "sys.list";
             this.TypeVal = TypeConstants.Array;
             this.IsSystemType = true;
             // List<object>

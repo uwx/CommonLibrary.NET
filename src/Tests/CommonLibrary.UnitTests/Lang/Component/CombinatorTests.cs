@@ -368,9 +368,9 @@ namespace ComLib.Lang.Tests.Component
             var it = new Interpreter();
             it.Context.Plugins.Register(new ConstCapsPlugin());
             it.Execute("VAL1 = 10, VAL2 = 20, VAL3 = 30");
-            Assert.AreEqual(it.Context.Memory.Get<double>("VAL1"), 10);
-            Assert.AreEqual(it.Context.Memory.Get<double>("VAL2"), 20);
-            Assert.AreEqual(it.Context.Memory.Get<double>("VAL3"), 30);
+            Compare(it.Context.Memory.Get<object>("VAL1"), 10);
+            Compare(it.Context.Memory.Get<object>("VAL2"), 20);
+            Compare(it.Context.Memory.Get<object>("VAL3"), 30);
         }         
 
 
@@ -420,14 +420,14 @@ namespace ComLib.Lang.Tests.Component
         {            
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string,Type, object, string>("i", typeof(double), 1, "var i = 0; var day2 = Monday; if day2 == Monday then i = 1;"),                
-                new Tuple<string,Type, object, string>("i", typeof(double), 1, "var i = 0; var date = jan 1st, 2012;  if (date.getFullYear() == 2012 && date.getMonth() == 1 && date.getDate() == 1 && date.getDay() == sunday    ) i = 1;"),
-                new Tuple<string,Type, object, string>("i", typeof(double), 1, "var i = 0; var date = jan 2nd, 2012;  if (date.getFullYear() == 2012 && date.getMonth() == 1 && date.getDate() == 2 && date.getDay() == monday    ) i = 1;"),
-                new Tuple<string,Type, object, string>("i", typeof(double), 1, "var i = 0; var date = jan 3rd, 2012;  if (date.getFullYear() == 2012 && date.getMonth() == 1 && date.getDate() == 3 && date.getDay() == tuesday   ) i = 1;"),
-                new Tuple<string,Type, object, string>("i", typeof(double), 1, "var i = 0; var date = jan 4th, 2012;  if (date.getFullYear() == 2012 && date.getMonth() == 1 && date.getDate() == 4 && date.getDay() == wednesday ) i = 1;"),
-                new Tuple<string,Type, object, string>("i", typeof(double), 1, "var i = 0; var date = jan 5th, 2012;  if (date.getFullYear() == 2012 && date.getMonth() == 1 && date.getDate() == 5 && date.getDay() == thursday  ) i = 1;"),
-                new Tuple<string,Type, object, string>("i", typeof(double), 1, "var i = 0; var date = jan 6th, 2012;  if (date.getFullYear() == 2012 && date.getMonth() == 1 && date.getDate() == 6 && date.getDay() == friday    ) i = 1;"),
-                new Tuple<string,Type, object, string>("i", typeof(double), 1, "var i = 0; var date = jan 7th, 2012;  if (date.getFullYear() == 2012 && date.getMonth() == 1 && date.getDate() == 7 && date.getDay() == saturday  ) i = 1;")               
+                TestCase("i", typeof(double), 1, "var i = 0; var day2 = Monday; if day2 == Monday then i = 1;"),                
+                TestCase("i", typeof(double), 1, "var i = 0; var date = jan 1st, 2012;  if (date.getFullYear() == 2012 && date.getMonth() == 1 && date.getDate() == 1 && date.getDay() == sunday    ) i = 1;"),
+                TestCase("i", typeof(double), 1, "var i = 0; var date = jan 2nd, 2012;  if (date.getFullYear() == 2012 && date.getMonth() == 1 && date.getDate() == 2 && date.getDay() == monday    ) i = 1;"),
+                TestCase("i", typeof(double), 1, "var i = 0; var date = jan 3rd, 2012;  if (date.getFullYear() == 2012 && date.getMonth() == 1 && date.getDate() == 3 && date.getDay() == tuesday   ) i = 1;"),
+                TestCase("i", typeof(double), 1, "var i = 0; var date = jan 4th, 2012;  if (date.getFullYear() == 2012 && date.getMonth() == 1 && date.getDate() == 4 && date.getDay() == wednesday ) i = 1;"),
+                TestCase("i", typeof(double), 1, "var i = 0; var date = jan 5th, 2012;  if (date.getFullYear() == 2012 && date.getMonth() == 1 && date.getDate() == 5 && date.getDay() == thursday  ) i = 1;"),
+                TestCase("i", typeof(double), 1, "var i = 0; var date = jan 6th, 2012;  if (date.getFullYear() == 2012 && date.getMonth() == 1 && date.getDate() == 6 && date.getDay() == friday    ) i = 1;"),
+                TestCase("i", typeof(double), 1, "var i = 0; var date = jan 7th, 2012;  if (date.getFullYear() == 2012 && date.getMonth() == 1 && date.getDate() == 7 && date.getDay() == saturday  ) i = 1;")               
             };
             Parse(statements, true, i =>
             {

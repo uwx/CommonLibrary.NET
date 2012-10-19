@@ -625,7 +625,7 @@ namespace ComLib.Lang.Tests.Common
         {
             Name = "TypeOf Plugin",
             RequiredTypes = new[] { typeof(User) },
-            RequiredPlugins = new[] { typeof(TypeOfPlugin) },
+            RequiredPlugins = new Type[] {},
             Positive = new List<Tuple<string, Type, object, string>>()
             {
                 TestCase("result", typeof(string), "string",                                  "var result = typeof 'fluentscript'"),

@@ -7,6 +7,8 @@ using System.Text;
 using ComLib.Lang.Core;
 using ComLib.Lang.AST;
 using ComLib.Lang.Parsing;
+using ComLib.Lang.Types;
+
 // </lang:using>
 
 namespace ComLib.Lang.Plugins
@@ -97,11 +99,15 @@ namespace ComLib.Lang.Plugins
         /// </summary>
         public override object DoEvaluate()
         {
-            object message = null;
+            var message = "";
             if (Exp != null)
-                message = Exp.Evaluate();
+            {
+                var result = Exp.Evaluate() as LObject;
+                if (result != LObjects.Null)
+                    message = result.GetValue().ToString();
+            }
 
-            throw new LangException("TypeError", message.ToString(), this.Ref.ScriptName, this.Ref.Line);
+            throw new LangException("TypeError", message, this.Ref.ScriptName, this.Ref.Line);
         }
     }
 }

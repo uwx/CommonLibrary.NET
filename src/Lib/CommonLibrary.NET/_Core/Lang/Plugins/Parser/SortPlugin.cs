@@ -6,6 +6,7 @@ using System.Text;
 // <lang:using>
 using ComLib.Lang.Core;
 using ComLib.Lang.AST;
+using ComLib.Lang.Helpers;
 using ComLib.Lang.Types;
 using ComLib.Lang.Parsing;
 // </lang:using>
@@ -201,8 +202,12 @@ namespace ComLib.Lang.Plugins
         /// <returns></returns>
         public override object Evaluate()
         {
-            var array = _source.Evaluate() as LTypeValue;
-            var items = array.Result as List<object>;
+            var obj = _source.Evaluate();
+            ExceptionHelper.AssertNotNull(this, obj, "sort");
+            ExceptionHelper.AssertType(this, obj, LTypes.Array);
+
+            var array = obj as LArray;
+            var items = array.Value as List<object>;
 
             // 1. Basic datatypes string, bool, number, date.
             if (!(_filter is MemberAccessExpr))

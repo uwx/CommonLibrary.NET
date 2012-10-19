@@ -1,19 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using System.Reflection;
-using System.Resources;
+
 using NUnit.Framework;
-using System.Linq.Expressions;
-
-
-using ComLib;
-using ComLib.Lang;
-using ComLib.Lang.Plugins;
-using ComLib.Lang.Parsing;
 using ComLib.Lang.Core;
-using ComLib.Tests;
 using ComLib.Lang.Tests.Common;
 
 
@@ -30,6 +19,7 @@ namespace ComLib.Lang.Tests.Integration.System
                 if (initializer != null)
                     initializer(i, i.Context.Settings);
 
+                Console.WriteLine(script);
                 i.Execute(script);
 
                 if (isValid)
@@ -50,7 +40,7 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             Run(new List<string>() { "var result = 1; for(var ndx = 0; ndx < 20; ndx++) { result = ndx; }" },
                 (i, settings) => settings.MaxLoopLimit = 10,
-                i => Assert.AreEqual(10, i.Memory.Get<int>("result")));
+                i => CompareExpected(10, i.Memory.Get<object>("result")));
         }
 
 
@@ -65,7 +55,7 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             Run(new List<string>() { "var result = 0; try{ for(var ndx = result; ndx < 20; ndx++) { result = ndx; } } catch(err){ } " },
                 (i, settings) => settings.MaxLoopLimit = 10,
-                i => Assert.AreEqual(10, i.Memory.Get<int>("result")));
+                i => CompareExpected(10, i.Memory.Get<object>("result")));
         }
 
 
@@ -86,7 +76,7 @@ namespace ComLib.Lang.Tests.Integration.System
             //Assert.AreEqual(true, i.Result.Success);
             Assert.IsFalse(i.Result.Success);
             Assert.IsTrue(i.Result.Message.StartsWith("Limit Error"));
-            Assert.AreEqual(10, i.Memory.Get<int>("result"));
+            CompareExpected(10, i.Memory.Get<object>("result"));
         }
 
 
@@ -107,7 +97,7 @@ namespace ComLib.Lang.Tests.Integration.System
                 i => Assert.IsTrue(i.Result.Message.StartsWith("Limit Error")));
 
             Run(new List<string>() { "function Add1(n) { var l = n + 1; return Add2(l); } function Add2(n){ if(n > 5 ) return n; var l = n + 2; Add1(l); } var result = Add1(1); " },
-                null, (i) => Assert.AreEqual(8, i.Context.Memory.Get<int>("result")), true);
+                null, (i) => CompareExpected(8, i.Context.Memory.Get<object>("result")), true);
         }
 
 
@@ -116,7 +106,7 @@ namespace ComLib.Lang.Tests.Integration.System
         {
             Run(new List<string>() { "function Additive(n) { if (n == 0 )  return 0; return n + Additive(n-1); } var result = Additive(15);" },
                 null,
-                i => Assert.AreEqual(120, i.Memory.Get<int>("result")),
+                i => CompareExpected(120, i.Memory.Get<object>("result")),
                 true);
         }
 
@@ -211,17 +201,17 @@ namespace ComLib.Lang.Tests.Integration.System
         public void Can_Set_Exception_Limit()
         {
             Run(new List<string>() { "var a = 0; try { throw 'error'; } catch(err) { a = 1; } try { throw 'error2'; } catch(er2) { a = 2; }" },
-                null, (i) => Assert.AreEqual(2, i.Context.Memory.Get<int>("a")), true);
+                null, (i) => CompareExpected(2, i.Context.Memory.Get<object>("a")), true);
 
             Run(new List<string>() { "var a = 0; try { throw 'error'; } catch(err) { a = 1; } try { throw 'error2'; } catch(er2) { a = 2; }" },
-                (i, settings) => settings.MaxExceptions = 1, (i) => Assert.AreEqual(1, i.Context.Memory.Get<int>("a")));
+                (i, settings) => settings.MaxExceptions = 1, (i) => CompareExpected(1, i.Context.Memory.Get<object>("a")));
         }
 
 
         [Test]
         public void Can_Set_Scope_Variables_String_Length_Total_Limit()
         {
-            Run(new List<string>() { "var a = '1234567890'; var b = '12345'; var c = 3; var d = '123456789012345'; var e = 5;" },
+            Run(new List<string>() { "var a = '1234567890'; var b = '12345'; var c = 3; var d = '1234567890123456'; var e = 5;" },
                 (i, settings) => settings.MaxScopeStringVariablesLength = 15);
         }
     }

@@ -103,7 +103,10 @@ namespace ComLib.Lang.Parsing
         public object CallByName(string functionName, List<Expr> paramListExpressions, List<object> paramVals, bool resolveParams)
         {
             var function = GetByName(functionName);
-            if(resolveParams)
+            var hasParams = paramListExpressions != null && paramListExpressions.Count > 0;
+
+            // 1. Resolve parameters if necessary
+            if(resolveParams && function != null && ( function.HasArguments || hasParams ) )
                 ParamHelper.ResolveParametersForScriptFunction(function.Meta, paramListExpressions, paramVals);
             function.ArgumentValues = paramVals;
             function.Evaluate();
@@ -111,7 +114,7 @@ namespace ComLib.Lang.Parsing
             if (function.HasReturnValue)
                 result = function.ReturnValue;
             else
-                result = LNullType.Instance;
+                result = LObjects.Null;
             return result;
         }
     }

@@ -330,7 +330,7 @@ namespace ComLib.Lang.Plugins
         {
             var val = _exp.Evaluate();
             if (val == null)
-                return LNullType.Instance;
+                return LObjects.Null;
 
             var result = false;
             if (     _destinationType == "string" ) result = val.GetType() == typeof(string)  ;
@@ -356,7 +356,7 @@ namespace ComLib.Lang.Plugins
             try
             {
                 var result = DoConvertValue(_destinationType, val, false);
-                if(result != LNullType.Instance)
+                if (result != LObjects.Null)
                     canConvert = true;
             }
             catch (Exception)
@@ -374,7 +374,7 @@ namespace ComLib.Lang.Plugins
         {
             var val = _exp.Evaluate();
             if (val == null)
-                return LNullType.Instance;
+                return LObjects.Null;
             var result = DoConvertValue(_destinationType, val, true);
             return result;
         }
@@ -387,11 +387,11 @@ namespace ComLib.Lang.Plugins
             var key = sourceType + "-" + destinationType;
 
             // 1. Check if conversion even exists
-            if (!_conversionLookup.ContainsKey(key)) return LNullType.Instance;
+            if (!_conversionLookup.ContainsKey(key)) return LObjects.Null;
 
             // 2. Get the conversion and check it source can be converted to dest.
             var spec = _conversionLookup[key];
-            if (!spec.CanChange) return LNullType.Instance;
+            if (!spec.CanChange) return LObjects.Null;
 
             // 3a. See if there can be a direct conversion.
             if (spec.ConvertMode == CONVERT_MODE_DIRECT)
@@ -458,7 +458,7 @@ namespace ComLib.Lang.Plugins
             string txt = ((string)val).ToLower();
             var result = DateTimeTypeHelper.ParseTime(txt);
             if (!result.Item2)
-                return LNullType.Instance;
+                return LObjects.Null;
             return result.Item1;
         }
         private static object Convert_String_To_Bool(ConvertSpec spec, object val)

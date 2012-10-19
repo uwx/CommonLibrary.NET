@@ -79,7 +79,8 @@ namespace ComLib.Lang.Plugins
                 if (_tokenIt.IsEndOfStmtOrBlock())
                     break;
             }
-            var exp = new NewExpr() { TypeName = typeName };
+            var exp = new NewExpr();
+            exp.TypeName = typeName;
             _parser.State.FunctionCall++;
             _parser.ParseParameters(exp, true, false);
             _parser.State.FunctionCall--;

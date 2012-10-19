@@ -1,22 +1,16 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using System.Reflection;
-using System.Resources;
 using NUnit.Framework;
-using System.Linq.Expressions;
 
 
-using ComLib;
-using ComLib.Lang;
-using ComLib.Lang.Plugins;
-using ComLib.Tests;
 using ComLib.Lang.Tests.Common;
 
 
 namespace ComLib.Lang.Tests.Integration.System
 {
+    /// <summary>
+    /// Used to test calls to fluentscript code from c# code.
+    /// </summary>
     [TestFixture]
     public class Script_Tests_CSharp_Integration : ScriptTestsBase
     {
@@ -26,9 +20,9 @@ namespace ComLib.Lang.Tests.Integration.System
             var func = "function add( a, b ) { return a + b; }";
             var i = new Interpreter();
             i.Parse(func);
-            Assert.AreEqual(5, i.Call("add", true, 2, 3));
-            Assert.AreEqual(7, i.Call("add", true, 4, 3));
-            Assert.AreEqual(9, i.Call("add", true, 2, 7));        
+            CompareExpected(5, i.Call("add", true, 2, 3));
+            CompareExpected(7, i.Call("add", true, 4, 3));
+            CompareExpected(9, i.Call("add", true, 2, 7));        
         }
 
 
@@ -38,7 +32,7 @@ namespace ComLib.Lang.Tests.Integration.System
             var func = "function add() { return 2 + 3; }";
             var i = new Interpreter();
             i.Parse(func);
-            Assert.AreEqual(5, i.Call("add", true));
+            CompareExpected(5, i.Call("add", true));
         }
 
 
@@ -56,11 +50,11 @@ namespace ComLib.Lang.Tests.Integration.System
 
             var i = new Interpreter();
             i.Parse(func);
-            Assert.AreEqual(12.34,           i.Call("argsTest", true, 1, 12.34, "fluent script", new DateTime(2012, 8, 10), false, new TimeSpan(9, 30, 25)));
-            Assert.AreEqual("fluent script", i.Call("argsTest", true, 2, 12.34, "fluent script", new DateTime(2012, 8, 10), false, new TimeSpan(9, 30, 25)));
-            Assert.AreEqual(8,               i.Call("argsTest", true, 3, 12.34, "fluent script", new DateTime(2012, 8, 10), false, new TimeSpan(9, 30, 25)));
-            Assert.AreEqual(false,           i.Call("argsTest", true, 4, 12.34, "fluent script", new DateTime(2012, 8, 10), false, new TimeSpan(9, 30, 25)));
-            Assert.AreEqual(9,               i.Call("argsTest", true, 5, 12.34, "fluent script", new DateTime(2012, 8, 10), false, new TimeSpan(9, 30, 25)));
+           CompareExpected(12.34,           i.Call("argsTest", true, 1, 12.34, "fluent script", new DateTime(2012, 8, 10), false, new TimeSpan(9, 30, 25)));
+           CompareExpected("fluent script", i.Call("argsTest", true, 2, 12.34, "fluent script", new DateTime(2012, 8, 10), false, new TimeSpan(9, 30, 25)));
+           CompareExpected(8,               i.Call("argsTest", true, 3, 12.34, "fluent script", new DateTime(2012, 8, 10), false, new TimeSpan(9, 30, 25)));
+           CompareExpected(false,           i.Call("argsTest", true, 4, 12.34, "fluent script", new DateTime(2012, 8, 10), false, new TimeSpan(9, 30, 25)));
+           CompareExpected(9,               i.Call("argsTest", true, 5, 12.34, "fluent script", new DateTime(2012, 8, 10), false, new TimeSpan(9, 30, 25)));
         }
 
 
@@ -70,17 +64,19 @@ namespace ComLib.Lang.Tests.Integration.System
             var func = "function argsTest(index, list) { return list[index]; }";
             var i = new Interpreter();
             i.Parse(func);
-            Assert.AreEqual(3.3, i.Call("argsTest", true, 2, new List<double>() { 1.1, 2.2, 3.3 }));
+            Console.WriteLine(func);
+            CompareExpected(3.3, i.Call("argsTest", true, 2, new List<double>() { 1.1, 2.2, 3.3 }));
         }
 
 
         [Test]
         public void Can_Call_Function_Using_Generic_List_Of_Objects()
         {
-            var func = "function argsTest(index, list) { list.RemoveAt(1); return list[0].Name; }";
+            var func = "function argsTest(index, list) { list.splice(0, 1); return list[0].Name; }";
             var i = new Interpreter();
             i.Parse(func);
-            Assert.AreEqual("user1", i.Call("argsTest", true, 1, new List<User>() { new User("user1"), new User("user2") }));
+            Console.WriteLine(func);
+            CompareExpected("user2", i.Call("argsTest", true, 1, new List<User>() { new User("user1"), new User("user2") }));
         }
 
 
@@ -93,8 +89,9 @@ namespace ComLib.Lang.Tests.Integration.System
             map["username"] = "user2";
             map["isactive"] = true;
             i.Parse(func);
-            Assert.AreEqual("user2", i.Call("argsTest", true, true, map));
-            Assert.AreEqual("user2", i.Call("argsTest", true, false, map));
+            Console.WriteLine(func);
+            Compare(i.Call("argsTest", true, true, map), "user2");
+            Compare(i.Call("argsTest", true, false, map),"user2");
         }
     }
 }
