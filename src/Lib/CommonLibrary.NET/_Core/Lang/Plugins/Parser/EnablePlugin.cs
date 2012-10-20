@@ -119,7 +119,7 @@ namespace ComLib.Lang.Plugins
 
             // Move past this plugin.
             _tokenIt.Advance();
-            return new Expr();
+            return new EmptyExpr();
         }     
     }
 }

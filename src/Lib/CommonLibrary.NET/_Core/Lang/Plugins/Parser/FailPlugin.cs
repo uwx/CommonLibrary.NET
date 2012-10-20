@@ -110,7 +110,10 @@ namespace ComLib.Lang.Plugins
             if (Exp != null)
                 message = Exp.Evaluate();
 
-            var text = message == null || message == LObjects.Null ? string.Empty : message.ToString();
+            var text = (message == null || message == LObjects.Null)
+                     ? ""
+                     : ((LObject)message).GetValue().ToString();
+
             throw new LangFailException(text, this.Ref.ScriptName, this.Ref.Line);
         }
     }

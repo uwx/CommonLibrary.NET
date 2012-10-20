@@ -29,7 +29,7 @@ namespace ComLib.Lang.Helpers
         {
             if (obj == null || obj == LObjects.Null)
             {
-                throw new LangException("Runtime Error", "Can not perform " + message + " on null object", 
+                throw new LangException("Runtime Error", "Can not perform " + message + " on null object",
                     node.Ref.ScriptName, node.Ref.Line, node.Ref.CharPos);
             }
         }

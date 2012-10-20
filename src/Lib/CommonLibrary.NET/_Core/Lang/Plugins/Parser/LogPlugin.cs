@@ -317,10 +317,11 @@ namespace ComLib.Lang.Plugins
             if (Mode == "log")
             {
                 Log(settings);
+                return LObjects.EmptyString;
             }
             else if (Mode == "level")
             {
-                return settings.LogLevelName;
+                return new LString(settings.LogLevelName);
             }
             else if (Mode == "level_check")
             {
@@ -335,8 +336,9 @@ namespace ComLib.Lang.Plugins
             else if (Mode == "configure")
             {
                 Configure(settings);
+                return LObjects.EmptyString;
             }
-            return string.Empty;
+            return LObjects.EmptyString;
         }
 
 

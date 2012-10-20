@@ -7,6 +7,7 @@ using System.Text;
 using ComLib.Lang.Core;
 using ComLib.Lang.AST;
 using ComLib.Lang.Parsing;
+using ComLib.Lang.Types;
 // </lang:using>
 
 namespace ComLib.Lang.Plugins
@@ -199,7 +200,7 @@ namespace ComLib.Lang.Plugins
         {
             // No validation needed at this poin. The plugin checks if it's a valid prop name.
             var result = _map[_propName]();
-            return result;
+            return new LString(result);
         }
     }
 }

@@ -149,6 +149,23 @@ namespace ComLib.Lang.Helpers
 
 
         /// <summary>
+        /// Whether or not this variable + member name maps to an external function call.
+        /// Note: In fluentscript you can setup "Log.*" and allow all method calls to "Log" to map to that external call.
+        /// </summary>
+        /// <param name="funcs">The collection of external functions.</param>
+        /// <param name="varName">The name of the external object e.g. "Log" as in "Log.Error"</param>
+        /// <param name="memberName">The name of the method e.g. "Error" as in "Log.Error"</param>
+        /// <returns></returns>
+        public static bool IsExternalFunction(ExternalFunctions funcs, string varName, string memberName)
+        {
+            string funcName = varName + "." + memberName;
+            if (funcs.Contains(funcName))
+                return true;
+            return false;
+        }
+
+
+        /// <summary>
         /// Dynamically invokes a method call.
         /// </summary>
         /// <param name="ctx">Context of the script</param>

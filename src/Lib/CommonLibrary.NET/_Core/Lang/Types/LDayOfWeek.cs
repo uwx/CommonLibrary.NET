@@ -16,7 +16,7 @@ namespace ComLib.Lang.Types
         public LDayOfWeek(DayOfWeek val)
         {
             this.Value = val;
-            this.Type = LTypes.Time;
+            this.Type = LTypes.DayOfWeek;
         }
 
 

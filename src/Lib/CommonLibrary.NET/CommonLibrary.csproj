@@ -506,6 +506,7 @@
     <Compile Include="_Core\Lang\AST\Expressions\ConditionalBlockExpr.cs" />
     <Compile Include="_Core\Lang\AST\Expressions\ConditionExpr.cs" />
     <Compile Include="_Core\Lang\AST\Expressions\ConstantExpr.cs" />
+    <Compile Include="_Core\Lang\AST\Expressions\EmptyExpr.cs" />
     <Compile Include="_Core\Lang\AST\Expressions\ParameterExpr.cs" />
     <Compile Include="_Core\Lang\AST\Expressions\DataTypeExpr.cs" />
     <Compile Include="_Core\Lang\AST\Expressions\EvaluatableExpr.cs" />

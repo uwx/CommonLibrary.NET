@@ -27,7 +27,7 @@ namespace ComLib.Lang.Helpers
             string variableName = isVariableExp ? ((VariableExpr) varExp).Name : string.Empty;
 
             // CASE 1: External function call "user.create"
-            if (isVariableExp && MemberHelper.IsExternalFunctionCall(ctx.ExternalFunctions, variableName, memberName))
+            if (isVariableExp && FunctionHelper.IsExternalFunction(ctx.ExternalFunctions, variableName, memberName))
                 return new MemberAccess(MemberMode.FunctionExternal) {Name = variableName, MemberName = memberName};
 
             // CASE 2. Static method call: "Person.Create" 
@@ -134,23 +134,6 @@ namespace ComLib.Lang.Helpers
                 member.Method = type.GetMethod(matchingMember.Name);
 
             return member;
-        }
-
-
-        /// <summary>
-        /// Whether or not this variable + member name maps to an external function call.
-        /// Note: In fluentscript you can setup "Log.*" and allow all method calls to "Log" to map to that external call.
-        /// </summary>
-        /// <param name="funcs">The collection of external functions.</param>
-        /// <param name="varName">The name of the external object e.g. "Log" as in "Log.Error"</param>
-        /// <param name="memberName">The name of the method e.g. "Error" as in "Log.Error"</param>
-        /// <returns></returns>
-        public static bool IsExternalFunctionCall(ExternalFunctions funcs, string varName, string memberName)
-        {
-            string funcName = varName + "." + memberName;
-            if (funcs.Contains(funcName))
-                return true;
-            return false;
         }
 
 

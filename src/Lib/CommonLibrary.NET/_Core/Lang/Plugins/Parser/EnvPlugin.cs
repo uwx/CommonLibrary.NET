@@ -7,6 +7,7 @@ using System.Text;
 using ComLib.Lang.Core;
 using ComLib.Lang.AST;
 using ComLib.Lang.Parsing;
+using ComLib.Lang.Types;
 // </lang:using>
 
 namespace ComLib.Lang.Plugins
@@ -235,8 +236,8 @@ namespace ComLib.Lang.Plugins
             EnvironmentVariableTarget target = (_scope == "sys")
                                                 ? EnvironmentVariableTarget.Machine
                                                 : EnvironmentVariableTarget.User;
-            val = System.Environment.GetEnvironmentVariable(_varName, target);           
-            return val;
+            val = System.Environment.GetEnvironmentVariable(_varName, target);
+            return new LString(val);
         }
     }
 }
