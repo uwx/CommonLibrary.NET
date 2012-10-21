@@ -574,6 +574,7 @@ src/Lib/CommonLibrary.NET/_Core/Lang/Entities/FunctionLookupResult.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Extensions/MethodExtensions.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/ArgsFetcher.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/AssignHelper.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/ConversionHelper.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/DocHelper.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/EvalHelper.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/ExceptionHelper.cs -text
@@ -691,6 +692,7 @@ src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/System/WhilePlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Templating/ITemplateEngine.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Templating/TemplateEngineDefault.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Templating/Templater.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Types/ConvertSpec.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/ITypeMethods.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/Javascript/LJSArrayMethods.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/Javascript/LJSDateMethods.cs -text
