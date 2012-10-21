@@ -311,13 +311,17 @@ namespace ComLib.Lang.Tests.Component
             i.Context.Plugins.Register(new LogPlugin(callback));
 
             // 1. Can always log to put
-            i.Execute("log configure 'warn', 'callback'; put 'message1'");
+            var script = "log configure 'warn', 'callback'; put 'message1'";
+            Console.WriteLine(script);
+            i.Execute(script);
             Assert.AreEqual(LogPluginConstants.Put, level);
             Assert.AreEqual("message1", msg);
 
             // 2. Can not log to info if set to warn
             level = -1; msg = "";
-            i.Execute("log configure 'warn', 'callback'; info 'message1'");
+            script = "log configure 'warn', 'callback'; info 'message1'";
+            Console.WriteLine(script);
+            i.Execute(script);
             Assert.AreEqual(-1, level);
             Assert.AreEqual("", msg);
 
@@ -336,8 +340,8 @@ namespace ComLib.Lang.Tests.Component
             // 5. Can get log level
             level = -1; msg = "";
             i.Execute("log configure 'warn', 'callback'; var result = log level");
-            var r = i.Context.Memory.Get<string>("result");
-            Assert.AreEqual(r, "warn");
+            var r = i.Context.Memory.Get<object>("result");
+            Compare(r, "warn");
         }
 
 

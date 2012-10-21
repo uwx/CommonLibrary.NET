@@ -133,7 +133,7 @@ namespace ComLib.Lang.Plugins
                     return "function:" + name;
             }
             var obj = _exp.Evaluate();
-            ExceptionHelper.AssertNotNull(this, obj, "typeof");
+            ExceptionHelper.NotNull(this, obj, "typeof");
             var lobj = (LObject) obj;
             var typename = lobj.Type.Name;
 

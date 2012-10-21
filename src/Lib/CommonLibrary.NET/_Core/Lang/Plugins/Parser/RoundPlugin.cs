@@ -157,8 +157,7 @@ namespace ComLib.Lang.Plugins
         public override object DoEvaluate()
         {
             var result = _exp.Evaluate();
-            ExceptionHelper.AssertNotNull(this, result, "rounding");
-            ExceptionHelper.AssertType(this, result, LTypes.Number);
+            ExceptionHelper.NotNullType(this, result, "rounding", LTypes.Number);
 
             var val = ((LNumber) result).Value;
             if (_mode == RoundPlugin.RoundMode.Round)

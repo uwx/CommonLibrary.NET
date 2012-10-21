@@ -330,9 +330,12 @@ namespace ComLib.Samples
         static void Combinator_Tests()
         {
             var t = new Plugin_Component_Positives();
+            t.Can_Use_TypeOps_Plugin();
+            t.Can_Use_Sort_Plugin();
+            t.Can_Use_Exec_Plugin();
+            t.Can_Use_Log_Plugin();
             t.Can_Use_MachineInfo_Plugin();
             t.Can_Use_Day_Plugin();
-            t.Can_Use_Log_Plugin();
             t.Can_Use_Fail_Plugin();
             t.Can_Use_TypeOps_Plugin();
             t.Can_Use_TypeOf_Plugin();

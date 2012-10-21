@@ -63,8 +63,8 @@ namespace ComLib.Lang.AST
             this.ListObject = VariableExp.Evaluate();
 
             // Check for empty objects.
-            ExceptionHelper.AssertNotNull(this, this.ListObject, "indexing");
-            ExceptionHelper.AssertNotNull(this, ndxVal, "indexing");
+            ExceptionHelper.NotNull(this, this.ListObject, "indexing");
+            ExceptionHelper.NotNull(this, ndxVal, "indexing");
 
             var lobj = (LObject)this.ListObject;
 

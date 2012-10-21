@@ -37,7 +37,6 @@ namespace ComLib.Lang.Plugins
     result = count( numbers );    
     </doc:example>
     ***************************************************************************/
-
     /// <summary>
     /// Combinator for handling comparisons.
     /// </summary>
@@ -160,7 +159,7 @@ namespace ComLib.Lang.Plugins
         public override object Evaluate()
         {
             var dataSource = _source.Evaluate() as LObject;
-            ExceptionHelper.AssertNotNull(this, dataSource, "aggregation(min/max)");
+            ExceptionHelper.NotNull(this, dataSource, "aggregation(min/max)");
             
             List<object> items = null;
 

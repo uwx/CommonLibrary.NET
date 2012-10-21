@@ -344,12 +344,15 @@ namespace ComLib.Lang.Plugins
 
         private void Configure(LogSettings settings)
         {
+            ExceptionHelper.NotNullType(this, this.ParamList[0], "log level not supplied", LTypes.String);
+            ExceptionHelper.NotNullType(this, this.ParamList[1], "console or log not supplied", LTypes.String);
+
             // Param 1: Error level
-            settings.LogLevelName = Convert.ToString(ParamList[0]);
+            settings.LogLevelName = ((LString)this.ParamList[0]).Value;
             settings.LogLevelValue = LogPluginConstants.LevelFor(settings.LogLevelName);
 
             // Param 2: Console or file?
-            string output = Convert.ToString(ParamList[1]);
+            var output = ((LString)this.ParamList[1]).Value;
             if (string.Compare(output, "console", StringComparison.InvariantCultureIgnoreCase) == 0)
             {
                 settings.OutputMode = LogPluginConstants.Console;
@@ -371,7 +374,7 @@ namespace ComLib.Lang.Plugins
         private void Log(LogSettings settings)
         {
             // Only log if the log level is appropriate
-            int level = LogPluginConstants.LevelFor(LogLevel);
+            var level = LogPluginConstants.LevelFor(LogLevel);
 
             // Validate: log.debug but level is Warn
             if (level < settings.LogLevelValue)
@@ -393,9 +396,9 @@ namespace ComLib.Lang.Plugins
             settings.OutputMode = LogPluginConstants.File;
 
             // 1st param
-            string filename = Convert.ToString(ParamList[1]);
-            FileInfo file = new FileInfo(filename);
-            string name = file.Name.Replace(file.Extension, string.Empty);
+            var filename = ((LString)ParamList[1]).Value;
+            var file = new FileInfo(filename);
+            var name = file.Name.Replace(file.Extension, string.Empty);
 
             if (ParamList.Count > 2)
             {

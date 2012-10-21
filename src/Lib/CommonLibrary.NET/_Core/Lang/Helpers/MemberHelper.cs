@@ -41,7 +41,7 @@ namespace ComLib.Lang.Helpers
             var obj = varExp.Evaluate() as LObject;
 
             // Check for empty objects.
-            ExceptionHelper.AssertNotNull(node,  obj, "member access");
+            ExceptionHelper.NotNull(node,  obj, "member access");
 
             var type = obj.Type;
 

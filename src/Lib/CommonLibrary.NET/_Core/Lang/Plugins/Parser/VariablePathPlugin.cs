@@ -131,9 +131,9 @@ namespace ComLib.Lang.Plugins
             // 1. Create a variable expression from the first idtoken
             AppendPathPart(pathExps, variableToken, null, false);                
 
-            string path = string.Empty;
+            var path = string.Empty;
             var lastStringBasedPathToken = _tokenIt.Advance();
-            bool resetLastPathToken = false;
+            var resetLastPathToken = false;
 
             while(!_tokenIt.IsEnded && !_tokenIt.IsEndOfStmtOrBlock())
             {
@@ -192,8 +192,8 @@ namespace ComLib.Lang.Plugins
         {
             if (string.IsNullOrEmpty(text))
                 text = token.Token.Text;
-
-            Expr start = isConstant ? new ConstantExpr(text) as Expr
+            
+            var start = isConstant  ? new ConstantExpr(text) as Expr
                                     : new VariableExpr(text) as Expr;
             start.Ctx = _parser.Context;
             _parser.SetScriptPosition(start, token);
@@ -241,12 +241,12 @@ namespace ComLib.Lang.Plugins
             // Exp2: Bin( 1, Exp1 )
             // Exp3: Bin( 0, Exp2 )
             // e.g.  Bin( 0, add, Bin( 1, add, Bin( 2, add, 3 ) ) )
-            int lastIndex = pathExps.Count - 1;
-            Expr exp = new BinaryExpr(pathExps[lastIndex - 1], Operator.Add, pathExps[lastIndex]);
+            var lastIndex = pathExps.Count - 1;
+            var exp = new BinaryExpr(pathExps[lastIndex - 1], Operator.Add, pathExps[lastIndex]);
             exp.Ctx = _parser.Context;
             _parser.SetScriptPositionFromNode(exp, pathExps[lastIndex - 1]);
 
-            for (int ndx = lastIndex - 2; ndx >= 0; ndx--)
+            for (var ndx = lastIndex - 2; ndx >= 0; ndx--)
             {
                 var currentExp = pathExps[ndx];
                 exp = new BinaryExpr(currentExp, Operator.Add, exp);

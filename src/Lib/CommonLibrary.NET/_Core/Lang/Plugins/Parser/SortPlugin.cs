@@ -203,8 +203,7 @@ namespace ComLib.Lang.Plugins
         public override object Evaluate()
         {
             var obj = _source.Evaluate();
-            ExceptionHelper.AssertNotNull(this, obj, "sort");
-            ExceptionHelper.AssertType(this, obj, LTypes.Array);
+            ExceptionHelper.NotNullType(this, obj, "sort", LTypes.Array);
 
             var array = obj as LArray;
             var items = array.Value as List<object>;
@@ -226,9 +225,9 @@ namespace ComLib.Lang.Plugins
                     // Now do the actual comparison of values
                     int result = 0;
                     if (_isAsc)
-                        result = ((IComparable)x).CompareTo(y);
+                        result = CompareObjects(x, y);
                     else
-                        result = ((IComparable)y).CompareTo(x);
+                        result = CompareObjects(y, x);
                     return result;
                 });
                 return array;
@@ -257,13 +256,22 @@ namespace ComLib.Lang.Plugins
 
                 int result = 0;
                 if (_isAsc)
-                    result = ((IComparable)a).CompareTo(b);
+                    result = CompareObjects(a, b);
                 else
-                    result = ((IComparable)b).CompareTo(a);
+                    result = CompareObjects(b, a);
                 return result;
             });
             Ctx.Memory.Remove(_varName);
             return array;
+        }
+
+
+        private int CompareObjects(object x, object y)
+        {
+            var a = ((LObject)x).GetValue();
+            var b = ((LObject)y).GetValue();
+            var result = ((IComparable)a).CompareTo(b);
+            return result;
         }
     }
 }

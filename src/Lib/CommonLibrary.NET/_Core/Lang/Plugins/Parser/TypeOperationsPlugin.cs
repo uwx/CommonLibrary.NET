@@ -309,7 +309,7 @@ namespace ComLib.Lang.Plugins
         /// Evaluate the type check/conversion operation.
         /// </summary>
         /// <returns></returns>
-        public override object Evaluate()
+        public override object DoEvaluate()
         {
             if (_isConversion)
                 return ConvertValue();
@@ -329,18 +329,19 @@ namespace ComLib.Lang.Plugins
         private object CheckExplicitType()
         {
             var val = _exp.Evaluate();
-            if (val == null)
-                return LObjects.Null;
+            if (val == null || val == LObjects.Null)
+                return new LBool(false);
 
+            var lobj = val as LObject;
             var result = false;
-            if (     _destinationType == "string" ) result = val.GetType() == typeof(string)  ;
-            else if (_destinationType == "number" ) result = val.GetType() == typeof(double)  ;
-            else if (_destinationType == "bool"   ) result = val.GetType() == typeof(bool)    ;
-            else if (_destinationType == "date"   ) result = val.GetType() == typeof(DateTime);
-            else if (_destinationType == "time"   ) result = val.GetType() == typeof(TimeSpan);
-            else if (_destinationType == "list"   ) result = val.GetType() == typeof(LArrayType)  ;
-            else if (_destinationType == "map"    ) result = val.GetType() == typeof(LMapType)    ;
-            return result;
+            if (     _destinationType == "string" ) result = lobj.Type == LTypes.String;
+            else if (_destinationType == "number" ) result = lobj.Type == LTypes.Number;
+            else if (_destinationType == "bool"   ) result = lobj.Type == LTypes.Bool;
+            else if (_destinationType == "date"   ) result = lobj.Type == LTypes.Date;
+            else if (_destinationType == "time"   ) result = lobj.Type == LTypes.Time;
+            else if (_destinationType == "list"   ) result = lobj.Type == LTypes.Array;
+            else if (_destinationType == "map"    ) result = lobj.Type == LTypes.Map;
+            return new LBool(result);
         }
 
         /// <summary>
@@ -351,7 +352,7 @@ namespace ComLib.Lang.Plugins
         {
             var val = _exp.Evaluate();
             if (val == null)
-                return false;
+                return new LBool(false);
             var canConvert = false;
             try
             {
@@ -362,7 +363,7 @@ namespace ComLib.Lang.Plugins
             catch (Exception)
             {
             }
-            return canConvert;
+            return new LBool(canConvert);
         }
 
 
@@ -382,6 +383,8 @@ namespace ComLib.Lang.Plugins
 
         private object DoConvertValue(string destinationType, object val, bool handleError)
         {
+            var lobj = (LObject)val;
+
             // get the source type
             var sourceType = GetTypeName(val);
             var key = sourceType + "-" + destinationType;
@@ -399,7 +402,7 @@ namespace ComLib.Lang.Plugins
 
             // 3b. ToString
             if (spec.ConvertMode == CONVERT_MODE_TOSTRING)
-                return val.ToString();
+                return new LString(lobj.GetValue().ToString());
 
             // 3c. Conversion method
             object result = null;
@@ -425,14 +428,8 @@ namespace ComLib.Lang.Plugins
 
         private static string GetTypeName(object val)
         {
-            if( val.GetType() == typeof(string)   ) return "string";
-            if( val.GetType() == typeof(double)   ) return "number";
-            if( val.GetType() == typeof(bool)     ) return "bool";
-            if( val.GetType() == typeof(DateTime) ) return "date";
-            if( val.GetType() == typeof(TimeSpan) ) return "time";
-            if( val.GetType() == typeof(LArrayType)   ) return "list";
-            if( val.GetType() == typeof(LMapType)     ) return "map";
-            return "unknown";
+            var typename = ((LObject)val).Type.Name;
+            return typename;
         }
 
 

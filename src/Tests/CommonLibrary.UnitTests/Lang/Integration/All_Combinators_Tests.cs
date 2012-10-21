@@ -451,12 +451,12 @@ namespace ComLib.Lang.Tests.Integration
             var register = "enable units;";
             var statements = new List<Tuple<string, Type, object, string>>()
             {
-                new Tuple<string, Type, object, string>("result", typeof(double), 6 , register + " var u = 2 feet + 12 inches + 1 yard; var result = u.Value"),
-                new Tuple<string, Type, object, string>("result", typeof(double), 6 , register + " var u = 2 feet + 1 yard + 12 inches; var result = u.Value"), 
-                new Tuple<string, Type, object, string>("result", typeof(double), 2 , register + " var u = 1 yard + 12 inches + 2 feet; var result = u.Value"),
-                new Tuple<string, Type, object, string>("result", typeof(double), 2 , register + " var u = 1 yard + 2 feet + 12 inches; var result = u.Value"),
-                new Tuple<string, Type, object, string>("result", typeof(double), 63, register + " var u = 3 inches + 2 feet + 1 yard;  var result = u.BaseValue"),
-                new Tuple<string, Type, object, string>("result", typeof(double), 63, register + " var u = 3 inches + 1 yard + 2 feet;  var result = u.BaseValue")                
+                TestCase("result", typeof(double), 6 , register + " var u = 2 feet + 12 inches + 1 yard; var result = u.Value"),
+                TestCase("result", typeof(double), 6 , register + " var u = 2 feet + 1 yard + 12 inches; var result = u.Value"), 
+                TestCase("result", typeof(double), 2 , register + " var u = 1 yard + 12 inches + 2 feet; var result = u.Value"),
+                TestCase("result", typeof(double), 2 , register + " var u = 1 yard + 2 feet + 12 inches; var result = u.Value"),
+                TestCase("result", typeof(double), 63, register + " var u = 3 inches + 2 feet + 1 yard;  var result = u.BaseValue"),
+                TestCase("result", typeof(double), 63, register + " var u = 3 inches + 1 yard + 2 feet;  var result = u.BaseValue")                
             };
             Parse(statements, true, i =>
             {

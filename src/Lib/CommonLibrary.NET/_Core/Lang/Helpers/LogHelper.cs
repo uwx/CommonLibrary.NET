@@ -67,12 +67,12 @@ namespace ComLib.Lang.Helpers
                 hasFormat = paramList.Count > 1;
                 if (hasFormat)
                 {
-                    format = paramList[0].ToString();
+                    format = ((LObject)paramList[0]).GetValue().ToString();
                     var args = paramList.GetRange(1,paramList.Count - 1);
                     val = string.Format(format, args.ToArray());
                 }
                 else
-                    val = paramList[0].ToString();
+                    val = ((LObject)paramList[0]).GetValue().ToString();
             }
             return val;
         }
