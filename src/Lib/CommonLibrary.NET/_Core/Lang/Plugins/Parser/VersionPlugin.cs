@@ -35,7 +35,7 @@ namespace ComLib.Lang.Plugins
     /// </summary>
     public class VersionPlugin : LexPlugin
     {
-        private const string _versionRegex = "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(\\.[0-9]{1,3})?";
+        private const string _versionRegex = "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(\\.[0-9]{1,4})?";
 
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace ComLib.Lang.Plugins
         {
             get
             {
-                return "[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(\\.[0-9]{1,3})?";
+                return "[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(\\.[0-9]{1,4})?";
             }
         }
 

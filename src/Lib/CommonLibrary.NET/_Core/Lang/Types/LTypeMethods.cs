@@ -143,7 +143,7 @@ namespace ComLib.Lang.Types
         /// <returns></returns>
         public virtual LObject CreateFromArgs(object[] args)
         {
-            return LObjects.Empty;
+            return LObjects.Null;
         }
 
 

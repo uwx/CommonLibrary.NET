@@ -60,7 +60,7 @@ namespace ComLib.Lang.Helpers
         /// <param name="op">The math operator</param>
         /// <param name="units"></param>
         /// <returns></returns>
-        public static LUnit CalcUnits(AstNode node, LUnit left, LUnit right, Operator op, Units units)
+        public static LObject CalcUnits(AstNode node, LUnit left, LUnit right, Operator op, Units units)
         {
             double baseUnitsValue = 0;
             if (op == Operator.Multiply)
@@ -91,7 +91,7 @@ namespace ComLib.Lang.Helpers
             result.SubGroup = left.SubGroup;
             result.Value = relativeValue;
 
-            return result;
+            return new LClass(result);
         }
 
 
@@ -106,7 +106,7 @@ namespace ComLib.Lang.Helpers
         public static LTime CalcTimes(AstNode node, LTime lhs, LTime rhs, Operator op)
         {
             if (op != Operator.Add && op != Operator.Subtract)
-                throw BuildRunTimeException(node, "Can only add/subtract times");
+                throw ExceptionHelper.BuildRunTimeException(node, "Can only add/subtract times");
 
             var left = lhs.Value;
             var right = rhs.Value;
@@ -134,7 +134,7 @@ namespace ComLib.Lang.Helpers
         public static LTime CalcDates(AstNode node, LDate lhs, LDate rhs, Operator op)
         {
             if (op != Operator.Subtract)
-                throw BuildRunTimeException(node, "Can only subtract dates");
+                throw ExceptionHelper.BuildRunTimeException(node, "Can only subtract dates");
 
             var left = lhs.Value;
             var right = rhs.Value;
@@ -376,7 +376,7 @@ namespace ComLib.Lang.Helpers
         /// <returns></returns>
         public static LObject AccessIndex(RegisteredMethods regmethods, AstNode node, LObject target, LObject ndxObj)
         {
-            object result = LObjects.Empty;
+            object result = LObjects.Null;
             // Case 1: Array access users[0];
             if (target.Type == LTypes.Array)
             {
@@ -386,7 +386,7 @@ namespace ComLib.Lang.Helpers
                 // TODO: Make this generic.
                 var length = Convert.ToInt32(methods.ExecuteMethod(target, "length", null));
                 if(ndx >= length)
-                    throw EvalHelper.BuildRunTimeException(node, "Index out of bounds : '" + ndx + "'");
+                    throw ExceptionHelper.BuildRunTimeException(node, "Index out of bounds : '" + ndx + "'");
 
                 result = methods.GetByNumericIndex(target, (int)ndx);
             }
@@ -396,66 +396,16 @@ namespace ComLib.Lang.Helpers
                 var memberName = ((LString)ndxObj).Value;
                 var methods = regmethods.Get(LTypes.Map);
                 if (!methods.HasProperty(target, memberName))
-                    throw EvalHelper.BuildRunTimeException(node, "Property does not exist : '" + memberName + "'");
+                    throw ExceptionHelper.BuildRunTimeException(node, "Property does not exist : '" + memberName + "'");
 
                 result = methods.GetByStringMember(target, memberName);
             }
             // Conver to lang type.
-            if(result != LObjects.Empty && !(result is LObject))
+            if(result != LObjects.Null && !(result is LObject))
             {
                 result = LangTypeHelper.ConvertToLangValue(result);
             }
             return (LObject)result;
-        }
-
-
-        /*
-        /// <summary>
-        /// Gets an array value.
-        /// </summary>
-        /// <param name="regmethods"></param>
-        /// <param name="node"></param>
-        /// <param name="ListObject"></param>
-        /// <param name="ndx"></param>
-        /// <returns></returns>
-        public static LObject AccessListIndex(RegisteredMethods regmethods, AstNode node, LArray ListObject, int ndx)
-        {
-            MethodInfo method = null;
-            object result = null;
-            var list = (LArray)ListObject;
-
-            // Case 1: Fluentscript LArray
-            if (list.Type == LTypes.Array)
-            {
-                var methods = regmethods.Get(LTypes.Array);
-                result = methods.GetByNumericIndex(list, ndx);
-                return (LObject)result;
-            }
-            // Case 2: C# IList
-            else if (list.Value is IList)
-            {
-                method = ListObject.GetType().GetMethod("get_Item");
-            }
-            // Getting value?                
-            try
-            {
-                result = method.Invoke(ListObject, new object[] { ndx });
-            }
-            catch (Exception)
-            {
-                throw BuildRunTimeException(node, "Access of list item at position " + ndx + " is out of range");
-            }
-            return null;
-        }
-        */
-
-        /// <summary>
-        /// Build a language exception due to the current token being invalid.
-        /// </summary>
-        /// <returns></returns>
-        public static LangException BuildRunTimeException(AstNode node, string message)
-        {
-            return new LangException("Runtime Error", message, node.Ref.ScriptName, node.Ref.Line, node.Ref.CharPos);
         }
     }
 }

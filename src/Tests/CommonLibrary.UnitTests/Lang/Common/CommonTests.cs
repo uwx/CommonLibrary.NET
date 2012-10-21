@@ -685,6 +685,25 @@ namespace ComLib.Lang.Tests.Common
             RequiredPlugins = new[] { typeof(TypeOperationsPlugin) },
             Positive = new List<Tuple<string, Type, object, string>>()
             {
+                TestCase("i", typeof(bool),       true,  "var i = is_date( new Date(2012, 9, 1)   );"),
+                TestCase("i", typeof(bool),       false, "var i = is_date( '9/1/2012' );"),
+                TestCase("i", typeof(bool),       false, "var i = is_date( '09/01/2012' );"),
+                
+                TestCase("i", typeof(bool),   false,  "var i = is_date_like( 123   );"),
+                TestCase("i", typeof(bool),   false,  "var i = is_date_like( '123' );"),
+                TestCase("i", typeof(bool),   false,  "var i = is_date_like( 123.45);"),
+                TestCase("i", typeof(bool),   false,  "var i = is_date_like( true  );"),
+                TestCase("i", typeof(bool),   false,  "var i = is_date_like( false );"),
+                
+                TestCase("i", typeof(DateTime),   new DateTime(2012, 9, 1),  "var i = to_date( new Date(2012, 9, 1)   );"),
+                TestCase("i", typeof(DateTime),   new DateTime(2012, 9, 1),  "var i = to_date( '9/1/2012' );"),
+                TestCase("i", typeof(DateTime),   new DateTime(2012, 9, 1),  "var i = to_date( '09/01/2012' );"),
+
+                TestCase("i", typeof(bool),       true,  "var i = is_time( new Time(8, 30, 0)   );"),
+                TestCase("i", typeof(bool),       false, "var i = is_time( '8:30' );"),
+                TestCase("i", typeof(TimeSpan),   new TimeSpan(8, 30, 0),  "var i = to_time( new Time(8, 30, 0)   );"),
+                TestCase("i", typeof(TimeSpan),   new TimeSpan(8, 30, 0),  "var i = to_time( '8:30' );"),
+
                 TestCase("i", typeof(bool),   true,  "var i = is_number( 123 );"),
                 TestCase("i", typeof(bool),   false, "var i = is_number( '123' );"),
                 TestCase("i", typeof(bool),   true,  "var i = is_number( 123.45 );"),
@@ -726,26 +745,6 @@ namespace ComLib.Lang.Tests.Common
                 TestCase("i", typeof(bool),   false, "var i = to_bool( 'not ok');"),
                 TestCase("i", typeof(bool),   false, "var i = to_bool( '0');"),
                 TestCase("i", typeof(bool),   false, "var i = to_bool( 0);"),
-
-
-                TestCase("i", typeof(bool),       true,  "var i = is_date( new Date(2012, 9, 1)   );"),
-                TestCase("i", typeof(bool),       false, "var i = is_date( '9/1/2012' );"),
-                TestCase("i", typeof(bool),       false, "var i = is_date( '09/01/2012' );"),
-                
-                TestCase("i", typeof(bool),   false,  "var i = is_date_like( 123   );"),
-                TestCase("i", typeof(bool),   false,  "var i = is_date_like( '123' );"),
-                TestCase("i", typeof(bool),   false,  "var i = is_date_like( 123.45);"),
-                TestCase("i", typeof(bool),   false,  "var i = is_date_like( true  );"),
-                TestCase("i", typeof(bool),   false,  "var i = is_date_like( false );"),
-                
-                TestCase("i", typeof(DateTime),   new DateTime(2012, 9, 1),  "var i = to_date( new Date(2012, 9, 1)   );"),
-                TestCase("i", typeof(DateTime),   new DateTime(2012, 9, 1),  "var i = to_date( '9/1/2012' );"),
-                TestCase("i", typeof(DateTime),   new DateTime(2012, 9, 1),  "var i = to_date( '09/01/2012' );"),
-
-                TestCase("i", typeof(bool),       true,  "var i = is_time( new Time(8, 30, 0)   );"),
-                TestCase("i", typeof(bool),       false, "var i = is_time( '8:30' );"),
-                TestCase("i", typeof(TimeSpan),   new TimeSpan(8, 30, 0),  "var i = to_time( new Time(8, 30, 0)   );"),
-                TestCase("i", typeof(TimeSpan),   new TimeSpan(8, 30, 0),  "var i = to_time( '8:30' );"),
             }
         };
 

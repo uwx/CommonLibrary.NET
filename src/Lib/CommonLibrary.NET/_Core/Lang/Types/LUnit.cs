@@ -10,6 +10,15 @@ namespace ComLib.Lang.Types
     public class LUnit : LObject
     {
         /// <summary>
+        /// Initialize.
+        /// </summary>
+        public LUnit()
+        {
+            //this.Type = LTypes.Unit;
+        }
+
+
+        /// <summary>
         /// The value of the unit in base terms e.g. 1 inch is the base for length etc.
         /// </summary>
         public double BaseValue { get; set; }

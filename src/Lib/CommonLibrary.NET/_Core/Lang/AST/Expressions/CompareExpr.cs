@@ -84,9 +84,10 @@ namespace ComLib.Lang.AST
             else if (left.Type == LTypes.DayOfWeek || right.Type == LTypes.DayOfWeek)
                 result = EvalHelper.CompareDays(this, left, right, Op);
 
-            // Day of week ?
-            else if (left.Type == LTypes.Unit || right.Type == LTypes.Unit)
-                result = EvalHelper.CompareUnits(this, (LUnit)left, (LUnit)right, Op);
+            // Units
+            //else if (left.Type == LTypes.Unit || right.Type == LTypes.Unit)
+            else if (left.Type.Name == "LUnit" || right.Type.Name == "LUnit")
+                result = EvalHelper.CompareUnits(this, (LUnit)((LClass)left).Value, (LUnit)((LClass)right).Value, Op);
 
             return result;
         }

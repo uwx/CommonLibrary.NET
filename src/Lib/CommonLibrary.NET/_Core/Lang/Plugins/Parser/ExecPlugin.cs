@@ -118,41 +118,50 @@ namespace ComLib.Lang.Plugins
             var exePath = "";
             var workingDir = "";
             var failOnError = false;
-            LArrayType args = null;
-
+            LArray args = null;
+            var exitcode = -1;
             try
             {
                 this.ResolveParams();
-                exePath = (string)this.GetParamValue(0, false, string.Empty);
-                workingDir = (string)this.GetParamValue(1, true, string.Empty);
-                args = (LArrayType)this.GetParamValue(2, true, null);
+                exePath = this.GetParamValueString(0, false, string.Empty);
+                workingDir = this.GetParamValueString(1, true, string.Empty);
+                args = this.GetParamValue(2, true, null) as LArray;
 
                 // Convert the items in the array to strings.
                 // TODO: type-changes
                 //var list = args.Raw;
                 var list = new List<object>();
                 var stringArgs = "";
-                foreach (var item in list)
-                    stringArgs += Convert.ToString(item) + " ";
-
+                if (args != null && args.Value != null)
+                {
+                    foreach (var item in args.Value)
+                    {
+                        var lobj = (LObject)item;
+                        stringArgs += Convert.ToString(lobj.GetValue()) + " ";
+                    }
+                }
                 var p = new System.Diagnostics.Process();
                 p.StartInfo.FileName = exePath;
                 p.StartInfo.Arguments = stringArgs;
                 p.StartInfo.UseShellExecute = false;
                 p.StartInfo.CreateNoWindow = true;
-                p.StartInfo.WorkingDirectory = workingDir;
+                p.StartInfo.WorkingDirectory = workingDir;                
                 p.Start();
+                // TODO: Set up options on this plugin to configure wait time ( indefinite | milliseconds )
+                p.WaitForExit();
+                exitcode = p.ExitCode;
             }
             catch (Exception ex)
             {
+                exitcode = 1;
                 if (failOnError)
                 { 
                     var error = string.Format("An error occurred executing external application '{0}', in '{1}', with '{2}'.\r\n"
                               + "message: {3}", exePath, workingDir, args, ex.Message);
-                    throw BuildRunTimeException(error);
+                    throw new LangFailException(error, this.Ref.ScriptName, this.Ref.Line);
                 }
             }
-            return LObjects.Null;
+            return new LNumber(Convert.ToDouble(exitcode));
         }
     }
 }

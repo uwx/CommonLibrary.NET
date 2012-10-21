@@ -38,7 +38,8 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            Combinator_Tests();
+            Combinator_Unit_Tests();
+            Combinator_Integration_Tests();
             System_Control_Flow();
         }
 
@@ -327,9 +328,18 @@ namespace ComLib.Samples
 
 
         #region Combinators
-        static void Combinator_Tests()
+        static void Combinator_Integration_Tests()
+        {
+            var t = new Plugin_Integration_Positives();
+            t.Can_Use_Units();
+        }
+
+
+        static void Combinator_Unit_Tests()
         {
             var t = new Plugin_Component_Positives();
+            t.Can_Use_Exec_Plugin();
+            t.Can_Use_Version_Plugin();
             t.Can_Use_TypeOps_Plugin();
             t.Can_Use_Sort_Plugin();
             t.Can_Use_Exec_Plugin();

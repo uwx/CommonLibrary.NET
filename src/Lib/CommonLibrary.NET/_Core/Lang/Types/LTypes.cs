@@ -93,12 +93,6 @@ namespace ComLib.Lang.Types
 
 
         /// <summary>
-        /// Empty object
-        /// </summary>
-        public static LObject Empty = new LObject();
-
-
-        /// <summary>
         /// Empty string.
         /// </summary>
         public static LObject EmptyString = new LString("");

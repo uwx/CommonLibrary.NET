@@ -110,9 +110,11 @@ namespace ComLib.Lang.AST
                 var st2 = ((LBool) left).Value.ToString().ToLower() + ((LString) right).Value;
                 result = new LString(st2);
             }
-            else if (left.Type == LTypes.Unit && right.Type == LTypes.Unit)
+            // TODO: Need to handle LUnit and LVersion better
+            //else if (left.Type == LTypes.Unit && right.Type == LTypes.Unit)
+            else if (left.Type.Name == "LUnit" && right.Type.Name == "LUnit")
             {
-                result = EvalHelper.CalcUnits(this, (LUnit)left, (LUnit)right, Op, Ctx.Units);
+                result = EvalHelper.CalcUnits(this, (LUnit)((LClass)left).Value, (LUnit)((LClass)right).Value, Op, Ctx.Units);
             }
             else
             {

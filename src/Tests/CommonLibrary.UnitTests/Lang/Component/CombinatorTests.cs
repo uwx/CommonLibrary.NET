@@ -289,14 +289,14 @@ namespace ComLib.Lang.Tests.Component
         [Test]
         public void Can_Use_Exec_Plugin()
         {
-            var script = @"exec program: C:\Dev\Tools\NAnt\9.0\bin\nant.exe,"
+            var script = @"exec program: C:\Dev\Tools\nant\0.85\bin\nant-0.85\bin\nant.exe,"
 	                   + @"in: C:\Dev\Tests\nanttests,"
-                       + @"args: [ '-buildfile:nanttests.xml', '-D:arg.option=3', 'Execute_A' ]";
+                       + @"args: [ '-buildfile:fs_exe_plugin_test.xml', '-D:arg.option=fs1', 'Execute_A' ]";
 
             var i = new Interpreter();
             i.Context.Plugins.Register(new UriPlugin());
             i.Context.Plugins.Register(new ExecPlugin());
-            //i.Execute(script);
+            i.Execute(script);
         }
 
 

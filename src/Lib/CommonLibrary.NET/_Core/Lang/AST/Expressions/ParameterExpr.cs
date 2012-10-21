@@ -88,5 +88,85 @@ namespace ComLib.Lang.AST
 
             return this.ParamList[index];
         }
+
+
+        /// <summary>
+        /// Gets a parameter value if available or the default value otherwise. Index out of bounds will throw an error.
+        /// </summary>
+        /// <param name="index">index position of the parameter</param>
+        /// <param name="allowDefaultValue">Whether or not to enable using the default value.</param>
+        /// <param name="defaultValue">A default value to use if the parameter is not available.</param>
+        /// <returns></returns>
+        private object GetParamValueRaw(int index, bool allowDefaultValue, object defaultValue)
+        {
+            bool hasParams = this.ParamList != null && this.ParamList.Count > 0;
+            if (!hasParams && !allowDefaultValue)
+                throw BuildRunTimeException("No parameters available for custom function plugin : " + this._fmeta.Name);
+
+            if (hasParams && this.ParamList.Count <= index)
+                throw BuildRunTimeException("Unexpected parameter retrieval attempted in custom function plugin : " + this._fmeta.Name);
+
+            if (!hasParams && allowDefaultValue)
+                return defaultValue;
+
+            var result = (LObject)this.ParamList[index];
+            return result.GetValue();
+        }
+
+
+        /// <summary>
+        /// Gets the parameter value as a datetime.
+        /// </summary>
+        /// <param name="index">The index position of the parameter</param>
+        /// <param name="allowDefaultValue">Whether or not to allow using the default value supplied if the parameter does not exist</param>
+        /// <param name="defaultValue">A default value to use if the parameter does not exist ( index out of range )</param>
+        /// <returns></returns>
+        protected string GetParamValueString(int index, bool allowDefaultValue, string defaultValue)
+        {
+            var val = (string)this.GetParamValueRaw(index, allowDefaultValue, defaultValue);
+            return val;
+        }
+
+
+        /// <summary>
+        /// Gets the parameter value as a datetime.
+        /// </summary>
+        /// <param name="index">The index position of the parameter</param>
+        /// <param name="allowDefaultValue">Whether or not to allow using the default value supplied if the parameter does not exist</param>
+        /// <param name="defaultValue">A default value to use if the parameter does not exist ( index out of range )</param>
+        /// <returns></returns>
+        protected double GetParamValueNumber(int index, bool allowDefaultValue, double defaultValue)
+        {
+            var val = (double)this.GetParamValueRaw(index, allowDefaultValue, defaultValue);
+            return val;
+        }
+
+
+        /// <summary>
+        /// Gets the parameter value as a datetime.
+        /// </summary>
+        /// <param name="index">The index position of the parameter</param>
+        /// <param name="allowDefaultValue">Whether or not to allow using the default value supplied if the parameter does not exist</param>
+        /// <param name="defaultValue">A default value to use if the parameter does not exist ( index out of range )</param>
+        /// <returns></returns>
+        protected bool GetParamValueBool(int index, bool allowDefaultValue, bool defaultValue)
+        {
+            var val = (bool)this.GetParamValueRaw(index, allowDefaultValue, defaultValue);
+            return val;
+        }
+
+
+        /// <summary>
+        /// Gets the parameter value as a datetime.
+        /// </summary>
+        /// <param name="index">The index position of the parameter</param>
+        /// <param name="allowDefaultValue">Whether or not to allow using the default value supplied if the parameter does not exist</param>
+        /// <param name="defaultValue">A default value to use if the parameter does not exist ( index out of range )</param>
+        /// <returns></returns>
+        protected DateTime GetParamValueDate(int index, bool allowDefaultValue, DateTime defaultValue)
+        {
+            var val = (DateTime)this.GetParamValueRaw(index, allowDefaultValue, defaultValue);
+            return val;
+        }
     }
 }
