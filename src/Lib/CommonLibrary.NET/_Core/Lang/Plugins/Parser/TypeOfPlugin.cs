@@ -130,7 +130,7 @@ namespace ComLib.Lang.Plugins
             {
                 var name = _exp.ToQualifiedName();
                 if (Ctx.Functions.Contains(name))
-                    return "function:" + name;
+                    return new LString("function:" + name);
             }
             var obj = _exp.Evaluate();
             ExceptionHelper.NotNull(this, obj, "typeof");

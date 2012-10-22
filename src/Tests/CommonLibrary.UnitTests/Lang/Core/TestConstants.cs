@@ -8,7 +8,7 @@ namespace ComLib.Lang.Tests.Common
     /// <summary>
     /// Used to store a collection of testcases.
     /// </summary>
-    public class TestConsts
+    public class HostTypes
     {
         public static Type Double = typeof(double);
         public static Type String = typeof(string);

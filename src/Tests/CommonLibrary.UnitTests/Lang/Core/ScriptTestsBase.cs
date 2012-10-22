@@ -252,6 +252,9 @@ namespace ComLib.Lang.Tests.Common
 
         protected void Compare(object actual, object expected)
         {
+            Assert.IsTrue(actual is LObject);
+                
+
             if (actual is LObject && actual != LObjects.Null)
                 actual = ((LObject)actual).GetValue();
 

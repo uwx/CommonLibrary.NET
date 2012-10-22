@@ -86,6 +86,7 @@
     <Compile Include="Lang\Common\CommonTests.cs" />
     <Compile Include="Lang\Common\CommonSysTests.cs" />
     <Compile Include="Lang\Component\CombinatorTests.cs" />
+    <Compile Include="Lang\Core\Klass2.cs" />
     <Compile Include="Lang\Core\TestConstants.cs" />
     <Compile Include="Lang\Core\Klass.cs" />
     <Compile Include="Lang\Core\ScriptTestsBase.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Lang\Core\User.cs" />
     <Compile Include="Lang\Integration\All_Combinators_Failures.cs" />
     <Compile Include="Lang\Integration\All_Combinators_Tests.cs" />
+    <Compile Include="Lang\Integration\System_CSharp_Object_Tests.cs" />
     <Compile Include="Lang\Integration\System_CSharp_Integration_Tests.cs" />
     <Compile Include="Lang\Integration\System_Limits.cs" />
     <Compile Include="Lang\Integration\Fluent_Calls.cs" />

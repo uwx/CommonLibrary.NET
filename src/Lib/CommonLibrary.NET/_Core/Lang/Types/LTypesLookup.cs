@@ -69,12 +69,12 @@ namespace ComLib.Lang.Types
         /// </summary>
         /// <param name="fullName">The full name of the type. e.g. sys.string.</param>
         /// <returns></returns>
-        public static bool IsBasicType(string fullName)
+        public static bool IsBuiltInType(string fullName)
         {
             if (!_types.ContainsKey(fullName))
                 return false;
             var type = _types[fullName];
-            return type.IsBasicType();
+            return type.IsBuiltInType();
         }
 
 

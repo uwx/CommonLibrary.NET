@@ -89,8 +89,13 @@ namespace ComLib.Lang.Helpers
             paramList.Clear();
             bool hasNamedParams = false;
             foreach (var param in paramListExpressions)
+            {    
                 if (param is NamedParamExpr)
+                {
                     hasNamedParams = true;
+                    break;
+                }
+            }
 
             // If there are no named params. Simply evaluate and return.
             if (!hasNamedParams)

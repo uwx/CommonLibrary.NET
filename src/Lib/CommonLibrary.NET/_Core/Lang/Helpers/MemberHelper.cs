@@ -46,7 +46,7 @@ namespace ComLib.Lang.Helpers
             var type = obj.Type;
 
             // Case 3: Method / Property on FluentScript type
-            bool isCoreType = obj.Type.IsBasicType();
+            bool isCoreType = obj.Type.IsBuiltInType();
             if (isCoreType)
             {
                 var result = MemberHelper.GetLangBasicTypeMember(node, ctx.Methods, obj, memberName);

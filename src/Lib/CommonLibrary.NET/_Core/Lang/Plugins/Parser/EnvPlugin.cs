@@ -231,7 +231,7 @@ namespace ComLib.Lang.Plugins
             if (string.IsNullOrEmpty(_scope))
             {
                 val = System.Environment.GetEnvironmentVariable(_varName);
-                return val;
+                return new LString(val);
             }
             EnvironmentVariableTarget target = (_scope == "sys")
                                                 ? EnvironmentVariableTarget.Machine

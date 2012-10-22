@@ -41,9 +41,10 @@ namespace ComLib.Lang.Plugins
         {
             this.Init("exec");
             _funcMeta = new FunctionMetaData("exec", null);
-            _funcMeta.AddArg("program",   "string",  true,  "",   string.Empty, @"c:\tools\nunit\nunit.exe", "program to launch");
+            _funcMeta.AddArg("program",    "string",  true,  "",   string.Empty, @"c:\tools\nunit\nunit.exe", "program to launch");
             _funcMeta.AddArg("workingdir", "string", false, "in", string.Empty, @"c:\tools\nunit\", "working directory to launch in");
             _funcMeta.AddArg("args",       "list",   false, "",   string.Empty, "", "arguments to the program");
+            _funcMeta.AddArg("failOnError","bool",   false, "", false, "", "arguments to the program");
         }
 
 
@@ -126,6 +127,7 @@ namespace ComLib.Lang.Plugins
                 exePath = this.GetParamValueString(0, false, string.Empty);
                 workingDir = this.GetParamValueString(1, true, string.Empty);
                 args = this.GetParamValue(2, true, null) as LArray;
+                failOnError = this.GetParamValueBool(3, true, false);
 
                 // Convert the items in the array to strings.
                 // TODO: type-changes

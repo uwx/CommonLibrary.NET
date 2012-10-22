@@ -543,6 +543,7 @@ src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/IParameterExpression.cs -te
 src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/IndexExpr.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/IndexableExpr.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/InterpolatedExpr.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/LiteralExpr.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/MemberAccessExpr.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/MemberExpr.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/NamedParameterExpr.cs -text
@@ -903,6 +904,7 @@ src/Tests/CommonLibrary.UnitTests/Lang/Common/CommonSysTests.cs -text
 src/Tests/CommonLibrary.UnitTests/Lang/Common/CommonTests.cs -text
 src/Tests/CommonLibrary.UnitTests/Lang/Component/CombinatorTests.cs -text
 src/Tests/CommonLibrary.UnitTests/Lang/Core/Klass.cs -text
+src/Tests/CommonLibrary.UnitTests/Lang/Core/Klass2.cs -text
 src/Tests/CommonLibrary.UnitTests/Lang/Core/LangTestsHelper.cs -text
 src/Tests/CommonLibrary.UnitTests/Lang/Core/ScriptTestsBase.cs -text
 src/Tests/CommonLibrary.UnitTests/Lang/Core/TestConstants.cs -text
@@ -912,6 +914,7 @@ src/Tests/CommonLibrary.UnitTests/Lang/Integration/All_Combinators_Failures.cs -
 src/Tests/CommonLibrary.UnitTests/Lang/Integration/All_Combinators_Tests.cs -text
 src/Tests/CommonLibrary.UnitTests/Lang/Integration/Fluent_Calls.cs -text
 src/Tests/CommonLibrary.UnitTests/Lang/Integration/System_CSharp_Integration_Tests.cs -text
+src/Tests/CommonLibrary.UnitTests/Lang/Integration/System_CSharp_Object_Tests.cs -text
 src/Tests/CommonLibrary.UnitTests/Lang/Integration/System_Combinator_Only_Tests.cs -text
 src/Tests/CommonLibrary.UnitTests/Lang/Integration/System_Config_Tests.cs -text
 src/Tests/CommonLibrary.UnitTests/Lang/Integration/System_Limits.cs -text

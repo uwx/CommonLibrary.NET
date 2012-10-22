@@ -1,14 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using System.Reflection;
-using System.Resources;
 using NUnit.Framework;
 
-
-using ComLib;
-using ComLib.Lang;
 using ComLib.Lang.Types;
 using ComLib.Lang.Plugins;
 using ComLib.Tests;
@@ -84,9 +77,6 @@ namespace ComLib.Lang.Tests.Integration.System
                 }
             }
         }
-
-
-        
 
 
         [Test]
@@ -782,6 +772,18 @@ namespace ComLib.Lang.Tests.Integration.System
 
 
         [Test]
+        public void Can_Ensure_Basic_Values_Are_Copied()
+        {
+            var testcases = new List<Tuple<string, Type, object, string>>()
+            {
+                TestCase("result", typeof(double), 2, "var result = 2; function inc(b) { b = b + 1; return b; } var a = inc(result);"),
+                TestCase("a",      typeof(double), 3, "var result = 2; function inc(b) { b = b + 1; return b; } var a = inc(result);"),
+            };
+            Parse(testcases);
+        }
+
+
+        [Test]
         public void Can_Make_Calls_Without_Parenthesis()
         {
             var suite = new LangTestSuite()
@@ -1028,161 +1030,6 @@ namespace ComLib.Lang.Tests.Integration.System
                 //Assert.AreEqual(array.Length, stmt.Item4);
                 throw new NotImplementedException();
             }
-        }
-    }
-
-
-    [TestFixture]
-    public class Script_Tests_CSharp_Objects : ScriptTestsBase
-    {
-        [Test]
-        public void Can_Create_Via_Different_Constructors()
-        {
-            var statements = new List<Tuple<string, Type, object, string>>()
-            {
-                TestCase("result", typeof(string),    "john",                          "var p = new Person(); var result = p.FirstName;"),
-                TestCase("result", typeof(string),    "kish",                          "var p = new Person('ki', 'sh'); var result = p.FirstName + p.LastName; "),
-                TestCase("result", typeof(string),    "nonew@email.com",               "var p = new Person('john', 'doe', 'nonew@email.com', true, 10.56); var result = p.Email;  "),
-                TestCase("result", typeof(string),    "janedallparams@email.comfalse", "var p = new Person('jane', 'd', 'allparams@email.com', false, 10.56, new Date()); var result = p.FirstName + p.LastName + p.Email + p.IsMale;")
-            };
-            Parse(statements, true, (i) => i.Context.Types.Register(typeof
-                (Person), null));
-        }
-
-
-        [Test]
-        public void Can_Create_With_FullName_Via_Different_Constructors()
-        {
-            var statements = new List<Tuple<string, Type, object, string>>()
-            {
-                TestCase("result", typeof(string),    "john",                          "var p = new ComLib.Tests.Person(); var result = p.FirstName;"),
-                TestCase("result", typeof(string),    "kish",                          "var p = new ComLib.Tests.Person('ki', 'sh'); var result = p.FirstName + p.LastName; "),
-                TestCase("result", typeof(string),    "nonew@email.com",               "var p = new ComLib.Tests.Person('john', 'doe', 'nonew@email.com', true, 10.56); var result = p.Email;  "),
-                TestCase("result", typeof(string),    "janedallparams@email.comfalse", "var p = new ComLib.Tests.Person('jane', 'd', 'allparams@email.com', false, 10.56, new Date()); var result = p.FirstName + p.LastName + p.Email + p.IsMale;")
-            };
-            Parse(statements, true, (i) => i.Context.Types.Register(typeof(Person), null));
-        }
-
-
-        [Test]
-        public void Can_Get_Instance_Property()
-        {
-            var testcases = new List<Tuple<string, Type, object, string>>()
-            {
-                TestCase("result", typeof(string),   "john",              "var p = new Person(); var result = p.FirstName;" ),
-                TestCase("result", typeof(string),   "johndoe@email.com", "var p = new Person(); var result = p.Email;" ),
-                TestCase("result", typeof(bool),     true,                "var p = new Person(); var result = p.IsMale;" ),
-                TestCase("result", typeof(double),   10.5,                "var p = new Person(); var result = p.Salary;" ),
-                TestCase("result", typeof(DateTime), DateTime.Today,      "var p = new Person(); var result = p.BirthDate;" ),                
-                TestCase("result", typeof(string),   "Queens",            "var p = new Person(); var result = p.Address.City;" ),
-                TestCase("result", typeof(string),   "NY",                "var p = new Person(); var result = p.Address.State;" )
-            };
-            RunTestCases(testcases);
-        }
-
-
-        [Test]
-        public void Can_Set_Instance_Property()
-        {
-            var testcases = new List<Tuple<string, Type, object, string>>()
-            {
-                TestCase("result", typeof(string),   "jane",              "var p = new Person();  p.FirstName = 'jane';     var result = p.FirstName;" ),
-                TestCase("result", typeof(string),   "janedoe@email.com", "var p = new Person();  p.Email     = 'janedoe@email.com'; var result = p.Email;" ),
-                TestCase("result", typeof(bool),     false,               "var p = new Person();  p.IsMale    =  false;       var result = p.IsMale;" ),
-                TestCase("result", typeof(double),   10.8,                "var p = new Person();  p.Salary    = 10.8;         var result = p.Salary;" ),
-                TestCase("result", typeof(DateTime), DateTime.Today,      "var p = new Person();  p.BirthDate = new Date();   var result = p.BirthDate;" ),    
-                TestCase("result", typeof(string),   "Bronx",             "var p = new Person();  p.Address.City = 'Bronx';   var result = p.Address.City;" ),
-                TestCase("result", typeof(string),   "NJ",                "var p = new Person();  p.Address.State = 'NJ';     var result = p.Address.State;" )
-            };
-            Parse(testcases, true, (i) => i.Context.Types.Register(typeof(Person), null));
-        }
-
-
-        [Test]
-        public void Can_Call_Instance_Methods()
-        {
-            var statements = new List<Tuple<string, Type, object, string>>()
-            {
-                TestCase("result", typeof(string),    "ki sh",                 "var p = new Person('ki', 'sh', 'comlib@email.com', true, 12.34); var result = p.FullName();"),
-                TestCase("result", typeof(string),    "programmer ki sh sr.",  "var p = new Person('ki', 'sh', 'comlib@email.com', true, 12.34); var result = p.FullNameWithPrefix('programmer', true);")                
-            };
-            Parse(statements, true, (i) => i.Context.Types.Register(typeof(Person), null));
-        }
-
-
-        [Test]
-        public void Can_Call_Instance_Methods_With_Named_Params()
-        {
-            var statements = new List<Tuple<string, Type, object, string>>()
-            {
-                TestCase("result", typeof(string),    "ki sh",  "var p = new Person(); p.Init( first: 'ki', last: 'sh', email: 'comlib@email.com', isMale: true, salary: 12.34, birthday: new Date(2012, 7, 10)); var result = p.FullName();"),
-                TestCase("result", typeof(string),    "ki sh",  "var p = new Person(); p.Init( 'ki', last: 'sh', email: 'comlib@email.com', isMale: true, salary: 12.34, birthday: new Date(2012, 7, 10)); var result = p.FullName();"),
-                TestCase("result", typeof(string),    "ki sh",  "var p = new Person(); p.Init( 'ki', 'sh', email: 'comlib@email.com', isMale: true, salary: 12.34, birthday: new Date(2012, 7, 10)); var result = p.FullName();"),
-                TestCase("result", typeof(string),    "ki sh",  "var p = new Person(); p.Init( 'ki', 'sh', 'comlib@email.com', isMale: true, salary: 12.34, birthday: new Date(2012, 7, 10)); var result = p.FullName();"),
-                TestCase("result", typeof(string),    "ki sh",  "var p = new Person(); p.Init( 'ki', 'sh', 'comlib@email.com', true, salary: 12.34, birthday: new Date(2012, 7, 10)); var result = p.FullName();"),
-                TestCase("result", typeof(string),    "ki sh",  "var p = new Person(); p.Init( 'ki', 'sh', 'comlib@email.com', true, 12.34, birthday: new Date(2012, 7, 10)); var result = p.FullName();"),
-            };
-            Parse(statements, true, (i) => i.Context.Types.Register(typeof(Person), null));
-        }
-
-
-        [Test]
-        public void Can_Call_Instance_Methods_With_Named_Params_Using_Nulls()
-        {
-            var statements = new List<Tuple<string, Type, object, string>>()
-            {
-                TestCase("result", typeof(string),    "ki sh",  "var p = new Person(); p.Init( first: 'ki', last: 'sh', email: null, isMale: true, salary: 12.34, birthday: new Date(2012, 7, 10)); var result = p.FullName();"),
-                TestCase("result", typeof(string),    "ki sh",  "var p = new Person(); p.Init( 'ki', last: 'sh', email: 'comlib@email.com', isMale: null, salary: 12.34, birthday: new Date(2012, 7, 10)); var result = p.FullName();"),
-                TestCase("result", typeof(string),    "ki sh",  "var p = new Person(); p.Init( 'ki', 'sh', email: 'comlib@email.com', isMale: true, salary: null, birthday: null); var result = p.FullName();"),
-            };
-            Parse(statements, true, (i) => i.Context.Types.Register(typeof(Person), null));
-        }
-
-
-        [Test]
-        public void Can_Call_Static_Methods()
-        {
-            var statements = new List<Tuple<string, Type, object, string>>()
-            {
-                TestCase("result", typeof(string),    "k dog",                 "var result = Person.ToFullName('k', 'dog');")
-            };
-            Parse(statements, true, (i) => i.Context.Types.Register(typeof(Person), null));
-        }
-
-
-        [Test]
-        public void Can_Access_Instance_Properties()
-        {
-            var statements = new List<Tuple<string, Type, object, string>>()
-            {
-                TestCase("result", typeof(string),    "john",                "var result = p.FirstName;"),
-                TestCase("result", typeof(string),    "doe",                 "var result = p.LastName; "),
-                TestCase("result", typeof(string),    "johndoe@email.com",   "var result = p.Email;    "),
-                TestCase("result", typeof(bool),      true,                  "var result = p.IsMale;   "),
-                TestCase("result", typeof(double),    10.56,                 "var result = p.Salary;   "),
-                TestCase("result", typeof(string),    "Queens",              "var result = p.Address.City;"),
-                TestCase("result", typeof(string),    "NY",                  "var result = p.Address.State;")
-            };
-            Parse(statements, true, (i) =>
-            {
-                i.Context.Types.Register(typeof(Person), null);
-                i.Context.Memory.SetValue("p", new LClass(new Person("john", "doe", "johndoe@email.com", true, 10.56, DateTime.Now.Date)));
-            });
-        }
-
-
-        [Test]
-        public void Can_Access_Static_Properties()
-        {
-            var statements = new List<Tuple<string, Type, object, string>>()
-            {
-                TestCase("result", typeof(string), "CodeHelix", "var result = Person.Company;"),                
-            };
-            Parse(statements, true, (i) =>
-            {
-                i.Context.Types.Register(typeof(Person), null);
-                i.Context.Memory.SetValue("p", new LClass(new Person("john", "doe", "johndoe@email.com", true, 10.56, DateTime.Now.Date)));
-            });
         }
     }
 

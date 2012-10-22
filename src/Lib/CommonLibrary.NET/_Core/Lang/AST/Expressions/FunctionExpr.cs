@@ -6,6 +6,7 @@ using System.Text;
 // <lang:using>
 using ComLib.Lang.Core;
 using ComLib.Lang.Docs;
+using ComLib.Lang.Helpers;
 using ComLib.Lang.Types;
 // </lang:using>
 
@@ -161,6 +162,12 @@ namespace ComLib.Lang.AST
             // Add function arguments to scope.
             for (int ndx = 0; ndx < this.Meta.Arguments.Count; ndx++)
             {
+                var val = this.ArgumentValues[ndx] as LObject;
+                if(val.Type.IsPrimitiveType())
+                {
+                    var copied = val.Clone();
+                    this.ArgumentValues[ndx] = copied;
+                }
                 Ctx.Memory.SetValue(this.Meta.Arguments[ndx].Name, this.ArgumentValues[ndx]);
             }
 

@@ -25,6 +25,16 @@ namespace ComLib.Lang.Types
         {
             return null;
         }
+
+
+        /// <summary>
+        /// Clones this value.
+        /// </summary>
+        /// <returns></returns>
+        public virtual object Clone()
+        {
+            return this;
+        }
     }
     
 
@@ -103,11 +113,24 @@ namespace ComLib.Lang.Types
 
 
         /// <summary>
+        /// Whether or not this is a primitive type ( eg.. number, bool, string, date, time ).
+        /// </summary>
+        /// <returns></returns>
+        public bool IsPrimitiveType()
+        {
+            if (this.TypeVal == TypeConstants.Null) return true;
+            return this.TypeVal >= TypeConstants.Bool
+                && this.TypeVal <= TypeConstants.Time;
+        }
+
+
+        /// <summary>
         /// Whether or not this is a basic type e.g. bool, date.
         /// </summary>
         /// <returns></returns>
-        public bool IsBasicType()
+        public bool IsBuiltInType()
         {
+            if (this.TypeVal == TypeConstants.Null) return true;
             return this.TypeVal >= TypeConstants.Bool 
                 && this.TypeVal <= TypeConstants.Map;
         }

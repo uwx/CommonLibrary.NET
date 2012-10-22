@@ -38,10 +38,14 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            Fluent_Tests();
             Combinator_Unit_Tests();
-            Combinator_Integration_Tests();
             System_Control_Flow();
+            Fluent_Tests();
+            System_CSharp(); 
+            Lang_Type_Tests();
+            Combinator_Failures();
+            Combinator_Integration_Tests();
+            
         }
 
 
@@ -99,10 +103,10 @@ namespace ComLib.Samples
         #region System Types
         static void Lang_Type_Tests()
         {
+            System_Types_Dates();
             System_Types_Arrays();
             System_Types_Dictionary();
             System_Types_Time();
-            System_Types_Dates();
             System_Types_Strings();
         }
 
@@ -153,6 +157,8 @@ namespace ComLib.Samples
         static void System_Types_Dates()
         {
             var t = new Types_Dates();
+            t.Can_Get_Properties();
+            t.Can_Set_Properties();
             t.Can_Subtract_Dates(); 
             t.Can_Create_Dates_With_Parameters();
             t.Can_Do_Date_Method_Calls();
@@ -163,14 +169,11 @@ namespace ComLib.Samples
         #region System Control Flow
         static void System_Control_Flow()
         {
-            System_Limits();
-            System_CSharp_Integration();
-            System_Errors_Runtime();
-            System_CustomObject();
             System_Functions();
+            System_Types();
+            System_Limits();
+            System_Errors_Runtime();
             System_TryCatch();
-            System_Types(); 
-            System_MemberAccess();
             System_Loops();
             System_Assignment();
         }
@@ -186,18 +189,6 @@ namespace ComLib.Samples
             t.Can_Set_Function_Parameters_Limit();
             t.Can_Set_Loop_Limit_With_Try_Catch();
             t.Can_Set_Loop_Limit_With_Try_Catch_Then_Loop_Again();
-        }
-
-
-        static void System_CSharp_Integration()
-        {
-            var t = new Script_Tests_CSharp_Integration();
-            t.Can_Call_Function_Using_Dictionary();
-            t.Can_Call_Function_Using_Different_Types_Of_Params1();
-            t.Can_Call_Function_Using_Generic_List_Of_Basic_Types();
-            t.Can_Call_Function_Using_Generic_List_Of_Objects();
-            t.Can_Call_Function_With_Params();
-            t.Can_Call_Function_Without_Params();
         }
 
 
@@ -223,6 +214,7 @@ namespace ComLib.Samples
         static void System_Functions()
         {
             var t = new Script_Tests_Functions();
+            t.Can_Ensure_Basic_Values_Are_Copied();
             t.Can_Make_Calls_With_Mixed_Types();
             t.Can_Define_With_Braces();
             t.Can_Define_With_Parameters_On_Separate_Lines();
@@ -271,20 +263,6 @@ namespace ComLib.Samples
         }
 
 
-        static void System_CustomObject()
-        {
-            var t = new Script_Tests_CustomObject();
-            t.Can_Create_With_FullName_Via_Different_Constructors();
-            t.Can_Call_Instance_Methods();
-            t.Can_Call_Static_Methods(); 
-            t.Can_Create_Via_Different_Constructors();
-            t.Can_Access_Instance_Properties();
-            t.Can_Access_Static_Properties();
-            t.Can_Call_Instance_Methods_With_Named_Params();
-            t.Can_Call_Instance_Methods_With_Named_Params_Using_Nulls();
-        }
-
-
         static void System_Compare()
         {
             var t = new Script_Tests_Comparisons();
@@ -309,14 +287,6 @@ namespace ComLib.Samples
         }
 
 
-        static void System_MemberAccess()
-        {
-            var t = new Script_Tests_MemberAccess();
-            t.Can_Set_Class_Member_Property();
-            t.Can_Get_Class_Member_Property();
-        }
-
-
         static void System_Types()
         {
             var t = new Script_Tests_Types();
@@ -325,6 +295,41 @@ namespace ComLib.Samples
             t.Can_Do_Check_For_Nulls2();
             t.Can_Do_Type_Changes();
         }
+        #endregion
+
+
+        #region CSharp
+        static void System_CSharp()
+        {
+            System_CSharp_Objects(); 
+            System_CSharp_Integration();
+        }
+
+        static void System_CSharp_Integration()
+        {
+            var t = new Script_Tests_CSharp_Integration();
+            t.Can_Call_Function_Using_Dictionary();
+            t.Can_Call_Function_Using_Different_Types_Of_Params1();
+            t.Can_Call_Function_Using_Generic_List_Of_Basic_Types();
+            t.Can_Call_Function_Using_Generic_List_Of_Objects();
+            t.Can_Call_Function_With_Params();
+            t.Can_Call_Function_Without_Params();
+        }
+
+
+        static void System_CSharp_Objects()
+        {
+            var t = new Script_Tests_CSharp_Objects();
+            t.Can_Call_Instance_Methods_With_Named_Params();
+            t.Can_Call_Instance_Methods_With_Named_Params_Using_Nulls();
+            t.Can_Call_Static_Methods();
+            t.Can_Get_Static_Properties();
+            t.Can_Set_Static_Properties();
+            
+            t.Can_Set_Instance_Properties();
+            t.Can_Get_Instance_Properties();
+        }
+
         #endregion
 
 
@@ -339,6 +344,8 @@ namespace ComLib.Samples
         static void Combinator_Unit_Tests()
         {
             var t = new Plugin_Component_Positives();
+            t.Can_Use_TypeOf_Plugin();
+            t.Can_Use_Env_Plugin();
             t.Can_Use_Exec_Plugin();
             t.Can_Use_Version_Plugin();
             t.Can_Use_TypeOps_Plugin();
@@ -356,29 +363,24 @@ namespace ComLib.Samples
             t.Can_Use_Aggregate_Plugin();
             t.Can_Use_Const_Plugin();
         }
+
+
+        static void Combinator_Failures()
+        {
+            var t = new Plugin_Integration_Failures();
+            t.Can_Access_Custom_Object_Instance_Properties();
+        }
         #endregion
 
 
         #region Fluent
         static void Fluent_Tests()
         {
-            System_CSharp_Objects();
+            var t = new Fluent_Call_Tests();
+            t.Can_Handle_Ambiguity();
+            t.Can_Use_Fluent_Member_Get_Property();
         }
 
-
-        static void System_CSharp_Objects()
-        {
-            var t = new Script_Tests_CustomObject();
-
-            // Static
-            t.Can_Access_Static_Properties();
-            t.Can_Call_Static_Methods();
-            
-            // Constructors
-            t.Can_Create_Via_Different_Constructors();
-
-            t.Can_Access_Instance_Properties();
-        }
 
         #endregion
 

@@ -23,6 +23,9 @@ namespace ComLib.Tests
         }
 
 
+        public static string Company { get; set; }
+
+
         public Person()
         {
             Init("john", "doe", "johndoe@email.com", true, 10.5, DateTime.Now);
@@ -62,8 +65,7 @@ namespace ComLib.Tests
         }
 
 
-        public static string Company { get; set; }
-
+        
 
         public string FirstName { get; set; }
         public string LastName { get; set; }

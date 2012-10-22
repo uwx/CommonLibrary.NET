@@ -71,6 +71,16 @@ namespace ComLib.Lang.Types
             AddArg("setSeconds",    "sec",          "int",      true,       "",     null,       "10, 21",       "An integer representing the day of the month");
             AddArg("setSeconds",    "millisec",     "int",      false,      "",     -1,         "10, 21",       "An integer representing the day of the month");
             AddArg("setMilliseconds", "millisec",   "int",      true,       "",     null,       "10, 21",       "An integer representing the day of the month");
+            var d = DateTime.Today;
+            
+            AddProperty(true, true,     "Year",        "GetFullYear",       typeof(double),     "Gets the full year");
+            AddProperty(true, true,     "Month",       "GetMonth",          typeof(double),     "Returns the month");
+            AddProperty(true, true,     "Day",         "GetDate",           typeof(double),     "Returns the day of the month");
+            AddProperty(true, true,     "DayOfWeek",   "GetDay",            typeof(double),     "Returns the day of the week");
+            AddProperty(true, true,     "Hours",       "GetHours",          typeof(double),     "Returns the hour (from 0-23)");
+            AddProperty(true, true,     "Minutes",     "GetMinutes",        typeof(double),     "Returns the minutes (from 0-59)");
+            AddProperty(true, true,     "Seconds",     "GetSeconds",        typeof(double),     "Returns the seconds (from 0-59)");
+            AddProperty(true, true,     "Milliseconds","GetMilliseconds",   typeof(double),     "Returns the number of milliseconds since midnight Jan 1 1970");
         }
 
 

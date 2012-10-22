@@ -234,7 +234,7 @@ namespace ComLib.Lang.Helpers
                     hostLangArgs.Add(LangTypeHelper.GetDefaultValue(param.ParameterType));
                 
                 // Array or Map
-                else if (sourceArg.Type.IsBasicType())
+                else if (sourceArg.Type.IsBuiltInType())
                     hostLangArgs.Add(sourceArg.GetValue());
 
                 // 4. LArrayType

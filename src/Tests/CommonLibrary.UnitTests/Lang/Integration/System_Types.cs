@@ -212,6 +212,41 @@ namespace ComLib.Lang.Tests.Integration.System
 
 
         [Test]
+        public void Can_Get_Properties()
+        {
+            var date = DateTime.Now;
+            var testcases = new List<Tuple<string, Type, object, string>>()
+            {
+                TestCase("result", typeof(int), date.Year,                            "var result = date.Year;"),
+                TestCase("result", typeof(int), date.Month,                           "var result = date.Month;"),
+                TestCase("result", typeof(int), date.Day,                             "var result = date.Day;"),
+                TestCase("result", typeof(int), (int)date.DayOfWeek,                  "var result = date.DayOfWeek;"),
+                TestCase("result", typeof(int), date.Hour,                            "var result = date.Hours;"),
+                TestCase("result", typeof(int), date.Minute,                          "var result = date.Minutes;"),
+                TestCase("result", typeof(int), date.Second,                          "var result = date.Seconds;"),
+            };
+            Parse(testcases, true, (i) => i.Memory.SetValue("date", new LDate(date)));
+        }
+
+
+        [Test]
+        public void Can_Set_Properties()
+        {
+            var date = DateTime.Now;
+            var testcases = new List<Tuple<string, Type, object, string>>()
+            {
+                TestCase("result", typeof(int), 10,       "date.setDate(10);       var result = date.getDate();"),
+                TestCase("result", typeof(int), 3,        "date.setMonth(3);       var result = date.getMonth();"),
+                TestCase("result", typeof(int), 2010,     "date.setFullYear(2010); var result = date.getFullYear();"),
+                TestCase("result", typeof(int), 14,       "date.setHours(14);      var result = date.getHours();"),
+                TestCase("result", typeof(int), 30,       "date.setMinutes(30);    var result = date.getMinutes();"),
+                TestCase("result", typeof(int), 45,       "date.setSeconds(45);    var result = date.getSeconds();")
+            };
+            Parse(testcases, true, (i) => i.Memory.SetValue("date", new LDate(date)));
+        }
+
+
+        [Test]
         public void Can_Do_Date_Method_Calls()
         {
             var date = DateTime.Now;

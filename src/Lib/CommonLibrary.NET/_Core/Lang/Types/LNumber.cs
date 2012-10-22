@@ -34,6 +34,16 @@ namespace ComLib.Lang.Types
         {
             return this.Value;
         }
+
+
+        /// <summary>
+        /// Clones this value.
+        /// </summary>
+        /// <returns></returns>
+        public override object Clone()
+        {
+            return new LNumber(this.Value);
+        }
     }
 
 
