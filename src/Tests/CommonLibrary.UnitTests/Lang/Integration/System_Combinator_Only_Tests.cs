@@ -1033,46 +1033,7 @@ namespace ComLib.Lang.Tests.Integration.System
 
 
     [TestFixture]
-    public class Script_Tests_MemberAccess : ScriptTestsBase
-    {
-        
-        [Test]
-        public void Can_Get_Class_Member_Property()
-        {
-            var testcases = new List<Tuple<string,Type, object, string>>()
-            {
-                TestCase("result", typeof(string),   "john",              "var p = new Person(); var result = p.FirstName;" ),
-                TestCase("result", typeof(string),   "johndoe@email.com", "var p = new Person(); var result = p.Email;" ),
-                TestCase("result", typeof(bool),     true,                "var p = new Person(); var result = p.IsMale;" ),
-                TestCase("result", typeof(double),   10.5,                "var p = new Person(); var result = p.Salary;" ),
-                TestCase("result", typeof(DateTime), DateTime.Today,      "var p = new Person(); var result = p.BirthDate;" ),                
-                TestCase("result", typeof(string),   "Queens",            "var p = new Person(); var result = p.Address.City;" ),
-                TestCase("result", typeof(string),   "NY",                "var p = new Person(); var result = p.Address.State;" )
-            };
-            RunTestCases(testcases);
-        }
-
-
-        [Test]
-        public void Can_Set_Class_Member_Property()
-        {
-            var testcases = new List<Tuple<string, Type, object, string>>()
-            {
-                TestCase("result", typeof(string),   "jane",              "var p = new Person();  p.FirstName = 'jane';     var result = p.FirstName;" ),
-                TestCase("result", typeof(string),   "janedoe@email.com", "var p = new Person();  p.Email     = 'janedoe@email.com'; var result = p.Email;" ),
-                TestCase("result", typeof(bool),     false,               "var p = new Person();  p.IsMale    =  false;       var result = p.IsMale;" ),
-                TestCase("result", typeof(double),   10.8,                "var p = new Person();  p.Salary    = 10.8;         var result = p.Salary;" ),
-                TestCase("result", typeof(DateTime), DateTime.Today,      "var p = new Person();  p.BirthDate = new Date();   var result = p.BirthDate;" ),    
-                TestCase("result", typeof(string),   "Bronx",             "var p = new Person();  p.Address.City = 'Bronx';   var result = p.Address.City;" ),
-                TestCase("result", typeof(string),   "NJ",                "var p = new Person();  p.Address.State = 'NJ';     var result = p.Address.State;" )
-            };
-            Parse(testcases, true, (i) => i.Context.Types.Register(typeof(Person), null));
-        }
-    }
-
-
-    [TestFixture]
-    public class Script_Tests_CustomObject : ScriptTestsBase
+    public class Script_Tests_CSharp_Objects : ScriptTestsBase
     {
         [Test]
         public void Can_Create_Via_Different_Constructors()
@@ -1084,7 +1045,8 @@ namespace ComLib.Lang.Tests.Integration.System
                 TestCase("result", typeof(string),    "nonew@email.com",               "var p = new Person('john', 'doe', 'nonew@email.com', true, 10.56); var result = p.Email;  "),
                 TestCase("result", typeof(string),    "janedallparams@email.comfalse", "var p = new Person('jane', 'd', 'allparams@email.com', false, 10.56, new Date()); var result = p.FirstName + p.LastName + p.Email + p.IsMale;")
             };
-            Parse(statements, true, (i) => i.Context.Types.Register(typeof(Person), null));
+            Parse(statements, true, (i) => i.Context.Types.Register(typeof
+                (Person), null));
         }
 
 
@@ -1099,6 +1061,40 @@ namespace ComLib.Lang.Tests.Integration.System
                 TestCase("result", typeof(string),    "janedallparams@email.comfalse", "var p = new ComLib.Tests.Person('jane', 'd', 'allparams@email.com', false, 10.56, new Date()); var result = p.FirstName + p.LastName + p.Email + p.IsMale;")
             };
             Parse(statements, true, (i) => i.Context.Types.Register(typeof(Person), null));
+        }
+
+
+        [Test]
+        public void Can_Get_Instance_Property()
+        {
+            var testcases = new List<Tuple<string, Type, object, string>>()
+            {
+                TestCase("result", typeof(string),   "john",              "var p = new Person(); var result = p.FirstName;" ),
+                TestCase("result", typeof(string),   "johndoe@email.com", "var p = new Person(); var result = p.Email;" ),
+                TestCase("result", typeof(bool),     true,                "var p = new Person(); var result = p.IsMale;" ),
+                TestCase("result", typeof(double),   10.5,                "var p = new Person(); var result = p.Salary;" ),
+                TestCase("result", typeof(DateTime), DateTime.Today,      "var p = new Person(); var result = p.BirthDate;" ),                
+                TestCase("result", typeof(string),   "Queens",            "var p = new Person(); var result = p.Address.City;" ),
+                TestCase("result", typeof(string),   "NY",                "var p = new Person(); var result = p.Address.State;" )
+            };
+            RunTestCases(testcases);
+        }
+
+
+        [Test]
+        public void Can_Set_Instance_Property()
+        {
+            var testcases = new List<Tuple<string, Type, object, string>>()
+            {
+                TestCase("result", typeof(string),   "jane",              "var p = new Person();  p.FirstName = 'jane';     var result = p.FirstName;" ),
+                TestCase("result", typeof(string),   "janedoe@email.com", "var p = new Person();  p.Email     = 'janedoe@email.com'; var result = p.Email;" ),
+                TestCase("result", typeof(bool),     false,               "var p = new Person();  p.IsMale    =  false;       var result = p.IsMale;" ),
+                TestCase("result", typeof(double),   10.8,                "var p = new Person();  p.Salary    = 10.8;         var result = p.Salary;" ),
+                TestCase("result", typeof(DateTime), DateTime.Today,      "var p = new Person();  p.BirthDate = new Date();   var result = p.BirthDate;" ),    
+                TestCase("result", typeof(string),   "Bronx",             "var p = new Person();  p.Address.City = 'Bronx';   var result = p.Address.City;" ),
+                TestCase("result", typeof(string),   "NJ",                "var p = new Person();  p.Address.State = 'NJ';     var result = p.Address.State;" )
+            };
+            Parse(testcases, true, (i) => i.Context.Types.Register(typeof(Person), null));
         }
 
 

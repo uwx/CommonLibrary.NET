@@ -38,6 +38,7 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
+            Fluent_Tests();
             Combinator_Unit_Tests();
             Combinator_Integration_Tests();
             System_Control_Flow();
@@ -356,6 +357,32 @@ namespace ComLib.Samples
             t.Can_Use_Const_Plugin();
         }
         #endregion
+
+
+        #region Fluent
+        static void Fluent_Tests()
+        {
+            System_CSharp_Objects();
+        }
+
+
+        static void System_CSharp_Objects()
+        {
+            var t = new Script_Tests_CustomObject();
+
+            // Static
+            t.Can_Access_Static_Properties();
+            t.Can_Call_Static_Methods();
+            
+            // Constructors
+            t.Can_Create_Via_Different_Constructors();
+
+            t.Can_Access_Instance_Properties();
+        }
+
+        #endregion
+
+
         /// <summary>
         /// Sample application runner.
         /// Does pretty much the same thing as the above.
