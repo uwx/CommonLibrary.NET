@@ -35,9 +35,9 @@ namespace ComLib.Lang.Helpers
 
 
         /// <summary>
-        /// Resolve the parameters in the function call.
+        /// Resolve all the non-named parameter expressions and puts the values into the param list supplied.
         /// </summary>
-        public static void ResolveParameters(List<Expr> paramListExpressions, List<object> paramList)
+        public static void ResolveNonNamedParameters(List<Expr> paramListExpressions, List<object> paramList)
         {
             if (paramListExpressions == null || paramListExpressions.Count == 0)
                 return;
@@ -86,41 +86,32 @@ namespace ComLib.Lang.Helpers
             if (paramListExpressions == null || paramListExpressions.Count == 0)
                 return;
 
-            paramList.Clear();
-            bool hasNamedParams = false;
-            foreach (var param in paramListExpressions)
-            {    
-                if (param is NamedParamExpr)
-                {
-                    hasNamedParams = true;
-                    break;
-                }
-            }
+            // 1. Determine if named params exist.
+            bool hasNamedParams = ParamHelper.HasNamedParameters(paramListExpressions);
 
-            // If there are no named params. Simply evaluate and return.
+            // 2. If no named parameters, simply eval parameters and return.
             if (!hasNamedParams)
             {
-                foreach (var exp in paramListExpressions)
-                {
-                    object val = exp.Evaluate();
-                    paramList.Add(val);
-                }
-
+                ResolveNonNamedParameters(paramListExpressions, paramList);
                 return;
             }
+            
+            // Start of named parameter evaluation.
+            // 1. Clear existing list of value.
+            paramList.Clear();
 
-            // 1. Set all args to null. [null, null, null, null, null]
+            // 2. Set all args to null. [null, null, null, null, null]
             for (int ndx = 0; ndx < totalParams; ndx++)
-                paramList.Add(null);
+                paramList.Add(LObjects.Null);
 
-            // 2. Now go through each argument and replace the nulls with actual argument values.
+            // 3. Now go through each argument and replace the nulls with actual argument values.
             // Each null should be replaced at the correct index.
             // [true, 20.68, new Date(2012, 8, 10), null, 'fluentscript']
             for (int ndx = 0; ndx < paramListExpressions.Count; ndx++)
             {
                 var exp = paramListExpressions[ndx];
 
-                // 3. Named arg? Evaluate and put its value into the appropriate index of the args list.           
+                // 4. Named arg? Evaluate and put its value into the appropriate index of the args list.           
                 if (exp is NamedParamExpr)
                 {
                     var namedParam = exp as NamedParamExpr;
@@ -130,13 +121,14 @@ namespace ComLib.Lang.Helpers
                 }
                 else
                 {
-                    // 4. Expect the position of non-named args should be valid.
+                    // 5. Expect the position of non-named args should be valid.
                     // TODO: Semantic analysis is required here once Lint check feature is added.
                     object val = exp.Evaluate();
                     paramList[ndx] = val;
                 }
             }
         }
+
 
         /// <summary>
         /// Resolve the parameters in the function call.
@@ -157,12 +149,34 @@ namespace ComLib.Lang.Helpers
             var parameters = method.GetParameters();
             if (parameters == null || parameters.Length == 0) return;
 
-            // Convert parameters to map.
+            // 1. Convert parameters to map to know what index position in argument list a param is.
             var map = System.Linq.Enumerable.ToDictionary(parameters, p => p.Name);
             
+            // 2. Resolve all the parameters to fluentscript values. LObject, LString etc.
             ResolveParameters(parameters.Length, paramListExpressions, paramList,
                 namedParam => map[namedParam.Name].Position);
         }
 
+
+        /// <summary>
+        /// Whether or not there are named parameters here.
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public static bool HasNamedParameters(List<Expr> parameters)
+        {
+            if (parameters == null || parameters.Count == 0) return false;
+
+            var hasNamedParams = false;
+            foreach (var param in parameters)
+            {
+                if (param is NamedParamExpr)
+                {
+                    hasNamedParams = true;
+                    break;
+                }
+            }
+            return hasNamedParams;
+        }
     }
 }

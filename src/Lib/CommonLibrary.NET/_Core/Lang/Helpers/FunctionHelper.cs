@@ -45,7 +45,7 @@ namespace ComLib.Lang.Helpers
 
             // Case 2: Script functions "createUser('john');" 
             else 
-                result = ctx.Functions.CallByName(functionName, fexpr.ParamListExpressions, fexpr.ParamList, true);
+                result = FunctionHelper.CallFunctionInScript(ctx, functionName, fexpr.ParamListExpressions, fexpr.ParamList, true);
 
             // 3. Finnaly pop the call stact.
             if(pushCallStack)
@@ -85,7 +85,7 @@ namespace ComLib.Lang.Helpers
                 object[] args = null; 
                 if(paramListExpressions != null && paramListExpressions.Count > 0)
                 {
-                    ParamHelper.ResolveParameters(paramListExpressions, paramList);
+                    ParamHelper.ResolveNonNamedParameters(paramListExpressions, paramList);
                     args = paramList.ToArray();
                 }
                 result = methods.ExecuteMethod(lobj, memberAccess.MemberName, args);
@@ -119,10 +119,45 @@ namespace ComLib.Lang.Helpers
             // Case 2: Method call.
             else if( memberAccess.Method != null)
             {
-                ParamHelper.ResolveParameters(paramListExpressions, paramList);
-                result = MethodCall(ctx, obj, type, memberAccess.Method, paramListExpressions, paramList, true);
+                result = FunctionHelper.MethodCall(ctx, obj, type, memberAccess.Method, paramListExpressions, paramList, true);
             }
             result = CheckConvert(result);
+            return result;
+        }
+
+
+        /// <summary>
+        /// Call a function by passing in all the values.
+        /// </summary>
+        /// <param name="ctx">The context of the runtime</param>
+        /// <param name="functionName">The name of the function to call.</param>
+        /// <param name="paramListExpressions">List of parameters as expressions to evaluate first to actual values</param>
+        /// <param name="paramVals">List to store the resolved paramter expressions. ( these will be resolved if paramListExpressions is supplied and resolveParams is true. If 
+        /// resolveParams is false, the list is assumed to have the values for the paramters to the function.</param>
+        /// <param name="resolveParams">Whether or not to resolve the list of parameter expression objects</param>
+        /// <returns></returns>
+        public static object CallFunctionInScript(Context ctx, string functionName, List<Expr> paramListExpressions, List<object> paramVals, bool resolveParams)
+        {
+
+            // 1. Get the function definition
+            var function = ctx.Functions.GetByName(functionName);
+
+            // 2. Determine if any parameters provided.
+            var hasParams = paramListExpressions != null && paramListExpressions.Count > 0;
+
+            // 3. Resolve parameters if necessary
+            if (resolveParams && function != null && (function.HasArguments || hasParams))
+                ParamHelper.ResolveParametersForScriptFunction(function.Meta, paramListExpressions, paramVals);
+
+            // 4. Assign the argument values to the function and evaluate.
+            function.ArgumentValues = paramVals;
+            function.Evaluate();
+
+            object result = null;
+            if (function.HasReturnValue)
+                result = function.ReturnValue;
+            else
+                result = LObjects.Null;
             return result;
         }
 
@@ -179,7 +214,8 @@ namespace ComLib.Lang.Helpers
         private static object MethodCall(Context ctx, object obj, Type datatype, MethodInfo methodInfo, List<Expr> paramListExpressions, List<object> paramList, bool resolveParams = true)
         {
             // 1. Convert language expressions to values.
-            if (resolveParams) ParamHelper.ResolveParametersForMethodCall(methodInfo, paramListExpressions, paramList);
+            if (resolveParams) 
+                ParamHelper.ResolveParametersForMethodCall(methodInfo, paramListExpressions, paramList);
 
             // 2. Convert internal language types to c# code method types.
             object[] args = LangTypeHelper.ConvertArgs(paramList, methodInfo);

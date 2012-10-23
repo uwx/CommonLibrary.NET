@@ -53,7 +53,7 @@ namespace ComLib.Lang.AST
             if (ParamListExpressions != null && ParamListExpressions.Count > 0)
             {
                 ParamList = new List<object>();
-                ParamHelper.ResolveParameters(ParamListExpressions, ParamList);
+                ParamHelper.ResolveNonNamedParameters(ParamListExpressions, ParamList);
                 constructorArgs = ParamList.ToArray();
             }
 

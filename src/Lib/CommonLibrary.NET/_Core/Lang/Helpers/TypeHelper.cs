@@ -223,21 +223,27 @@ namespace ComLib.Lang.Helpers
             var parameters = method.GetParameters();
             if (parameters.Length == 0) return hostLangArgs.ToArray();
 
-            // For each param
+            // REQUIREMENT: Number of values must match # of parameters in method.
             for (int ndx = 0; ndx < parameters.Length; ndx++)
             {
                 var param = parameters[ndx];
                 var sourceArg = args[ndx] as LObject;
 
-                // Null
+                // CASE 1: Null
                 if (sourceArg == LObjects.Null)
-                    hostLangArgs.Add(LangTypeHelper.GetDefaultValue(param.ParameterType));
+                {
+                    var defaultVal = LangTypeHelper.GetDefaultValue(param.ParameterType);
+                    hostLangArgs.Add(defaultVal);
+                }
                 
-                // Array or Map
+                // CASE 2: int, bool, date, time
                 else if (sourceArg.Type.IsBuiltInType())
-                    hostLangArgs.Add(sourceArg.GetValue());
-
-                // 4. LArrayType
+                {
+                    var convertedVal = sourceArg.GetValue();
+                    convertedVal = ConvertToCorrectHostLangValue(param.ParameterType, convertedVal);
+                    hostLangArgs.Add(convertedVal);
+                }
+                // CASE 3: LArrayType
                 else if (sourceArg.Type == LTypes.Array && param.ParameterType.IsGenericType)
                 {
                     var gentype = param.ParameterType.GetGenericTypeDefinition();
@@ -284,7 +290,6 @@ namespace ComLib.Lang.Helpers
             if (type == typeof(string)) return true;
             if (type == typeof(DateTime)) return true;
             if (type == typeof(TimeSpan)) return true;
-
             return false;
         }
 
@@ -302,6 +307,18 @@ namespace ComLib.Lang.Helpers
                 args[ndx] = Convert.ToInt32(parameters[ndx]);
             }
             return args;
+        }
+
+
+        private static object ConvertToCorrectHostLangValue(Type type, object val)
+        {
+            if (type == typeof(int))
+                return Convert.ToInt32(val);
+            if (type == typeof(long))
+                return Convert.ToInt64(val);
+            if (type == typeof(float))
+                return Convert.ToSingle(val);
+            return val;
         }
     }
 }
