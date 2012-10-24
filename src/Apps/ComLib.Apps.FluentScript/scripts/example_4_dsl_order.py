@@ -5,8 +5,8 @@
 # @arg: name: date,   alias: on,    type: date,   examples: July 10th 2012 | 7/10/2012
 def  order_to_buy( shares, symbol, price, date )
 {
-    println simulation of stock purchase 
-    print buying #{shares} of '#{symbol}' at #{price} on #{date} 
+	print buying #{shares} of '#{symbol}' at #{price} on #{date}	
+	println()
 }
 
 
@@ -20,11 +20,26 @@ def shares(amount)
 }
 
 
-println( 300 shares )
+#println( 300 shares )
 
 
-order_to_buy 300, 'MS', $31.50, 8/15/2012 at 8:30 am
+# Example 1: full function name with commas
+order_to_buy 100, 'MSFT', $31.50, Oct 28th at 8:30 am
 
-#order to buy 300, IBM, $31.50, 10/21/2012 at 3:30 pm
 
-#order to buy 300 of 'IBM' at $35.50 on 9/15/2012 at 11:30 am
+# Example 2: full function name with commas
+order to buy 201, 'MSFT', $31.50, Oct 24th at 11:30 am
+
+
+# Example 3: full function name with commas
+order to buy 302 shares, 'IBM', $150.50, Oct 24th at 2:30 pm
+
+
+# Example 4: named params
+order to buy 403 shares, of: 'MSFT', at: $150.50, on: Oct 24th at 2:30 pm
+
+
+# Example 4: flexible
+order to buy 504 shares of 'MSFT' at $120.50 on Oct 24th at 9:20 am
+
+

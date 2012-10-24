@@ -4,6 +4,6 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <StartArguments>file:..\..\scripts\example_2_datatypes.js</StartArguments>
+    <StartArguments>file:..\..\scripts\example_4_dsl_order.py</StartArguments>
   </PropertyGroup>
 </Project>
