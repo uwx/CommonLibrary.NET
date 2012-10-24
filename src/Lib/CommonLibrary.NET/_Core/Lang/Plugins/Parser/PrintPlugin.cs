@@ -63,9 +63,9 @@ namespace ComLib.Lang.Plugins
             var resultTokens = base.ParseLine(includeNewLine);
 
             // Add new line to end if using "println"
-            if(resultTokens.Length == 1 && includeNewLine)
+            if(resultTokens.Length == 2 && includeNewLine)
             {
-                var first = resultTokens[0];
+                var first = resultTokens[1];
                 first.SetTextAndValue(first.Text, first.Text + Environment.NewLine);
             }
             return resultTokens;

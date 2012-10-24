@@ -6,6 +6,7 @@ build/cl.bat -text
 doc/BuildHelp.cmd -text
 doc/BuildingHelp.Readme.txt -text
 doc/CommonLibrary.shfbproj -text
+doc/FluentScript/Presentation/FluentScript_Building_DSLs_Meetup.pptx -text
 doc/Library[!!-~]Presentation.doc -text
 doc/License.txt -text
 doc/comlib.wiki.examples.txt -text
@@ -34,11 +35,13 @@ src/Apps/ComLib.Apps.FluentScript/Properties/AssemblyInfo.cs -text
 src/Apps/ComLib.Apps.FluentScript/Properties/AssemblyVersion.cs -text
 src/Apps/ComLib.Apps.FluentScript/app.config -text
 src/Apps/ComLib.Apps.FluentScript/scripts/example_1_helloworld.js -text
+src/Apps/ComLib.Apps.FluentScript/scripts/example_1_helloworld.py -text
 src/Apps/ComLib.Apps.FluentScript/scripts/example_2_datatypes.js -text
+src/Apps/ComLib.Apps.FluentScript/scripts/example_2_datatypes.py -text
 src/Apps/ComLib.Apps.FluentScript/scripts/example_3_functions.js -text
+src/Apps/ComLib.Apps.FluentScript/scripts/example_3_functions.py -text
 src/Apps/ComLib.Apps.FluentScript/scripts/example_4_dsl_order.js -text
-src/Apps/ComLib.Apps.FluentScript/scripts/function1.js -text
-src/Apps/ComLib.Apps.FluentScript/scripts/helloworld.js -text
+src/Apps/ComLib.Apps.FluentScript/scripts/example_4_dsl_order.py -text
 src/Apps/ComLib.Apps.FluentScript/scripts/run_fs.bat -text
 src/Apps/ComLib.Apps.SampleApp/App.config -text
 src/Apps/ComLib.Apps.SampleApp/ComLib.Apps.SampleApp.csproj -text

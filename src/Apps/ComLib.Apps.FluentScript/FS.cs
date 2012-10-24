@@ -183,10 +183,38 @@ namespace ComLib.Apps.FluentSharp
             {
                 Console.WriteLine();
                 i.Execute(script);
+                ShowResult(file.FullName, i.Result);
                 Console.WriteLine();
             }
         }
 
+
+        private void ShowResult(string scriptPath, ComLib.Lang.Core.RunResult result)
+        {
+            Console.WriteLine("\r\n");
+            WriteScriptResult(result.Success);
+            if(!result.Success)
+            {
+                WriteScriptError(string.Empty, result.Message);
+            }
+        }
+
+
+        private static void WriteScriptError(string script, string error)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("failed with error: " + error);
+            Console.ResetColor();
+        }
+
+
+        private static void WriteScriptResult(bool success)
+        {
+            Console.ForegroundColor = success ? ConsoleColor.Green : ConsoleColor.Red;
+            string text = success ? "SUCCESS" : "FAILURE(S)";
+            Console.WriteLine(text);
+            Console.ResetColor();
+        }
 
         private bool IsHelp()
         {

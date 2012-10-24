@@ -1,9 +1,27 @@
 ﻿
 @echo off 
 
-set FSHOME=C:\Dev\Kishore\Apps\ComLib\ComLib_Latest\src\Apps\ComLib.Apps.FluentScript\bin\Debug
-set FSBIN=%FSHOME%\bin\Debug
-set FSSCRIPTS=..\..\scripts
+REM ********************************************
+REM Setup variables for various paths
+REM ********************************************
+set FSHOME=C:\Dev\Kishore\Apps\ComLib\ComLib_Latest\src\Apps\ComLib.Apps.FluentScript\
+set FSBIN=%FSHOME%\scripts
 
-@echo on
-%FSBIN%\fs.exe file:%FSSCRIPTS%\scripts\example_1_helloworld.js
+
+REM ********************************************
+REM Move to bin directory
+REM ********************************************
+c:
+cd %FSBIN%
+
+
+REM ********************************************
+REM Execute
+REM ********************************************
+fs.exe file:example_2_datatypes.js
+
+
+REM ********************************************
+REM Go back to scripts folder
+REM ********************************************
+cd %FSHOME%\scripts
