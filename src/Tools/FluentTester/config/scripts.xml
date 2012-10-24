@@ -1,6 +1,6 @@
 ﻿<scripts>
 	<group name="System_Types">
-		<script path="\data\system\types\sys_csharpobj.js" />
+		<!-- <script path="\data\system\types\sys_csharpobj.js" />-->
 		<script path="\data\system\types\sys_array.js" />
 		<script path="\data\system\types\sys_date.js" />
 		<script path="\data\system\types\sys_string.js" />
