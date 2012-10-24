@@ -314,7 +314,7 @@ namespace ComLib.Lang.Tests.Integration
                 new Tuple<string,Type, object, string>("i", typeof(double), 1, "var i = 0; if( i == 0 ){ print test\r i = 1; }"),
                 new Tuple<string,Type, object, string>("i", typeof(double), 1, "var i = 0; if( i == 0 ){ print test\rprint test\r i = 1; }"),
                 new Tuple<string,Type, object, string>("i", typeof(double), 1, "var i = 0; if( i == 0 ){ print('test'); i = 1; }"),
-                new Tuple<string,Type, object, string>("i", typeof(double), 1, "var i = 0; if( i == 0 ){ printl('test'); i = 1; }"),
+                new Tuple<string,Type, object, string>("i", typeof(double), 1, "var i = 0; if( i == 0 ){ println('test'); i = 1; }"),
                 new Tuple<string,Type, object, string>(null, typeof(double), null, "print hi"),
                 
             };
@@ -470,6 +470,9 @@ namespace ComLib.Lang.Tests.Integration
         {
             var statements = new List<Tuple<string, Type, object, string>>()
             {
+                new Tuple<string,Type, object, string>("result", typeof(double), 5,  "var result = 2; function shares( num )  { return num; }     result = 2 + 3 shares;" ),
+                new Tuple<string,Type, object, string>("result", typeof(double), 5,  "var result = 2; function shares( num )  { return num; }     result = 2 + 3 shares" ),
+                new Tuple<string,Type, object, string>("result", typeof(double), 5,  "var result = 2; function shares( num )  { return num; }     result = 2 + 3 shares\r\n" ),
                 new Tuple<string,Type, object, string>("result", typeof(double), 12, "var result = 0; function add( a )       { return a + 1; } result = 11 add;" ),
                 new Tuple<string,Type, object, string>("result", typeof(double), 12, "var result = 1; function inc( a )       { return a + 1; } result = 11 inc;" ),
                 new Tuple<string,Type, object, string>("result", typeof(double), 12, "var result = 2; function increment( a ) { return a + 1; } result = 11 increment;" )

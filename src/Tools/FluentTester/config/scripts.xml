@@ -1,38 +1,38 @@
 ﻿<scripts>
-    <group name="System_Types">
-        <script path="\data\system\types\sys_array.js" />
-        <script path="\data\system\types\sys_date.js" />
-        <script path="\data\system\types\sys_string.js" />
-        <script path="\data\system\types\sys_map.js" />
-        <script path="\data\system\types\sys_csharpobj.js" />
-        <script path="\data\system\types\sys_function.js" />
-        <script path="\data\system\types\sys_function_noparen.js" />
-        <script path="\data\system\types\sys_doctags.js" />
-    </group>
-    <group name="Combinators">
+	<group name="System_Types">
+		<script path="\data\system\types\sys_csharpobj.js" />
+		<script path="\data\system\types\sys_array.js" />
+		<script path="\data\system\types\sys_date.js" />
+		<script path="\data\system\types\sys_string.js" />
+		<script path="\data\system\types\sys_map.js" />
+		<script path="\data\system\types\sys_function.js" />
+		<script path="\data\system\types\sys_function_noparen.js" />
+		<script path="\data\system\types\sys_doctags.js" />
+	</group>
+	<group name="Combinators">
         <!---->
+        <script path="\data\combinators\comb_sort.js" />
+        <script path="\data\combinators\comb_fluent.js" />
+        <script path="\data\combinators\comb_date.js" />
+        <script path="\data\combinators\comb_datenumber.js" />
         <script path="\data\combinators\comb_aggregate_sum.js" />
         <script path="\data\combinators\comb_bool.js" />
         <script path="\data\combinators\comb_compare.js" />
-        <script path="\data\combinators\comb_date.js" />
-        <script path="\data\combinators\comb_datenumber.js" />
         <script path="\data\combinators\comb_day.js" />
         <script path="\data\combinators\comb_def.js" />
         <script path="\data\combinators\comb_Email.js" />
-        <script path="\data\combinators\comb_fluent.js" />
         <script path="\data\combinators\comb_fluentfunc.js" />
         <script path="\data\combinators\comb_linq.js" />
         <script path="\data\combinators\comb_money.js" />
         <script path="\data\combinators\comb_records.js" />
         <script path="\data\combinators\comb_run.js" />
         <script path="\data\combinators\comb_set.js" />
-        <script path="\data\combinators\comb_sort.js" />
         <script path="\data\combinators\comb_time.js" />
         <script path="\data\combinators\comb_Units.js" />
         <script path="\data\combinators\comb_uri.js" />
         <script path="\data\combinators\comb_words.js" />
     </group>
-    <group name="System_Expressions">
+	<group name="System_Expressions">
         <script path="\data\system\expressions\sys_typeof.js" />
     </group>
 </scripts>

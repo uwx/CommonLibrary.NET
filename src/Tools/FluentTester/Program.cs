@@ -5,6 +5,7 @@ using System.Text;
 using System.Data;
 using System.Configuration;
 using ComLib.Lang;
+using ComLib.Lang.Types;
 using ComLib.Tools.FluentTester.Entities;
 using ComLib.Tools.FluentTester.Helpers;
 using ComLib.Tools.FluentTester;
@@ -65,7 +66,7 @@ namespace FluentTester
                 if (!string.IsNullOrEmpty(fileContent))
                 {
                     // 3. Execute script.
-                    Console.WriteLine("Executing : " + script.Name);
+                    Console.Write("Executing : " + script.Name);
                     ip.Execute(fileContent);  
 
                     // 4. Check result.
@@ -77,10 +78,18 @@ namespace FluentTester
                     {
                         WriteScriptError(script.Name, ip.Result.Message);
                     }
+                    else
+                    {
+                        Console.WriteLine();
+                    }
                     CheckExpectedResults(ip, fileContent, script, result);
 
                     if (!result.Succeed)
+                    {
                         success = false;
+                        WriteExpectedResultsFailedError();
+                        // highlight
+                    }
 
                     resultSet.Add(result);
                 }
@@ -106,7 +115,8 @@ namespace FluentTester
                 // Result after executing a script
                 
                 object actualValue = ip.Memory.Get<object>(exceptedValue.Name);
-                
+                actualValue = ((LObject) actualValue).GetValue();
+
                 // Check if the expected value matched
                 resultData.Actual = actualValue.ToString();
                 resultData.Expected = exceptedValue.Value;
@@ -114,7 +124,15 @@ namespace FluentTester
                 resultData.IsMatched = FluentHelper.IsMatchingValue(actualValue, exceptedValue.DataType, exceptedValue.Value);
                 
                 // The script result is a failure if at least 1 of the expected results fails.
-                if (!resultData.IsMatched) result.Succeed = false;
+                if (resultData.IsMatched)
+                {
+                    //Console.WriteLine(exceptedValue.Name + " matched : " + actualValue.ToString() + " with : " + exceptedValue.Value);
+                }
+                else
+                {
+                    result.Succeed = false;
+                    //Console.WriteLine(exceptedValue.Name + " did not match");
+                }
 
                 result.ExpectedResults.Add(resultData);
             }
@@ -139,7 +157,15 @@ namespace FluentTester
         private static void WriteScriptError(string script, string error)
         {
             Console.ForegroundColor =ConsoleColor.Red;            
-            Console.WriteLine(script + " failed with error: " + error);
+            Console.WriteLine(script + "failed with error: " + error);
+            Console.ResetColor();
+        }
+
+
+        private static void WriteExpectedResultsFailedError()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(" failed expected results");
             Console.ResetColor();
         }
     }

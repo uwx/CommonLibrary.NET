@@ -123,7 +123,7 @@ namespace ComLib.Lang.Helpers
             member.Name = isStatic ? type.Name : varName;
             member.DataType = type;
             member.Instance = obj;
-            member.MemberName = memberName;
+            member.MemberName = matchingMember.Name;
 
             // 1. Property.
             if (matchingMember.MemberType == MemberTypes.Property)

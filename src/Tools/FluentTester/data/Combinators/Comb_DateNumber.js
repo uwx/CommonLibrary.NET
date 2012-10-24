@@ -18,7 +18,8 @@
 function add1( d )
 {
     var day = d.getDate() + 1
-    return d.setDate(day)
+    d.setDate(day)
+    return d
 }
 
 

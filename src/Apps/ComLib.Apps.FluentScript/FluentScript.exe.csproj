@@ -62,9 +62,9 @@
     <Content Include="scripts\helloworld.js" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Lib\FluentScript\FluentScript.csproj">
-      <Project>{978AC4F4-5610-4A92-92A9-078D48A4B659}</Project>
-      <Name>FluentScript</Name>
+    <ProjectReference Include="..\..\Lib\CommonLibrary.NET\CommonLibrary.csproj">
+      <Project>{788226cd-0c48-473f-a939-32490358b8b9}</Project>
+      <Name>CommonLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

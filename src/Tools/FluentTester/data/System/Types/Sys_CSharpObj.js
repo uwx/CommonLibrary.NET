@@ -69,7 +69,7 @@ var res3e = user.BuildContactInfo("jane", "doe", false, 6/1/2012, 20.5 )
 
 
 // Access list object and add item.
-user.FavoriteFoods.Add("home cooked")
+user.FavoriteFoods.push("home cooked")
 var res4a = user.FavoriteFoods[0]
 
 // Supply a list as a parameter to check for conversion to generics list from List<object> in fluentscript

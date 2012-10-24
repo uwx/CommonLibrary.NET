@@ -59,10 +59,16 @@ namespace ComLib.Lang.Plugins
         /// <returns></returns>
         public override Token[] Parse()
         {
-            var includeNewLine = false;
-            if (_lexer.LastTokenData.Token.Text == "println")
-                includeNewLine = true;
-            return base.ParseLine(includeNewLine);
+            bool includeNewLine = _lexer.LastTokenData.Token.Text == "println";
+            var resultTokens = base.ParseLine(includeNewLine);
+
+            // Add new line to end if using "println"
+            if(resultTokens.Length == 1 && includeNewLine)
+            {
+                var first = resultTokens[0];
+                first.SetTextAndValue(first.Text, first.Text + Environment.NewLine);
+            }
+            return resultTokens;
         }
     }
 

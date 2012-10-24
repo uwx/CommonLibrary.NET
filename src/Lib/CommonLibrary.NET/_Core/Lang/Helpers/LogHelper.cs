@@ -67,14 +67,27 @@ namespace ComLib.Lang.Helpers
                 hasFormat = paramList.Count > 1;
                 if (hasFormat)
                 {
-                    format = ((LObject)paramList[0]).GetValue().ToString();
-                    var args = paramList.GetRange(1,paramList.Count - 1);
+                    format = GetVal(paramList[0]);
+                    var args = paramList.GetRange(1, paramList.Count - 1);
                     val = string.Format(format, args.ToArray());
                 }
                 else
-                    val = ((LObject)paramList[0]).GetValue().ToString();
+                {
+                    val = GetVal(paramList[0]);
+                }
             }
             return val;
+        }
+
+
+        private static string GetVal(object val)
+        {
+            var text = "";
+            if (val is LObject)
+                text = ((LObject)val).GetValue().ToString();
+            else
+                text = val.ToString();
+            return text;
         }
     }
 }

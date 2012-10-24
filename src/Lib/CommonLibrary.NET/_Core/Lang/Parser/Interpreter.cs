@@ -371,7 +371,7 @@ namespace ComLib.Lang
         {
             // Print and log functions.
             _parser.Context.ExternalFunctions.Register("print",  (exp) => LogHelper.Print(_settings, exp, false));
-            _parser.Context.ExternalFunctions.Register("printl", (exp) => LogHelper.Print(_settings, exp, true));
+            _parser.Context.ExternalFunctions.Register("println", (exp) => LogHelper.Print(_settings, exp, true));
             _parser.Context.ExternalFunctions.Register("log.*",  (exp) => LogHelper.Log(_settings, exp));
         }
         #endregion

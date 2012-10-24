@@ -33,8 +33,13 @@ src/Apps/ComLib.Apps.FluentScript/FluentScript.exe.csproj.user -text
 src/Apps/ComLib.Apps.FluentScript/Properties/AssemblyInfo.cs -text
 src/Apps/ComLib.Apps.FluentScript/Properties/AssemblyVersion.cs -text
 src/Apps/ComLib.Apps.FluentScript/app.config -text
+src/Apps/ComLib.Apps.FluentScript/scripts/example_1_helloworld.js -text
+src/Apps/ComLib.Apps.FluentScript/scripts/example_2_datatypes.js -text
+src/Apps/ComLib.Apps.FluentScript/scripts/example_3_functions.js -text
+src/Apps/ComLib.Apps.FluentScript/scripts/example_4_dsl_order.js -text
 src/Apps/ComLib.Apps.FluentScript/scripts/function1.js -text
 src/Apps/ComLib.Apps.FluentScript/scripts/helloworld.js -text
+src/Apps/ComLib.Apps.FluentScript/scripts/run_fs.bat -text
 src/Apps/ComLib.Apps.SampleApp/App.config -text
 src/Apps/ComLib.Apps.SampleApp/ComLib.Apps.SampleApp.csproj -text
 src/Apps/ComLib.Apps.SampleApp/CommonLibrary.SampleApp.csproj -text

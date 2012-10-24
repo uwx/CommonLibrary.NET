@@ -38,13 +38,13 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
+            Combinator_Integration_Tests();
             Combinator_Unit_Tests();
             System_Control_Flow();
             Fluent_Tests();
             System_CSharp(); 
             Lang_Type_Tests();
             Combinator_Failures();
-            Combinator_Integration_Tests();
             
         }
 
@@ -337,6 +337,7 @@ namespace ComLib.Samples
         static void Combinator_Integration_Tests()
         {
             var t = new Plugin_Integration_Positives();
+            t.Can_Use_Suffix();
             t.Can_Use_Units();
         }
 

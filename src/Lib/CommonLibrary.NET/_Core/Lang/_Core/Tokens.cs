@@ -382,6 +382,18 @@ namespace ComLib.Lang.Core
 
 
         /// <summary>
+        /// Set the text of the interpolated token.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="val"></param>
+        public void SetTextAndValue(string text, object val)
+        {
+            _text = text;
+            _value = val;
+        }
+
+
+        /// <summary>
         /// Whether or not the token supplied is a new line.
         /// </summary>
         /// <param name="token"></param>
