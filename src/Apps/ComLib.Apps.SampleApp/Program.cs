@@ -38,8 +38,8 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            Combinator_Integration_Tests();
             Combinator_Unit_Tests();
+            Combinator_Integration_Tests();
             System_Control_Flow();
             Fluent_Tests();
             System_CSharp(); 
@@ -345,6 +345,7 @@ namespace ComLib.Samples
         static void Combinator_Unit_Tests()
         {
             var t = new Plugin_Component_Positives();
+            t.Can_Use_Time2_Plugin();
             t.Can_Use_TypeOf_Plugin();
             t.Can_Use_Env_Plugin();
             t.Can_Use_Exec_Plugin();

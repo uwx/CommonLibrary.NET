@@ -252,6 +252,13 @@ namespace ComLib.Lang.Tests.Component
 
 
         [Test]
+        public void Can_Use_Time2_Plugin()
+        {
+            RunTests(CommonTestCases_Plugins.Time2, _testType);
+        }
+
+
+        [Test]
         public void Can_Use_TypeOf_Plugin()
         {
             RunTests(CommonTestCases_Plugins.TypeOf, _testType);

@@ -679,6 +679,29 @@ namespace ComLib.Lang.Tests.Common
         /// <summary>
         /// Test cases for the typeof plugin
         /// </summary>
+        public static TestCases Time2 = new TestCases()
+        {
+            Name = "Time Plugin",
+            RequiredPlugins = new[] { typeof(Time2Plugin) },
+            Positive = new List<Tuple<string, Type, object, string>>()
+            {
+                TestCase("i", typeof(double), 1, "var i = 0; var time = 730 am;      if (time.Hours == 7  && time.Minutes == 30  && time.Seconds == 0 ) i = 1;"),
+                TestCase("i", typeof(double), 1, "var i = 0; var time = 1030 am;     if (time.Hours == 10 && time.Minutes == 30  && time.Seconds == 0 ) i = 1;"),
+                TestCase("i", typeof(double), 1, "var i = 0; var time = 1030pm;      if (time.Hours == 22 && time.Minutes == 30  && time.Seconds == 0 ) i = 1;"),
+                TestCase("i", typeof(double), 1, "var i = 0; var time = 12pm;        if (time.Hours == 12 && time.Minutes == 0   && time.Seconds == 0 ) i = 1;"),
+                TestCase("i", typeof(double), 1, "var i = 0; var time = 9:30 am;     if (time.Hours == 9  && time.Minutes == 30  && time.Seconds == 0 ) i = 1;"),
+                TestCase("i", typeof(double), 1, "var i = 0; var time = 10:45:20 pm; if (time.Hours == 22 && time.Minutes == 45  && time.Seconds == 20) i = 1;"),
+                TestCase("i", typeof(double), 1, "var i = 0; var time = 09:45:32 pm; if (time.Hours == 21 && time.Minutes == 45  && time.Seconds == 32) i = 1;"),
+                TestCase("i", typeof(double), 1, "var i = 0; var time = noon;        if (time.Hours == 12 && time.Minutes == 0   && time.Seconds == 0 ) i = 1;"),
+                TestCase("i", typeof(double), 1, "var i = 0; var time1 = 9am; var time2 = 11am;  if (time1 < time2 ) i = 1;"),
+                TestCase("i", typeof(double), 1, "var i = 0; var time1 = 12:30pm; if (time1 == 12:30pm ) i = 1;"),
+            }
+        };
+
+
+        /// <summary>
+        /// Test cases for the typeof plugin
+        /// </summary>
         public static TestCases TypeOps = new TestCases()
         {
             Name = "Time Plugin",

@@ -265,8 +265,10 @@ namespace ComLib.Lang.Parsing
         public void RegisterCustomByType(Type pluginType)
         {
             var name = pluginType.Name.Replace("Plugin", "");
-            //if (_extMap.ContainsKey(name))
-                Register(_extMap[name]);            
+            ILangPlugin plugin = _extMap.ContainsKey(name) 
+                                 ? _extMap[name]
+                                 : (ILangPlugin)CreatePluginInstance(pluginType);
+            Register(plugin);            
         }
 
 
@@ -838,6 +840,13 @@ namespace ComLib.Lang.Parsing
         {
             var ordered = plugins.OrderBy(plugin => plugin.Precedence).ToList();
             return ordered;
+        }
+
+
+        private object CreatePluginInstance(Type pluginType)
+        {
+            var instance = Activator.CreateInstance(pluginType);
+            return instance;
         }
     }
 }
