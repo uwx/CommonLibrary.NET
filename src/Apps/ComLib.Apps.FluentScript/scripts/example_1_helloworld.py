@@ -1,2 +1,4 @@
-﻿println hello word! without quotes.
-println this prints all the text after the print keyword
+﻿
+println hello word! without using quotes.
+
+println this prints all the text after the print keyword up to the end of line

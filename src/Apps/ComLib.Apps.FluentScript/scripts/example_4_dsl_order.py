@@ -5,7 +5,7 @@
 # @arg: name: date,   alias: on,    type: date,   examples: July 10th 2012 | 7/10/2012
 def  order_to_buy( shares, symbol, price, date )
 {
-	print buying #{shares} of '#{symbol}' at #{price} on #{date}	
+	print buying #{shares} shares of '#{symbol}' at #{price} on #{date}	
 	println()
 }
 

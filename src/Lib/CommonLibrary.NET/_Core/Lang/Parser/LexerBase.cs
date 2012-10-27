@@ -604,7 +604,7 @@ namespace ComLib.Lang.Parsing
                 buffer.Append(currentChar);
                 if (nextChar == SPACE || nextChar == TAB || nextChar == '(' || nextChar == ')'
                     || nextChar == ',' || nextChar == ';' || nextChar == '[' || nextChar == ']'
-                    || nextChar == '\r' || nextChar == '\n' || nextChar == '\t')
+                    || nextChar == '\r' || nextChar == '\n' || nextChar == '{' || nextChar == '}')
                 {
                     matched = true;
                     break;

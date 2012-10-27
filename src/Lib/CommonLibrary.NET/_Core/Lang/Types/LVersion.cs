@@ -57,5 +57,15 @@ namespace ComLib.Lang.Types
 
             return text + "." + this.Revision.ToString();
         }
+
+
+        /// <summary>
+        /// Get the text based version.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return this.Text();
+        }
     }
 }

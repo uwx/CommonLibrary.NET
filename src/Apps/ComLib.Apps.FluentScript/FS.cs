@@ -216,6 +216,7 @@ namespace ComLib.Apps.FluentSharp
             Console.ResetColor();
         }
 
+
         private bool IsHelp()
         {
             if (_cmdArgs.Length == 0) return false;

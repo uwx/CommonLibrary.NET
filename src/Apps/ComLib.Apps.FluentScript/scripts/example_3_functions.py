@@ -21,7 +21,7 @@ refill_inventory 'nissan-maxima', 3
 
 
 # Example 2: without underscore
-refill inventory 'nissan-maxima', 3
+refill inventory 'honda-accord', amount: 21
 
 
 # Example 3: spaces converted to camel case

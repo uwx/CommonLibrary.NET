@@ -16,7 +16,7 @@ if salary is more than $200 then
 
 	
 # time 
-set time = 3 pm
+set time = 3:30 pm
 if time is before 5pm then 
 	println still have to work!
 	
@@ -34,12 +34,12 @@ set favorites = books where book.pages > 120
 println( favorites[0].name )
 
 # url
-set site = www.yahoo.com
+site = www.yahoo.com
 println( site )
 
 
 # aggregates 
-set numbers = [1, 2, 3, 4]
+numbers = [1, 2, 3, 4, 5]
 println( sum of numbers )
 
 

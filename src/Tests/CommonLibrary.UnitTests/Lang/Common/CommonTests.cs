@@ -788,7 +788,15 @@ namespace ComLib.Lang.Tests.Common
                 TestCase("result", typeof(string), "http://www.yahoo.com",  "var result = http://www.yahoo.com;"),
                 TestCase("result", typeof(string), "https://www.yahoo.com",  "var result = https://www.yahoo.com;"),
                 TestCase("result", typeof(string), "ftp://www.yahoo.com",  "var result = ftp://www.yahoo.com;"),
-                TestCase("result", typeof(string), "http://www.yahoo.com?user=kishore%20&id=123",  "var result = http://www.yahoo.com?user=kishore%20&id=123 ;"),                
+                TestCase("result", typeof(string), "http://www.yahoo.com?user=kishore%20&id=123",  "var result = http://www.yahoo.com?user=kishore%20&id=123 ;"),
+
+                TestCase("result", typeof(string), "www.yahoo1.com",  "var items = ['abc', www.yahoo1.com];        var result = items[1];"),
+                TestCase("result", typeof(string), "www.yahoo2.com",  "var items = ['abc', www.yahoo2.com, 'def']; var result = items[1];"),
+                TestCase("result", typeof(string), "www.yahoo3.com",  "var items = { name: www.yahoo3.com };       var result = items.name; "),
+                TestCase("result", typeof(string), "www.yahoo4.com",  "function abc(name) { return name; }         var result = abc(www.yahoo4.com);"),
+                TestCase("result", typeof(string), "www.yahoo5.com",  "var result = www.yahoo5.com ;"),
+                TestCase("result", typeof(string), "www.yahoo6.com",  "var result = www.yahoo6.com\t;"),
+                TestCase("result", typeof(string), "www.yahoo7.com",  "var result = www.yahoo7.com;"),
             }
         };
 
