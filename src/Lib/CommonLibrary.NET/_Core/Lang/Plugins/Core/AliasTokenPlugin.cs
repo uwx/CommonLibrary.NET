@@ -109,6 +109,9 @@ namespace ComLib.Lang.Plugins
         /// <returns></returns>
         public override bool CanHandle(Token token, bool isCurrent)
         {
+            if (token.Kind != TokenKind.Ident)
+                return false;
+
             if (_parser.Context.Symbols.Contains(token.Text))
                 return false; 
             return AliasMap.ContainsKey(token.Text);

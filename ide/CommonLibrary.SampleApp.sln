@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Web Developer Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonLibrary", "..\src\Lib\CommonLibrary.NET\CommonLibrary.csproj", "{788226CD-0C48-473F-A939-32490358B8B9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComLib.Apps.StockMarketApp", "..\src\Apps\ComLib.Apps.StockMarketApp\ComLib.Apps.StockMarketApp.csproj", "{22F2EA3B-B9C6-498C-A51F-95FB11AD180D}"
@@ -14,8 +14,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComLib.Tools.FluentTester", "..\src\Tools\FluentTester\ComLib.Tools.FluentTester.csproj", "{4B5108BA-22A1-488C-9304-CEE5D4D25136}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComLib.Tools.HtmlConverter", "..\src\Tools\HtmlConverter\ComLib.Tools.HtmlConverter.csproj", "{4CF2DCFC-4F0A-4236-A539-7B610672A322}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentScript.exe", "..\src\Apps\ComLib.Apps.FluentScript\FluentScript.exe.csproj", "{17B5F32F-9E8A-4C1F-929B-0B82535F6FDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -97,16 +95,6 @@ Global
 		{4CF2DCFC-4F0A-4236-A539-7B610672A322}.Release|Mixed Platforms.Build.0 = Release|x86
 		{4CF2DCFC-4F0A-4236-A539-7B610672A322}.Release|x86.ActiveCfg = Release|x86
 		{4CF2DCFC-4F0A-4236-A539-7B610672A322}.Release|x86.Build.0 = Release|x86
-		{17B5F32F-9E8A-4C1F-929B-0B82535F6FDF}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{17B5F32F-9E8A-4C1F-929B-0B82535F6FDF}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{17B5F32F-9E8A-4C1F-929B-0B82535F6FDF}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{17B5F32F-9E8A-4C1F-929B-0B82535F6FDF}.Debug|x86.ActiveCfg = Debug|x86
-		{17B5F32F-9E8A-4C1F-929B-0B82535F6FDF}.Debug|x86.Build.0 = Debug|x86
-		{17B5F32F-9E8A-4C1F-929B-0B82535F6FDF}.Release|Any CPU.ActiveCfg = Release|x86
-		{17B5F32F-9E8A-4C1F-929B-0B82535F6FDF}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{17B5F32F-9E8A-4C1F-929B-0B82535F6FDF}.Release|Mixed Platforms.Build.0 = Release|x86
-		{17B5F32F-9E8A-4C1F-929B-0B82535F6FDF}.Release|x86.ActiveCfg = Release|x86
-		{17B5F32F-9E8A-4C1F-929B-0B82535F6FDF}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

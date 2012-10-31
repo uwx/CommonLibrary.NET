@@ -646,6 +646,7 @@ src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/ComparePlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/ConstCapsPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/DateNumberPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/DatePlugin.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/DateTimeCombinerPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/DayPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/DefPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/EmailPlugin.cs -text

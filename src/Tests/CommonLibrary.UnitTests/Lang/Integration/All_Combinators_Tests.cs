@@ -251,26 +251,27 @@ namespace ComLib.Lang.Tests.Integration
 
 
         [Test]
-        public void Can_Use_Date_Number_With_Times_Plugin()
+        public void Can_Use_Dates_With_Times_Plugin()
         {
             string yearNow = DateTime.Now.Year.ToString();
             var statements = new List<Tuple<string, Type, object, string>>()
-            {
-                new Tuple<string,Type, object, string>("i", typeof(double), 1, "var i = 0; var date = 10/2/2011 at 9:30 am;     if (date.getFullYear() == 2011 && date.getMonth() == 10 && date.getDate() == 2 && date.getHours() == 9  && date.getMinutes() == 30) i = 1;"),
-                new Tuple<string,Type, object, string>("i", typeof(double), 1, "var i = 0; var date = 10/2/2011 at 10:45:20 pm; if (date.getFullYear() == 2011 && date.getMonth() == 10 && date.getDate() == 2 && date.getHours() == 22 && date.getMinutes() == 45) i = 1;"),
-                new Tuple<string,Type, object, string>("i", typeof(double), 1, "var i = 0; var date = 10/2/2011 at 09:45:20 pm; if (date.getFullYear() == 2011 && date.getMonth() == 10 && date.getDate() == 2 && date.getHours() == 21 && date.getMinutes() == 45) i = 1;"),
-                new Tuple<string,Type, object, string>("i", typeof(double), 1, "var i = 0; var date = 10/2/2011 at 12pm;        if (date.getFullYear() == 2011 && date.getMonth() == 10 && date.getDate() == 2 && date.getHours() == 12 && date.getMinutes() == 0 ) i = 1;"),
+            {   
+                TestCase("i", typeof(double), 1, "var i = 0; var date = october 2 2011 at 9:30 am;     if (date.getFullYear() == 2011 && date.getMonth() == 10 && date.getDate() == 2) i = 1;"),
+                TestCase("i", typeof(double), 1, "var i = 0; var date = october 2 2011 at 10:45:20 pm; if (date.getFullYear() == 2011 && date.getMonth() == 10 && date.getDate() == 2) i = 1;"),
+                TestCase("i", typeof(double), 1, "var i = 0; var date = october 2 2011 at 09:45:20 pm; if (date.getFullYear() == 2011 && date.getMonth() == 10 && date.getDate() == 2) i = 1;"),
+                TestCase("i", typeof(double), 1, "var i = 0; var date = october 2 2011 at 12pm;        if (date.getFullYear() == 2011 && date.getMonth() == 10 && date.getDate() == 2) i = 1;"),
+                
+                TestCase("i", typeof(double), 1, "var i = 0; var date = 10/2/2011;                     if (date.getFullYear() == 2011 && date.getMonth() == 10 && date.getDate() == 2) i = 1;"),
+                TestCase("i", typeof(double), 1, "var i = 0; var date = 10\\2\\2011;                   if (date.getFullYear() == 2011 && date.getMonth() == 10 && date.getDate() == 2) i = 1;"),
+                TestCase("i", typeof(double), 1, "var i = 0; var date = 10-2-2011;                     if (date.getFullYear() == 2011 && date.getMonth() == 10 && date.getDate() == 2) i = 1;"),
+                TestCase("i", typeof(double), 1, "var i = 0; var date = 10/2/2011 at 9:30 am;          if (date.getFullYear() == 2011 && date.getMonth() == 10 && date.getDate() == 2 && date.getHours() == 9  && date.getMinutes() == 30) i = 1;"),
+                TestCase("i", typeof(double), 1, "var i = 0; var date = 10/2/2011 at 10:45:20 pm;      if (date.getFullYear() == 2011 && date.getMonth() == 10 && date.getDate() == 2 && date.getHours() == 22 && date.getMinutes() == 45) i = 1;"),
+                TestCase("i", typeof(double), 1, "var i = 0; var date = 10/2/2011 at 09:45:20 pm;      if (date.getFullYear() == 2011 && date.getMonth() == 10 && date.getDate() == 2 && date.getHours() == 21 && date.getMinutes() == 45) i = 1;"),
+                TestCase("i", typeof(double), 1, "var i = 0; var date = 10/2/2011 at 12pm;             if (date.getFullYear() == 2011 && date.getMonth() == 10 && date.getDate() == 2 && date.getHours() == 12 && date.getMinutes() == 0 ) i = 1;"),
 
                 
-                new Tuple<string,Type, object, string>("i", typeof(double), 1, "var i = 0; var date = 10/2/2011;    if (date.getFullYear() == 2011 && date.getMonth() == 10 && date.getDate() == 2) i = 1;"),
-                new Tuple<string,Type, object, string>("i", typeof(double), 1, "var i = 0; var date = 10\\2\\2011;  if (date.getFullYear() == 2011 && date.getMonth() == 10 && date.getDate() == 2) i = 1;"),
-                new Tuple<string,Type, object, string>("i", typeof(double), 1, "var i = 0; var date = 10-2-2011;    if (date.getFullYear() == 2011 && date.getMonth() == 10 && date.getDate() == 2) i = 1;")
             };
-            Parse(statements, true, i =>
-            {
-                i.Context.Plugins.Register(new DateNumberPlugin());
-                i.Context.Plugins.Register(new DatePlugin());
-            });
+            Parse(statements, true, i => i.Context.Plugins.RegisterAll());
         }
         
 

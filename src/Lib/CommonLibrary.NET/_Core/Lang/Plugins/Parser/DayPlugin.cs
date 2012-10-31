@@ -135,7 +135,7 @@ namespace ComLib.Lang.Plugins
                 return new ConstantExpr(dateTime);
             }
 
-            time = TimePlugin.ParseTime(_parser, true, true);
+            time = TimeExprPlugin.ParseTime(_parser, true, true);
             dateTime = new DateTime(dateTime.Year, dateTime.Month, (int)dateTime.Day, time.Hours, time.Minutes, time.Seconds);
             return new ConstantExpr(dateTime);
         }

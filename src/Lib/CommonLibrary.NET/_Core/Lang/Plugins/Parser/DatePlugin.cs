@@ -231,7 +231,7 @@ namespace ComLib.Lang.Plugins
             // 8. Now check for time.
             n = tokenIt.Peek();
             if (n.Token.Text == "at")
-                time = TimePlugin.ParseTime(parser, true, true);
+                time = TimeExprPlugin.ParseTime(parser, true, true);
             else            
                 tokenIt.Advance();
 

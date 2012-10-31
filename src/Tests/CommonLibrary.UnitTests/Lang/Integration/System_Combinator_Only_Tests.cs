@@ -579,8 +579,8 @@ namespace ComLib.Lang.Tests.Integration.System
         [Test]
         public void Can_Do_While_Statements_Syntax()
         {
-            RunTests(CommonTestCases_System.While, TestType.Component);
-            RunTests(CommonTestCases_System.While, TestType.Integration);
+            RunTests(CommonTestCases_System.While, TestType.Integration); 
+            RunTests(CommonTestCases_System.While, TestType.Component);            
         }
 
 

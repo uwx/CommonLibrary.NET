@@ -173,10 +173,6 @@ namespace ComLib.Lang.Tests.Common
             RequiredPlugins = new[] { typeof(DatePlugin) },
             Positive = new List<Tuple<string, Type, object, string>>()
             {
-                TestCase("i", typeof(double), 1, "var i = 0; var date = october 2 2011 at 9:30 am;     if (date.getFullYear() == 2011 && date.getMonth() == 10 && date.getDate() == 2) i = 1;"),
-                TestCase("i", typeof(double), 1, "var i = 0; var date = october 2 2011 at 10:45:20 pm; if (date.getFullYear() == 2011 && date.getMonth() == 10 && date.getDate() == 2) i = 1;"),
-                TestCase("i", typeof(double), 1, "var i = 0; var date = october 2 2011 at 09:45:20 pm; if (date.getFullYear() == 2011 && date.getMonth() == 10 && date.getDate() == 2) i = 1;"),
-                TestCase("i", typeof(double), 1, "var i = 0; var date = october 2 2011 at 12pm;        if (date.getFullYear() == 2011 && date.getMonth() == 10 && date.getDate() == 2) i = 1;"),
                 TestCase("i", typeof(double), 1, "var i = 0; var date = oct 2;              if (date.getFullYear() == " + Date_YearNow + " && date.getMonth() == 10 && date.getDate() == 2) i = 1;"),
                 TestCase("i", typeof(double), 1, "var i = 0; var date = oct 2nd;            if (date.getFullYear() == " + Date_YearNow + " && date.getMonth() == 10 && date.getDate() == 2) i = 1;"),
                 TestCase("i", typeof(double), 1, "var i = 0; var date = october 2;          if (date.getFullYear() == " + Date_YearNow + " && date.getMonth() == 10 && date.getDate() == 2) i = 1;"),
@@ -466,6 +462,11 @@ namespace ComLib.Lang.Tests.Common
             RequiredPlugins = new[] { typeof(RepeatPlugin) },
             Positive = new List<Tuple<string, Type, object, string>>()
             {
+                TestCase("result", typeof(double), 26, "result = 0; var a = 18;                   var b = 30; var c = 4; repeat ndx = a to < b by c { result = ndx; }"),
+                TestCase("result", typeof(double), 26, "result = 0; var a = [10, 18];             var b = 30; var c = 4; repeat ndx = a[1] to < b by c { result = ndx; }"),
+                TestCase("result", typeof(double), 26, "result = 0; var a = { one: 10, two: 18};  var b = 30; var c = 4; repeat ndx = a.two to < b by c { result = ndx; }"),
+                TestCase("result", typeof(double), 26, "result = 0; function getA(){ return 18; } var b = 30; var c = 4; repeat ndx = getA() to < b by c { result = ndx; }"),
+                
                 TestCase("result", typeof(double), 10, "result = 0; repeat to 10                 { result = it;  }"),
                 TestCase("result", typeof(double), 9,  "result = 0; repeat to 10 by 2            { result = it;  }"),
                 TestCase("result", typeof(double), 9,  "result = 0; repeat to < 10               { result = it;  }"),
@@ -486,10 +487,7 @@ namespace ComLib.Lang.Tests.Common
                 TestCase("result", typeof(double), 24, "result = 0; repeat ndx = 14 to < 25      { result = ndx; }"),
                 TestCase("result", typeof(double), 26, "result = 0; repeat ndx = 18 to < 30 by 4 { result = ndx; }"),
 
-                TestCase("result", typeof(double), 26, "result = 0; var a = 18;                   var b = 30; var c = 4; repeat ndx = a to < b by c { result = ndx; }"),
-                TestCase("result", typeof(double), 26, "result = 0; var a = [10, 18];             var b = 30; var c = 4; repeat ndx = a[1] to < b by c { result = ndx; }"),
-                TestCase("result", typeof(double), 26, "result = 0; var a = { one: 10, two: 18};  var b = 30; var c = 4; repeat ndx = a.two to < b by c { result = ndx; }"),
-                TestCase("result", typeof(double), 26, "result = 0; function getA(){ return 18; } var b = 30; var c = 4; repeat ndx = getA() to < b by c { result = ndx; }"),
+                
             }
         };
 
@@ -656,10 +654,10 @@ namespace ComLib.Lang.Tests.Common
         /// <summary>
         /// Test cases for the typeof plugin
         /// </summary>
-        public static TestCases Time = new TestCases()
+        public static TestCases TimeExpr = new TestCases()
         {
             Name = "Time Plugin",
-            RequiredPlugins = new[] { typeof(TimePlugin) },
+            RequiredPlugins = new[] { typeof(TimeExprPlugin) },
             Positive = new List<Tuple<string, Type, object, string>>()
             {
                 TestCase("i", typeof(double), 1, "var i = 0; var time = 730 am;      if (time.Hours == 7  && time.Minutes == 30  && time.Seconds == 0 ) i = 1;"),
@@ -679,10 +677,10 @@ namespace ComLib.Lang.Tests.Common
         /// <summary>
         /// Test cases for the typeof plugin
         /// </summary>
-        public static TestCases Time2 = new TestCases()
+        public static TestCases Time = new TestCases()
         {
             Name = "Time Plugin",
-            RequiredPlugins = new[] { typeof(Time2Plugin) },
+            RequiredPlugins = new[] { typeof(TimePlugin) },
             Positive = new List<Tuple<string, Type, object, string>>()
             {
                 TestCase("i", typeof(double), 1, "var i = 0; var time = 730 am;      if (time.Hours == 7  && time.Minutes == 30  && time.Seconds == 0 ) i = 1;"),

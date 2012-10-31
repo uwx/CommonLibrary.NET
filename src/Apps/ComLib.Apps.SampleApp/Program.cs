@@ -38,10 +38,10 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            Combinator_Unit_Tests();
             Combinator_Integration_Tests();
             System_Control_Flow();
-            Fluent_Tests();
+            Combinator_Unit_Tests();
+            Fluent_Tests();            
             System_CSharp(); 
             Lang_Type_Tests();
             Combinator_Failures();
@@ -169,12 +169,12 @@ namespace ComLib.Samples
         #region System Control Flow
         static void System_Control_Flow()
         {
+            System_Loops();
             System_Functions();
             System_Types();
             System_Limits();
             System_Errors_Runtime();
             System_TryCatch();
-            System_Loops();
             System_Assignment();
         }
 
@@ -277,8 +277,8 @@ namespace ComLib.Samples
         static void System_Loops()
         {
             var tl = new Script_Tests_Loops();
-            tl.Can_Do_Recursion(); 
-            tl.Can_Do_While_Statements_Syntax();
+            tl.Can_Do_While_Statements_Syntax(); 
+            tl.Can_Do_Recursion();             
             tl.Can_Do_Nested_Loops();
             tl.Can_Do_While_Statements(); 
             tl.Can_Do_For_Each_Statements();
@@ -337,6 +337,10 @@ namespace ComLib.Samples
         static void Combinator_Integration_Tests()
         {
             var t = new Plugin_Integration_Positives();
+            t.Can_Use_Const_Plugin();
+            t.Can_Use_Dates_With_Times_Plugin();
+            t.Can_Use_Repeat_Plugin();
+            t.Can_Use_Uri_Plugin();
             t.Can_Use_Suffix();
             t.Can_Use_Units();
         }
@@ -345,7 +349,8 @@ namespace ComLib.Samples
         static void Combinator_Unit_Tests()
         {
             var t = new Plugin_Component_Positives();
-            t.Can_Use_Time2_Plugin();
+            t.Can_Use_Time_Plugin();
+            t.Can_Use_Uri_Plugin();
             t.Can_Use_TypeOf_Plugin();
             t.Can_Use_Env_Plugin();
             t.Can_Use_Exec_Plugin();
@@ -378,9 +383,11 @@ namespace ComLib.Samples
         #region Fluent
         static void Fluent_Tests()
         {
+            var tf = new Fluent_Function_Call_Tests();
+            tf.Can_Use_Named_Parameters();
+
             var t = new Fluent_Call_Tests();
             t.Can_Handle_Ambiguity();
-            t.Can_Use_Fluent_Member_Get_Property();
         }
 
 

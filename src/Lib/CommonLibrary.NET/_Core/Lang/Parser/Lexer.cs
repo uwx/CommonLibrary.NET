@@ -62,6 +62,7 @@ namespace ComLib.Lang.Parsing
         private Context _ctx;      
         private Token _lastToken;
         private TokenData _lastTokenData;
+        private TokenData _endTokenData;
         private int _tokenIndex = -1;
         private bool _hasReplacementsOrRemovals = false;
         private char _interpolatedStartChar = '#';
@@ -456,13 +457,24 @@ namespace ComLib.Lang.Parsing
         /// <returns></returns>
         public TokenData PeekToken(bool allowSpace = false)
         {
+            // Check if ended
+            if (_pos.Pos >= _pos.Text.Length)
+            {
+                // Store this perhaps?
+                if (_endTokenData != null) return _endTokenData;
+                
+                // Create endToken data.
+                _endTokenData = new TokenData() { Token = Tokens.EndToken, Line = _pos.Line, Pos = _pos.Pos, LineCharPos = _pos.LineCharPosition };
+                return _endTokenData;             
+            }
+
             var line = _pos.Line;
             var linepos = _pos.LineCharPosition;
             var lastToken = _lastToken;
             var lastTokenData = _lastTokenData;
             var iSc = _interpolatedStartChar;
             var pos = _pos.Pos;
-
+            
             // Get the next token.
             var token = NextToken();
             if (!allowSpace && token.Token == Tokens.WhiteSpace)

@@ -85,6 +85,7 @@ namespace ComLib.Lang.Parsing
             _extMap["ConstCaps"]       =  new ConstCapsPlugin(); 
             _extMap["Date"]      	   =  new DatePlugin();
             _extMap["DateNumber"]      =  new DateNumberPlugin();
+            _extMap["DateTimeCombiner"] = new DateTimeCombinerPlugin();
             _extMap["Day"]      	   =  new DayPlugin();
             _extMap["Def"]      	   =  new DefPlugin();
             _extMap["Enable"]      	   =  new EnablePlugin();
@@ -123,30 +124,30 @@ namespace ComLib.Lang.Parsing
             _extMap["Version"]         =  new VersionPlugin();
             _extMap["Words"]           =  new WordsPlugin();
             _extMap["WordsInterpret"]  =  new WordsInterpretPlugin();
-
             /*
             var info = "";
             foreach(var pair in _extMap)
-                if(pair.Value is IExprBasePlugin)
+                if(pair.Value is IExprPlugin)
                 {
-                    var tokens = ((IExprBasePlugin)pair.Value).StartTokens;
+                    var tokens = ((IExprPlugin)pair.Value).StartTokens;
+                    info += pair.Value.GetType().Name + " - ";
                     foreach (var token in tokens)
-                        if (token.Contains("$"))
-                            info += pair.Value.GetType().Name + " - " + token + Environment.NewLine;
+                    {
+                        //if (token.Contains("$"))
+                        info += token + ", ";
+                    }
+                    info += Environment.NewLine;
                 }
                 else if (pair.Value is ILexPlugin)
                 {
                     var tokens = ((ILexPlugin)pair.Value).Tokens;
+                    info += pair.Value.GetType().Name + " - ";
                     foreach (var token in tokens)
-                        if (token.Contains("$"))
-                            info += pair.Value.GetType().Name + " - " + token + Environment.NewLine;
-                }
-                else if (pair.Value is IStmtPlugin)
-                {
-                    var tokens = ((IStmtPlugin)pair.Value).StartTokens;
-                    foreach (var token in tokens)
-                        if (token.Contains("$"))
-                            info += pair.Value.GetType().Name + " - " + token + Environment.NewLine;
+                    {
+                        //if (token.Contains("$"))
+                        info += token + ", ";
+                    }
+                    info += Environment.NewLine;
                 }
             Console.WriteLine(info);
             */

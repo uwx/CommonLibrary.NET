@@ -281,16 +281,10 @@ namespace ComLib.Lang.Parsing
                 // Case 1: user.  -> member access
                 // Case 2: user[  -> array index access
                 // Case 3: user = -> assignment
-                var okToCheckPlugins = !IsExplicitIdentExpression(token);
-
-                // PREVENT PLUGIN TAKEOVER ON IDENT BASED ENDTOKENS
-                var next = _tokenIt.Peek();
-                if (enableIdentTokenTextAsEndToken && next.Token.Kind == TokenKind.Ident && identEndTokens.ContainsKey(next.Token.Text))
-                    okToCheckPlugins = false;
+                var okToCheckPlugins = !IsExplicitIdentQualifierExpression(token);
 
                 // Token replacements                
-                if (okToCheckPlugins && enablePlugins && hasTokenReplacePlugins && ( token.Kind == TokenKind.Ident )
-                    && _context.Plugins.CanHandleTok(token, true))
+                if (okToCheckPlugins && enablePlugins && hasTokenReplacePlugins && _context.Plugins.CanHandleTok(token, true))
                 {
                     var plugin = _context.Plugins.LastMatchedTokenPlugin;                    
                     token = plugin.Parse();
@@ -298,6 +292,12 @@ namespace ComLib.Lang.Parsing
                     _tokenIt.NextToken.Token = token;
                 }
 
+                // PREVENT PLUGIN TAKEOVER ON IDENT BASED ENDTOKENS
+                var next = _tokenIt.Peek();
+                if (enableIdentTokenTextAsEndToken && next.Token.Kind == TokenKind.Ident && identEndTokens.ContainsKey(next.Token.Text))
+                    okToCheckPlugins = false;
+
+                
                 // 1. Check for combinators.
                 if (okToCheckPlugins && enablePlugins && hasPlugins && _context.Plugins.CanHandleExp(token))
                 {
@@ -1282,7 +1282,7 @@ namespace ComLib.Lang.Parsing
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        public bool IsExplicitIdentExpression(Token token)
+        public bool IsExplicitIdentQualifierExpression(Token token)
         {            
             if (!(token.Kind == TokenKind.Ident)) return false;
             

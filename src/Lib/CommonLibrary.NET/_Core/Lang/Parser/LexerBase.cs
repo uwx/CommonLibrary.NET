@@ -218,7 +218,7 @@ namespace ComLib.Lang.Parsing
             // 2. LAST_POSITION = 5;
             // 3. _state can not be more than 6. 6 indicating that it's past end
             // 4. _state == 5 Indicating it's at end.
-            if (pos >= LAST_POSITION) throw new Lang.Core.LangException("Lexical Error", "Can not set position to : " + pos, "", -1, -1);
+            if (pos > LAST_POSITION) throw new Lang.Core.LangException("Lexical Error", "Can not set position to : " + pos, "", -1, -1);
             if (pos < 0) throw new Lang.Core.LangException("Lexical Error", "Can not set position before 0 : " + pos, "", -1, -1);
 
             _pos.Pos = pos;
@@ -335,11 +335,13 @@ namespace ComLib.Lang.Parsing
         /// </summary>
         /// <param name="count">Number of characters.</param>
         /// <returns>Range of chars as string or string.empty if end of text.</returns>
-        public string PeekChars(int count)
+        public string PeekMaxChars(int count)
         {
             // Validate.
             if (_pos.Pos + count > LAST_POSITION)
-                return string.Empty;
+            {
+                return _pos.Text.Substring(_pos.Pos + 1);
+            }
 
             return _pos.Text.Substring(_pos.Pos + 1, count);
         }

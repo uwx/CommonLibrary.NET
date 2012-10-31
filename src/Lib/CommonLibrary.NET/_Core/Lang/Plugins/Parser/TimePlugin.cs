@@ -27,14 +27,14 @@ namespace ComLib.Lang.Plugins
     /// <summary>
     /// Combinator for handling dates. noon afternoon. evening, nite midnight
     /// </summary>
-    public class TimePlugin : ExprPlugin
+    public class TimeExprPlugin : ExprPlugin
     {
         private static Dictionary<string, TimeSpan> _aliases;
 
         /// <summary>
         /// Initialize
         /// </summary>
-        static TimePlugin()
+        static TimeExprPlugin()
         {
             _aliases = new Dictionary<string, TimeSpan>();
             _aliases["noon"] = new TimeSpan(12, 0, 0);
@@ -47,7 +47,7 @@ namespace ComLib.Lang.Plugins
         /// <summary>
         /// Initialize
         /// </summary>
-        public TimePlugin()
+        public TimeExprPlugin()
         {
             this.StartTokens = new string[] { "$NumberToken", "Noon", "noon", "midnight", "Midnight" };
         }
@@ -140,6 +140,20 @@ namespace ComLib.Lang.Plugins
                 tokenIt.ExpectIdText("at", true);
             }
 
+            // Next token could be a Literal time token
+            // 1. time is a basic datatype
+            // 2. time could be represented as 9:30 am and could have been
+            //    lexically parsed by a lex plugin.
+            //    NOTE: This plugin(any all other plugins) should NOT
+            //    know or depend on any other plugin.
+            //    However, they can know about tokens / basic types.
+            if (tokenIt.NextToken.Token.Kind == TokenKind.LiteralTime)
+            {
+                var timeVal = (TimeSpan)tokenIt.NextToken.Token.Value;
+                tokenIt.Advance();
+                return timeVal;
+            }
+
             string tokenText = tokenIt.NextToken.Token.Text.ToLower();
             if (_aliases.ContainsKey(tokenText))
             {
@@ -212,7 +226,7 @@ namespace ComLib.Lang.Plugins
     /// <summary>
     /// Combinator for handling dates. noon afternoon. evening, nite midnight
     /// </summary>
-    public class Time2Plugin : LexPlugin
+    public class TimePlugin : LexPlugin
     {
         private static Dictionary<string, TimeSpan> _aliases;
         private int _endPos = -1;
@@ -221,7 +235,7 @@ namespace ComLib.Lang.Plugins
         /// <summary>
         /// Initialize
         /// </summary>
-        static Time2Plugin()
+        static TimePlugin()
         {
             _aliases = new Dictionary<string, TimeSpan>();
             _aliases["noon"] = new TimeSpan(12, 0, 0);
@@ -234,7 +248,7 @@ namespace ComLib.Lang.Plugins
         /// <summary>
         /// Initialize
         /// </summary>
-        public Time2Plugin()
+        public TimePlugin()
         {
             _tokens = new string[] { "$NumberToken", "Noon", "noon", "midnight", "Midnight" };
         }
@@ -285,12 +299,25 @@ namespace ComLib.Lang.Plugins
                 _time = CloneTime(_aliases[current.Text]);
                 return true;
             }
-            var text = Lexer.State.CurrentChar + _lexer.PeekChars(10);
 
-            // Case 2: No more text available / End Of File
-            if (string.IsNullOrEmpty(text))
+            // Check 1: Make sure it's a number.
+            if (current.Kind != TokenKind.LiteralNumber)
                 return false;
+            
+            var nextToken = _lexer.PeekToken();
+            var nextTokenText = nextToken.Token.Text.ToLower();
 
+            // Check 2: End token?
+            if (nextToken.Token == ComLib.Lang.Core.Tokens.EndToken)
+                return false;
+                        
+            // Check 3: Time format is 9:30 am or 930 am
+            // So if next token is not ':' then it has to be "am" or "pm"
+            if (nextTokenText != ComLib.Lang.Core.Tokens.Colon.Text
+                && nextTokenText != "am" && nextTokenText != "pm")
+                return false;
+                
+            var text = Lexer.State.CurrentChar + _lexer.PeekMaxChars(10);
             // 1. Check for am/pm ( required )
             var isAm = true;
             var ndxAmOrPm = text.IndexOf("am", StringComparison.InvariantCultureIgnoreCase);
