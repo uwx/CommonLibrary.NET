@@ -1938,6 +1938,34 @@
             <param name="index"></param>
             <returns></returns>
         </member>
+        <member name="T:ComLib.Lang.Helpers.LogHelper">
+            <summary>
+            Helper class for calling functions in the script.
+            </summary>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.LogHelper.Print(ComLib.Lang.Core.LangSettings,ComLib.Lang.AST.FunctionCallExpr,System.Boolean)">
+            <summary>
+            Prints to the console.
+            </summary>
+            /// <param name="settings">Settings for interpreter</param>
+            <param name="exp">The functiona call expression</param>
+            <param name="printline">Whether to print with line or no line</param>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.LogHelper.Log(ComLib.Lang.Core.LangSettings,ComLib.Lang.AST.FunctionCallExpr)">
+            <summary>
+            Logs severity to console.
+            </summary>
+            <param name="settings">Settings for interpreter</param>
+            <param name="exp">The functiona call expression</param>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.LogHelper.BuildMessage(System.Collections.Generic.List{System.Object})">
+            <summary>
+            Builds a single message from multiple arguments
+            If there are 2 or more arguments, the 1st is a format, then rest are the args to the format.
+            </summary>
+            <param name="paramList">The list of parameters</param>
+            <returns></returns>
+        </member>
         <member name="T:ComLib.Lang.AST.IParameterExpression">
             <summary>
             Interface for expression that uses parameters. right now "new" and "function".
@@ -10470,7 +10498,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:ComLib.Lang.Parsing.Parser.IsExplicitIdentExpression(ComLib.Lang.Core.Token)">
+        <member name="M:ComLib.Lang.Parsing.Parser.IsExplicitIdentQualifierExpression(ComLib.Lang.Core.Token)">
             <summary>
             Whether or not the token represents the start of an explicit ident expressions e.g. ident( "." | "[" | "=" )
             </summary>
@@ -10499,6 +10527,48 @@
             Helper class for calling functions in the script.
             </summary>
         </member>
+        <member name="M:ComLib.Lang.Helpers.FunctionHelper.CallFunction(ComLib.Lang.Parsing.Context,ComLib.Lang.AST.FunctionCallExpr,System.String,System.Boolean)">
+            <summary>
+            Calls an internal function or external function.
+            </summary>
+            <param name="ctx">The context of the runtime.</param>
+            <param name="fexpr">The function call expression</param>
+            <param name="functionName">The name of the function. if not supplied, gets from the fexpr</param>
+            <param name="pushCallStack"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.FunctionHelper.CallMemberOnBasicType(ComLib.Lang.Parsing.Context,ComLib.Lang.Core.AstNode,ComLib.Lang.AST.MemberAccess,System.Collections.Generic.List{ComLib.Lang.AST.Expr},System.Collections.Generic.List{System.Object})">
+            <summary>
+            Calls a property get
+            </summary>
+            <param name="ctx">The context of the runtime</param>
+            <param name="memberAccess">Object to hold all the relevant information required for the member call.</param>
+            <param name="paramListExpressions">The collection of parameters as expressions</param>
+            <param name="paramList">The collection of parameter values after they have been evaluated</param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.FunctionHelper.CallMemberOnClass(ComLib.Lang.Parsing.Context,ComLib.Lang.Core.AstNode,ComLib.Lang.AST.MemberAccess,System.Collections.Generic.List{ComLib.Lang.AST.Expr},System.Collections.Generic.List{System.Object})">
+            <summary>
+            Execute a member call.
+            </summary>
+            <param name="ctx">The context of the script</param>
+            <param name="memberAccess">Object to hold all the relevant information required for the member call.</param>
+            <param name="paramListExpressions">The expressions to resolve as parameters</param>
+            <param name="paramList">The list of parameters.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.FunctionHelper.CallFunctionInScript(ComLib.Lang.Parsing.Context,System.String,System.Collections.Generic.List{ComLib.Lang.AST.Expr},System.Collections.Generic.List{System.Object},System.Boolean)">
+            <summary>
+            Call a function by passing in all the values.
+            </summary>
+            <param name="ctx">The context of the runtime</param>
+            <param name="functionName">The name of the function to call.</param>
+            <param name="paramListExpressions">List of parameters as expressions to evaluate first to actual values</param>
+            <param name="paramVals">List to store the resolved paramter expressions. ( these will be resolved if paramListExpressions is supplied and resolveParams is true. If 
+            resolveParams is false, the list is assumed to have the values for the paramters to the function.</param>
+            <param name="resolveParams">Whether or not to resolve the list of parameter expression objects</param>
+            <returns></returns>
+        </member>
         <member name="M:ComLib.Lang.Helpers.FunctionHelper.IsInternalOrExternalFunction(ComLib.Lang.Parsing.Context,System.String,System.String)">
             <summary>
             Whether or not the name/member combination supplied is a script level function or an external C# function
@@ -10508,50 +10578,14 @@
             <param name="member">Member name "Info" as in "Log.Info"</param>
             <returns></returns>
         </member>
-        <member name="M:ComLib.Lang.Helpers.FunctionHelper.FunctionCall(ComLib.Lang.Parsing.Context,System.String,ComLib.Lang.AST.FunctionCallExpr)">
+        <member name="M:ComLib.Lang.Helpers.FunctionHelper.IsExternalFunction(ComLib.Lang.Parsing.ExternalFunctions,System.String,System.String)">
             <summary>
-            Call internal/external script.
+            Whether or not this variable + member name maps to an external function call.
+            Note: In fluentscript you can setup "Log.*" and allow all method calls to "Log" to map to that external call.
             </summary>
-            <param name="ctx"></param>
-            <param name="name"></param>
-            <param name="exp"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ComLib.Lang.Helpers.FunctionHelper.MemberCall(ComLib.Lang.Parsing.Context,System.Type,System.Object,System.String,System.String,System.Reflection.MethodInfo,System.Collections.Generic.List{ComLib.Lang.AST.Expr},System.Collections.Generic.List{System.Object})">
-            <summary>
-            Execute a member call.
-            </summary>
-            <param name="ctx">The context of the script</param>
-            <param name="type">The type of the object</param>
-            <param name="obj">The object to call the method on</param>
-            <param name="varname">The name of the variable</param>
-            <param name="memberName">The name of the member/method to call</param>
-            <param name="methodInfo">The methodinfo(not needed for built in types )</param>
-            <param name="paramListExpressions">The expressions to resolve as parameters</param>
-            <param name="paramList">The list of parameters.</param>
-            <returns></returns>
-        </member>
-        <member name="M:ComLib.Lang.Helpers.FunctionHelper.Print(ComLib.Lang.Core.LangSettings,ComLib.Lang.AST.FunctionCallExpr,System.Boolean)">
-            <summary>
-            Prints to the console.
-            </summary>
-            /// <param name="settings">Settings for interpreter</param>
-            <param name="exp">The functiona call expression</param>
-            <param name="printline">Whether to print with line or no line</param>
-        </member>
-        <member name="M:ComLib.Lang.Helpers.FunctionHelper.Log(ComLib.Lang.Core.LangSettings,ComLib.Lang.AST.FunctionCallExpr)">
-            <summary>
-            Logs severity to console.
-            </summary>
-            <param name="settings">Settings for interpreter</param>
-            <param name="exp">The functiona call expression</param>
-        </member>
-        <member name="M:ComLib.Lang.Helpers.FunctionHelper.BuildMessage(System.Collections.Generic.List{System.Object})">
-            <summary>
-            Builds a single message from multiple arguments
-            If there are 2 or more arguments, the 1st is a format, then rest are the args to the format.
-            </summary>
-            <param name="paramList">The list of parameters</param>
+            <param name="funcs">The collection of external functions.</param>
+            <param name="varName">The name of the external object e.g. "Log" as in "Log.Error"</param>
+            <param name="memberName">The name of the method e.g. "Error" as in "Log.Error"</param>
             <returns></returns>
         </member>
         <member name="M:ComLib.Lang.Helpers.FunctionHelper.MethodCall(ComLib.Lang.Parsing.Context,System.Object,System.Type,System.Reflection.MethodInfo,System.Collections.Generic.List{ComLib.Lang.AST.Expr},System.Collections.Generic.List{System.Object},System.Boolean)">
@@ -10914,7 +10948,22 @@
             </summary>
             <param name="type"></param>
         </member>
-        <member name="M:ComLib.Lang.Types.LTypesLookup.IsBasicType(System.String)">
+        <member name="M:ComLib.Lang.Types.LTypesLookup.RegisterAlias(ComLib.Lang.Types.LType,System.String,System.String)">
+            <summary>
+            Register the type
+            </summary>
+            <param name="type">The type</param>
+            <param name="fullName">The fullname of the type</param>
+            <param name="name">The short name of the type</param>
+        </member>
+        <member name="M:ComLib.Lang.Types.LTypesLookup.IsBasicTypeShortName(System.String)">
+            <summary>
+            Whether or not the type name supplied is a basic system type. e.g. bool, date etc.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Types.LTypesLookup.IsBuiltInType(System.String)">
             <summary>
             Check whether or nor the fulltype name supplied is a basic type
             </summary>
@@ -10941,6 +10990,25 @@
         <member name="T:ComLib.Lang.Types.ITypeMethods">
             <summary>
             Interface for supporting different methods on a datatype.
+            </summary>
+        </member>
+        <member name="M:ComLib.Lang.Types.ITypeMethods.CanCreateFromArgs(System.Object[])">
+            <summary>
+            Determines whether or not this type can be created ( via constructor ) from the args supplied.
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Types.ITypeMethods.CreateFromArgs(System.Object[])">
+            <summary>
+            Creates an instance of the type associated with theses methods from the arguments supplied. Repesents a constructor call
+            </summary>
+            <param name="args">The arguments used to construct the instance of this type</param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Types.ITypeMethods.OnRegistered">
+            <summary>
+            Callback for when these methods are registered with the system.
             </summary>
         </member>
         <member name="M:ComLib.Lang.Types.ITypeMethods.HasMember(ComLib.Lang.Types.LObject,System.String)">
@@ -10974,6 +11042,23 @@
             <param name="obj"></param>
             <param name="methodName"></param>
             <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Types.ITypeMethods.GetProperty(ComLib.Lang.Types.LObject,System.String)">
+            <summary>
+            Gets the property value for the specified propertyname.
+            </summary>
+            <param name="obj">The object containing the property</param>
+            <param name="propName">The name of the property</param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Types.ITypeMethods.SetProperty(ComLib.Lang.Types.LObject,System.String,System.Object)">
+            <summary>
+            Sets the property value for the specified propertyname.
+            </summary>
+            <param name="obj">The object to set the property value on</param>
+            <param name="propName">The name of the property</param>
+            <param name="val">The value to set on the property</param>
             <returns></returns>
         </member>
         <member name="M:ComLib.Lang.Types.ITypeMethods.ExecuteMethod(ComLib.Lang.Types.LObject,System.String,System.Object[])">
@@ -11066,6 +11151,25 @@
             <param name="defaultVal">Default value of arg</param>
             <param name="examples">Examples of arg</param>
         </member>
+        <member name="M:ComLib.Lang.Types.LTypeMethods.CanCreateFromArgs(System.Object[])">
+            <summary>
+            Determines whether or not this type can be created ( via constructor ) from the args supplied.
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Types.LTypeMethods.CreateFromArgs(System.Object[])">
+            <summary>
+            Creates an instance of the type associated with theses methods from the arguments supplied. Repesents a constructor call
+            </summary>
+            <param name="args">The arguments used to construct the instance of this type</param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Types.LTypeMethods.OnRegistered">
+            <summary>
+            Callback for when these methods are registered with the system.
+            </summary>
+        </member>
         <member name="M:ComLib.Lang.Types.LTypeMethods.HasMember(ComLib.Lang.Types.LObject,System.String)">
             <summary>
             Whether or not the associted obj of this methods class has the supplied member.
@@ -11090,15 +11194,15 @@
             <param name="propertyName">The name of the property</param>
             <returns></returns>
         </member>
-        <member name="M:ComLib.Lang.Types.LTypeMethods.GetProperty(ComLib.Lang.Types.LObjectType,System.String)">
+        <member name="M:ComLib.Lang.Types.LTypeMethods.GetProperty(ComLib.Lang.Types.LObject,System.String)">
             <summary>
             Gets the property value for the specified propertyname.
             </summary>
-            <param name="obj"></param>
-            <param name="propName"></param>
+            <param name="obj">The object containing the property</param>
+            <param name="propName">The name of the property</param>
             <returns></returns>
         </member>
-        <member name="M:ComLib.Lang.Types.LTypeMethods.SetProperty(ComLib.Lang.Types.LObjectType,System.String,System.Object)">
+        <member name="M:ComLib.Lang.Types.LTypeMethods.SetProperty(ComLib.Lang.Types.LObject,System.String,System.Object)">
             <summary>
             Sets the property value for the specified propertyname.
             </summary>
@@ -11168,6 +11272,14 @@
             <param name="description">Description of the function.</param>
             <returns></returns>
         </member>
+        <member name="M:ComLib.Lang.Types.LTypeMethods.ConvertToProperType(ComLib.Lang.Core.ArgAttribute,System.Object)">
+            <summary>
+            Converts the parameter value into the proper type of the argument.
+            </summary>
+            <param name="arg"></param>
+            <param name="param"></param>
+            <returns></returns>
+        </member>
         <member name="P:ComLib.Lang.Types.LTypeMethods.DataType">
             <summary>
             The datatype this methods class supports.
@@ -11233,6 +11345,23 @@
             <param name="propertyName">The name of the property</param>
             <returns></returns>
         </member>
+        <member name="M:ComLib.Lang.Types.LJSMapMethods.GetProperty(ComLib.Lang.Types.LObject,System.String)">
+            <summary>
+            Gets the property value for the specified propertyname.
+            </summary>
+            <param name="target">The object containing the property</param>
+            <param name="propName">The name of the property</param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Types.LJSMapMethods.SetProperty(ComLib.Lang.Types.LObject,System.String,System.Object)">
+            <summary>
+            Sets the property value for the specified propertyname.
+            </summary>
+            <param name="target">The object to set the property value on</param>
+            <param name="propName">The name of the property</param>
+            <param name="val">The value to set on the property</param>
+            <returns></returns>
+        </member>
         <member name="M:ComLib.Lang.Types.LJSMapMethods.Length(ComLib.Lang.Types.LObject)">
             <summary>
             Lenght of the array.
@@ -11262,6 +11391,168 @@
             <param name="target">The target list to apply this method on.</param>
             <param name="member">The name of the map key/property to set</param>
             <param name="value">The vlaue to set</param>
+            <returns></returns>
+        </member>
+        <member name="T:ComLib.Lang.Types.LJSTimeMethods">
+            <summary>
+            Array type.
+            </summary>
+        </member>
+        <member name="M:ComLib.Lang.Types.LJSTimeMethods.#ctor">
+            <summary>
+            Initialize
+            </summary>
+        </member>
+        <member name="M:ComLib.Lang.Types.LJSTimeMethods.OnRegistered">
+            <summary>
+            Callback for when these methods are registered with the system.
+            </summary>
+        </member>
+        <member name="M:ComLib.Lang.Types.LJSTimeMethods.CanCreateFromArgs(System.Object[])">
+            <summary>
+            Can create from the paramelist expressions supplied.
+            </summary>
+            <param name="args">The arguments</param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Types.LJSTimeMethods.CreateFromArgs(System.Object[])">
+            <summary>
+            Creates an instance of the type associated with theses methods from the arguments supplied. Repesents a constructor call
+            </summary>
+            <param name="args">The arguments used to construct the instance of this type</param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Types.LJSTimeMethods.SetHours(ComLib.Lang.Types.LTime,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Sets the hours of the date
+            </summary>
+            <param name="time">The LTimeType to set</param>
+            <param name="hours">The hours to set</param>
+            <param name="minutes">The minutes to set</param>
+            <param name="seconds">The seconds to set</param>
+            <param name="milliseconds">The milliseconds to set</param>
+        </member>
+        <member name="M:ComLib.Lang.Types.LJSTimeMethods.SetMinutes(ComLib.Lang.Types.LTime,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Sets the minutes on the date
+            </summary>
+            <param name="time">The LTimeType to set</param>
+            <param name="minutes">The minutes to set</param>
+            <param name="seconds">The seconds to set</param>
+            <param name="milliseconds">The milliseconds to set</param>
+        </member>
+        <member name="M:ComLib.Lang.Types.LJSTimeMethods.SetSeconds(ComLib.Lang.Types.LTime,System.Int32,System.Int32)">
+            <summary>
+            Sets the seconds on the date
+            </summary>
+            <param name="time">The LTimeType to set</param>
+            <param name="seconds">The seconds to set</param>
+            <param name="milliseconds">The milliseconds to set</param>
+        </member>
+        <member name="M:ComLib.Lang.Types.LJSTimeMethods.SetMilliseconds(ComLib.Lang.Types.LTime,System.Int32)">
+            <summary>
+            Sets the milliseconds on the date
+            </summary>
+            <param name="time">The LTimeType to set</param>
+            <param name="milliseconds">The milliseconds to set</param>
+        </member>
+        <member name="T:ComLib.Lang.Plugins.DateTimeCombinerPlugin">
+            <summary>
+            Combinator for handling comparisons.
+            </summary>
+        </member>
+        <member name="T:ComLib.Lang.Plugins.TokenReplacePlugin">
+            <summary>
+            Plugin for replacing tokens.
+            </summary>
+        </member>
+        <member name="F:ComLib.Lang.Plugins.TokenReplacePlugin._maxLookAhead">
+            <summary>
+            The maximum number of tokens that can be looked ahead for potential replacements.
+            </summary>
+        </member>
+        <member name="F:ComLib.Lang.Plugins.TokenReplacePlugin._replacements">
+            <summary>
+            List of replacement word to their values.
+            </summary>
+        </member>
+        <member name="F:ComLib.Lang.Plugins.TokenReplacePlugin._replaceMap">
+            <summary>
+            A map of the replacement words to their value.
+            </summary>
+        </member>
+        <member name="F:ComLib.Lang.Plugins.TokenReplacePlugin._replaceMapSingleWord">
+            <summary>
+            Replacement map for single words.
+            </summary>
+        </member>
+        <member name="M:ComLib.Lang.Plugins.TokenReplacePlugin.#ctor">
+            <summary>
+            Initialize
+            </summary>
+        </member>
+        <member name="M:ComLib.Lang.Plugins.TokenReplacePlugin.Init(System.String[0:,0:],System.Int32)">
+            <summary>
+            Initialize multi-token replacements.
+            </summary>
+            <param name="replacements">The 2 dimension string array of text to their replacement values.</param>
+            <param name="maxTokenLookAhead">The maximum tokens to look ahead for to seach for matching phrases.</param>
+        </member>
+        <member name="M:ComLib.Lang.Plugins.TokenReplacePlugin.CanHandle(ComLib.Lang.Core.Token)">
+            <summary>
+            Whether or not this can handle the token.
+            </summary>
+            <param name="current"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Plugins.TokenReplacePlugin.CanHandle(ComLib.Lang.Core.Token,System.Boolean)">
+            <summary>
+            Whether or not this can handle the token.
+            </summary>
+            <param name="token"></param>
+            <param name="isCurrent">Whether or the token supplied is the current token. 
+            if false.. it's assumed to be the next token( 1 token ahead ).</param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Plugins.TokenReplacePlugin.Parse">
+            <summary>
+            run step 123.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Plugins.TokenReplacePlugin.Parse(System.Boolean,System.Int32)">
+            <summary>
+            Parse by optionally moving the token iterator forward first.
+            </summary>
+            <param name="advanceFirst"></param>
+            <param name="advanceCount"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Plugins.TokenReplacePlugin.Peek">
+            <summary>
+            run step 123.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Plugins.DateTimeCombinerPlugin.#ctor">
+            <summary>
+            Initialize
+            </summary>
+        </member>
+        <member name="M:ComLib.Lang.Plugins.DateTimeCombinerPlugin.CanHandle(ComLib.Lang.Core.Token,System.Boolean)">
+            <summary>
+            Whether or not this can handle the token supplied.
+            </summary>
+            <param name="token"></param>
+            <param name="isCurrent"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Plugins.DateTimeCombinerPlugin.Parse(System.Boolean,System.Int32)">
+            <summary>
+            Parses the tokens.
+            </summary>
+            <param name="advanceFirst"></param>
+            <param name="advanceCount"></param>
             <returns></returns>
         </member>
         <member name="T:ComLib.Lang.Helpers.LangTypeHelper">
@@ -11297,6 +11588,12 @@
             <returns></returns>
         </member>
         <member name="M:ComLib.Lang.Helpers.LangTypeHelper.ConvertToLangTypeValues(System.Collections.Generic.List{System.Object})">
+            <summary>
+            Converts from c# datatypes to fluentscript datatypes inside
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.LangTypeHelper.ConvertToArrayOfHostLangValues(System.Object[])">
             <summary>
             Converts from c# datatypes to fluentscript datatypes inside
             </summary>
@@ -11344,14 +11641,6 @@
             Converts each item in the parameters object array to an integer.
             </summary>
             <param name="parameters"></param>
-        </member>
-        <member name="M:ComLib.Lang.Helpers.LangTypeHelper.ToDictionary``1(System.Collections.Generic.IList{``0})">
-            <summary>
-            Converts a list of items to a dictionary with the items.
-            </summary>
-            <typeparam name="T">Type of items to use.</typeparam>
-            <param name="items">List of items.</param>
-            <returns>Converted list as dictionary.</returns>
         </member>
         <member name="T:ComLib.TypeHelper">
             <summary>
@@ -14226,7 +14515,7 @@
             <param name="countFromCurrentCharIndex">Number of characters from the current char index</param>
             <returns>Single char as string</returns>
         </member>
-        <member name="M:ComLib.Lang.Parsing.LexerBase.PeekChars(System.Int32)">
+        <member name="M:ComLib.Lang.Parsing.LexerBase.PeekMaxChars(System.Int32)">
             <summary>
             Returns the chars starting at current position + 1 and
             including the <paramref name="count"/> number of characters.
@@ -14738,85 +15027,12 @@
             Examples
             </summary>
         </member>
-        <member name="T:ComLib.Lang.Plugins.TokenReplacePlugin">
-            <summary>
-            Plugin for replacing tokens.
-            </summary>
-        </member>
-        <member name="F:ComLib.Lang.Plugins.TokenReplacePlugin._maxLookAhead">
-            <summary>
-            The maximum number of tokens that can be looked ahead for potential replacements.
-            </summary>
-        </member>
-        <member name="F:ComLib.Lang.Plugins.TokenReplacePlugin._replacements">
-            <summary>
-            List of replacement word to their values.
-            </summary>
-        </member>
-        <member name="F:ComLib.Lang.Plugins.TokenReplacePlugin._replaceMap">
-            <summary>
-            A map of the replacement words to their value.
-            </summary>
-        </member>
-        <member name="F:ComLib.Lang.Plugins.TokenReplacePlugin._replaceMapSingleWord">
-            <summary>
-            Replacement map for single words.
-            </summary>
-        </member>
-        <member name="M:ComLib.Lang.Plugins.TokenReplacePlugin.#ctor">
-            <summary>
-            Initialize
-            </summary>
-        </member>
-        <member name="M:ComLib.Lang.Plugins.TokenReplacePlugin.Init(System.String[0:,0:],System.Int32)">
-            <summary>
-            Initialize multi-token replacements.
-            </summary>
-            <param name="replacements">The 2 dimension string array of text to their replacement values.</param>
-            <param name="maxTokenLookAhead">The maximum tokens to look ahead for to seach for matching phrases.</param>
-        </member>
-        <member name="M:ComLib.Lang.Plugins.TokenReplacePlugin.CanHandle(ComLib.Lang.Core.Token)">
-            <summary>
-            Whether or not this can handle the token.
-            </summary>
-            <param name="current"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ComLib.Lang.Plugins.TokenReplacePlugin.CanHandle(ComLib.Lang.Core.Token,System.Boolean)">
-            <summary>
-            Whether or not this can handle the token.
-            </summary>
-            <param name="token"></param>
-            <param name="isCurrent">Whether or the token supplied is the current token. 
-            if false.. it's assumed to be the next token( 1 token ahead ).</param>
-            <returns></returns>
-        </member>
-        <member name="M:ComLib.Lang.Plugins.TokenReplacePlugin.Parse">
-            <summary>
-            run step 123.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:ComLib.Lang.Plugins.TokenReplacePlugin.Parse(System.Boolean,System.Int32)">
-            <summary>
-            Parse by optionally moving the token iterator forward first.
-            </summary>
-            <param name="advanceFirst"></param>
-            <param name="advanceCount"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ComLib.Lang.Plugins.TokenReplacePlugin.Peek">
-            <summary>
-            run step 123.
-            </summary>
-            <returns></returns>
-        </member>
         <member name="T:ComLib.Lang.Helpers.EvalHelper">
             <summary>
             Helper class for datatypes.
             </summary>
         </member>
-        <member name="M:ComLib.Lang.Helpers.EvalHelper.EvalNumbers(ComLib.Lang.Core.AstNode,ComLib.Lang.Types.LNumber,ComLib.Lang.Types.LNumber,ComLib.Lang.Core.Operator)">
+        <member name="M:ComLib.Lang.Helpers.EvalHelper.CalcNumbers(ComLib.Lang.Core.AstNode,ComLib.Lang.Types.LNumber,ComLib.Lang.Types.LNumber,ComLib.Lang.Core.Operator)">
             <summary>
             Evalulates a math expression of 2 numbers.
             </summary>
@@ -14826,7 +15042,7 @@
             <param name="op">The math operator.</param>
             <returns></returns>
         </member>
-        <member name="M:ComLib.Lang.Helpers.EvalHelper.EvalUnits(ComLib.Lang.Core.AstNode,ComLib.Lang.Types.LUnit,ComLib.Lang.Types.LUnit,ComLib.Lang.Core.Operator,ComLib.Lang.Types.Units)">
+        <member name="M:ComLib.Lang.Helpers.EvalHelper.CalcUnits(ComLib.Lang.Core.AstNode,ComLib.Lang.Types.LUnit,ComLib.Lang.Types.LUnit,ComLib.Lang.Core.Operator,ComLib.Lang.Types.Units)">
             <summary>
             Evaluates a math expression of 2 units.
             </summary>
@@ -14837,7 +15053,7 @@
             <param name="units"></param>
             <returns></returns>
         </member>
-        <member name="M:ComLib.Lang.Helpers.EvalHelper.EvalTimes(ComLib.Lang.Core.AstNode,ComLib.Lang.Types.LTime,ComLib.Lang.Types.LTime,ComLib.Lang.Core.Operator)">
+        <member name="M:ComLib.Lang.Helpers.EvalHelper.CalcTimes(ComLib.Lang.Core.AstNode,ComLib.Lang.Types.LTime,ComLib.Lang.Types.LTime,ComLib.Lang.Core.Operator)">
             <summary>
             Evaluates a math expression of 2 time spans.
             </summary>
@@ -14847,7 +15063,7 @@
             <param name="op">The math operator.</param>
             <returns></returns>
         </member>
-        <member name="M:ComLib.Lang.Helpers.EvalHelper.EvalDates(ComLib.Lang.Core.AstNode,ComLib.Lang.Types.LDate,ComLib.Lang.Types.LDate,ComLib.Lang.Core.Operator)">
+        <member name="M:ComLib.Lang.Helpers.EvalHelper.CalcDates(ComLib.Lang.Core.AstNode,ComLib.Lang.Types.LDate,ComLib.Lang.Types.LDate,ComLib.Lang.Core.Operator)">
             <summary>
             Evaluates a math expression of 2 time spans.
             </summary>
@@ -14857,21 +15073,11 @@
             <param name="op">The math operator.</param>
             <returns></returns>
         </member>
-        <member name="M:ComLib.Lang.Helpers.EvalHelper.EvalListAccess(ComLib.Lang.Types.RegisteredMethods,ComLib.Lang.Core.AstNode,System.Object,System.Int32)">
-            <summary>
-            Gets an array value.
-            </summary>
-            <param name="regmethods"></param>
-            <param name="node"></param>
-            <param name="ListObject"></param>
-            <param name="ndx"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ComLib.Lang.Helpers.EvalHelper.EvalIncrementNumber(ComLib.Lang.Types.LNumber,ComLib.Lang.Core.Operator,System.Double)">
+        <member name="M:ComLib.Lang.Helpers.EvalHelper.CalcUnary(ComLib.Lang.Types.LNumber,ComLib.Lang.Core.Operator,System.Double)">
             <summary>
             Increments the number supplied.
             </summary>
-            <param name="val"></param>
+            <param name="num"></param>
             <param name="op"></param>
             <param name="increment"></param>
             <returns></returns>
@@ -14955,10 +15161,14 @@
             <param name="op">The math operator.</param>
             <returns></returns>
         </member>
-        <member name="M:ComLib.Lang.Helpers.EvalHelper.BuildRunTimeException(ComLib.Lang.Core.AstNode,System.String)">
+        <member name="M:ComLib.Lang.Helpers.EvalHelper.AccessIndex(ComLib.Lang.Types.RegisteredMethods,ComLib.Lang.Core.AstNode,ComLib.Lang.Types.LObject,ComLib.Lang.Types.LObject)">
             <summary>
-            Build a language exception due to the current token being invalid.
+            Evaluate the result of indexing an object e.g. users[0] or users["admins"]
             </summary>
+            <param name="regmethods"></param>
+            <param name="node"></param>
+            <param name="target"></param>
+            <param name="ndxObj"></param>
             <returns></returns>
         </member>
         <member name="T:ComLib.ExtensionService`2">
@@ -17008,6 +17218,13 @@
             </summary>
             <param name="text"></param>
         </member>
+        <member name="M:ComLib.Lang.Core.Token.SetTextAndValue(System.String,System.Object)">
+            <summary>
+            Set the text of the interpolated token.
+            </summary>
+            <param name="text"></param>
+            <param name="val"></param>
+        </member>
         <member name="M:ComLib.Lang.Core.Token.IsNewLine(ComLib.Lang.Core.Token)">
             <summary>
             Whether or not the token supplied is a new line.
@@ -17682,6 +17899,13 @@
             Initialize
             </summary>
         </member>
+        <member name="M:ComLib.Lang.Types.LJSStringMethods.CanCreateFromArgs(System.Object[])">
+            <summary>
+            Can create from the paramelist expressions supplied.
+            </summary>
+            <param name="args">The arguments</param>
+            <returns></returns>
+        </member>
         <member name="M:ComLib.Lang.Types.LJSStringMethods.CharAt(ComLib.Lang.Types.LString,System.Int32)">
             <summary>
             Returns the character at the specified index
@@ -17793,6 +18017,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:ComLib.Lang.Types.LObject.Clone">
+            <summary>
+            Clones this value.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:ComLib.Lang.Types.LNumber.#ctor(System.Double)">
             <summary>
             Initialize
@@ -17807,6 +18037,12 @@
         <member name="M:ComLib.Lang.Types.LNumber.GetValue">
             <summary>
             Gets the value of this object.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Types.LNumber.Clone">
+            <summary>
+            Clones this value.
             </summary>
             <returns></returns>
         </member>
@@ -17850,7 +18086,13 @@
             The value of the type. a numeric value for basic types.
             </summary>
         </member>
-        <member name="M:ComLib.Lang.Types.LType.IsBasicType">
+        <member name="M:ComLib.Lang.Types.LType.IsPrimitiveType">
+            <summary>
+            Whether or not this is a primitive type ( eg.. number, bool, string, date, time ).
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Types.LType.IsBuiltInType">
             <summary>
             Whether or not this is a basic type e.g. bool, date.
             </summary>
@@ -17929,6 +18171,12 @@
         <member name="M:ComLib.Lang.Types.LTime.GetValue">
             <summary>
             Gets the value of this object.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Types.LTime.Clone">
+            <summary>
+            Clones this value.
             </summary>
             <returns></returns>
         </member>
@@ -18026,6 +18274,39 @@
             <summary>
             Limits for 
             </summary>
+        </member>
+        <member name="T:ComLib.Lang.Helpers.AssignHelper">
+            <summary>
+            Helper class for calling functions in the script.
+            </summary>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.AssignHelper.SetVariableValue(ComLib.Lang.Parsing.Context,ComLib.Lang.Core.AstNode,System.Boolean,ComLib.Lang.AST.Expr,ComLib.Lang.AST.Expr)">
+            <summary>
+            Sets a value on a member of a basic type.
+            </summary>
+            <param name="ctx">The context of the runtime</param>
+            <param name="node">The assignment ast node</param>
+            <param name="isDeclaration">Whether or not this is a declaration</param>
+            <param name="varExp">The expression representing the index of the instance to set</param>
+            <param name="valExp">The expression representing the value to set</param>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.AssignHelper.SetMemberValue(ComLib.Lang.Parsing.Context,ComLib.Lang.Core.AstNode,ComLib.Lang.AST.Expr,ComLib.Lang.AST.Expr)">
+            <summary>
+            Sets a value on a member of a basic type.
+            </summary>
+            <param name="ctx">The context of the runtime</param>
+            <param name="varExp">The expression representing the index of the instance to set</param>
+            <param name="valExp">The expression representing the value to set</param>
+            <param name="node">The assignment ast node</param>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.AssignHelper.SetIndexValue(ComLib.Lang.Parsing.Context,ComLib.Lang.Core.AstNode,ComLib.Lang.AST.Expr,ComLib.Lang.AST.Expr)">
+            <summary>
+            Sets a value on a member of a basic type.
+            </summary>
+            <param name="ctx">The context of the runtime</param>
+            <param name="varExp">The expression representing the index of the instance to set</param>
+            <param name="valExp">The expression representing the value to set</param>
+            <param name="node">The assignment ast node</param>
         </member>
         <member name="T:ComLib.Lang.AST.BinaryExpr">
             <summary>
@@ -21064,6 +21345,49 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:ComLib.Lang.Helpers.ExceptionHelper">
+            <summary>
+            Helper classs for throwing language exceptions
+            </summary>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.ExceptionHelper.BuildRunTimeException(ComLib.Lang.Core.AstNode,System.String)">
+            <summary>
+            Build a language exception due to the current token being invalid.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.ExceptionHelper.NotNull(ComLib.Lang.Core.AstNode,System.Object,System.String)">
+            <summary>
+            Checks for null object and throws a lang exception with the message supplied.
+            </summary>
+            <param name="node"></param>
+            <param name="obj"></param>
+            <param name="message"></param>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.ExceptionHelper.NotNullWithMessage(ComLib.Lang.Core.AstNode,System.Object,System.String)">
+            <summary>
+            Checks for null object and throws a lang exception with the message supplied.
+            </summary>
+            <param name="node"></param>
+            <param name="obj"></param>
+            <param name="message"></param>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.ExceptionHelper.ExpectType(ComLib.Lang.Core.AstNode,System.Object,ComLib.Lang.Types.LType)">
+            <summary>
+            Expects the objects type to be of the supplied type.
+            </summary>
+            <param name="node"></param>
+            <param name="result"></param>
+            <param name="lType"></param>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.ExceptionHelper.NotNullType(ComLib.Lang.Core.AstNode,System.Object,System.String,ComLib.Lang.Types.LType)">
+            <summary>
+            Expects the objects type to be of the supplied type.
+            </summary>
+            <param name="node"></param>
+            <param name="result"></param>
+            <param name="lType"></param>
+        </member>
         <member name="T:ComLib.Lang.AST.ParameterExpr">
             <summary>
             Function call expression data.
@@ -21097,6 +21421,51 @@
             <param name="index">index position of the parameter</param>
             <param name="allowDefaultValue">Whether or not to enable using the default value.</param>
             <param name="defaultValue">A default value to use if the parameter is not available.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.AST.ParameterExpr.GetParamValueRaw(System.Int32,System.Boolean,System.Object)">
+            <summary>
+            Gets a parameter value if available or the default value otherwise. Index out of bounds will throw an error.
+            </summary>
+            <param name="index">index position of the parameter</param>
+            <param name="allowDefaultValue">Whether or not to enable using the default value.</param>
+            <param name="defaultValue">A default value to use if the parameter is not available.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.AST.ParameterExpr.GetParamValueString(System.Int32,System.Boolean,System.String)">
+            <summary>
+            Gets the parameter value as a datetime.
+            </summary>
+            <param name="index">The index position of the parameter</param>
+            <param name="allowDefaultValue">Whether or not to allow using the default value supplied if the parameter does not exist</param>
+            <param name="defaultValue">A default value to use if the parameter does not exist ( index out of range )</param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.AST.ParameterExpr.GetParamValueNumber(System.Int32,System.Boolean,System.Double)">
+            <summary>
+            Gets the parameter value as a datetime.
+            </summary>
+            <param name="index">The index position of the parameter</param>
+            <param name="allowDefaultValue">Whether or not to allow using the default value supplied if the parameter does not exist</param>
+            <param name="defaultValue">A default value to use if the parameter does not exist ( index out of range )</param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.AST.ParameterExpr.GetParamValueBool(System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            Gets the parameter value as a datetime.
+            </summary>
+            <param name="index">The index position of the parameter</param>
+            <param name="allowDefaultValue">Whether or not to allow using the default value supplied if the parameter does not exist</param>
+            <param name="defaultValue">A default value to use if the parameter does not exist ( index out of range )</param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.AST.ParameterExpr.GetParamValueDate(System.Int32,System.Boolean,System.DateTime)">
+            <summary>
+            Gets the parameter value as a datetime.
+            </summary>
+            <param name="index">The index position of the parameter</param>
+            <param name="allowDefaultValue">Whether or not to allow using the default value supplied if the parameter does not exist</param>
+            <param name="defaultValue">A default value to use if the parameter does not exist ( index out of range )</param>
             <returns></returns>
         </member>
         <member name="P:ComLib.Lang.AST.ParameterExpr.ParamListExpressions">
@@ -22828,6 +23197,11 @@
             Error class for exceptions in the language.
             </summary>
         </member>
+        <member name="M:ComLib.Lang.Types.LError.#ctor">
+            <summary>
+            Initialize
+            </summary>
+        </member>
         <member name="M:ComLib.Lang.Types.LError.FromException(System.Exception)">
             <summary>
             Converts from a LangException to LError datatype
@@ -22864,6 +23238,52 @@
             <summary>
             Inner excpetion.
             </summary>
+        </member>
+        <member name="T:ComLib.Lang.Helpers.MemberHelper">
+            <summary>
+            Helper class for member access on internal fluentscript types and external c# types.
+            </summary>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.MemberHelper.GetMemberAccess(ComLib.Lang.Core.AstNode,ComLib.Lang.Parsing.Context,ComLib.Lang.AST.Expr,System.String)">
+            <summary>
+            Gets a member access object representing the a member access.
+            </summary>
+            <param name="node"></param>
+            <param name="ctx"></param>
+            <param name="varExp"></param>
+            <param name="memberName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.MemberHelper.GetLangBasicTypeMember(ComLib.Lang.Core.AstNode,ComLib.Lang.Types.RegisteredMethods,ComLib.Lang.Types.LObject,System.String)">
+            <summary>
+            Gets a see MemberAccess object that represents the instance, member name and other information on the member access expression.
+            </summary>
+            <param name="node">The Ast node associated with the member access operation</param>
+            <param name="methods">The collection of registered methods on various types</param>
+            <param name="obj">The object on which the member access is being performed.</param>
+            <param name="memberName">The name of the member to get.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.MemberHelper.GetExternalTypeMember(ComLib.Lang.Core.AstNode,System.Type,System.String,System.Object,System.String,System.Boolean)">
+            <summary>
+            Gets a see MemberAccess object that represents the instance, member name and other information on the member access expression.
+            </summary>
+            <param name="node">The Ast node associated with the member access operation</param>
+            <param name="type">The data type of the external object c#.</param>
+            <param name="varName">The name associated with the object. e.g. user.FirstName, "user".</param>
+            <param name="obj">The object on which the member access is being performed.</param>
+            <param name="memberName">The name of the member to get.</param>
+            <param name="isStatic">Whether or not this is a static access.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.MemberHelper.IsExternalTypeName(ComLib.Lang.Core.Memory,ComLib.Lang.Parsing.RegisteredTypes,System.String)">
+            <summary>
+            Whether or not the variable name provided is an external host language( C# ) type name.
+            </summary>
+            <param name="memory">The memory space of the runtime.</param>
+            <param name="types">The collection of registered external types.</param>
+            <param name="varName">The name associated with the member access.</param>
+            <returns></returns>
         </member>
         <member name="T:ComLib.Lang.AST.ConstantExpr">
             <summary>
@@ -26297,26 +26717,19 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:ComLib.Lang.Types.LTypeValue">
+        <member name="T:ComLib.Lang.AST.IndexAccess">
             <summary>
-            The result of an evaluation of AST node. Combines the result and it's type.
+            Information for an index access operation.
             </summary>
         </member>
-        <member name="M:ComLib.Lang.Types.LTypeValue.#ctor(System.Object,ComLib.Lang.Types.LType)">
+        <member name="F:ComLib.Lang.AST.IndexAccess.Instance">
             <summary>
-            Initialize
-            </summary>
-            <param name="result">The object result</param>
-            <param name="type">The type of the result</param>
-        </member>
-        <member name="F:ComLib.Lang.Types.LTypeValue.Result">
-            <summary>
-            The result of an expression.
+            Instance of the member
             </summary>
         </member>
-        <member name="F:ComLib.Lang.Types.LTypeValue.Type">
+        <member name="F:ComLib.Lang.AST.IndexAccess.MemberName">
             <summary>
-            The datatype of the result.
+            The name of the member being accessed
             </summary>
         </member>
         <member name="T:ComLib.Lang.AST.MemberAccess">
@@ -26355,6 +26768,11 @@
             The datatype of the member being accessed.
             </summary>
         </member>
+        <member name="F:ComLib.Lang.AST.MemberAccess.Type">
+            <summary>
+            The type if the member access is on a built in a fluentscript type.
+            </summary>
+        </member>
         <member name="F:ComLib.Lang.AST.MemberAccess.Method">
             <summary>
             The method represetning the member.
@@ -26368,6 +26786,18 @@
         <member name="M:ComLib.Lang.AST.MemberAccess.IsInternalExternalFunctionCall">
             <summary>
             Whether or not this represents an external or internal function call.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.AST.MemberAccess.IsPropertyAccessOnBuiltInType">
+            <summary>
+            Whether or not this represents a property access on a basic built in type (date, array, etc )
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.AST.MemberAccess.IsPropertyAccessOnClass">
+            <summary>
+            Whether or not this is a property access on a custom object.
             </summary>
             <returns></returns>
         </member>
@@ -28382,6 +28812,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:ComLib.Lang.Types.LDate.Clone">
+            <summary>
+            Clones this value.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:ComLib.Lang.Types.LDateType">
             <summary>
             Array type.
@@ -28505,6 +28941,21 @@
         <member name="F:ComLib.Lang.Types.LTypes.Unit">
             <summary>
             A unit of measure type.
+            </summary>
+        </member>
+        <member name="T:ComLib.Lang.Types.LObjects">
+            <summary>
+            Holder for "singleton" like object such as empty string, null.
+            </summary>
+        </member>
+        <member name="F:ComLib.Lang.Types.LObjects.Null">
+            <summary>
+            Empty object
+            </summary>
+        </member>
+        <member name="F:ComLib.Lang.Types.LObjects.EmptyString">
+            <summary>
+            Empty string.
             </summary>
         </member>
         <member name="T:ComLib.ConfigSource">
@@ -30773,6 +31224,16 @@
             Instance method on class
             </summary>
         </member>
+        <member name="F:ComLib.Lang.Core.MemberMode.PropertyMember">
+            <summary>
+            Property access/set on object.
+            </summary>
+        </member>
+        <member name="F:ComLib.Lang.Core.MemberMode.MethodMember">
+            <summary>
+            Method access/call on object.
+            </summary>
+        </member>
         <member name="F:ComLib.Lang.Core.MemberMode.CustObjMethodStatic">
             <summary>
             Static method on class
@@ -30940,6 +31401,56 @@
             Examples
             </summary>
         </member>
+        <member name="T:ComLib.Lang.Plugins.TimeExprPlugin">
+            <summary>
+            Combinator for handling dates. noon afternoon. evening, nite midnight
+            </summary>
+        </member>
+        <member name="M:ComLib.Lang.Plugins.TimeExprPlugin.#cctor">
+            <summary>
+            Initialize
+            </summary>
+        </member>
+        <member name="M:ComLib.Lang.Plugins.TimeExprPlugin.#ctor">
+            <summary>
+            Initialize
+            </summary>
+        </member>
+        <member name="M:ComLib.Lang.Plugins.TimeExprPlugin.CanHandle(ComLib.Lang.Core.Token)">
+            <summary>
+            Whether or not this parser can handle the supplied token.
+            </summary>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Plugins.TimeExprPlugin.Parse">
+            <summary>
+            Parses the time expression.
+            - 12pm
+            - 12:30pm
+            - 12:30 pm
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Plugins.TimeExprPlugin.ParseTime(ComLib.Lang.Parsing.ILangParser,System.Boolean,System.Boolean)">
+            <summary>
+            Parses the time in format 12[:minutes:seconds] am|pm.
+            </summary>
+            <param name="parser"></param>
+            <param name="advance"></param>
+            <param name="expectAt"></param>
+            <returns></returns>
+        </member>
+        <member name="P:ComLib.Lang.Plugins.TimeExprPlugin.Grammer">
+            <summary>
+            The grammer for the function declaration
+            </summary>
+        </member>
+        <member name="P:ComLib.Lang.Plugins.TimeExprPlugin.Examples">
+            <summary>
+            Examples
+            </summary>
+        </member>
         <member name="T:ComLib.Lang.Plugins.TimePlugin">
             <summary>
             Combinator for handling dates. noon afternoon. evening, nite midnight
@@ -30957,27 +31468,15 @@
         </member>
         <member name="M:ComLib.Lang.Plugins.TimePlugin.CanHandle(ComLib.Lang.Core.Token)">
             <summary>
-            Whether or not this parser can handle the supplied token.
+            Whether or not this uri plugin can handle the current token.
             </summary>
-            <param name="token"></param>
+            <param name="current"></param>
             <returns></returns>
         </member>
         <member name="M:ComLib.Lang.Plugins.TimePlugin.Parse">
             <summary>
-            Parses the time expression.
-            - 12pm
-            - 12:30pm
-            - 12:30 pm
+            run step 123.
             </summary>
-            <returns></returns>
-        </member>
-        <member name="M:ComLib.Lang.Plugins.TimePlugin.ParseTime(ComLib.Lang.Parsing.ILangParser,System.Boolean,System.Boolean)">
-            <summary>
-            Parses the time in format 12[:minutes:seconds] am|pm.
-            </summary>
-            <param name="parser"></param>
-            <param name="advance"></param>
-            <param name="expectAt"></param>
             <returns></returns>
         </member>
         <member name="P:ComLib.Lang.Plugins.TimePlugin.Grammer">
@@ -33027,21 +33526,43 @@
         </member>
         <member name="T:ComLib.Lang.Types.LClass">
             <summary>
+            Used to store a bool value.
+            </summary>
+        </member>
+        <member name="M:ComLib.Lang.Types.LClass.#ctor(System.Object)">
+            <summary>
+            Initialize
+            </summary>
+            <param name="val">The type of the external c# class.</param>
+        </member>
+        <member name="F:ComLib.Lang.Types.LClass.Value">
+            <summary>
+            The raw type value.
+            </summary>
+        </member>
+        <member name="M:ComLib.Lang.Types.LClass.GetValue">
+            <summary>
+            Gets the value of this object.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ComLib.Lang.Types.LClassType">
+            <summary>
             Array type.
             </summary>
         </member>
-        <member name="F:ComLib.Lang.Types.LClass.DataType">
+        <member name="F:ComLib.Lang.Types.LClassType.DataType">
             <summary>
             Used for now since fluentscript doesn't support classes.
             But this is used for using external c# classes in fluentscript.
             </summary>
         </member>
-        <member name="M:ComLib.Lang.Types.LClass.#ctor">
+        <member name="M:ComLib.Lang.Types.LClassType.#ctor(System.Type)">
             <summary>
             Initialize.
             </summary>
         </member>
-        <member name="M:ComLib.Lang.Types.LClass.SetupConversionMatrix">
+        <member name="M:ComLib.Lang.Types.LClassType.SetupConversionMatrix">
             <summary>
             Sets up the matrix of possible conversions from one type to another type.
             </summary>
@@ -33167,6 +33688,24 @@
             <summary>
             Evaluatable expression
             </summary>
+        </member>
+        <member name="T:ComLib.Lang.AST.LiteralExpr">
+            <summary>
+            Represents a literal( true, false, null, 'abc', 10 ) expression in code.
+            Note: This will eventually replace the ConstantExpr.
+            </summary>
+        </member>
+        <member name="M:ComLib.Lang.AST.LiteralExpr.#ctor(System.Object)">
+            <summary>
+            Initialize
+            </summary>
+            <param name="val"></param>
+        </member>
+        <member name="M:ComLib.Lang.AST.LiteralExpr.DoEvaluate">
+            <summary>
+            Evaluate value.
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:ComLib.StartTimeOfDay">
             <summary>
@@ -35361,7 +35900,7 @@
             <param name="exp">The expression to check or convert</param>
             <param name="destinationType">The destination type</param>
         </member>
-        <member name="M:ComLib.Lang.Plugins.TypeOperationsExpr.Evaluate">
+        <member name="M:ComLib.Lang.Plugins.TypeOperationsExpr.DoEvaluate">
             <summary>
             Evaluate the type check/conversion operation.
             </summary>
@@ -35384,70 +35923,6 @@
             Used for function calls like "to_number( '123' )";
             </summary>
             <returns></returns>
-        </member>
-        <member name="T:ComLib.Lang.Plugins.TypeOperationsExpr.ConvertSpec">
-            <summary>
-            Internal class for specifying what conversions can take place.
-            </summary>
-        </member>
-        <member name="M:ComLib.Lang.Plugins.TypeOperationsExpr.ConvertSpec.#ctor(System.String,System.String,System.Boolean,System.Boolean,System.Int32,System.String,System.Func{ComLib.Lang.Plugins.TypeOperationsExpr.ConvertSpec,System.Object,System.Object},System.Collections.Generic.List{System.String})">
-            <summary>
-            Initialize
-            </summary>
-            <param name="sourceType">The source type</param>
-            <param name="destType">The destination type</param>
-            <param name="canChange">Whether or not the conversion change can occur with these types</param>
-            <param name="isCaseSensitive">Whether or not the conversion is case sensitive.</param>
-            <param name="convertMode">The mode of conversion.</param>
-            <param name="regex">A regex pattern if mode involves regular expression checks.</param>
-            <param name="allowedVals">A list of allowed values of source value</param>
-            <param name="handler">A method to perform the conversion for complex conversions.</param>
-        </member>
-        <member name="M:ComLib.Lang.Plugins.TypeOperationsExpr.ConvertSpec.LookupKey">
-            <summary>
-            Lookup key
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:ComLib.Lang.Plugins.TypeOperationsExpr.ConvertSpec.SourceType">
-            <summary>
-            Source type. e.g. "string"
-            </summary>
-        </member>
-        <member name="P:ComLib.Lang.Plugins.TypeOperationsExpr.ConvertSpec.DestType">
-            <summary>
-            Destination type e.g. "bool"
-            </summary>
-        </member>
-        <member name="P:ComLib.Lang.Plugins.TypeOperationsExpr.ConvertSpec.CanChange">
-            <summary>
-            Whether or not a change can take place.
-            </summary>
-        </member>
-        <member name="P:ComLib.Lang.Plugins.TypeOperationsExpr.ConvertSpec.IsCaseSensitive">
-            <summary>
-            Whether or not the change is case sensitive
-            </summary>
-        </member>
-        <member name="P:ComLib.Lang.Plugins.TypeOperationsExpr.ConvertSpec.ConvertMode">
-            <summary>
-            The conversion mode from "direct", "regex", "handler", "list"
-            </summary>
-        </member>
-        <member name="P:ComLib.Lang.Plugins.TypeOperationsExpr.ConvertSpec.RegexPattern">
-            <summary>
-            The regex pattern to use for conversion checking.
-            </summary>
-        </member>
-        <member name="P:ComLib.Lang.Plugins.TypeOperationsExpr.ConvertSpec.AllowedVals">
-            <summary>
-            The list of allowed source values
-            </summary>
-        </member>
-        <member name="P:ComLib.Lang.Plugins.TypeOperationsExpr.ConvertSpec.Handler">
-            <summary>
-            A method handler for more complex conversions.
-            </summary>
         </member>
         <member name="T:ComLib.Lang.Parsing.SemActsValidationType">
             <summary>
@@ -35714,6 +36189,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:ComLib.Lang.Types.LVersion.ToString">
+            <summary>
+            Get the text based version.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="P:ComLib.Lang.Types.LVersion.Major">
             <summary>
             The First unit of the version.
@@ -35814,6 +36295,23 @@
         <member name="M:ComLib.Lang.AST.IndexExpr.DoEvaluate">
             <summary>
             Evaluate object[index]
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ComLib.Lang.AST.EmptyExpr">
+            <summary>
+            Variable expression data
+            </summary>
+        </member>
+        <member name="M:ComLib.Lang.AST.EmptyExpr.#ctor">
+            <summary>
+            Initialize
+            </summary>
+            <param name="val"></param>
+        </member>
+        <member name="M:ComLib.Lang.AST.EmptyExpr.DoEvaluate">
+            <summary>
+            Evaluate value.
             </summary>
             <returns></returns>
         </member>
@@ -37553,7 +38051,7 @@
             Used to store a array
             </summary>
         </member>
-        <member name="M:ComLib.Lang.Types.LArray.#ctor(System.Collections.Generic.List{System.Object})">
+        <member name="M:ComLib.Lang.Types.LArray.#ctor(System.Collections.IList)">
             <summary>
             Initialize
             </summary>
@@ -37601,11 +38099,23 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:ComLib.Lang.Types.LJSDateMethods.CreateFrom(System.Object[])">
+        <member name="M:ComLib.Lang.Types.LJSDateMethods.OnRegistered">
             <summary>
-            Creates a datetime from the parameters supplied.
+            Callback for when these methods are registered with the system.
             </summary>
-            <param name="parameters"></param>
+        </member>
+        <member name="M:ComLib.Lang.Types.LJSDateMethods.CanCreateFromArgs(System.Object[])">
+            <summary>
+            Can create from the paramelist expressions supplied.
+            </summary>
+            <param name="args">The arguments</param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Types.LJSDateMethods.CreateFromArgs(System.Object[])">
+            <summary>
+            Creates an instance of the type associated with theses methods from the arguments supplied. Repesents a constructor call
+            </summary>
+            <param name="parameters">The arguments used to construct the instance of this type</param>
             <returns></returns>
         </member>
         <member name="M:ComLib.Lang.Types.LJSDateMethods.SetFullYear(ComLib.Lang.Types.LDate,System.Int32,System.Int32,System.Int32)">
@@ -37723,6 +38233,70 @@
             </summary>
             <param name="date">The LDateType to set</param>
             <param name="milliseconds">The milliseconds to set</param>
+        </member>
+        <member name="T:ComLib.Lang.Types.ConvertSpec">
+            <summary>
+            Internal class for specifying what conversions can take place.
+            </summary>
+        </member>
+        <member name="M:ComLib.Lang.Types.ConvertSpec.#ctor(System.String,System.String,System.Boolean,System.Boolean,System.Int32,System.String,System.Func{ComLib.Lang.Types.ConvertSpec,System.Object,System.Object},System.Collections.Generic.List{System.String})">
+            <summary>
+            Initialize
+            </summary>
+            <param name="sourceType">The source type</param>
+            <param name="destType">The destination type</param>
+            <param name="canChange">Whether or not the conversion change can occur with these types</param>
+            <param name="isCaseSensitive">Whether or not the conversion is case sensitive.</param>
+            <param name="convertMode">The mode of conversion.</param>
+            <param name="regex">A regex pattern if mode involves regular expression checks.</param>
+            <param name="allowedVals">A list of allowed values of source value</param>
+            <param name="handler">A method to perform the conversion for complex conversions.</param>
+        </member>
+        <member name="M:ComLib.Lang.Types.ConvertSpec.LookupKey">
+            <summary>
+            Lookup key
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:ComLib.Lang.Types.ConvertSpec.SourceType">
+            <summary>
+            Source type. e.g. "string"
+            </summary>
+        </member>
+        <member name="P:ComLib.Lang.Types.ConvertSpec.DestType">
+            <summary>
+            Destination type e.g. "bool"
+            </summary>
+        </member>
+        <member name="P:ComLib.Lang.Types.ConvertSpec.CanChange">
+            <summary>
+            Whether or not a change can take place.
+            </summary>
+        </member>
+        <member name="P:ComLib.Lang.Types.ConvertSpec.IsCaseSensitive">
+            <summary>
+            Whether or not the change is case sensitive
+            </summary>
+        </member>
+        <member name="P:ComLib.Lang.Types.ConvertSpec.ConvertMode">
+            <summary>
+            The conversion mode from "direct", "regex", "handler", "list"
+            </summary>
+        </member>
+        <member name="P:ComLib.Lang.Types.ConvertSpec.RegexPattern">
+            <summary>
+            The regex pattern to use for conversion checking.
+            </summary>
+        </member>
+        <member name="P:ComLib.Lang.Types.ConvertSpec.AllowedVals">
+            <summary>
+            The list of allowed source values
+            </summary>
+        </member>
+        <member name="P:ComLib.Lang.Types.ConvertSpec.Handler">
+            <summary>
+            A method handler for more complex conversions.
+            </summary>
         </member>
         <member name="T:ComLib.Lang.AST.InterpolatedExpr">
             <summary>
@@ -43107,6 +43681,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:ComLib.Lang.Types.LString.Clone">
+            <summary>
+            Clones this value.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:ComLib.Lang.Types.LStringType">
             <summary>
             Boolean datatype.
@@ -43132,11 +43712,6 @@
             Initialize
             </summary>
         </member>
-        <member name="F:ComLib.Lang.Types.LNull.Instance">
-            <summary>
-            Instance of null
-            </summary>
-        </member>
         <member name="T:ComLib.Lang.Types.LNullType">
             <summary>
             Class to represent null
@@ -43150,16 +43725,6 @@
         <member name="M:ComLib.Lang.Types.LNullType.SetupConversionMatrix">
             <summary>
             Sets up the matrix of possible conversions from one type to another type.
-            </summary>
-        </member>
-        <member name="F:ComLib.Lang.Types.LNullType.Instance">
-            <summary>
-            Singleton instance.
-            </summary>
-        </member>
-        <member name="F:ComLib.Lang.Types.LNullType.NullResult">
-            <summary>
-            Used for null values returned from ast evaulations.
             </summary>
         </member>
         <member name="T:ComLib.Web.Services.Search.SearchSource">
@@ -45166,26 +45731,26 @@
             Whether or not in index exp.
             </summary>
         </member>
-        <member name="T:ComLib.Lang.Helpers.TimeTypeHelper">
+        <member name="T:ComLib.Lang.Helpers.DateTimeTypeHelper">
             <summary>
             Helper class for time types.
             </summary>
         </member>
-        <member name="M:ComLib.Lang.Helpers.TimeTypeHelper.CanCreateTimeFrom(System.Int32)">
+        <member name="M:ComLib.Lang.Helpers.DateTimeTypeHelper.CanCreateTimeFrom(System.Int32)">
             <summary>
             Whether or not a timespan can be created from the number of arguments supplied.
             </summary>
             <param name="paramCount">The number of parameters</param>
             <returns></returns>
         </member>
-        <member name="M:ComLib.Lang.Helpers.TimeTypeHelper.CreateTimeFrom(System.Object[])">
+        <member name="M:ComLib.Lang.Helpers.DateTimeTypeHelper.CreateTimeFrom(System.Object[])">
             <summary>
             Whether or not a timespan can be created from the number of arguments supplied.
             </summary>
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:ComLib.Lang.Helpers.TimeTypeHelper.ParseTime(System.String)">
+        <member name="M:ComLib.Lang.Helpers.DateTimeTypeHelper.ParseTime(System.String)">
             <summary>
             Parse the time using Regular expression.
             </summary>
@@ -45195,6 +45760,11 @@
         <member name="T:ComLib.Lang.Types.LUnit">
             <summary>
             Units class for lenght, weight, temperatur, currency etc.
+            </summary>
+        </member>
+        <member name="M:ComLib.Lang.Types.LUnit.#ctor">
+            <summary>
+            Initialize.
             </summary>
         </member>
         <member name="M:ComLib.Lang.Types.LUnit.op_Addition(ComLib.Lang.Types.LUnit,ComLib.Lang.Types.LUnit)">
@@ -45262,6 +45832,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:ComLib.Lang.Types.LBool.Clone">
+            <summary>
+            Clones this value.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:ComLib.Lang.Types.LBoolType">
             <summary>
             Boolean datatype.
@@ -45290,7 +45866,12 @@
             <param name="paramName">Name of the parameter to search for</param>
             <returns></returns>
         </member>
-        <member name="M:ComLib.Lang.Helpers.ParamHelper.ResolveParameters(System.Collections.Generic.List{ComLib.Lang.AST.Expr},System.Collections.Generic.List{System.Object})">
+        <member name="M:ComLib.Lang.Helpers.ParamHelper.ResolveNonNamedParameters(System.Collections.Generic.List{ComLib.Lang.AST.Expr},System.Collections.Generic.List{System.Object})">
+            <summary>
+            Resolve all the non-named parameter expressions and puts the values into the param list supplied.
+            </summary>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.ParamHelper.ResolveParametersToHostLangValues(System.Collections.Generic.List{ComLib.Lang.AST.Expr},System.Collections.Generic.List{System.Object})">
             <summary>
             Resolve the parameters in the function call.
             </summary>
@@ -45313,6 +45894,13 @@
             <summary>
             Resolve the parameters in the function call.
             </summary>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.ParamHelper.HasNamedParameters(System.Collections.Generic.List{ComLib.Lang.AST.Expr})">
+            <summary>
+            Whether or not there are named parameters here.
+            </summary>
+            <param name="parameters"></param>
+            <returns></returns>
         </member>
         <member name="T:ComLib.Lang.AST.UnaryExpr">
             <summary>
@@ -47503,6 +48091,12 @@
             The raw type value.
             </summary>
         </member>
+        <member name="M:ComLib.Lang.Types.LMap.GetValue">
+            <summary>
+            Gets the value of this object.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:ComLib.Lang.Types.LMapType">
             <summary>
             Datatype for map
@@ -47616,6 +48210,91 @@
             </summary>
             <param name="node"></param>
             <param name="paramCount"></param>
+        </member>
+        <member name="T:ComLib.Lang.Helpers.ConversionHelper">
+            <summary>
+            Helper class to convert types from one to another type ( only used for internal fluentscript types )
+            </summary>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.ConversionHelper.Convert_Bool_To_Number(ComLib.Lang.Types.ConvertSpec,System.Object)">
+            <summary>
+            Converts bool to number
+            </summary>
+            <param name="spec">The conversion spec</param>
+            <param name="val">The bool value to convert</param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.ConversionHelper.Convert_Number_To_Bool(ComLib.Lang.Types.ConvertSpec,System.Object)">
+            <summary>
+            Converts number to bool
+            </summary>
+            <param name="spec">The conversion spec</param>
+            <param name="val">The number value to convert</param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.ConversionHelper.Convert_Date_To_String(ComLib.Lang.Types.ConvertSpec,System.Object)">
+            <summary>
+            Converts date to string
+            </summary>
+            <param name="spec">The conversion spec</param>
+            <param name="val">The date value to convert</param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.ConversionHelper.Convert_Date_To_Time(ComLib.Lang.Types.ConvertSpec,System.Object)">
+            <summary>
+            Converts date to time
+            </summary>
+            <param name="spec">The conversion spec</param>
+            <param name="val">The date value to convert</param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.ConversionHelper.Convert_Time_To_String(ComLib.Lang.Types.ConvertSpec,System.Object)">
+            <summary>
+            Converts time to string
+            </summary>
+            <param name="spec">The conversion spec</param>
+            <param name="val">The time value to convert</param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.ConversionHelper.Convert_Time_To_Date(ComLib.Lang.Types.ConvertSpec,System.Object)">
+            <summary>
+            Converts time to date
+            </summary>
+            <param name="spec">The conversion spec</param>
+            <param name="val">The time value to convert</param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.ConversionHelper.Convert_String_To_Number(ComLib.Lang.Types.ConvertSpec,System.Object)">
+            <summary>
+            Converts string to number
+            </summary>
+            <param name="spec">The conversion spec</param>
+            <param name="val">The string value to convert</param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.ConversionHelper.Convert_String_To_Date(ComLib.Lang.Types.ConvertSpec,System.Object)">
+            <summary>
+            Converts string to date
+            </summary>
+            <param name="spec">The conversion spec</param>
+            <param name="val">The string value to convert</param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.ConversionHelper.Convert_String_To_Time(ComLib.Lang.Types.ConvertSpec,System.Object)">
+            <summary>
+            Converts string to number
+            </summary>
+            <param name="spec">The conversion spec</param>
+            <param name="val">The string value to convert</param>
+            <returns></returns>
+        </member>
+        <member name="M:ComLib.Lang.Helpers.ConversionHelper.Convert_String_To_Bool(ComLib.Lang.Types.ConvertSpec,System.Object)">
+            <summary>
+            Converts string to bool.
+            </summary>
+            <param name="spec">The conversion spec</param>
+            <param name="val">The string value to convert</param>
+            <returns></returns>
         </member>
         <member name="T:ComLib.StringHelper">
             <summary>
