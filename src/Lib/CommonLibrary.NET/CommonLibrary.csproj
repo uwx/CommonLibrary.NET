@@ -538,6 +538,14 @@
     <Compile Include="_Core\Lang\Parser\Core\Context.cs" />
     <Compile Include="_Core\Lang\Parser\Core\LangState.cs" />
     <Compile Include="_Core\Lang\Parser\Core\Limits.cs" />
+    <Compile Include="_Core\Lang\Parser\Integration\IPhase.cs" />
+    <Compile Include="_Core\Lang\Parser\Integration\PhaseResult.cs" />
+    <Compile Include="_Core\Lang\Phases\ParsePhase.cs" />
+    <Compile Include="_Core\Lang\Phases\ShutdownPhase.cs" />
+    <Compile Include="_Core\Lang\Phases\Phase.cs" />
+    <Compile Include="_Core\Lang\Phases\PhaseExecutor.cs" />
+    <Compile Include="_Core\Lang\Phases\TranslateToJsPhase.cs" />
+    <Compile Include="_Core\Lang\Phases\ExecutionPhase.cs" />
     <Compile Include="_Core\Lang\Plugins\Parser\DateTimeCombinerPlugin.cs" />
     <Compile Include="_Core\Lang\Types\ConvertSpec.cs" />
     <Compile Include="_Core\Lang\Types\Javascript\LJSTimeMethods.cs" />
@@ -678,6 +686,7 @@
     <Compile Include="_Core\Lang\_Core\Meta\Types\Arg.cs" />
     <Compile Include="_Core\Lang\_Core\Meta\Types\FunctionMeta.cs" />
     <Compile Include="_Core\Lang\_Core\Operator.cs" />
+    <Compile Include="_Core\Lang\Parser\Integration\PhaseContext.cs" />
     <Compile Include="_Core\Lang\_Core\ScriptError.cs" />
     <Compile Include="_Core\Lang\_Core\Symbols.cs" />
     <Compile Include="_Core\Lang\_Core\IFunctionStore.cs" />

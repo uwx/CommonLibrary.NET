@@ -584,6 +584,9 @@ src/Lib/CommonLibrary.NET/_Core/Lang/Parser/Core/LangState.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/Core/Limits.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/IParser.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/Integration/ExternalFunctions.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Parser/Integration/IPhase.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Parser/Integration/PhaseContext.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Parser/Integration/PhaseResult.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/Integration/Plugins.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/Integration/RegisteredFunctions.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/Integration/RegisteredTypes.cs -text
@@ -607,6 +610,12 @@ src/Lib/CommonLibrary.NET/_Core/Lang/Parser/SemActs.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/Terminators.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/TokenIterator.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/Visitor.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Phases/ExecutionPhase.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Phases/ParsePhase.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Phases/Phase.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Phases/PhaseExecutor.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Phases/ShutdownPhase.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Phases/TranslateToJsPhase.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Core/AliasTokenPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Core/CustomFunctionPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Core/LexReplacePlugin.cs -text

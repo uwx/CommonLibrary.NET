@@ -11,6 +11,7 @@ using ComLib.Lang.Core;
 using ComLib.Lang.AST;
 using ComLib.Lang.Helpers;
 using ComLib.Lang.Parsing;
+using ComLib.Lang.Phases;
 // </lang:using>
 
 namespace ComLib.Lang
@@ -146,11 +147,7 @@ namespace ComLib.Lang
         /// <param name="script"></param>
         public void Parse(string script)
         {
-            Execute(() =>
-            {
-                _context.Limits.CheckScriptLength(script);
-                _parser.Parse(script, _memory);
-            });
+            this.Execute(script, new ParsePhase(_parser), new ShutdownPhase());
         }
 
 
@@ -174,12 +171,31 @@ namespace ComLib.Lang
         /// <param name="script">Script text</param>
         public void Execute(string script)
         {
-            Execute(() =>
-            {
-                _context.Limits.CheckScriptLength(script);
-                _parser.Parse(script, _memory);
-                _parser.Execute();
-            });
+            this.Execute(script, new ParsePhase(_parser), new ExecutionPhase(), new ShutdownPhase());
+        }
+
+
+        /// <summary>
+        /// Executes the script
+        /// </summary>
+        /// <param name="script">Script text</param>
+        /// <param name="target">The target language to translate the code to.</param>
+        public void Translate(string script, string target)
+        {
+            this.Execute(script, new ParsePhase(_parser), new TranslateToJsPhase(), new ShutdownPhase());
+        }
+
+
+        /// <summary>
+        /// Executes the script
+        /// </summary>
+        /// <param name="script">Script text</param>
+        public void Execute(string script, params IPhase[] phases)
+        {
+            var phaseExecutor = new PhaseExecutor();
+            var phasesList = phases.ToList();
+            var result = phaseExecutor.Execute(script, _context, phasesList);
+            this._runResult = result.Result;
         }
 
 

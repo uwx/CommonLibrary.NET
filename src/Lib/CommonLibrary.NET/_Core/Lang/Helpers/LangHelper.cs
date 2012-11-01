@@ -120,5 +120,42 @@ namespace ComLib.Lang.Helpers
             finalExp = stack[0] as Expr;
             return finalExp;
         }
+
+
+        /// <summary>
+        /// Executes an action.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="exceptionMessageFetcher"></param>
+        public static RunResult Execute(Action action, Func<string> exceptionMessageFetcher = null)
+        {
+            DateTime start = DateTime.Now;
+            bool success = true;
+            string message = string.Empty;
+            Exception scriptError = null;
+            try
+            {
+                action();
+            }
+            catch (Exception ex)
+            {
+                success = false;
+                if (ex is LangException)
+                {
+                    LangException lex = ex as LangException;
+                    const string langerror = "{0} : {1} at line : {2}, position: {3}";
+                    message = string.Format(langerror, lex.Error.ErrorType, lex.Message, lex.Error.Line, lex.Error.Column);
+                }
+                else message = ex.Message;
+
+                scriptError = ex;
+                if (exceptionMessageFetcher != null)
+                    message += exceptionMessageFetcher();
+            }
+            DateTime end = DateTime.Now;
+            var runResult = new RunResult(start, end, success, message);
+            runResult.Ex = scriptError;
+            return runResult;
+        }
     }
 }

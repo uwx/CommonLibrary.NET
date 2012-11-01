@@ -110,25 +110,6 @@ namespace ComLib.Lang.Parsing
 
 
         /// <summary>
-        /// Executes all the statements in the script.
-        /// </summary>
-        public void Execute()
-        {
-            // Check number of statements.
-            if (_statements == null || _statements.Count == 0) return;
-
-            // Reset the lang state ( loop limits, recursion limits etc. )
-            this._context.State.Reset();
-            foreach (var stmt in _statements)
-            {
-                stmt.Evaluate();
-            }
-            // Allow plugins to dispose of themselves.
-            _context.Plugins.Dispose();
-        }
-
-
-        /// <summary>
         /// Parses a statement.
         /// </summary>
         /// <returns></returns>
