@@ -53,6 +53,18 @@ namespace ComLib.Application
 
 
         /// <summary>
+        /// Whether or not to output the start info which display command line args and other info.
+        /// </summary>
+        public bool OutputStartInfo { get; set; }
+
+
+        /// <summary>
+        /// Whether or not to output the end info which display duration of the execution and other info.
+        /// </summary>
+        public bool OutputEndInfo { get; set; }
+
+
+        /// <summary>
         /// Initialize defaults.
         /// </summary>
         public AppConfig()
@@ -60,6 +72,8 @@ namespace ComLib.Application
             ArgsPrefix = "-";
             ArgsSeparator = ":";
             RequireConfigs = true;
+            OutputStartInfo = true;
+            OutputEndInfo = true;
         }
     }
 }

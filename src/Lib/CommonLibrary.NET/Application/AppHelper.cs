@@ -50,8 +50,21 @@ namespace ComLib.Application
             }
             else if (args.IsHelp)
             {
+                var helpText = GetAppInfo(app) + Environment.NewLine + Environment.NewLine;
+
                 // -help or ?
-                args.ShowUsage(app.Name);
+                if (args.Schema.IsEmpty)
+                    helpText += "Argument definitions are not present.";
+                else
+                {
+                    // 1. Get the examples
+                    var examplesText = app.OptionsExamples;
+
+                    // 2. Now get the options as text.
+                    helpText += ArgsUsage.BuildDescriptive(args.Schema.Items, examplesText, args.Prefix, args.Separator);
+                }
+                // 3. Print
+                Console.WriteLine(helpText);
                 result = new BoolMessageItem<Args>(args, false, "Displaying usage");
             }
             return result;
@@ -93,8 +106,9 @@ namespace ComLib.Application
         {
             StringBuilder buffer = new StringBuilder();
             IDictionary info = new OrderedDictionary();
-            info["Company"] = app.Name;
+            info["Company"] = app.Company;
             info["Name"] = app.Name;
+            info["Website"] = app.Website;
             info["Version"] = app.Version;
             info["Description"] = app.Description;
             buffer.Append("===============================================================" + Environment.NewLine);

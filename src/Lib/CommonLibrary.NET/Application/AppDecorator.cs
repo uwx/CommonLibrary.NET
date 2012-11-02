@@ -134,6 +134,24 @@ namespace ComLib.Application
 
 
         /// <summary>
+        /// Company name
+        /// </summary>
+        public virtual string Company
+        {
+            get { return _instance.Company; }
+        }
+
+
+        /// <summary>
+        /// Company name
+        /// </summary>
+        public virtual string Website
+        {
+            get { return _instance.Website; }
+        }
+
+
+        /// <summary>
         /// Get the application description.
         /// </summary>
         public virtual string Description

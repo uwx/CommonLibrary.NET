@@ -10,7 +10,7 @@ if today is not monday then
 
 	
 # Money 
-set salary = $250
+set salary = $256
 if salary is more than $200 then 
 	println I worked overtime
 
@@ -34,7 +34,7 @@ set favorites = books where book.pages > 120
 println( favorites[0].name )
 
 # url
-site = www.yahoo.com
+site = www.finance.yahoo.com
 println( site )
 
 

@@ -38,8 +38,8 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            Combinator_Integration_Tests();
             System_Control_Flow();
+            Combinator_Integration_Tests();
             Combinator_Unit_Tests();
             Fluent_Tests();            
             System_CSharp(); 
@@ -169,11 +169,11 @@ namespace ComLib.Samples
         #region System Control Flow
         static void System_Control_Flow()
         {
+            System_Errors_Runtime();
             System_Loops();
             System_Functions();
             System_Types();
             System_Limits();
-            System_Errors_Runtime();
             System_TryCatch();
             System_Assignment();
         }

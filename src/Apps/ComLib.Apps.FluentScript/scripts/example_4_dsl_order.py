@@ -24,22 +24,30 @@ def shares(amount)
 
 
 # Example 1: full function name with commas
-order_to_buy 100, 'MSFT', $31.50, Oct 28th at 8:30 am
+order_to_buy 100, 'MSFT-0', $30.50, Oct 28th at 8:30 am
 
 
 # Example 2: full function name with commas
-order to buy 201, 'MSFT', $31.50, Oct 24th at 11:30 am
+order to buy 201, 'MSFT-1', $31.50, Oct 1st at 11:30 am
 
 
 # Example 3: full function name with commas
-order to buy 302 shares, 'IBM', $150.50, Oct 24th at 2:30 pm
+order to buy 302 shares, 'MSFT-2', $32.50, Oct 2nd at 2:30 pm
 
 
 # Example 4: named params
-order to buy 403 shares, of: 'MSFT', at: $150.50, on: Oct 24th at 2:30 pm
+order to buy 403 shares, of: 'MSFT-3', at: $33.50, on: Oct 3rd at 2:30 pm
 
 
 # Example 4: flexible
-order to buy 504 shares of 'MSFT' at $120.50 on Oct 24th at 9:20 am
+order to buy 504 shares of 'MSFT-4' at $34.50 on Oct 4th at 9:20 am
 
+println()
+println()
+order_to_buy 100, 'MSFT-0', $30.50, 10/25/2012 at 8:30 am
+order_to_buy 100, 'MSFT-0', $30.50, 10/26/2012 at 9:31 am
+order_to_buy 100, 'MSFT-0', $30.50, 10/27/2012 at 10:32 am
+order_to_buy 100, 'MSFT-0', $30.50, 10/28/2012 at 11:33 am
+
+order to buy 130 shares of 'MSFT-0' at $33.33 on 10/26/2012 at 1:30 pm
 

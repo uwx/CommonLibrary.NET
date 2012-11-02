@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using ComLib.Arguments;
+
 
 namespace ComLib.Apps.FluentSharp
 {
@@ -12,107 +14,73 @@ namespace ComLib.Apps.FluentSharp
     public class FSArgs
     {
         /// <summary>
-        /// Path to the template or code file to run.
+        /// Whether or not the filepath supplied is a template or just code.
         /// </summary>
-        //[Arg(Name = "filepath", Description = "Path to the file to execute", DataType = typeof(string), IsRequired = true, DefaultValue = "", Example = "c:\\tests\\file1.js")]
-        public string FilePath { get; set; }
+        [Arg(Name = "tokens", Alias = "t", Description = "Converts the script into set of tokens( for debugging purposes )", DataType = typeof(bool), IsRequired = false, DefaultValue = false, ExampleMultiple = "true | false")]
+        public bool Tokenize { get; set; }
+
+
+        /// <summary>
+        /// Whether or not the filepath supplied is a template or just code.
+        /// </summary>
+        [Arg(Name = "nodes", Alias = "n", Description = "Converts the script into a tree of nodes( for debugging purposes )", DataType = typeof(bool), IsRequired = false, DefaultValue = false, ExampleMultiple = "true | false")]
+        public bool Nodes { get; set; }
+
+
+        /// <summary>
+        /// Whether or not the filepath supplied is a template or just code.
+        /// </summary>
+        [Arg(Name = "exec", Alias = "e", Description = "Executes the script", DataType = typeof(bool), IsRequired = false, DefaultValue = false, ExampleMultiple = "true | false")]
+        public bool Execute { get; set; }
+
+
+        /// <summary>
+        /// Whether or not the filepath supplied is a template or just code.
+        /// </summary>
+        [Arg(Name = "translate", Alias = "tr", Description = "Translates the script into another language( not fully supported yet )", DataType = typeof(bool), IsRequired = false, DefaultValue = false, ExampleMultiple = "true | false")]
+        public bool Translate { get; set; }
+
+
+        /// <summary>
+        /// Whether or not the filepath supplied is a template or just code.
+        /// </summary>
+        [Arg(Name = "interactive", Alias = "i", Description = "Runs fluentscript in interactive mode( read eval print loop )", DataType = typeof(bool), IsRequired = false, DefaultValue = false, ExampleMultiple = "true | false")]
+        public bool Interactive { get; set; }
 
 
         /// <summary>
         /// The folder to generate the output to.
         /// </summary>
-        //[Arg(Name = "logfolder", Description = "Path to logfolder", DataType = typeof(string), IsRequired = false, DefaultValue = "", Example = "c:\\tests\\logs")]
-        public string LogFolder { get; set; }
+        [Arg(Name = "out", Alias = "o", Description = "Output path for a file( for flag tokens/nodes/translate )", DataType = typeof(string), IsRequired = false, DefaultValue = "", Example = "c:\\tests\\output")]
+        public string Out { get; set; }
 
 
         /// <summary>
         /// The folder to generate the output to.
         /// </summary>
-        //[Arg(Name = "outputfolder", Description = "Path to the output folder for rendering templates", DataType = typeof(string), IsRequired = false, DefaultValue = "", Example = "c:\\tests\\output")]
-        public string OutPutFolder { get; set; }
+        [Arg(Name = "logs", Alias = "l", Description = "Log folder path( for debugging purposes )", DataType = typeof(string), IsRequired = false, DefaultValue = "", Example = "c:\\tests\\output")]
+        public string Logs { get; set; }
 
         
         /// <summary>
         /// Whether or not the filepath supplied is a template or just code.
         /// </summary>
-        //[Arg(Name = "istemplate", Description = "Whether or not the file is a template file to render", DataType = typeof(bool), IsRequired = false, DefaultValue = false, Example = "true")]
+        [Arg(Name = "istemplate", Alias = "templ", Description = "Whether or not the file is a template file to render", DataType = typeof(bool), IsRequired = false, DefaultValue = false, Example = "true")]
         public bool IsTemplate { get; set; }
 
-
-        /// <summary>
-        /// Whether or not the filepath supplied is a template or just code.
-        /// </summary>
-        //[Arg(Name = "tokenize", Description = "Whether or not to convert to script into set of tokens for debugging purposes", DataType = typeof(bool), IsRequired = false, DefaultValue = false, Example = "true")]
-        public bool Tokenize { get; set; }
-
-
+                
         /// <summary>
         /// The plugin group to register. e.g. "sys", "all", "explicit:var,if"
         /// </summary>
-        public string PluginGroup { get; set; }
+        [Arg(Name = "plugins", Description = "The group of plugins to use", DataType = typeof(bool), IsRequired = false, DefaultValue = "all", Example = "true")]
+        public string Plugins { get; set; }
 
 
         /// <summary>
-        /// Gets the help text for the args.
-        /// </summary
-        /// <returns></returns>
-        public string ToHelpString()
-        {
-            var args = new List<List<object>>()
-            {
-                                    // name         required    
-                new List<object>(){ "file",         "REQUIRED",      "string",     @"c:\tests\file.js",    "The path to the fluentscript file" },
-                new List<object>(){ "logfolder",    "optional",      "string",     @"c:\fs\logs",          "The log folder of fluentscript for any error" },
-                new List<object>(){ "outfolder",    "optional",      "string",     @"c:\fs\out",           "The output folder to write out the processed template file if script is a template" },
-                new List<object>(){ "tokenize",     "optional",      "bool",       @"true",                "Whether or not to print out the tokens in the script rather than executing script" },
-                new List<object>(){ "istemplate",   "optional",      "bool",       @"true",                "Whether or not the script file is a template like asp.net aspx files" },
-                new List<object>(){ "plugins",      "optional",      "string",     @"sys | all",           "The plugin group to use" }
-            };
-            var text = "\r\nFLUENTSCRIPT command line arguments:\r\n\r\n";
-            foreach (var argInfo in args)
-            {
-                text += string.Format(" {0}\r\n\t{1}\r\n\t{2} - {3}\r\n\texample: {4}\r\n\r\n", argInfo[0].ToString(), argInfo[4].ToString(), argInfo[1].ToString(), argInfo[2].ToString(), argInfo[3].ToString());
-            }             
-            return text;
-        }
-
-
-        /// <summary>
-        /// The version.
+        /// Path to the template or code file to run.
         /// </summary>
-        /// <returns></returns>
-        public string ToVersion() { return "0.9.8.8 Beta"; }
+        [Arg(IndexPosition = 0, Description = "Path to the file to execute", DataType = typeof(string), IsRequired = true, DefaultValue = "", Example = "c:\\tests\\file1.js")]
+        public string FilePath { get; set; }
 
-
-        /// <summary>
-        /// Examples
-        /// </summary>
-        /// <returns></returns>
-        public string ToExamples()
-        {
-            var eg = Environment.NewLine + "fs file:c:\\fs\\samples\\helloworld.js"
-                   + Environment.NewLine + "fs file:\\samples\\helloworld.js  \t tokenize:true"
-                   + Environment.NewLine + "fs file:\\samples\\helloworld.js  \t plugins:all"
-                   + Environment.NewLine + "fs file:\\samples\\helloworld.jst \t istemplate:true";
-            return eg + "\r\n\r\n";
-        }
-
-
-        /// <summary>
-        /// THe full help text.
-        /// </summary>
-        /// <returns></returns>
-        public string ToFullHelpText()
-        {
-            var text = ToHelpString();
-            var examples = ToExamples();
-            var finalText = text + "\r\n\r\nVERSION:\t" + ToVersion() + "\r\n\r\n\r\nEXAMPLES:\r\n\r\n" + examples;
-            finalText += "\r\nMORE INFO:\r\n\r\nCompany : CodeHelixSolutions Inc."
-                      + Environment.NewLine + "Site    : www.codehelixsolutions.com"
-                      + Environment.NewLine + "Demo    : www.fluentscript.com"
-                      + Environment.NewLine + "Docs    : http://fluentscript.codeplex.com/documentation"
-                      + Environment.NewLine;
-            return finalText;
-        }
     }
 }

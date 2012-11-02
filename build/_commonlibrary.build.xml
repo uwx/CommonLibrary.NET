@@ -259,9 +259,11 @@
 		<call target="Package" />
 		<call target="PackageBinaries" />
 		<call target="PackageExamples" />
+		<!--
 		<call target="FS_Setup" />
 		<call target="FS_Compile" />
 		<call target="FS_Package" />
+		-->
 	</target>
 	
 	

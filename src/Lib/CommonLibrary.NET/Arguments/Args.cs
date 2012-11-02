@@ -396,7 +396,7 @@ namespace ComLib.Arguments
         /// </summary>
         public bool IsInfo
         {
-            get { return IsPositionalArg(_metaIndex, "about"); }
+            get { return IsPositionalArg(_metaIndex, "about") || IsPositionalArg(_metaIndex, "info"); }
         }
         #endregion
 

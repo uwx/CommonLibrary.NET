@@ -5,6 +5,8 @@ using System.Text;
 using System.IO;
 using System.Data;
 using System.Collections;
+using ComLib.Application;
+using ComLib.Arguments;
 using ComLib.Lang;
 using ComLib.Lang.Templating;
 
@@ -14,21 +16,39 @@ namespace ComLib.Apps.FluentSharp
     /// <summary>
     /// FluentSharp executeable.
     /// </summary>
-    public class FS 
+    public class FS : App
     {
-        private FSArgs _args;
+        private FSArgs _fsargs;
         private string[] _cmdArgs;
 
 
         /// <summary>
-        /// Execute the program.
+        /// Run the application via it's interface ( Init - Execute - Shutdown )
+        /// using the static Run utility method.
         /// </summary>
-        /// <param name="args"></param>
-        public static int Main(string[] args)
+        /// <param name="args">command line arguments.
+        /// e.g. -env:Prod,Dev -date:${today-1} -config:config\prod.config,config\dev.config -source:Reuters 10</param>
+        static int Main(string[] args)
         {
-            var fs = new FS(args);
-            var result = fs.Execute();
-            return (int)result.Item;
+            Args.InitServices((textargs) => ComLib.LexArgs.ParseList(textargs), (arg) => ComLib.Subs.Substitutor.Substitute(arg));
+            int result = Run(new FS(), args, string.Empty).AsExitCode();
+            return result;
+        }
+
+
+        /// <summary>
+        /// Set the settings to indictate that 
+        /// 1. Command line arguments are required
+        /// 2. Command line args should be transferred to args reciever.
+        /// </summary>
+        public FS()
+        {            
+            Settings.ArgsReciever = new FSArgs();
+            Settings.ArgsRequired = true;
+            Settings.ArgsAppliedToReciever = true;
+            Settings.OutputStartInfo = false;
+            Settings.OutputEndInfo = false;
+            
         }
 
 
@@ -44,83 +64,116 @@ namespace ComLib.Apps.FluentSharp
 
 
         /// <summary>
-        /// Execute application.
+        /// Name of this application.
         /// </summary>
-        public BoolMsgItem  Execute()
+        public override string Name
         {
-            // Check if asking for help.
-            if (IsHelp())
+            get { return "FluentScript"; }
+        }
+
+
+        /// <summary>
+        /// Company name
+        /// </summary>
+        public override string Company
+        {
+            get { return "CodeHelix Solutions Inc"; }
+        }
+
+
+        /// <summary>
+        /// Company website
+        /// </summary>
+        public override string Website
+        {
+            get { return "www.codehelixsolutions.com  | http://fluentscript.codeplex.com"; }
+        }
+
+
+        /// <summary>
+        /// Description of this application.
+        /// </summary>
+        public override string Description
+        {
+            get
             {
-                var sample = new FSArgs();
-                Console.Write(sample.ToFullHelpText());
-                return new BoolMsgItem(true, string.Empty, 0);
+                return Environment.NewLine
+                     + Environment.NewLine + "FluentScript is a scripting language for .NET to faciliate "
+                     + Environment.NewLine + "the development of DSLs( Domain Specific Languages )."
+                     + Environment.NewLine + "It has very flexible syntax, intuitive datatypes and a plugin"
+                     + Environment.NewLine + "based model for extending the language."
+                     + Environment.NewLine;
             }
+        }
 
-            // 1. Load settings from config file
-            LoadSettings();
 
-            // 2. Override settings from command line arguments
-            OverrideSettings();
+        /// <summary>
+        /// Get list of examples for command line.
+        /// </summary>
+        public override List<string> OptionsExamples
+        {
+            get
+            {
+                return new List<string>()
+                {
+                    @"fs -exec c:\fs\scripts\example_1.fs",
+                    @"fs -tokens -out:exampl_1_tokens.txt     c:\fs\scripts\example_1.fs",
+                    @"fs -nodes  -out:exampl_1_statements.txt c:\fs\scripts\example_1.fs"
+                };
+            }
+        }
 
-            // 3. Setup defaults
-            ApplyDefaultSettings();
 
-            // 4. Validate the settings
-            var result = ValidateSettings();
+        /// <summary>
+        /// Execute the core logic of the application.
+        /// </summary>
+        /// <remarks>Note this does not need to be inside of a try-catch 
+        /// if using the ApplicationDecorator.</remarks>
+        public override BoolMessageItem Execute()
+        {
+            var args = this.Settings.ArgsReciever as FSArgs;
+            _fsargs = args;
+
+            // 1. validate the args
+            var result = FSHelper.Validate(_fsargs);
             if (!result.Success)
             {
                 HandleValidationFailure(result);
-                return new BoolMsgItem(false, result.Message, 1);
+                return new BoolMessageItem(1, false, result.Message);
             }
 
-            // 5. Create interpreter and run code.
-            var i = CreateInterpreter();
+            // 2. Create interpreter
+            var interpreter = CreateInterpreter();
+            
+            // 3. Execute the code.
+            ExecuteCode(interpreter);
 
-            // 6. Execute the code
-            ExecuteCode(i);            
-
-            var exitCode = i.Result.Success ? 0 : 1;
-            var finalResult = new BoolMsgItem(i.Result.Success, i.Result.Message, exitCode);
-            return finalResult;
+            // 4. Get the result of the execution
+            var runResult = interpreter.Result;
+            FSHelper.WriteScriptStatus(runResult.Success, runResult.Message);
+            return new BoolMessageItem(null, runResult.Success, runResult.Message);
         }
 
 
-        /// <summary>
-        /// Load the settings.
-        /// </summary>
-        /// <returns></returns>
-        private void LoadSettings()
+        private void ExecuteCode(Interpreter i)
         {
-            _args = FSHelper.LoadSettings();
-        }
-
-
-        /// <summary>
-        /// Override the settings from config with command line settings
-        /// </summary>
-        /// <returns></returns>
-        private void OverrideSettings()
-        {
-            FSHelper.ParseArgs(_args, _cmdArgs);
-        }
-
-
-        /// <summary>
-        /// Validates the settings.
-        /// </summary>
-        /// <returns></returns>
-        private BoolMsgItem ValidateSettings()
-        {
-            return FSHelper.Validate(_args);
-        }
-
-
-        private void ApplyDefaultSettings()
-        {
-            if (_args.LogFolder == "logfiles")
-                Directory.CreateDirectory(_args.LogFolder);
-            if (_args.OutPutFolder == "outputfiles")
-                Directory.CreateDirectory(_args.OutPutFolder);
+            var file = new FileInfo(_fsargs.FilePath);
+            
+            // Case 1: Print tokens.
+            if (_fsargs.Tokenize)
+            {
+                i.PrintTokens(file.FullName, _fsargs.Out);
+            }
+            // Case 2: Print nodes.
+            else if (_fsargs.Nodes)
+            {
+                i.PrintStatements(file.FullName, _fsargs.Out);
+            }
+            // Case 3: Execute.
+            else if (_fsargs.Execute)
+            {
+                i.ExecuteFile(file.FullName);
+            }
         }
 
 
@@ -133,11 +186,12 @@ namespace ComLib.Apps.FluentSharp
             i.Context.Settings.EnableLogging = true;
 
             // 2. What plugins to register?
-            if (_args.PluginGroup == "sys")
+            if (_fsargs.Plugins == "sys")
                 i.Context.Plugins.RegisterAllSystem();
-            else if (_args.PluginGroup == "all")
+            else if (_fsargs.Plugins == "all")
                 i.Context.Plugins.RegisterAll();
-
+            else if (string.IsNullOrEmpty(_fsargs.Plugins))
+                i.Context.Plugins.RegisterAll();
             return i;
         }
 
@@ -150,81 +204,6 @@ namespace ComLib.Apps.FluentSharp
             Console.WriteLine(result.Message);
             Console.WriteLine("Type 'fs help' for more information");
             Console.ResetColor();
-        }
-
-
-        private void ExecuteCode(Interpreter i)
-        {
-            // 4. Setup environment - e.g folders.
-            // Get the script or template.
-            var file = new FileInfo(_args.FilePath);
-            var script = File.ReadAllText(file.FullName);
-
-            
-            // CASE 1: Template file ( e.g. like asp.net syntax with fluentscript in between <% %>
-            if (_args.IsTemplate)
-            {
-                var finalscript = Templater.Render(script);
-                File.WriteAllText(_args.OutPutFolder + "\\" + file.Name, finalscript);
-
-                // Interpret the rendered script.
-                i.Execute(finalscript);
-                string buffer = i.Memory.Get<string>("buffer");
-                File.WriteAllText(_args.OutPutFolder + "\\" + file.Name.Replace(".js", ".html"), buffer);
-            }
-            // CASE 2: Just want to get the tokens from the script.
-            else if (_args.Tokenize)
-            {
-                // Interpret the rendered script.
-                i.PrintTokens(file.FullName, _args.OutPutFolder + "\\" + file.Name.Replace(".js", ".tokens.txt"));
-            }
-            // 3. CASE 3: Execute the script.
-            else
-            {
-                Console.WriteLine();
-                i.Execute(script);
-                ShowResult(file.FullName, i.Result);
-                Console.WriteLine();
-            }
-        }
-
-
-        private void ShowResult(string scriptPath, ComLib.Lang.Core.RunResult result)
-        {
-            Console.WriteLine("\r\n");
-            WriteScriptResult(result.Success);
-            if(!result.Success)
-            {
-                WriteScriptError(string.Empty, result.Message);
-            }
-        }
-
-
-        private static void WriteScriptError(string script, string error)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("failed with error: " + error);
-            Console.ResetColor();
-        }
-
-
-        private static void WriteScriptResult(bool success)
-        {
-            Console.ForegroundColor = success ? ConsoleColor.Green : ConsoleColor.Red;
-            string text = success ? "SUCCESS" : "FAILURE(S)";
-            Console.WriteLine(text);
-            Console.ResetColor();
-        }
-
-
-        private bool IsHelp()
-        {
-            if (_cmdArgs.Length == 0) return false;
-            var first = _cmdArgs[0].ToLower();
-
-            if (first == "?" || first.Contains("help"))
-                return true;
-            return false;
         }
     }
 }

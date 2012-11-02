@@ -56,6 +56,11 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Config\Dev.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Config\Prod.config" />
+    <None Include="Config\Qa.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="scripts\function1.js" />

@@ -195,6 +195,24 @@ namespace ComLib.Application
 
 
         /// <summary>
+        /// Company name
+        /// </summary>
+        public virtual string Company
+        {
+            get { return string.Empty; }
+        }
+
+
+        /// <summary>
+        /// Company name
+        /// </summary>
+        public virtual string Website
+        {
+            get { return string.Empty; }
+        }
+
+
+        /// <summary>
         /// Get the application description.
         /// </summary>
         public virtual string Description
@@ -404,7 +422,10 @@ namespace ComLib.Application
         /// </summary>
         public virtual void DisplayStart()
         {
-            Display(true, new OrderedDictionary());
+            if (this.Settings.OutputStartInfo)
+            {
+                Display(true, new OrderedDictionary());
+            }
         }
 
 
@@ -413,7 +434,10 @@ namespace ComLib.Application
         /// </summary>
         public virtual void DisplayEnd()
         {
-            Display(false, new OrderedDictionary());
+            if (this.Settings.OutputEndInfo)
+            {
+                Display(false, new OrderedDictionary());
+            }
         }
 
 

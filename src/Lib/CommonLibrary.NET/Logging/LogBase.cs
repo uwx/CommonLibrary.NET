@@ -619,7 +619,7 @@ namespace ComLib.Logging
         /// </summary>
         public virtual void ShutDown()
         {
-            Console.WriteLine("Shutting down logger " + this.Name);
+            //Console.WriteLine("Shutting down logger " + this.Name);
         }
         #endregion
 

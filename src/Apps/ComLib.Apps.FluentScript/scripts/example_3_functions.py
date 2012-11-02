@@ -17,11 +17,11 @@ def orderToBuy( symbol, amount)
 
 
 # Example 1: actual name
-refill_inventory 'nissan-maxima', 3
+refill_inventory 'infiniti-g35', 3
 
 
 # Example 2: without underscore
-refill inventory 'honda-accord', amount: 21
+refill inventory 'honda-civic', amount: 21
 
 
 # Example 3: spaces converted to camel case

@@ -14,62 +14,32 @@ namespace ComLib.Apps.FluentSharp
     public class FSHelper
     {
         /// <summary>
-        /// 
+        /// Writes out a line indicating success/failure in different colors.
         /// </summary>
-        /// <param name="group"></param>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public static string GetConfigValue(string group, string key)
+        /// <param name="success"></param>
+        public static void WriteScriptStatus(bool success, string message)
         {
-            var section = ConfigurationManager.GetSection(group);
-            var namevalSection = section as NameValueCollection;
-            var val = namevalSection[key];
-            return val;
-        }
-
-
-        /// <summary>
-        /// Parses the arguments into a map.
-        /// </summary>
-        /// <returns></returns>
-        public static FSArgs LoadSettings()
-        {
-            var fsargs = new FSArgs();
-            fsargs.LogFolder = ConfigurationManager.AppSettings["logfolder"];
-            fsargs.OutPutFolder = ConfigurationManager.AppSettings["outputfolder"];
-            fsargs.PluginGroup = ConfigurationManager.AppSettings["plugins"];
-            return fsargs;
-        }
-
-
-
-        /// <summary>
-        /// Parses the arguments into a map.
-        /// </summary>
-        /// <returns></returns>
-        public static FSArgs ParseArgs(FSArgs fsargs, string[] args)
-        {
-            if(fsargs == null)
-                fsargs = new FSArgs();
-
-            var map = new Dictionary<string, object>();
-            foreach (var arg in args)
+            var color = success ? ConsoleColor.Green : ConsoleColor.Red;
+            string text = success ? "SUCCESS" : "FAILURE(S)";
+            Console.WriteLine();
+            WriteText(color, text);
+            if (!success)
             {
-                // Split on ":" e.g. /folder:
-                var tokens = arg.Split(':');
-                var name = tokens[0].ToLower();
-                var val = tokens[1];
-
-                if (name == "file") fsargs.FilePath = val;
-                else if (name == "logfolder") fsargs.LogFolder = val;
-                else if (name == "outfolder") fsargs.OutPutFolder = val;
-                else if (name == "tokenize") fsargs.Tokenize = true;
-                else if (name == "istemplate") fsargs.IsTemplate = true;
-                else if (name == "plugins") fsargs.PluginGroup = val;
+                WriteText(ConsoleColor.Red, "Failed with error: " + message);
             }
-            return fsargs;
         }
 
+
+        /// <summary>
+        /// Writes out a line indicating success/failure in different colors.
+        /// </summary>
+        /// <param name="success"></param>
+        public static void WriteText(ConsoleColor color, string text)
+        {
+            Console.ForegroundColor = color;
+            Console.WriteLine(text);
+            Console.ResetColor();
+        }
 
 
         /// <summary>
@@ -79,20 +49,22 @@ namespace ComLib.Apps.FluentSharp
         /// <returns></returns>
         public static BoolMsgItem Validate(FSArgs args)
         {
+            var isOutFileNeeded = (args.Tokenize || args.Nodes);
+
             if (string.IsNullOrEmpty(args.FilePath))
                 return new BoolMsgItem(false, "File path was not supplied", null);
 
             if (!File.Exists(args.FilePath))
                 return new BoolMsgItem(false, "File path : " + args.FilePath + " does NOT exist.", null);
 
-            if (!string.IsNullOrEmpty(args.LogFolder) && !Directory.Exists(args.LogFolder))
-                return new BoolMsgItem(false, "Log directory : " + args.LogFolder + " does NOT exist.", null);
+            if (!string.IsNullOrEmpty(args.Logs) && !Directory.Exists(args.Logs))
+                return new BoolMsgItem(false, "Log directory : " + args.Logs + " does NOT exist.", null);
 
-            if (!string.IsNullOrEmpty(args.OutPutFolder) && !Directory.Exists(args.OutPutFolder))
-                return new BoolMsgItem(false, "Out directory : " + args.OutPutFolder + " does NOT exist.", null);
+            if (!string.IsNullOrEmpty(args.Plugins) && !IsValidPluginGroup(args.Plugins))
+                return new BoolMsgItem(false, "Plugin group : " + args.Plugins + " is NOT valid. e.g. 'sys', 'all', 'explicit:<pluginname1>,<pluginname2>..etc'", null);
 
-            if (!string.IsNullOrEmpty(args.PluginGroup) && !IsValidPluginGroup(args.PluginGroup))
-                return new BoolMsgItem(false, "Plugin group : " + args.PluginGroup + " is NOT valid. e.g. 'sys', 'all', 'explicit:<pluginname1>,<pluginname2>..etc'", null);
+            if (isOutFileNeeded && string.IsNullOrEmpty(args.Out))
+                return new BoolMsgItem(false, "Out file path was not supplied", null);
 
             return new BoolMsgItem(true, string.Empty, null);
         }

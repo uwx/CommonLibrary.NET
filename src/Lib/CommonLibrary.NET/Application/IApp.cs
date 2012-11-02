@@ -63,6 +63,18 @@ namespace ComLib.Application
 
 
         /// <summary>
+        /// Company name
+        /// </summary>
+        string Company { get; }
+
+
+        /// <summary>
+        /// Company website.
+        /// </summary>
+        string Website { get; }
+
+
+        /// <summary>
         /// Get the application description.
         /// </summary>
         string Description { get; }
