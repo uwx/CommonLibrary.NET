@@ -546,6 +546,7 @@
     <Compile Include="_Core\Lang\Phases\PhaseExecutor.cs" />
     <Compile Include="_Core\Lang\Phases\TranslateToJsPhase.cs" />
     <Compile Include="_Core\Lang\Phases\ExecutionPhase.cs" />
+    <Compile Include="_Core\Lang\Plugins\Parser\RangePlugin.cs" />
     <Compile Include="_Core\Lang\Plugins\Parser\ModulePlugin.cs" />
     <Compile Include="_Core\Lang\Plugins\Parser\DateTimeCombinerPlugin.cs" />
     <Compile Include="_Core\Lang\Types\ConvertSpec.cs" />

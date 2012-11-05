@@ -655,6 +655,7 @@ src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/ModulePlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/MoneyPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/PercentPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/PrintPlugin.cs -text
+src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/RangePlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/RecordsPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/RepeatPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Plugins/Parser/RoundPlugin.cs -text

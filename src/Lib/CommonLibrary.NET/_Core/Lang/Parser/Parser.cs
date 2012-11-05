@@ -1138,10 +1138,10 @@ namespace ComLib.Lang.Parsing
         {
             Expr exp = existing;
             var aheadToken = isCurrentTokenAMember ? _tokenIt.NextToken : _tokenIt.Peek();
-
+            var currentName = "";
             if (existing == null)
             {
-                var currentName = string.IsNullOrEmpty(name) ? _tokenIt.NextToken.Token.Text : name;
+                currentName = string.IsNullOrEmpty(name) ? _tokenIt.NextToken.Token.Text : name;
                 exp = new VariableExpr(currentName);
                 exp.SymScope = _context.Symbols.Current;
                 exp.Ctx = _context;

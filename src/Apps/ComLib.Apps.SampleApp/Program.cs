@@ -38,14 +38,13 @@ namespace ComLib.Samples
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            System_Control_Flow();
-            Combinator_Integration_Tests();
             Combinator_Unit_Tests();
             Fluent_Tests();            
+            System_Control_Flow();
+            Combinator_Integration_Tests();
             System_CSharp(); 
             Lang_Type_Tests();
-            Combinator_Failures();
-            
+            Combinator_Failures();            
         }
 
 
@@ -349,6 +348,7 @@ namespace ComLib.Samples
         static void Combinator_Unit_Tests()
         {
             var t = new Plugin_Component_Positives();
+            t.Can_Use_Module();
             t.Can_Use_Time_Plugin();
             t.Can_Use_Uri_Plugin();
             t.Can_Use_TypeOf_Plugin();
@@ -383,11 +383,12 @@ namespace ComLib.Samples
         #region Fluent
         static void Fluent_Tests()
         {
-            var tf = new Fluent_Function_Call_Tests();
-            tf.Can_Use_Named_Parameters();
-
             var t = new Fluent_Call_Tests();
-            t.Can_Handle_Ambiguity();
+            t.Can_Call_MultiWord_Function_With_CamelCasing();
+            t.Can_Handle_Ambiguity(); 
+            
+            var tf = new Fluent_Function_Call_Tests();
+            tf.Can_Use_Named_Parameters();            
         }
 
 
