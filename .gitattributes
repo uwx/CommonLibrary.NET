@@ -561,11 +561,6 @@ src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/ParameterExpr.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/UnaryExpr.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/ValueExpr.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/AST/Expressions/VariableExpr.cs -text
-src/Lib/CommonLibrary.NET/_Core/Lang/AST/Statements/BlockStmt.cs -text
-src/Lib/CommonLibrary.NET/_Core/Lang/AST/Statements/ConditionalBlockStmt.cs -text
-src/Lib/CommonLibrary.NET/_Core/Lang/AST/Statements/ExpressionStmt.cs -text
-src/Lib/CommonLibrary.NET/_Core/Lang/AST/Statements/FunctionStmt.cs -text
-src/Lib/CommonLibrary.NET/_Core/Lang/AST/Statements/Stmt.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/ArgsFetcher.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/AssignHelper.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Helpers/ConversionHelper.cs -text
@@ -605,8 +600,6 @@ src/Lib/CommonLibrary.NET/_Core/Lang/Parser/PluginSupport/ExprPluginBase.cs -tex
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/PluginSupport/LexPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/PluginSupport/PluginMetaInfo.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/PluginSupport/SetupPlugin.cs -text
-src/Lib/CommonLibrary.NET/_Core/Lang/Parser/PluginSupport/StmtBlockPlugin.cs -text
-src/Lib/CommonLibrary.NET/_Core/Lang/Parser/PluginSupport/StmtPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/PluginSupport/TokenPlugin.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/SemActs.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Parser/Terminators.cs -text
@@ -709,7 +702,6 @@ src/Lib/CommonLibrary.NET/_Core/Lang/Types/LModule.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LNull.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LNumber.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LObject.cs -text
-src/Lib/CommonLibrary.NET/_Core/Lang/Types/LResult.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LString.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LTime.cs -text
 src/Lib/CommonLibrary.NET/_Core/Lang/Types/LTypeMethods.cs -text
