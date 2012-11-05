@@ -152,8 +152,8 @@ namespace ComLib.Lang.Plugins
             var constStmt = node as ConstStmt;
             foreach (var pair in constStmt.Assignments)
             {
-                object constVal = pair.Value.Evaluate();
-                _parser.Context.Symbols.DefineConstant(pair.Key, constVal);
+                var constVal = pair.Value.Evaluate() as LObject;
+                _parser.Context.Symbols.DefineConstant(pair.Key, constVal.Type, constVal);
             }
         }
 

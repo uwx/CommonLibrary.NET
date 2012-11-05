@@ -98,7 +98,7 @@ namespace ComLib.Lang.Plugins
             // 1. Is it a function call?
             _tokenIt.Advance(_result.TokenCount);
             var nameExp = new VariableExpr(_result.Name);
-            var exp = _parser.ParseFuncExpression(nameExp);
+            var exp = _parser.ParseFuncExpression(nameExp, null);
             return exp;
         }
     }

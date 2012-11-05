@@ -92,8 +92,8 @@ namespace ComLib.Lang.Plugins
             var typeExp = new TypeOfExpr(exp);
             if (exp is NewExpr && _tokenIt.NextToken.Token == Tokens.RightParenthesis)
             {
-                typeExp.SupportsBoundary = true;
-                typeExp.BoundaryText = ")";
+                //typeExp.SupportsBoundary = true;
+                //typeExp.BoundaryText = ")";
             }
 
             return typeExp;

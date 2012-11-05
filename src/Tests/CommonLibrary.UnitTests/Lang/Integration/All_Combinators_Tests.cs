@@ -502,7 +502,7 @@ namespace ComLib.Lang.Tests.Integration
             Assert.IsTrue(i.Context.Functions.Contains("order to buy"));
             Assert.IsTrue(i.Context.Functions.Contains("order_to_buy"));
 
-            var fsmeta = i.Context.Symbols.GetSymbol<SymbolTypeFunc>("order to buy").Meta;
+            var fsmeta = i.Context.Symbols.GetSymbol<SymbolFunction>("order to buy").Meta;
             Assert.AreEqual(fsmeta.Arguments.Count, 5);
             Assert.AreEqual(fsmeta.ArgumentsLookup["shares"].Alias, "shares");
             Assert.AreEqual(fsmeta.ArgumentsLookup["symbol"].Alias, "of");

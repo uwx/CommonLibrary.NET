@@ -10,10 +10,25 @@ using ComLib.Lang.Types;
 
 namespace ComLib.Lang.Tests.Unit
 {
+    public class SymbolTestsHelper
+    {
+        /// </summary>
+        /// <param name="name">Name of the varaible</param>
+        /// <param name="totalNumberOfArgs">The total number of arguments</param>
+        /// <param name="argNames">The names of the arguments</param>
+        /// <param name="returnType">The return type of the function</param>
+        public static FunctionMetaData ToFunction(string name, int totalNumberOfArgs, string[] argNames, LType returnType)
+        {
+            var meta = new FunctionMetaData(name, argNames.ToList());
+            meta.ReturnType = returnType;
+            return meta;
+        }
+    }
+
+
     [TestFixture]
     public class Symbols_Global_Tests
     {
-
         [Test]
         public void Can_Define_Variable()
         {
@@ -28,10 +43,10 @@ namespace ComLib.Lang.Tests.Unit
         public void Can_Define_Constant()
         {
             var syms = new SymbolsGlobal();
-            syms.DefineConstant("MIN", 10);
+            syms.DefineConstant("MIN", LTypes.Number, 10);
             Assert.IsTrue(syms.Contains("MIN"));
-            Assert.IsTrue(syms.GetSymbol("MIN").Category == SymbolConstants.Const);
-            Assert.AreEqual(syms.GetSymbol<SymbolTypeConst>("MIN").Value, 10);
+            Assert.IsTrue(syms.GetSymbol("MIN").Category == SymbolCategory.Const);
+            Assert.AreEqual(syms.GetSymbol<SymbolConstant>("MIN").Value, 10);
         }
 
 
@@ -52,8 +67,8 @@ namespace ComLib.Lang.Tests.Unit
         public void Can_Get_Function_Symbol()
         {
             var syms = new SymbolsGlobal();
-            syms.DefineFunction("add", 2, new string[]{ "a", "b"}, typeof(object));
-            var sym = syms.GetSymbol<SymbolTypeFunc>("add");
+            syms.DefineFunction(SymbolTestsHelper.ToFunction("add", 2, new string[] { "a", "b" }, LTypes.Object));
+            var sym = syms.GetSymbol<SymbolFunction>("add");
 
             Assert.AreEqual(sym.Name, "add");
             Assert.AreEqual(sym.DataType.TypeVal, LTypes.Function.TypeVal);
@@ -75,7 +90,7 @@ namespace ComLib.Lang.Tests.Unit
             var symg = new SymbolsGlobal();
             symg.DefineVariable("a");
             symg.DefineVariable("c");
-            symg.DefineFunction("add", 2, new string[] { "a", "b" }, typeof(object));            
+            symg.DefineFunction(SymbolTestsHelper.ToFunction("add", 2, new string[] { "a", "b" }, LTypes.Object));            
 
             var symn = new SymbolsFunction("add", symg);
             symn.DefineVariable("a");
@@ -127,7 +142,7 @@ namespace ComLib.Lang.Tests.Unit
             var syms = new Symbols();
             syms.DefineVariable("a");
             syms.DefineVariable("c");
-            syms.Global.DefineFunction("add", 2, new string[] { "a", "b" }, typeof(object)); 
+            syms.Global.DefineFunction(SymbolTestsHelper.ToFunction("add", 2, new string[] { "a", "b" }, LTypes.Object)); 
             syms.Push(new SymbolsFunction("add"), true);
             syms.DefineVariable("d");
 
@@ -144,7 +159,7 @@ namespace ComLib.Lang.Tests.Unit
         {
             var syms = new Symbols();
             syms.DefineVariable("a");
-            syms.Global.DefineFunction("add", 2, new string[] { "a", "b" }, typeof(object));
+            syms.Global.DefineFunction(SymbolTestsHelper.ToFunction("add", 2, new string[] { "a", "b" }, LTypes.Object));
 
             // func
             var sf = new SymbolsFunction("add", syms.Global);

@@ -546,8 +546,10 @@
     <Compile Include="_Core\Lang\Phases\PhaseExecutor.cs" />
     <Compile Include="_Core\Lang\Phases\TranslateToJsPhase.cs" />
     <Compile Include="_Core\Lang\Phases\ExecutionPhase.cs" />
+    <Compile Include="_Core\Lang\Plugins\Parser\ModulePlugin.cs" />
     <Compile Include="_Core\Lang\Plugins\Parser\DateTimeCombinerPlugin.cs" />
     <Compile Include="_Core\Lang\Types\ConvertSpec.cs" />
+    <Compile Include="_Core\Lang\Types\LModule.cs" />
     <Compile Include="_Core\Lang\Types\Javascript\LJSTimeMethods.cs" />
     <Compile Include="_Core\Lang\Types\LDayOfWeek.cs" />
     <Compile Include="_Core\Lang\Types\LClass.cs" />
@@ -579,6 +581,7 @@
     <Compile Include="_Core\Lang\Types\Javascript\LJSStringMethods.cs" />
     <Compile Include="_Core\Lang\Types\Units.cs" />
     <Compile Include="_Core\Lang\_Core\Constants.cs" />
+    <Compile Include="_Core\Lang\_Core\DotAccess.cs" />
     <Compile Include="_Core\Lang\_Core\FunctionLookupResult.cs" />
     <Compile Include="_Core\Lang\Helpers\DocHelper.cs" />
     <Compile Include="_Core\Lang\Helpers\FluentHelper.cs" />

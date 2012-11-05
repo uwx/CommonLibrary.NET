@@ -27,6 +27,8 @@ namespace ComLib.Lang.AST
         {
             Left = left;
             Right = right;
+            AddChild(left);
+            AddChild(right);
             Op = op;
         }
 

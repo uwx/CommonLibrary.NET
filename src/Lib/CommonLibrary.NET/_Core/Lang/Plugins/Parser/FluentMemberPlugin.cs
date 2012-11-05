@@ -354,7 +354,7 @@ namespace ComLib.Lang.Plugins
 
         private Expr ParseParams(Expr exp)
         {
-            return _parser.ParseFuncExpression(exp);
+            return _parser.ParseFuncExpression(exp, null);
         }
 
 

@@ -10,6 +10,9 @@ namespace ComLib.Lang.Core
     /// </summary>
     public class AstNode
     {
+        private List<AstNode> _children;
+
+
         /// <summary>
         /// Reference to the script.
         /// </summary>
@@ -17,27 +20,38 @@ namespace ComLib.Lang.Core
 
 
         /// <summary>
-        /// Whether or not this expression supports using parenthesis "( )" e.g. function calls.
+        /// Number of children in this node.
         /// </summary>
-        protected bool _supportsBoundary;
+        /// <returns></returns>
+        public int ChildCount()
+        {
+            if (_children == null) return 0;
+            return _children.Count;
+        }
 
 
         /// <summary>
-        /// The text representing the end of the boundary. e.g. ), }, ]
+        /// Adds a child to this node.
         /// </summary>
-        protected string _boundaryText;
+        /// <param name="node"></param>
+        public void AddChild(AstNode node)
+        {
+            if (_children == null)
+                _children = new List<AstNode>();
+            _children.Add(node);
+        }
 
 
         /// <summary>
-        /// Whether or not this expression supports using parenthesis "( )" e.g. function calls.
+        /// Get a child at the specified index.
         /// </summary>
-        public bool SupportsBoundary { get { return _supportsBoundary; } set { _supportsBoundary = value; } }
-
-
-        /// <summary>
-        /// The character used for the end of the boundry e.g. ) ] }
-        /// </summary>
-        public string BoundaryText { get { return _boundaryText; } set { _boundaryText = value; } }
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public AstNode GetChild(int index)
+        {
+            if (_children == null || _children.Count == 0) return null;
+            return _children[index];
+        }
 
 
         /// <summary>
@@ -47,8 +61,8 @@ namespace ComLib.Lang.Core
         /// <param name="boundaryText"></param>
         public virtual void InitBoundary(bool supportsBoundary, string boundaryText)
         {
-            _supportsBoundary = supportsBoundary;
-            _boundaryText = boundaryText;
+            //_supportsBoundary = supportsBoundary;
+            //_boundaryText = boundaryText;
         }
 
 

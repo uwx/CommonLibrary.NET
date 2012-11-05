@@ -6,6 +6,7 @@ using System.Text;
 // <lang:using>
 using ComLib.Lang.Core;
 using ComLib.Lang.AST;
+using ComLib.Lang.Types;
 using ComLib.Lang.Parsing;
 // </lang:using>
 
@@ -133,12 +134,15 @@ namespace ComLib.Lang.Plugins
             var funcName = fs.Name;
             
             // 1. Define the function in global symbol scope
-            this.Ctx.Symbols.Global.DefineFunction(fs.Meta);
+            var funcSymbol = new SymbolFunction(fs.Meta);
+            funcSymbol.FuncExpr = stmt;
+
+            this.Ctx.Symbols.Define(funcSymbol);
 
             // 2. Define the aliases.
             if (!fs.Meta.Aliases.IsNullOrEmpty())
                 foreach (var alias in fs.Meta.Aliases)
-                    this.Ctx.Symbols.Global.DefineAlias(fs.Name, alias);
+                    this.Ctx.Symbols.DefineAlias(alias, fs.Meta.Name);
             
             // 3. Push the current scope.
             this.Ctx.Symbols.Push(new SymbolsFunction(fs.Name), true);
@@ -146,7 +150,7 @@ namespace ComLib.Lang.Plugins
             // 4. Register the parameter names in the symbol scope.
             if( !fs.Meta.Arguments.IsNullOrEmpty())
                 foreach(var arg in fs.Meta.Arguments)
-                    this.Ctx.Symbols.DefineVariable(arg.Name);
+                    this.Ctx.Symbols.DefineVariable(arg.Name, LTypes.Object);
 
             stmt.SymScope = this.Ctx.Symbols.Current;
             _parser.ParseBlock(stmt);

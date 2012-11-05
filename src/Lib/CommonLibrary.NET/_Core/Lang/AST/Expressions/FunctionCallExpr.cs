@@ -51,6 +51,12 @@ namespace ComLib.Lang.AST
 
 
         /// <summary>
+        /// The function expression.
+        /// </summary>
+        public FunctionExpr Function;
+
+
+        /// <summary>
         /// Whether or not this is a method call or a member access.
         /// </summary>
         public bool IsScopeVariable { get { return _isScopeVariable; } set { _isScopeVariable = value; } }

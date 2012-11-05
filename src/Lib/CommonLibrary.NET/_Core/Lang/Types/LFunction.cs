@@ -14,10 +14,10 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Initialize
         /// </summary>
-        public LFunctionType()
+        public LFunctionType(string name)
         {
-            this.Name = "function";
-            this.FullName = "sys.function";
+            this.Name = name;
+            this.FullName = name;
             this.TypeVal = TypeConstants.Function;
         }
 

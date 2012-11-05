@@ -82,6 +82,12 @@ namespace ComLib.Lang.Core
         /// A unit of measure.
         /// </summary>
         public const int Unit = 12;
+
+
+        /// <summary>
+        /// Represents a module type.
+        /// </summary>
+        public const int Module = 13;
     }
 
 

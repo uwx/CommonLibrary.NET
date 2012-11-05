@@ -1051,8 +1051,9 @@ namespace ComLib.Lang.Parsing
         /// 3. getUserByNameOrEmail("user01", "kishore@company.com")
         /// </summary>
         /// <param name="nameExp">Expression representing the function name.</param>
+        /// <param name="members">The individual members if function call on a member expression e.g. math.min(1,2);</param>
         /// <returns></returns>
-        public Expr ParseFuncExpression(Expr nameExp)
+        public Expr ParseFuncExpression(Expr nameExp, List<string> members)
         {
             // Validate
             var funcExp = new FunctionCallExpr();
@@ -1067,17 +1068,47 @@ namespace ComLib.Lang.Parsing
 
             // Handle named parameters only for internal functions right now.
             string fname = nameExp.ToQualifiedName();
+            var hasMemberAccess = false; // members != null && members.Count > 1;
+
+            // Case 1: External c# function.
             if (_context.ExternalFunctions.Contains(fname))
             {
                 ParseParameters(funcExp, expectParenthesis, false, !expectParenthesis);
             }
-            else
+            // Case 2: Internal function in global namespace.
+            else if(!hasMemberAccess)
             {
                 FunctionMetaData meta = null;
                 if(_context.Functions.Contains(fname))
                     meta = _context.Functions.GetByName(fname).Meta;
                 FluentHelper.ParseFuncParameters(funcExp.ParamListExpressions, _tokenIt, this, expectParenthesis, !expectParenthesis, meta);
-            }            
+            }
+            // Case 3: Member acccess
+            else if (hasMemberAccess)
+            {
+                var symScope = this._context.Symbols.Current;
+                FunctionMetaData meta = null;
+                FunctionExpr fexpr = null;
+                for (var ndx = 0; ndx < members.Count; ndx++)
+                {
+                    var member = members[ndx];
+                    
+                    // module ?
+                    var sym = symScope.GetSymbol(member);
+                    if( sym.Category == SymbolCategory.CustomScope)
+                    {
+                        symScope = ((SymbolModule)sym).Scope;
+                    }
+                    // last one ?
+                    else if (sym.Category == SymbolCategory.Func)
+                    {
+                        meta = ((SymbolFunction)sym).Meta;
+                        break;
+                    }
+                }
+                funcExp.Function = fexpr;
+                FluentHelper.ParseFuncParameters(funcExp.ParamListExpressions, _tokenIt, this, expectParenthesis, !expectParenthesis, meta); 
+            }
             _state.FunctionCall--;
             return funcExp;
         }
@@ -1112,6 +1143,7 @@ namespace ComLib.Lang.Parsing
             {
                 var currentName = string.IsNullOrEmpty(name) ? _tokenIt.NextToken.Token.Text : name;
                 exp = new VariableExpr(currentName);
+                exp.SymScope = _context.Symbols.Current;
                 exp.Ctx = _context;
             }
             if(!isCurrentTokenAMember)
@@ -1123,7 +1155,7 @@ namespace ComLib.Lang.Parsing
             // CASE 1: function call without out parenthesis.
             if (isFunction && aheadToken.Token != Tokens.LeftParenthesis)
             {
-                exp = ParseFuncExpression(exp);
+                exp = ParseFuncExpression(exp, null);
                 exp.Ctx = _context;
                 return exp;
             }
@@ -1142,12 +1174,15 @@ namespace ComLib.Lang.Parsing
             // 3. add( 2, 3 )   : Function access/call
             var tokenData = _tokenIt.NextToken;
             var token = _tokenIt.NextToken.Token;
+            var members = new List<string>();
+            members.Add(exp.ToQualifiedName());
+
             while (token == Tokens.LeftParenthesis || token == Tokens.LeftBracket || token == Tokens.Dot)
             {
                 // Case 2: "("- function call
                 if (token == Tokens.LeftParenthesis)
                 {
-                    exp = ParseFuncExpression(exp); 
+                    exp = ParseFuncExpression(exp, members); 
                 }
 
                 // Case 3: "[" - indexing
@@ -1173,10 +1208,14 @@ namespace ComLib.Lang.Parsing
                     _tokenIt.Advance();
                     var member = _tokenIt.ExpectId();
 
+                    // Keep list of each member name.
+                    members.Add(member);
+
                     // Note: if = sign then property access should return a property info.
                     // otherwise get the value of the property.
                     bool isAssignment = _tokenIt.NextToken.Token == Tokens.Assignment;
                     exp = new MemberAccessExpr(exp, member, isAssignment);
+                    //exp.SymScope = _context.Symbols.Current;
                 }
                 exp.Ctx = _context;
                 SetScriptPosition(exp, tokenData);
@@ -1188,6 +1227,43 @@ namespace ComLib.Lang.Parsing
                 token = tokenData.Token;
             }
             return exp;
+        }
+
+
+        /// <summary>
+        /// Parses all the dot "." members. e.g. "user.address.name"
+        /// </summary>
+        /// <param name="rootName"></param>
+        /// <returns></returns>
+        public DotAccess ParseDotAccess(string rootName)
+        {
+            var tokenData = _tokenIt.NextToken;
+            var token = tokenData.Token;
+            var dotAccess = new DotAccess();
+            dotAccess.RootName = rootName;
+            dotAccess.RootScope = _context.Symbols.Global;
+
+            // Keep processing members until "." is not there.
+            while (token == Tokens.Dot && !_tokenIt.IsEnded )
+            {                
+                // 1. Move past "."
+                _tokenIt.Advance();
+
+                // 2. Expect an identifier.
+                var member = _tokenIt.ExpectId();
+
+                // 3. Keep list of each member name ( after the first one )
+                dotAccess.Members.Add(member);
+
+                // 4. if = sign then property access should return a property info.
+                // otherwise get the value of the property.
+                bool isAssignment = _tokenIt.NextToken.Token == Tokens.Assignment;
+
+                // 5. Reference the next tokens.
+                tokenData = _tokenIt.NextToken;
+                token = tokenData.Token;
+            }
+            return dotAccess;
         }
         #endregion
 

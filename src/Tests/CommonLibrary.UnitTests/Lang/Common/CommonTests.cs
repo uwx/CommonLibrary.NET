@@ -414,7 +414,18 @@ namespace ComLib.Lang.Tests.Common
                 TestCase("result", typeof(string), MachineInfo_username,   "var result = mac user" ),
             }
         };
-            
+
+
+        public static TestCases Module = new TestCases()
+        {
+            Name = "Module Plugin",
+            RequiredPlugins = new[] { typeof(ModulePlugin) },
+            Positive = new List<Tuple<string, Type, object, string>>()
+            {
+                TestCase("result", typeof(double), 3,  "mod math { function add( a, b ) { return a + b; } } var result = math.add( 1, 2 );" ),
+                TestCase("result", typeof(double), 2,  "mod math { function a() { return 1; } function b() { return 2; } } var result = math.b();" ),                
+            }
+        };            
 
 
         /// <summary>

@@ -43,6 +43,12 @@ namespace ComLib.Lang.Core
         /// <summary>
         /// Static method on class
         /// </summary>
-        CustObjMethodStatic
+        CustObjMethodStatic,
+
+
+        /// <summary>
+        /// A module type.
+        /// </summary>
+        Module
     }
 }

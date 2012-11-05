@@ -182,12 +182,12 @@ namespace ComLib.Lang.Plugins
                         {
                             var type = this.Ctx.Types.Get(newExp.TypeName);
                             var ltype = LangTypeHelper.ConvertToLangTypeClass(type);
-                            this.Ctx.Symbols.Current.DefineVariable(name, ltype);
+                            this.Ctx.Symbols.DefineVariable(name, ltype);
                             registeredTypeVar = true;
                         }
                     }
                     if(!registeredTypeVar)
-                        this.Ctx.Symbols.Current.DefineVariable(name);
+                        this.Ctx.Symbols.DefineVariable(name, LTypes.Object);
                 }
             }
         }

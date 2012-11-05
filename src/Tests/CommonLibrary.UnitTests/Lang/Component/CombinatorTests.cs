@@ -182,6 +182,13 @@ namespace ComLib.Lang.Tests.Component
 
 
         [Test]
+        public void Can_Use_Module()
+        {
+            RunTests(CommonTestCases_Plugins.Module, _testType);
+        }
+
+
+        [Test]
         public void Can_Use_Money_Plugin()
         {
             RunTests(CommonTestCases_Plugins.Money, _testType);

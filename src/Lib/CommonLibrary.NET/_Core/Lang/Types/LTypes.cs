@@ -34,7 +34,7 @@ namespace ComLib.Lang.Types
         /// <summary>
         /// Single instance of the function type for resusability
         /// </summary>
-        public static LType Function = new LFunctionType();
+        public static LType Function = new LFunctionType(string.Empty);
 
 
         /// <summary>

@@ -122,7 +122,8 @@ namespace ComLib.Lang.Tests.Integration
             {
                 i.Context.Plugins.RegisterAll();
                 i.Context.Types.Register(typeof(Klass), null);
-                i.Context.Symbols.Global.DefineVariable("klass", typeof(Klass));
+                var ltype = Lang.Helpers.LangTypeHelper.ConvertToLangTypeClass(typeof(Klass));
+                i.Context.Symbols.Global.DefineVariable("klass", ltype);
                 i.Context.Memory.SetValue("klass", new LClass(new Klass()));
             });
         }
@@ -167,7 +168,8 @@ namespace ComLib.Lang.Tests.Integration
             {
                 i.Context.Plugins.RegisterAll();
                 i.Context.Types.Register(typeof(Klass), null);
-                i.Context.Symbols.Global.DefineVariable("klass", typeof(Klass));
+                var ltype = Lang.Helpers.LangTypeHelper.ConvertToLangTypeClass(typeof(Klass));
+                i.Context.Symbols.Global.DefineVariable("klass", ltype);
                 i.Context.Memory.SetValue("klass", new LClass(new Klass()));
             });
         }
@@ -211,7 +213,8 @@ namespace ComLib.Lang.Tests.Integration
             {
                 i.Context.Plugins.RegisterAll();
                 i.Context.Types.Register(typeof(Klass), null);
-                i.Context.Symbols.Global.DefineVariable("klass", typeof(Klass));
+                var ltype = Lang.Helpers.LangTypeHelper.ConvertToLangTypeClass(typeof(Klass));
+                i.Context.Symbols.Global.DefineVariable("klass", ltype);
                 i.Context.Memory.SetValue("klass", new LClass(new Klass()));
             });
         }
