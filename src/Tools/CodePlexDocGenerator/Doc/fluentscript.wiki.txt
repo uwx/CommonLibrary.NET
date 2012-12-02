@@ -1,12 +1,15 @@
 {anchor:Aggregate}
 ! 1. Aggregate
 *Description:* Provides sum, min, max, avg, count aggregate functions for lists.
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.AggregatePlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.AggregatePlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\AggregatePlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1289916]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1289916]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Aggregate plugin allows sum, min, max, avg, count aggregate functions to 
 // be applied to lists of objects.
 
@@ -31,12 +34,15 @@ result = count( numbers );
 {anchor:Alias}
 ! 2. Alias
 *Description:* Provides using an alias for a keyword such as set for var inside a script.
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.AliasPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.AliasPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\AliasPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1349987]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1349987]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Alias plugin allows setting up alias of words to other words/tokens in a script
 
 alias def to function
@@ -50,12 +56,15 @@ var result2 = 2
 {anchor:AndOr}
 ! 3. AndOr
 *Description:* Provides words "and" "or" to be used in place of && and ||
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.AndOrPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.AndOrPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\AndOrPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1343614]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1343614]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // AndOr plugin allows the words "and" "or" to be used in place of && ||
 
 if ( i > 30 and j < 20 ) then print works
@@ -66,12 +75,15 @@ if ( i < 30 or  j > 20 ) then print works
 {anchor:Bool}
 ! 4. Bool
 *Description:* Provides synonyms yes/no, on/off for bool values true/false.
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.BoolPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.BoolPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\BoolPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1290454]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1290454]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Bool plugin allows aliases for true/false
 
 var result = on;
@@ -83,12 +95,14 @@ var result = no;
 {anchor:Compare}
 ! 5. Compare
 *Description:* Provides synonyms for comparison operators
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.ComparePlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.ComparePlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\ComparePlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1290453]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1290453]
 {code:c#}
+// <lang:using>
+// </lang:using>
     
 // Compare plugin allows word aliases for the comparison operators. See list below
 // 
@@ -140,12 +154,15 @@ if a is above b  then
 {anchor:ConstCaps}
 ! 6. ConstCaps
 *Description:* Allows defining constants with UPPERCASE letters.
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.ConstCapsPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.ConstCapsPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\ConstCapsPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1345095]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1345095]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Const caps plugin allows the creation of constants using capital letters
 // Constants are defined if all the letters are uppercase
 
@@ -167,12 +184,15 @@ ENDS   = June 10th 2012
 {anchor:Date}
 ! 7. Date
 *Description:* Provides word based representation for dates e.g December 21st 2011
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.DatePlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.DatePlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\DatePlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1289913]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1289913]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Date plugin allows date expressions in a friendly format like January 1 2001;
 // Following formats are supported.
 
@@ -197,12 +217,15 @@ if today is before December 25th 2011 then
 {anchor:DateNumber}
 ! 8. DateNumber
 *Description:* Provides representation of dates in the form of numbers e.g. 1/27/2012
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.DateNumberPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.DateNumberPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\DateNumberPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1289913]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1289913]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Date number plugin allow you to specify dates in the form of numbers as 
 // samples below.
 // The separator between months/days/years can be "/", "-", "\"
@@ -215,12 +238,15 @@ var date3 = 6\10\2012 at 7:45am;
 {anchor:Day}
 ! 9. Day
 *Description:* Provides alias and word based representation for days e.g Tuesday, Saturday, today, tommorrow 
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.DayPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.DayPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\DayPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1289914]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1289914]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Day plugin allows days of the week to be used as words. 
 // lowercase and uppercase days are supported:
 // 1. Monday - Sunday
@@ -237,12 +263,15 @@ if tommorrow is Saturday then
 {anchor:Def}
 ! 10. Def
 *Description:* Allows the word "def" to be used instead of "function" when declaring functions. 
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.DefPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.DefPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\DefPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1333227]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1333227]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Def plugin allows the word "def" to be used instead of "function" when declaring functions.
     
 def add( a, b ) 
@@ -254,12 +283,15 @@ def add( a, b )
 {anchor:Email}
 ! 11. Email
 *Description:* Provides using emails without quotes such as john.doe@company.com
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.EmailPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.EmailPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\EmailPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1332189]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1332189]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Email plugin enables recognition of emails as strings without using quotes,
 // such as john.doe@company.com
 
@@ -271,12 +303,15 @@ email3 = super.man_1@metropolis.com
 {anchor:Env}
 ! 12. Env
 *Description:* Provides access to environment variables
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.EnvPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.EnvPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\EnvPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1289918]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1289918]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Env plugin allows direct access to environment variables via the "env" object.
 
 // Example 1: Access to user variables only via the ".user" property of env.
@@ -293,12 +328,15 @@ result = env.SystemRoot;
 {anchor:Fail}
 ! 13. Fail
 *Description:* Terminates a program abruptly with a message.
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.FailPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.FailPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\FailPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1387648]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1387648]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Terminates a program abruptly with a message.
 
 fail 'settings file not found, exiting application'
@@ -311,12 +349,16 @@ fail 0
 {anchor:FileExt}
 ! 14. FileExt
 *Description:* Allows represnting file extension with out having to surround them in quotes e.g. .xml, .doc, *.dll
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.FileExtPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.FileExtPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\FileExtPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1387575]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1387575]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
+
 // Allows represnting file extension with out having to surround them in quotes
 // e.g. such as .doc, or *.doc 
 
@@ -332,12 +374,14 @@ some_file_operation( 'c:\\app\\src\\', .exe )
 {anchor:FileIO}
 ! 15. FileIO
 *Description:* Provides basic File/Directory operations.
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.FileIOPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.FileIOPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\IOPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1387646]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1387646]
 {code:c#}
+// <lang:using>
+// </lang:using>
  
  // Provides basic File/Directory operations.
       
@@ -377,12 +421,15 @@ some_file_operation( 'c:\\app\\src\\', .exe )
 {anchor:Fluent Functions}
 ! 16. Fluent Functions
 *Description:* Provides ability to call functions with spaces in name. e.g. refill inventory
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.Fluent FunctionsPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.Fluent FunctionsPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\FluentFuncPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1334088]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1334088]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Fluent Func plugins allows calling functions with spaces.
  
 
@@ -419,12 +466,14 @@ refill inventory 'KL-131', 200
 ! 17. Fluent Members
 *Description:* Provides ability to access properties and methods on a custom c# object without the 
             "."( dot operator ).
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.Fluent MembersPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.Fluent MembersPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\FluentFuncPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1338334]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1338334]
 {code:c#}
+// <lang:using>
+// </lang:using>
  
  // Fluent Member plugin allows properties and methods to be accessed without "."
 
@@ -458,12 +507,15 @@ refill inventory 'KL-131', 200
 *Description:* Provides a 'wildcard' like ability to functions so that 2 functions that have different names are
             associated with the same function.
             
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.Function WildcardPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.Function WildcardPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\FuncWildCardPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1346790]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1346790]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // FuncWildCard plugin allows using functions with changing names allowing
 // a single function to handle function calls with different names.
  
@@ -506,12 +558,15 @@ create user by name password email role ( "user01", "password", "user01@abc.com"
 {anchor:HashComment}
 ! 19. HashComment
 *Description:* Provides single line comment using # instead of //
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.HashCommentPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.HashCommentPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\HashCommentPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1344512]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1344512]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Allows using # for single line comments instead of //
 
 #  Single line comment 
@@ -522,12 +577,15 @@ create user by name password email role ( "user01", "password", "user01@abc.com"
 {anchor:Holiday}
 ! 20. Holiday
 *Description:* Provides holiday names e.g. Christmas, Independence Day, Christmas Eve, New Years
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.HolidayPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.HolidayPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\HolidayPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1289952]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1289952]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Holiday plugin allows references to dates using Holiday names such as:
 // Christmas
 // Independence day
@@ -541,12 +599,15 @@ if today is New Years 2012 then
 {anchor:Linq}
 ! 21. Linq
 *Description:* Provides partial support for linq-like queries on lists.
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.LinqPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.LinqPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\LinqPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1290456]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1290456]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Linq plugin is a Light-weight and partial version of Linq style queries and comprehensions
 // NOTE: This has limited functionality as of this release.
 var books = [ 
@@ -565,12 +626,16 @@ var favorities = from book in books where book.pages < 150 and book.author == 'k
 {anchor:Log}
 ! 22. Log
 *Description:* Provides logging ability to either the console or a log file
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.LogPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.LogPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\LogPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1349989]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1349989]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
+
 // CONFIGURATION    
 // 1. Set level to "error" and log to console
 log.configure( 'error', 'console' )
@@ -616,12 +681,15 @@ info 'finished updating data'
 {anchor:MachineInfo}
 ! 23. MachineInfo
 *Description:* Provides markers/comments that are checked for syntax
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.MachineInfoPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.MachineInfoPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\MachineInfoPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1349266]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1349266]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Machine info plugin provides variable names to get information about the machine
     
 print ( @machine        )
@@ -649,12 +717,15 @@ print ( mac currentdir  )
 {anchor:Marker}
 ! 24. Marker
 *Description:* Provides markers/comments that are checked for syntax
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.MarkerPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.MarkerPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\MarkerPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1293552]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1293552]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Marker plugin allows you to mark code like comments but in the form of statements
 // so that syntax is checked. This allows for structured comments.
 
@@ -673,12 +744,15 @@ also do additional cleanup of code"
 {anchor:Money}
 ! 25. Money
 *Description:* Provides dollar sign $ support for numbers.
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.MoneyPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.MoneyPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\MoneyPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1289917]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1289917]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Money plugin simply allows the $ to be prefixed to numbers.
 
 var salary = $225.50;
@@ -686,15 +760,42 @@ if salary is more than $160 then
     print I worked overtime.
 {code:c#}
 [#Back to top]
-{anchor:Percent}
-! 26. Percent
-*Description:* Provides using a percent sign % after a number to indicate percentage
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.PercentPlugin
-*Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\PercentPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1357973]
+{anchor:NamedIndex}
+! 26. NamedIndex
+*Description:* Allows using ruby-style string literals such as :user01 where :user01 equals 'user01'
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.NamedIndexPlugin
+*Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\NamedIndexPlugin.cs
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1650365]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
+// Named index plugin allows numeric access to array items using non-0 based index 
+// and in a fluent approach. 
+
+var items = [1, 2, 3, 4, 5]
+var result = 2nd item
+
+// Note in the example above 3 things:
+// 1. "2nd" represents the index to access. this is equivalent to items[1]
+// 2. if variable is "items"( plural ), you can type "item"( singular )
+// 3. This is always 1 based. e.g. 3rd item == items[2]
+{code:c#}
+[#Back to top]
+{anchor:Percent}
+! 27. Percent
+*Description:* Provides using a percent sign % after a number to indicate percentage
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.PercentPlugin
+*Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\PercentPlugin.cs
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1357973]
+{code:c#}
+// <lang:using>
+// </lang:using>
+
 // Percent plugin allow using a percent sign % after a number to indicate percentage
  
 a = 25%
@@ -706,14 +807,17 @@ b = 75 %
 {code:c#}
 [#Back to top]
 {anchor:Print}
-! 27. Print
+! 28. Print
 *Description:* Provides functionality to print to console a line of text without wrapping around quotes.
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.PrintPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.PrintPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\PrintPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1290455]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1290455]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Print plugin derives from the "TakeoverPlugin"
 // Takeovers are keywords that consume the entire line of text in the script
 // after the keyword. 
@@ -725,14 +829,16 @@ print No need for quotes in #{language} if text to print is on one line
 {code:c#}
 [#Back to top]
 {anchor:Records}
-! 28. Records
+! 29. Records
 *Description:* Supports representing data in a table/csv like format.
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.RecordsPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.RecordsPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\RecordsPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1296274]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1296274]
 {code:c#}
+// <lang:using>
+// </lang:using>
    
    // Supports representing data in a table/csv like format
    // 1. The top most row must the the header names without spaces
@@ -756,14 +862,17 @@ print No need for quotes in #{language} if text to print is on one line
 {code:c#}
 [#Back to top]
 {anchor:Repeat}
-! 29. Repeat
+! 30. Repeat
 *Description:* Repeat plugin provides convenient ways to execute loops.
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.RepeatPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.RepeatPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\RepeatPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1383748]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1383748]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Repeat plugin provides convenient ways to execute loops.        
 
 // Case 1: for(it = 1; it <= 10; it++ )
@@ -812,14 +921,18 @@ repeat ndx = 1 to < 10 by 2
 {code:c#}
 [#Back to top]
 {anchor:Round}
-! 30. Round
+! 31. Round
 *Description:* Provides rounding of numbers using round, round up, round down.
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.RoundPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.RoundPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\RoundPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1292482]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1292482]
 {code:c#}
+// <lang:using>
+
+// </lang:using>
+
 // Round plugin provides functions to round, round up or round down numbers.
 
 var a = 2.3;
@@ -835,14 +948,17 @@ var d = round down 2.3;
 {code:c#}
 [#Back to top]
 {anchor:Run}
-! 31. Run
+! 32. Run
 *Description:* Provides alternative ways of calling a function.
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.RunPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.RunPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\RunPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1289922]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1289922]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Run plugin provides alternate way to call a function for fluid syntax.
 // Notes: 
 // 1. The keyword "function" can be aliased with the word "step"
@@ -878,28 +994,34 @@ run step 'Clean up';
 {code:c#}
 [#Back to top]
 {anchor:Set}
-! 32. Set
+! 33. Set
 *Description:* Allows the word "set" to be used instead of "var" when declaring variables
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.SetPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.SetPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\SetPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1333226]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1333226]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Set plugin allows using the word 'set' instead of 'var' when declaring variables
     
 set age = 33
 {code:c#}
 [#Back to top]
 {anchor:Sort}
-! 33. Sort
+! 34. Sort
 *Description:* Provides ability to sort of list of either basic types of objects with properties.
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.SortPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.SortPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\SortPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1293513]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1293513]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Sort plugin allows you to sort a list
 
 // Case 1: sort list of basic types
@@ -920,14 +1042,17 @@ sort i in books by i.pages desc
 {code:c#}
 [#Back to top]
 {anchor:Step}
-! 34. Step
+! 35. Step
 *Description:* Allows the word "step" to be used instead of "function" when declaring functions. 
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.StepPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.StepPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\StepPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1343616]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1343616]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Step plugin allows the word "step" to be used instead of "function" when declaring functions.
     
 step add( a, b ) 
@@ -936,15 +1061,39 @@ step add( a, b )
 }
 {code:c#}
 [#Back to top]
-{anchor:Suffix}
-! 35. Suffix
-*Description:* Provides enables the use of functions as postfix operators on constants
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.SuffixPlugin
-*Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\SuffixPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1331001]
+{anchor:StringLiteral}
+! 36. StringLiteral
+*Description:* Allows using ruby-style string literals such as :user01 where :user01 equals 'user01'
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.StringLiteralPlugin
+*Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\StringLiteralPlugin.cs
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1650237]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
+
+// Allows using ruby-style string literals such as :user01 where :user01 equals 'user01'
+
+name = :user01
+lang = :fluentscript
+
+if( :batman == 'batman' ) print( "works" );
+{code:c#}
+[#Back to top]
+{anchor:Suffix}
+! 37. Suffix
+*Description:* Provides enables the use of functions as postfix operators on constants
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.SuffixPlugin
+*Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\SuffixPlugin.cs
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1331001]
+{code:c#}
+// <lang:using>
+// </lang:using>
+
 // Suffix plugin enables the use of functions as postfix operators on constants.
 
 // create hours with timespan object using number of hours supplied
@@ -965,14 +1114,17 @@ var time = 3 hours + 20 minutes;
 {code:c#}
 [#Back to top]
 {anchor:Swap}
-! 36. Swap
+! 38. Swap
 *Description:* Provides ability to swap values of 2 variables in 1 statement e.g swap a with b;
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.SwapPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.SwapPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\SwapPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1289912]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1289912]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Swap plugin provides 1 line statement to swap variables.
 
 var a = 1, b = 2;
@@ -983,31 +1135,43 @@ swap a with b;
 {code:c#}
 [#Back to top]
 {anchor:Time}
-! 37. Time
+! 39. Time
 *Description:* Provides time representation in format 12:30 pm
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.TimePlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.TimePlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\TimePlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1289920]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1289920]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Time plugin provides a convenient way to represent time in fluent syntax.
 
 var t = 12:30 pm;
 
 if t is 12:30 pm then
-    print it's time to go to lunch!
+    print it's time to go to lunch!	
+    // Time plugin provides a convenient way to represent time in fluent syntax.
+    
+    var t = 12:30 pm;
+    
+    if t is 12:30 pm then
+	    print it's time to go to lunch!
 {code:c#}
 [#Back to top]
 {anchor:TypeOf}
-! 38. TypeOf
+! 40. TypeOf
 *Description:* Provides checking of data types
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.TypeOfPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.TypeOfPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\TypeOfPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1289920]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1289920]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Type of plugins gets the type of an expression.
 
 function inc(a) { return a + 1; }
@@ -1026,14 +1190,16 @@ dataType = typeof inc               // 'function:inc'
 {code:c#}
 [#Back to top]
 {anchor:Units}
-! 39. Units
+! 41. Units
 *Description:* Provides usage of units of measure such as length, weight
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.UnitsPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.UnitsPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\UnitsPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1331000]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1331000]
 {code:c#}
+// <lang:using>
+// </lang:using>
  
  // Units plugin allows the usage of units of measure such as length, weight
  
@@ -1059,14 +1225,17 @@ dataType = typeof inc               // 'function:inc'
 {code:c#}
 [#Back to top]
 {anchor:Uri}
-! 40. Uri
+! 42. Uri
 *Description:* Provides url and folder representations as strings without quotes.
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.UriPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.UriPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\UriPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1293481]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1293481]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Uri plugin allows you urls and file paths without surrounding them in 
 // quotes as long as there are no spaces. These are interpreted as strings.
 
@@ -1081,14 +1250,17 @@ var file3 = 'c:/data/blog posts.xml';
 {code:c#}
 [#Back to top]
 {anchor:VariablePath}
-! 41. VariablePath
+! 43. VariablePath
 *Description:* Provides representation of file paths in more convenient ways.
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.VariablePathPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.VariablePathPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\VariablePathPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1358170]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1358170]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Provides representation of file paths in more convenient ways
 
 // Set the home dir
@@ -1123,14 +1295,17 @@ file = @home\build\@{script}.build.xml
 {code:c#}
 [#Back to top]
 {anchor:Version}
-! 42. Version
+! 44. Version
 *Description:* Version plugin enables representation of versions using format 1.2.3.4.
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.VersionPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.VersionPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\VersionPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1387576]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1387576]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Version plugin enables representation of versions using format 1.2.3.4.
 // This is particularily useful for when fluentscript is used for build automation.
 // e.g. 0.9.8.7
@@ -1145,14 +1320,17 @@ print( version.Build )
 {code:c#}
 [#Back to top]
 {anchor:Words}
-! 43. Words
+! 45. Words
 *Description:* Provides ability to use multi-word strings. e.g fluent script = 'fluent script'
-*Date*: 9/5/2012
-*Version*: 0.9.8.8
-*Type:* CommonLibrary.dll - ComLib.Lang.Extensions.WordsPlugin
+*Date*: 12/1/2012
+*Version*: 0.9.8.9
+*Type:* FluentScript.dll - ComLib.Lang.Extensions.WordsPlugin
 *Core source:* src\Lib\CommonLibrary.NET\_Core\Lang\Plugins\Parser\WordsPlugin.cs
-*Example full:* [url:http://commonlibrarynet.codeplex.com/SourceControl/changeset/view/76617#1311195]
+*Example full:* [url:http://fluentscript.codeplex.com/SourceControl/changeset/view/83734#1311195]
 {code:c#}
+// <lang:using>
+// </lang:using>
+
 // Words plugin enables the registration of custom text/words into the language
 // which are then immediately available for use. 
 // They are basically an alternative to not having to surround text in double quotes
