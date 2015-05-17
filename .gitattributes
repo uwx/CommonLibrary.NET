@@ -811,10 +811,6 @@ src/Lib/CommonLibrary.NET/_Samples/Example_ToDo.cs -text
 src/Lib/CommonLibrary.NET/_Samples/Example_Validation.cs -text
 src/Lib/CommonLibrary.NET/_Samples/_Examples.xml -text
 src/Lib/CommonLibrary.NET/_Samples/_ExamplesLang.xml -text
-src/Lib/FluentScript/FluentScript.csproj -text
-src/Lib/FluentScript/Properties/AssemblyInfo.cs -text
-src/Lib/FluentScript/Properties/AssemblyVersion.cs -text
-src/Lib/FluentScript/test.txt -text
 src/Tests/CommonLibrary.UnitTests/AccountTests.cs -text
 src/Tests/CommonLibrary.UnitTests/ArgsParserTests.cs -text
 src/Tests/CommonLibrary.UnitTests/AuthServiceTests.cs -text
